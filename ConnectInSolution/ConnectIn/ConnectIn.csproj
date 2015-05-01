@@ -163,6 +163,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\About.cs" />
+    <Compile Include="Models\Entity\Comment.cs" />
+    <Compile Include="Models\Entity\Friend.cs" />
+    <Compile Include="Models\Entity\Group.cs" />
+    <Compile Include="Models\Entity\Like_Dislike.cs" />
+    <Compile Include="Models\Entity\Member.cs" />
+    <Compile Include="Models\Entity\Notification.cs" />
+    <Compile Include="Models\Entity\Photo.cs" />
+    <Compile Include="Models\Entity\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -222,7 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Entity\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
