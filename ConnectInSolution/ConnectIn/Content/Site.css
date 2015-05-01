@@ -15,3 +15,18 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+a.navbar-brand
+{
+
+    background: url(../Content/Images/Cinlogolol.png) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 5px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: -9999px; /* hides the link text */
+}
