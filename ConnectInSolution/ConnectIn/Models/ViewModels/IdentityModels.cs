@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using ConnectIn.Models.Entity;
 
 namespace ConnectIn.Models
 {
@@ -19,6 +21,16 @@ namespace ConnectIn.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<About> About { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Friend> Friends { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Like_Dislike> Likes_Dislikes { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Post> Posts { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
