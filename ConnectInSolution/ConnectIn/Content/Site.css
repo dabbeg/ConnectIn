@@ -17,7 +17,6 @@ textarea {
     max-width: 280px;
 }
 
-
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -150,4 +149,17 @@ textarea {
     color: white;
     float: left;
     margin-top: 10px;
+}
+
+a.navbar-brand
+{
+  background: url(../Content/Images/Cinlogolol.png) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 10px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: -9999px; /* hides the link text */
 }
