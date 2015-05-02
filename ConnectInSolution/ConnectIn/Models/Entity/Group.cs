@@ -11,5 +11,7 @@ namespace ConnectIn.Models.Entity
         [Key]
         public int ID { get; set; }
         public int name { get; set; }
+
+        public ICollection<Member> Members { get; set; }
     }
 }

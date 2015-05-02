@@ -10,12 +10,12 @@ namespace ConnectIn.Models.Entity
     public class Photo
     {
         [Key]
-        public int ID { get; set; }
+        public int photoID { get; set; }
         public string photo { get; set; }
         public int userID { get; set; }
         public bool isProfilePicture { get; set; }
 
- //       [ForeignKey("userID")]
+        //[ForeignKey("userID")]
         //public ApplicationUser ApplicationUser { get; set; }
     }
 }

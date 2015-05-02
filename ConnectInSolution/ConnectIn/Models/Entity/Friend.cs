@@ -17,5 +17,8 @@ namespace ConnectIn.Models.Entity
         public int friendUserID { get; set; }
         public bool bestFriend { get; set; }
         public bool family { get; set; }
+
+        //[ForeignKey("userID")]
+        //public ApplicationUser ApplicationUser { get; set; }
     }
 }

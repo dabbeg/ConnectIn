@@ -17,5 +17,11 @@ namespace ConnectIn.Models.Entity
         public int userID { get; set; }
         public bool like { get; set; }
         public bool dislike { get; set; }
+
+        [ForeignKey("postID")]
+        public Post Post { get; set; }
+
+        //[ForeignKey("userID")]
+        //public ApplicationUser ApplicationUser { get; set; }
     }
 }
