@@ -31,6 +31,11 @@
         </div>
     </div>
 
+@if (Request.IsAuthenticated)
+{ 
+    <style>
+        body {padding-left: 280px;}
+    </style>
     <div class="sidebar">
         <div id="wrapper">
 
@@ -39,27 +44,23 @@
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">                    
                     <li>
-                        <span class="glyphicon glyphicon-user"></span>
-                        <a href="#">Friends</a>
+                        <a href="#"><span class="glyphicon glyphicon-user"></span>Friends</a>
                     </li>
                     <li>
-                        <span class="glyphicon glyphicon-glass"></span>
-                        <a href="#">Groups</a>
+                        <a href="#"><span class="glyphicon glyphicon-glass"></span>Groups</a>
                     </li>
                     <li>
-                        <span class="glyphicon glyphicon-gift"></span>
-                        <a href="#">Birthdays</a>
+                        <a href="#"><span class="glyphicon glyphicon-gift"></span>Birthdays</a>
                     </li>
                     <li>
-                        <span class="glyphicon glyphicon-bell"></span>
-                        <a href="#">Notifications</a>
+                        <a href="#"><span class="glyphicon glyphicon-bell"></span>Notifications</a>
                     </li>
                 </ul>
             </div>
             <!-- /#sidebar-wrapper -->
         </div>
     </div>
-
+}
 
     <div id="page-content-wrapper">
         <div class="container-fluid">
