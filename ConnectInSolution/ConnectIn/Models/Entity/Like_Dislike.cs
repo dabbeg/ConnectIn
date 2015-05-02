@@ -7,21 +7,21 @@ using System.Web;
 
 namespace ConnectIn.Models.Entity
 {
-    public class Like_Dislike
+    public class LikeDislike
     {
         [Key]
         [Column(Order = 0)]
-        public int postID { get; set; }
+        public int PostId { get; set; }
         [Key]
         [Column(Order = 1)]
-        public string userID { get; set; }
-        public bool like { get; set; }
-        public bool dislike { get; set; }
+        public string UserId { get; set; }
+        public bool Like { get; set; }
+        public bool Dislike { get; set; }
 
-        [ForeignKey("postID")]
+        //[ForeignKey("postID")]
         public Post Post { get; set; }
 
-        [ForeignKey("userID")]
+        //[ForeignKey("userID")]
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -9,8 +9,8 @@ namespace ConnectIn.Models.Entity
     public class Group
     {
         [Key]
-        public string ID { get; set; }
-        public int name { get; set; }
+        public string Id { get; set; }
+        public int Name { get; set; }
 
         public ICollection<Member> Members { get; set; }
     }

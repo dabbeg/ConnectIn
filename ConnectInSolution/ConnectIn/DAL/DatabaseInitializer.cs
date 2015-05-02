@@ -23,10 +23,10 @@ namespace ConnectIn.DAL
             var list = new List<Post>
             {
                 new Post{
-                    ID = 1,
-                    text = "blblblbla",
-                    userID = "1",
-                    date = DateTime.Now
+                    PostId = 1,
+                    Text = "blblblbla",
+                    UserId = "1",
+                    Date = DateTime.Now
                 }
             };
             list.ForEach(s => context.Posts.Add(s));

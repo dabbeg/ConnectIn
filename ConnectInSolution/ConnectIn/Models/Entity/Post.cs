@@ -10,20 +10,20 @@ namespace ConnectIn.Models.Entity
     public class Post
     {
         [Key]
-        public int ID { get; set; }
-        public string text { get; set; }
-        public string userID { get; set; }
-        public System.DateTime date { get; set; }
+        public int PostId { get; set; }
+        public string Text { get; set; }
+        public string UserId { get; set; }
+        public System.DateTime Date { get; set; }
 
-        [ForeignKey("userID")]
+        //[ForeignKey("userID")]
         public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<Like_Dislike> LikesDislikes { get; set; }
+        public ICollection<LikeDislike> LikesDislikes { get; set; }
 
         public Post()
         {
-            date = DateTime.Now;
+            Date = DateTime.Now;
         }
     }
 }

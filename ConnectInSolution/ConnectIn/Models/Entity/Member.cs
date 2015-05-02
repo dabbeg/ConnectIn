@@ -11,15 +11,15 @@ namespace ConnectIn.Models.Entity
     {
         [Key]
         [Column(Order = 0)]
-        public string userID { get; set; }
+        public string UserId { get; set; }
         [Key]
         [Column(Order = 1)]
-        public string groupID { get; set; }
+        public string GroupId { get; set; }
 
-        [ForeignKey("userID")]
+        //[ForeignKey("userID")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey("groupID")]
+        //[ForeignKey("groupID")]
         public Group Group { get; set; }
     }
 }

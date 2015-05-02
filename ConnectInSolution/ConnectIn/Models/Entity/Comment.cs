@@ -10,22 +10,22 @@ namespace ConnectIn.Models.Entity
     public class Comment
     {
         [Key]
-        public int ID { get; set; }
-        public string userID { get; set; }
-        public int postID { get; set; }
-        public string comment { get; set; }
-        public System.DateTime date { get; set; }
+        public int CommentId { get; set; }
+        public string UserId { get; set; }
+        public int PostId { get; set; }
+        public string Text { get; set; }
+        public System.DateTime Date { get; set; }
 
-        [ForeignKey("userID")]
+        //[ForeignKey("userID")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey("postID")]
+        //[ForeignKey("postID")]
         public Post Post { get; set; }
 
 
         public Comment()
         {
-            date = DateTime.Now;
+            Date = DateTime.Now;
         }
     }
 }
