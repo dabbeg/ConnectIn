@@ -13,11 +13,13 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Index()
         {
-            var service = new PostService();
+            // if i send null, the other one will be used (database?)
+            // var service = new UserService(null);
 
-            var statuses = service.GetLatestForUser(this.User.Identity.Name);
+            // var friendlist = service.GetFriendsFromUser(this.User.Identity.Name);
 
-            return View(statuses);
+            // return View(friendlist);
+            return View();
         }
 
         public ActionResult About()

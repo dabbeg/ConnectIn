@@ -9,12 +9,18 @@ namespace ConnectIn.Services
 {
     public class PostService
     {
+        // readonly is something that cannot change, except in constructor
+        // _db is a member variable
+        private readonly IAppDataContext db;
+        public PostService(IAppDataContext context)
+        {
+            // if context is null, then use new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
+        }
         public List<Post> GetLatestForUser(string userId)
         {
-            var db = new ApplicationDbContext();
-
             // Get the users friends
-            var us = new UserService();
+            var us = new UserService(db);
             var friends = us.GetFriendsFromUser(userId);
 
             // Get all the posts from friends
