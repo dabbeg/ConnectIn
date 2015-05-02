@@ -19,11 +19,10 @@ textarea {
 
 a.navbar-brand
 {
-
-    background: url(../Content/Images/Cinlogolol.png) no-repeat;
+  background: url(../Content/Images/Cinlogolol.png) no-repeat;
   background-size: contain;
   display: block;
-  margin: 5px;
+  margin: 10px;
   float:left;
   outline: none;
   overflow: hidden;
