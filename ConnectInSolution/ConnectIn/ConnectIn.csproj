@@ -172,7 +172,7 @@
     <Compile Include="Models\Entity\Comment.cs" />
     <Compile Include="Models\Entity\Friend.cs" />
     <Compile Include="Models\Entity\Group.cs" />
-    <Compile Include="Models\Entity\Like_Dislike.cs" />
+    <Compile Include="Models\Entity\LikeDislike.cs" />
     <Compile Include="Models\Entity\Member.cs" />
     <Compile Include="Models\Entity\Notification.cs" />
     <Compile Include="Models\Entity\Photo.cs" />

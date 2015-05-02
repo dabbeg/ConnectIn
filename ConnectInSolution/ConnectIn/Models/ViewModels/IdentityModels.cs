@@ -14,12 +14,12 @@ namespace ConnectIn.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public DateTime Birthday { get; set; }
-        public string Work { get; set; }
-        public string School { get; set; }
-        public string Gender { get; set; }
-        public string Address { get; set; }
-        public bool Privacy { get; set; }
+        public DateTime birthday { get; set; }
+        public string work { get; set; }
+        public string school { get; set; }
+        public string gender { get; set; }
+        public string address { get; set; }
+        public bool privacy { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Friend> Friends { get; set; }
         public ICollection<Notification> Notifications { get; set; }
@@ -30,7 +30,7 @@ namespace ConnectIn.Models
 
         public ApplicationUser()
         {
-            Birthday = DateTime.Now;
+            birthday = DateTime.Now;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -42,7 +42,20 @@ namespace ConnectIn.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public interface IAppDataContext
+    {
+        IDbSet<Comment> Comments { get; set; }
+        IDbSet<Friend> Friends { get; set; }
+        IDbSet<Group> Groups { get; set; }
+        IDbSet<LikeDislike> LikesDislikes { get; set; }
+        IDbSet<Member> Members { get; set; }
+        IDbSet<Notification> Notifications { get; set; }
+        IDbSet<Photo> Photos { get; set; }
+        IDbSet<Post> Posts { get; set; }
+        int SaveChanges();
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
     {
         public IDbSet<Comment> Comments { get; set; }
         public IDbSet<Friend> Friends { get; set; }
