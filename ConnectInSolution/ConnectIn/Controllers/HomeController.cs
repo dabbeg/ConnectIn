@@ -1,4 +1,5 @@
 ﻿using ConnectIn.DAL;
+using ConnectIn.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,7 +13,11 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var service = new PostService();
+
+            var statuses = service.GetLatestForUser(this.User.Identity.Name);
+
+            return View(statuses);
         }
 
         public ActionResult About()

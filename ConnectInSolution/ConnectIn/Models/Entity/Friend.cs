@@ -14,7 +14,7 @@ namespace ConnectIn.Models.Entity
         public string userID { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int friendUserID { get; set; }
+        public string friendUserID { get; set; }
         public bool bestFriend { get; set; }
         public bool family { get; set; }
 

@@ -9,7 +9,7 @@ namespace ConnectIn.Models.Entity
     public class Group
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
         public int name { get; set; }
 
         public ICollection<Member> Members { get; set; }

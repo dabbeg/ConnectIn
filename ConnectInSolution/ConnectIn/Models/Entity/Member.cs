@@ -14,7 +14,7 @@ namespace ConnectIn.Models.Entity
         public string userID { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int groupID { get; set; }
+        public string groupID { get; set; }
 
         [ForeignKey("userID")]
         public ApplicationUser ApplicationUser { get; set; }
