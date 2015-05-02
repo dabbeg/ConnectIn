@@ -15,8 +15,8 @@ namespace ConnectIn.Models.Entity
         public string userID { get; set; }
         public System.DateTime date { get; set; }
 
-        //[ForeignKey("userID")]
-        //public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("userID")]
+        public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Like_Dislike> LikesDislikes { get; set; }

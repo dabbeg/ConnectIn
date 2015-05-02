@@ -8,22 +8,32 @@ using System.Web;
 
 namespace ConnectIn.DAL
 {
-    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class DatabaseInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
+            var users = new List<ApplicationUser>
+            {
+                new ApplicationUser{
+                    Id = "1",
+                    UserName = "davidgudni@gmail.com",
+                    PhoneNumber = "8472547"
+                }
+            };
             var list = new List<Post>
             {
                 new Post{
                     ID = 1,
                     text = "blblblbla",
-                    userID = "4",
+                    userID = "1",
                     date = DateTime.Now
                 }
             };
             list.ForEach(s => context.Posts.Add(s));
-            //base.Seed(context);
+            users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
+
+            //base.Seed(context);
         }
     }
 }

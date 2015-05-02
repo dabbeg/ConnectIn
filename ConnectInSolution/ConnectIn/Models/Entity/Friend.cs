@@ -11,14 +11,14 @@ namespace ConnectIn.Models.Entity
     {
         [Key]
         [Column(Order = 0)]
-        public int userID { get; set; }
+        public string userID { get; set; }
         [Key]
         [Column(Order = 1)]
         public int friendUserID { get; set; }
         public bool bestFriend { get; set; }
         public bool family { get; set; }
 
-        //[ForeignKey("userID")]
-        //public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("userID")]
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

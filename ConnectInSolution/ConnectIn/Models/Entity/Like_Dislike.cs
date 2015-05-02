@@ -14,14 +14,14 @@ namespace ConnectIn.Models.Entity
         public int postID { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int userID { get; set; }
+        public string userID { get; set; }
         public bool like { get; set; }
         public bool dislike { get; set; }
 
         [ForeignKey("postID")]
         public Post Post { get; set; }
 
-        //[ForeignKey("userID")]
-        //public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("userID")]
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

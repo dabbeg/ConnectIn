@@ -20,13 +20,13 @@ namespace ConnectIn.Models
         public string gender { get; set; }
         public string address { get; set; }
         public bool privacy { get; set; }
-        //public ICollection<Photo> Photos { get; set; }
-        //public ICollection<Friend> Friends { get; set; }
-        //public ICollection<Notification> Notifications { get; set; }
-        //public ICollection<Member> Members { get; set; }
-        //public ICollection<Like_Dislike> LikesDislikes { get; set; }
-        //public ICollection<Post> Posts { get; set; }
-        //public ICollection<Comment> Comments { get; set; }
+        public ICollection<Photo> Photos { get; set; }
+        public ICollection<Friend> Friends { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Member> Members { get; set; }
+        public ICollection<Like_Dislike> LikesDislikes { get; set; }
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         public ApplicationUser()
         {
