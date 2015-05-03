@@ -6,6 +6,7 @@ using FakeDbSet;
 using System.Data.Entity;
 using ConnectIn.Models;
 using ConnectIn.Models.Entity;
+using ConnectIn.DAL;
 
 namespace ConnectIn.Tests
 {
