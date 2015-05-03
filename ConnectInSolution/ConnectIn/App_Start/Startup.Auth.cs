@@ -7,7 +7,8 @@ using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
-using ConnectIn.Models;
+using ConnectIn.DAL;
+using ConnectIn.Models.Entity;
 
 namespace ConnectIn
 {
@@ -29,7 +30,7 @@ namespace ConnectIn
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, User>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }

@@ -9,14 +9,17 @@ namespace ConnectIn.Models.Entity
 {
     public class Notification
     {
+        #region Columns
         [Key]
         public int NotificationId { get; set; }
         public int FriendUserId { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
+        #endregion
 
-        //[ForeignKey("userID")]
-        public ApplicationUser ApplicationUser { get; set; }
+        #region ForeignKeys
+        public User User { get; set; }
+        #endregion
 
         public Notification()
         {

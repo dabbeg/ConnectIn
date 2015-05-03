@@ -8,12 +8,12 @@ namespace ConnectIn.Controllers
 {
     public class FriendController : Controller
     {
-        public ActionResult AddFriend()
+        public ActionResult Add()
         {
             return View();
         }
 
-        public ActionResult DeleteFriend()
+        public ActionResult Remove()
         {
             return View();
         }

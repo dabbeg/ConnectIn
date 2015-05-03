@@ -1,4 +1,5 @@
-﻿using ConnectIn.Models;
+﻿using ConnectIn.DAL;
+using ConnectIn.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
