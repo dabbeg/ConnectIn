@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -145,7 +147,7 @@ textarea {
 }
 /* ENDOF Simple Sidebar Template*/
 
-.glyphicon {
+.sidebarGlyphs {
     color: white;
     float: left;
     margin-top: 10px;
@@ -163,3 +165,36 @@ a.navbar-brand
   white-space: nowrap;
   text-indent: -9999px; /* hides the link text */
 }
+
+.smileyFace {
+  background: url(../Content/Images/iconHappy.ico) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 10px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.newsFeedFilters {
+    margin-bottom: 20px;
+}
+
+.newsFeedFilters li {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#commentsLikesDeleteDiv {
+    border-top: solid rgb(228, 228, 228) 1px;
+}
+
+#reactionButtons {
+    padding-top: 20px
+}
+
+.deletePostButton {
+    float: right;
+}
+

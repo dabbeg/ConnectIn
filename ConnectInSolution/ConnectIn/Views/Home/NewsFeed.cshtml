@@ -3,43 +3,53 @@
 @{
     ViewBag.Title = "NewsFeed";
 }
+@if (Request.IsAuthenticated)
+{ 
+    <h2>News Feed</h2>
 
-<h2>NewsFeed</h2>
+    <!--Filters for the news feed-->
+    <ul class="nav nav-justified newsFeedFilters">
+        <li><a href="#">Everyone</a></li>
+        <li><a href="#">Best friends</a></li>
+        <li><a href="#">Family</a></li>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.work)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.text)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date)
-        </th>
-        <th></th>
-    </tr>
+    </ul>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.work)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.text)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+    foreach (var item in Model)
+    {
+        <div class="well">
+            <div id="postContent">
+                <h3>
+                    <!--Should display user's profile picture, a cat was used temporarily-->
+                    <span class="smileyFace">
+                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                    </span>
+                    <!--Should display username instead of item.userID-->
+                    @Html.ActionLink(item.userID, "Profile", new {id = item.ID}) <small class="pull-right">@Html.DisplayFor(modelItem => item.date)</small>
+                </h3>
+                <p>
+                    @item.text
+                </p>
+            </div>
+
+            <div id="commentsLikesDeleteDiv">
+                <div id="commentsAndLikes">
+                    <div id="reactionButtons">
+                        <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+                        <a href="#" class="btn btn-default">2 smiles</a>
+                        <a href="#" class="btn btn-default">2 sadfaces</a>
+                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
 }
 
-</table>
+else
+{
+    <h1>
+        Please log in or sign up to access your News Feed.
+    </h1>
+}
