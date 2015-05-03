@@ -13,7 +13,7 @@ namespace ConnectIn.Models.Entity
         [Key]
         public int CommentId { get; set; }
         public string UserId { get; set; }
-        public int PostId { get; set; }
+        public string PostId { get; set; }
         public string Text { get; set; }
         public System.DateTime Date { get; set; }
         #endregion

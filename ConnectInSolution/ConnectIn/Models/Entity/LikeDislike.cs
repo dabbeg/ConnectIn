@@ -12,7 +12,7 @@ namespace ConnectIn.Models.Entity
         #region Columns
         [Key]
         [Column(Order = 0)]
-        public int PostId { get; set; }
+        public string PostId { get; set; }
         [Key]
         [Column(Order = 1)]
         public string UserId { get; set; }

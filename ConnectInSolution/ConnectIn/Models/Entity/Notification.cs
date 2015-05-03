@@ -12,7 +12,7 @@ namespace ConnectIn.Models.Entity
         #region Columns
         [Key]
         public int NotificationId { get; set; }
-        public int FriendUserId { get; set; }
+        public string FriendUserId { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
         #endregion

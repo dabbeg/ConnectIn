@@ -23,7 +23,7 @@ namespace ConnectIn.DAL
             var list = new List<Post>
             {
                 new Post{
-                    PostId = 1,
+                    PostId = "1",
                     Text = "blblblbla",
                     UserId = "1",
                     Date = DateTime.Now
