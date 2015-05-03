@@ -9,23 +9,23 @@ namespace ConnectIn.Models.Entity
 {
     public class Comment
     {
+        #region Columns
         [Key]
-        public int ID { get; set; }
-        public string userID { get; set; }
-        public int postID { get; set; }
-        public string comment { get; set; }
-        public System.DateTime date { get; set; }
+        public int CommentId { get; set; }
+        public string UserId { get; set; }
+        public int PostId { get; set; }
+        public string Text { get; set; }
+        public System.DateTime Date { get; set; }
+        #endregion
 
-        [ForeignKey("userID")]
-        public ApplicationUser ApplicationUser { get; set; }
-
-        [ForeignKey("postID")]
+        #region ForeignKeys
+        public User User { get; set; }
         public Post Post { get; set; }
-
+        #endregion
 
         public Comment()
         {
-            date = DateTime.Now;
+            Date = DateTime.Now;
         }
     }
 }

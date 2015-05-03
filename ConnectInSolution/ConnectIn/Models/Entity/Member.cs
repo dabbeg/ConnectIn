@@ -9,17 +9,18 @@ namespace ConnectIn.Models.Entity
 {
     public class Member
     {
+        #region Columns
         [Key]
         [Column(Order = 0)]
-        public string userID { get; set; }
+        public string UserId { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int groupID { get; set; }
+        public string GroupId { get; set; }
+        #endregion
 
-        [ForeignKey("userID")]
-        public ApplicationUser ApplicationUser { get; set; }
-
-        [ForeignKey("groupID")]
+        #region ForeignKeys
+        public User User { get; set; }
         public Group Group { get; set; }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ConnectIn.DAL;
+using ConnectIn.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,6 +14,12 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Index()
         {
+            // if i send null, the other one will be used (database?)
+            // var service = new UserService(null);
+
+            // var friendlist = service.GetFriendsFromUser(this.User.Identity.Name);
+
+            // return View(friendlist);
             return View();
         }
 

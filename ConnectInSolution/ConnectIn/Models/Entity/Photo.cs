@@ -9,13 +9,16 @@ namespace ConnectIn.Models.Entity
 {
     public class Photo
     {
+        #region Columns
         [Key]
-        public int photoID { get; set; }
-        public string photo { get; set; }
-        public string userID { get; set; }
-        public bool isProfilePicture { get; set; }
+        public int PhotoId { get; set; }
+        public string PhotoPath { get; set; }
+        public string UserId { get; set; }
+        public bool IsProfilePicture { get; set; }
+        #endregion
 
-        [ForeignKey("userID")]
-        public ApplicationUser ApplicationUser { get; set; }
+        #region ForeignKeys
+        public User User { get; set; }
+        #endregion
     }
 }
