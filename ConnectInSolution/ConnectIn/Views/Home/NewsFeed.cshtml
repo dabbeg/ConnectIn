@@ -24,10 +24,10 @@
                         <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
                     </span>
                     <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.userID, "Profile", new {id = item.ID}) <small class="pull-right">@Html.DisplayFor(modelItem => item.date)</small>
+                    @Html.ActionLink(item.UserId, "Profile", new {id = item.PostId}) <small class="pull-right">@Html.DisplayFor(modelItem => item.Date)</small>
                 </h3>
                 <p>
-                    @item.text
+                    @item.Text
                 </p>
             </div>
 
