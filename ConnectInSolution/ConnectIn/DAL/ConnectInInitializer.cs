@@ -8,13 +8,13 @@ using System.Web;
 
 namespace ConnectIn.DAL
 {
-    public class DatabaseInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ConnectInInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            var users = new List<ApplicationUser>
+            var users = new List<User>
             {
-                new ApplicationUser{
+                new User{
                     Id = "1",
                     UserName = "davidgudni@gmail.com",
                     PhoneNumber = "8472547"
@@ -32,8 +32,6 @@ namespace ConnectIn.DAL
             list.ForEach(s => context.Posts.Add(s));
             users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
-
-            //base.Seed(context);
         }
     }
 }

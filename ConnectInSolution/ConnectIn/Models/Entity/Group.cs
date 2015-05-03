@@ -8,10 +8,14 @@ namespace ConnectIn.Models.Entity
 {
     public class Group
     {
+        #region Columns
         [Key]
         public string Id { get; set; }
         public int Name { get; set; }
+        #endregion
 
+        #region ForeignKeys
         public ICollection<Member> Members { get; set; }
+        #endregion
     }
 }

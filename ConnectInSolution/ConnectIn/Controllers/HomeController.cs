@@ -15,9 +15,9 @@ namespace ConnectIn.Controllers
         {
             var service = new PostService();
 
-            //var statuses = service.GetLatestForUser(this.User.Identity.Name);
-            return View();
-            //return View(statuses);
+            var statuses = service.GetLatestForUser(this.User.Identity.Name);
+
+            return View(statuses);
         }
 
         public ActionResult About()

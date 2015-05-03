@@ -9,6 +9,7 @@ namespace ConnectIn.Models.Entity
 {
     public class Friend
     {
+        #region Columns
         [Key]
         [Column(Order = 0)]
         public string UserId { get; set; }
@@ -17,8 +18,10 @@ namespace ConnectIn.Models.Entity
         public string FriendUserId { get; set; }
         public bool BestFriend { get; set; }
         public bool Family { get; set; }
+        #endregion
 
-        //[ForeignKey("userID")]
-        public ApplicationUser ApplicationUser { get; set; }
+        #region ForeignKeys
+        public User User { get; set; }
+        #endregion
     }
 }
