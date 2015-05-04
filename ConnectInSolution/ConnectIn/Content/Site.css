@@ -13,12 +13,21 @@
 
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+#newsfeedstatus
+{
+    height:83px;
+    width:1140px;
+    outline:none;
+    resize:none;
+    overflow:auto;
+ 
+  
+   
 }
-
+#submitstatus
+{
+    margin-left:1080px;
+}
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.

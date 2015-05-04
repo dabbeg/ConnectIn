@@ -59,5 +59,21 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
+        public ActionResult FriendsList()
+        {
+            return View();
+        }
+        public ActionResult Notifications()
+        {
+            return View();
+        }
+        public ActionResult Birthdays()
+        {
+            return View();
+        }
+        public ActionResult GroupsList()
+        {
+            return View();
+        }
     }
 }
