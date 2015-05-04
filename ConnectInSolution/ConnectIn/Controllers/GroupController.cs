@@ -37,5 +37,9 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
+        public ActionResult GroupsList()
+        {
+            return View();
+        }
     }
 }

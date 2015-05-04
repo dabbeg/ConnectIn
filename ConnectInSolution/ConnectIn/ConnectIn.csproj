@@ -245,6 +245,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\NewsFeed.cshtml" />
+    <Content Include="Views\Home\FriendsList.cshtml" />
+    <Content Include="Views\Home\GroupsList.cshtml" />
+    <Content Include="Views\Home\Notifications.cshtml" />
+    <Content Include="Views\Home\Birthdays.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

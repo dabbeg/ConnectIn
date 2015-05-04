@@ -16,7 +16,7 @@ namespace ConnectIn.DAL
         {
             context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction
                 , string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", context.Database.Connection.Database));
-
+        
             base.InitializeDatabase(context);
         }
 
