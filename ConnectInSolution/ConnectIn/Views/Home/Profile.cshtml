@@ -1,1 +1,48 @@
 ﻿
+@{
+    ViewBag.Title = "Your profile";
+}
+
+
+
+<h2>@ViewBag.Title</h2>
+<h3>Ingþór Þykkson</h3>
+@using (Html.BeginForm("Profile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <label for="file">Upload Image:</label>
+    <br/>
+    <img id="file" src="#" alt="your image"/>
+    <input type="file" onchange="readURL(this);" />
+    <br/>
+    <input type="submit" value="Upload" class="submit" />
+}
+
+
+
+<div class="profile-photo">
+
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#file')
+                        .attr('src', e.target.result)
+                        .width(250)
+                        .height(250);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+
+
+
+
+
+    <p></p>
+
+
