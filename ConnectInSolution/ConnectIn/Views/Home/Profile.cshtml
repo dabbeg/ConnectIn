@@ -1,1 +1,67 @@
-﻿
+﻿@model IEnumerable<ConnectIn.Models.Entity.Post>
+
+@{
+    ViewBag.Title = "NewsFeed";
+}
+@if (Request.IsAuthenticated)
+{
+    <div class="well">
+        <div id="userProfilePicture">
+            <img src="@Url.Content("~/Content/images/largeProfilePic.jpg")" alt="Profile Picture" />
+        </div>
+        <div id="userNameOnProfile">
+            <div>
+                <h1>A random user's profile</h1>
+            </div>
+
+            <div class="well" id="aboutUser">
+                <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: </div>
+                <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: </div>
+                <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: </div>
+                <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: </div>
+                <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: </div>
+            </div>
+            <div id="addFriendButton">
+                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="profileborder"></div>
+
+    foreach (var item in Model)
+    {
+        <div class="well">
+            <div id="postContent">
+                <h3>
+                    <!--Should display user's profile picture, a cat was used temporarily-->
+                    <span class="smileyFace">
+                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                    </span>
+                    <!--Should display username instead of item.userID-->
+                    @Html.ActionLink(item.UserId, "Profile", new { id = item.PostId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.Date)</small>
+                </h3>
+                <p>
+                    @item.Text
+                </p>
+            </div>
+
+            <div id="commentsLikesDeleteDiv">
+                <div id="commentsAndLikes">
+                    <div id="reactionButtons">
+                        <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+                        <a href="#" class="btn btn-default">2 smiles</a>
+                        <a href="#" class="btn btn-default">2 sadfaces</a>
+                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access Profile.
+    </h1>
+}
