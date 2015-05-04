@@ -18,7 +18,15 @@ namespace ConnectIn.Services
             // if context is null, then use new ApplicationDbContext();
             db = context ?? new ApplicationDbContext();
         }
-        public List<Post> GetLatestForUser(string userId)
+        public Post GetPostById(string userId)
+        {
+            var post = (from p in db.Posts
+                        where userId == p.PostId
+                        select p).SingleOrDefault();
+            return post;
+        }
+
+        public List<string> GetEveryLatestPostsForUser(string userId)
         {
             // Get the users friends
             var us = new UserService(db);
@@ -28,11 +36,29 @@ namespace ConnectIn.Services
             var statuses = (from s in db.Posts
                             where friends.Contains(s.UserId)
                             orderby s.Date ascending
-                            select s).Take(20).ToList();
+                            select s.PostId).Take(20).ToList();
             return statuses;
         }
+        public List<string> GetFriendsLatestPostsForUser(string userId)
+        {
+            // Get the users friends
+            var us = new UserService(db);
+            var friends = us.GetFriendsFromUser(userId);
 
+            /*foreach(var u in friends)
+            {
+                if (u.best)
+            }*/
 
+            // Get all the posts from friends
+            var statuses = (from s in db.Posts
+                            where friends.Contains(s.UserId) /*&&
+                            us.GetUserById(friends)*/
+                            orderby s.Date ascending
+                            select s.PostId).Take(20).ToList();
+            return statuses;
+        }
+        
         // comments likes dislikes
         // group service
     }

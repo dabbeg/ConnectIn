@@ -20,6 +20,7 @@ namespace ConnectIn.DAL
         IDbSet<Notification> Notifications { get; set; }
         IDbSet<Photo> Photos { get; set; }
         IDbSet<Post> Posts { get; set; }
+        IDbSet<User> Users { get; set; }
         int SaveChanges();
     }
 

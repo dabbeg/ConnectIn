@@ -19,20 +19,63 @@ namespace ConnectIn.Tests.Services
         {
             var mockDb = new MockDatabase();
 
-            var u1 = new IdentityUser()
+            #region Users
+            var u1 = new User()
             {
                 Id = "1",
                 Email = "user1@m.com",
-                UserName = "user1"
-            };
-            u1 = new User()
-            {
+                UserName = "user1",
+                birthday = new DateTime(2000,1,1),
                 work = "HR",
                 school = "HR",
                 gender = "Male",
                 address = "add1",
                 privacy = false
             };
+            mockDb.Users.Add(u1);
+
+            var u2 = new User()
+            {
+                Id = "2",
+                Email = "user2@m.com",
+                UserName = "user2",
+                birthday = new DateTime(2001, 1, 1),
+                work = "HI",
+                school = "HI",
+                gender = "Male",
+                address = "add2",
+                privacy = false
+            };
+            mockDb.Users.Add(u2);
+
+            var u3 = new User()
+            {
+                Id = "3",
+                Email = "user3@m.com",
+                UserName = "user3",
+                birthday = new DateTime(2002, 1, 1),
+                work = "HA",
+                school = "HA",
+                gender = "Female",
+                address = "add3",
+                privacy = false
+            };
+            mockDb.Users.Add(u3);
+
+            var u4 = new User()
+            {
+                Id = "4",
+                Email = "user4@m.com",
+                UserName = "user4",
+                birthday = new DateTime(2003, 1, 1),
+                work = "FG",
+                school = "FG",
+                gender = "Female",
+                address = "add4",
+                privacy = true
+            };
+            mockDb.Users.Add(u4);
+            #endregion
 
             #region Posts
             var p1 = new Post()
@@ -96,6 +139,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
+                Date = new DateTime(2000,1,1),
                 IsProfilePicture = true
             };
             mockDb.Photos.Add(ph1);
@@ -105,6 +149,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 2,
                 PhotoPath = "bla2",
                 UserId = "1",
+                Date = new DateTime(2001, 1, 1),
                 IsProfilePicture = false
             };
             mockDb.Photos.Add(ph2);
@@ -114,6 +159,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 3,
                 PhotoPath = "bla3",
                 UserId = "2",
+                Date = new DateTime(2002, 1, 1),
                 IsProfilePicture = false
             };
             mockDb.Photos.Add(ph3);
@@ -123,6 +169,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 4,
                 PhotoPath = "bla4",
                 UserId = "4",
+                Date = new DateTime(2003, 1, 1),
                 IsProfilePicture = false
             };
             mockDb.Photos.Add(ph4);
@@ -446,8 +493,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFriendsFromUser(user2);
 
             // Assert
-            string [] list1 = {"2", "3", "4"};
-            string [] list2 = {"1", "3"};
+            string[] list1 = { "2", "3", "4" };
+            string[] list2 = { "1", "3" };
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
 
@@ -458,6 +505,48 @@ namespace ConnectIn.Tests.Services
 
             Assert.AreEqual(3, result1.Count);
             Assert.AreEqual(2, result2.Count);
+        }
+
+        [TestMethod]
+        public void TestGetAllPostsFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+            const string user3 = "3";
+
+            // Act
+            var result1 = service.GetAllPostsFromUser(user1);
+            var result2 = service.GetAllPostsFromUser(user2);
+            var result3 = service.GetAllPostsFromUser(user3);
+
+            // Assert
+            string[] list1 = { "4", "1" };
+            string[] list2 = { "6", "2" };
+            string[] list3 = { "5" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            CollectionAssert.AreEqual(list3, result3);
+        }
+
+        [TestMethod]
+        public void TestGetAllPhotosFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+
+            // Act
+            var result1 = service.GetAllPhotosFromUser(user1);
+            var result2 = service.GetAllPhotosFromUser(user2);
+
+            // Assert
+            int[] list1 = { 2, 1 };
+            int[] list2 = { 3 };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
         }
     }
 }
