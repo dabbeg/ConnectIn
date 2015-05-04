@@ -26,12 +26,54 @@ namespace ConnectIn.Services
             return theUser;
         }
 
-        public List<string> GetFriendsFromUser(string userId)
+        public List<string> GetBestFriendsFromUser(string userId)
         {
             // Get the added friends of the user, and put to a list
             var list1 = (from fc in db.Friends
                        where fc.UserId == userId
+                       && fc.BestFriend == true
                        select fc.FriendUserId).ToList();
+
+            // Get the friends that added the user, and put to a list
+            var list2 = (from fc in db.Friends
+                         where fc.FriendUserId == userId
+                         && fc.BestFriend == true
+                         select fc.UserId).ToList();
+
+            // Append list1 and list2 together
+            list1.AddRange(list2);
+            list1.Sort();
+        
+            return list1;
+        }
+
+        public List<string> GetFamilyFromUser(string userId)
+        {
+            // Get the added friends of the user, and put to a list
+            var list1 = (from fc in db.Friends
+                         where fc.UserId == userId
+                         && fc.Family == true
+                         select fc.FriendUserId).ToList();
+
+            // Get the friends that added the user, and put to a list
+            var list2 = (from fc in db.Friends
+                         where fc.FriendUserId == userId
+                         && fc.Family == true
+                         select fc.UserId).ToList();
+
+            // Append list1 and list2 together
+            list1.AddRange(list2);
+            list1.Sort();
+
+            return list1;
+        }
+
+        public List<string> GetFriendsFromUser(string userId)
+        {
+            // Get the added friends of the user, and put to a list
+            var list1 = (from fc in db.Friends
+                         where fc.UserId == userId
+                         select fc.FriendUserId).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
@@ -41,7 +83,7 @@ namespace ConnectIn.Services
             // Append list1 and list2 together
             list1.AddRange(list2);
             list1.Sort();
-        
+
             return list1;
         }
 
@@ -55,6 +97,45 @@ namespace ConnectIn.Services
 
             return list;
         }
+
+        public List<string> GetEveryNewsFeedPostsForUser(string userId)
+        {
+            // Get the users friends
+            var friends = GetFriendsFromUser(userId);
+
+            // Get all the posts from friends
+            var statuses = (from s in db.Posts
+                            where friends.Contains(s.UserId)
+                            orderby s.Date ascending
+                            select s.PostId).Take(20).ToList();
+            return statuses;
+        }
+        public List<string> GetBestFriendsPostsForUser(string userId)
+        {
+            // Get the users bestfriends
+            var bestFriends = GetBestFriendsFromUser(userId);
+
+            // Get all the posts from friends
+            var statuses = (from s in db.Posts
+                            where bestFriends.Contains(s.UserId)
+                            orderby s.Date ascending
+                            select s.PostId).Take(20).ToList();
+            return statuses;
+        }
+
+        public List<string> GetFamilyPostsForUser(string userId)
+        {
+            // Get the users family
+            var family = GetFamilyFromUser(userId);
+
+            // Get all the posts from friends
+            var statuses = (from s in db.Posts
+                            where family.Contains(s.UserId)
+                            orderby s.Date ascending
+                            select s.PostId).Take(20).ToList();
+            return statuses;
+        }
+
 
         public List<int> GetAllPhotosFromUser(string userId)
         {

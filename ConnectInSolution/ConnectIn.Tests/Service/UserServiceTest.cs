@@ -508,6 +508,66 @@ namespace ConnectIn.Tests.Services
         }
 
         [TestMethod]
+        public void TestGetUserById()
+        {
+            // Arrange
+            const string user1 = "1";
+
+            // Act
+            var result1 = service.GetUserById(user1);
+
+            // Assert
+            User u1 = new User();
+            u1.Id = "1";
+            u1.Email = "user1@m.com";
+            u1.UserName = "user1";
+            u1.birthday = new DateTime(2000,1,1);
+            u1.work = "HR";
+            u1.school = "HR";
+            u1.gender = "Male";
+            u1.address = "add1";
+            u1.privacy = false;
+
+            Assert.AreEqual(u1.Email, result1.Email);
+        }
+
+        [TestMethod]
+        public void TestGetBestFriendsFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+
+            // Act
+            var result1 = service.GetBestFriendsFromUser(user1);
+            var result2 = service.GetBestFriendsFromUser(user2);
+
+            // Assert
+            string[] list1 = { "2" };
+            string[] list2 = { "1" };
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+        }
+
+        [TestMethod]
+        public void TestGetFamilyFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+
+            // Act
+            var result1 = service.GetFamilyFromUser(user1);
+            var result2 = service.GetFamilyFromUser(user2);
+
+            // Assert
+            string[] list1 = { "2" };
+            string[] list2 = { "1" , "3" };
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+        }
+
+        [TestMethod]
         public void TestGetAllPostsFromUser()
         {
             // Arrange

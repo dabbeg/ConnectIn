@@ -26,38 +26,7 @@ namespace ConnectIn.Services
             return post;
         }
 
-        public List<string> GetEveryLatestPostsForUser(string userId)
-        {
-            // Get the users friends
-            var us = new UserService(db);
-            var friends = us.GetFriendsFromUser(userId);
-
-            // Get all the posts from friends
-            var statuses = (from s in db.Posts
-                            where friends.Contains(s.UserId)
-                            orderby s.Date ascending
-                            select s.PostId).Take(20).ToList();
-            return statuses;
-        }
-        public List<string> GetFriendsLatestPostsForUser(string userId)
-        {
-            // Get the users friends
-            var us = new UserService(db);
-            var friends = us.GetFriendsFromUser(userId);
-
-            /*foreach(var u in friends)
-            {
-                if (u.best)
-            }*/
-
-            // Get all the posts from friends
-            var statuses = (from s in db.Posts
-                            where friends.Contains(s.UserId) /*&&
-                            us.GetUserById(friends)*/
-                            orderby s.Date ascending
-                            select s.PostId).Take(20).ToList();
-            return statuses;
-        }
+        
         
         // comments likes dislikes
         // group service
