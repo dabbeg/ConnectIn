@@ -220,7 +220,7 @@ a.navbar-brand
 }
 
 .personalInfoGlyphs {
-    display: flex;
+    display: inherit;
     margin-bottom: 4px;
     font-size: 17px;
     
