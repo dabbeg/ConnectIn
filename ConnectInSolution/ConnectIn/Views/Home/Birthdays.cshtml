@@ -1,7 +1,32 @@
-﻿
+﻿@model IEnumerable<ConnectIn.Models.Entity.User>
+
 @{
     ViewBag.Title = "Birthdays";
 }
 
-<h2>Birthdays</h2>
+@if (Request.IsAuthenticated)
+{
+    <h2>Birthdays</h2>
+    <h3>Today is @String.Format("{0:dddd, MMMM M yyyy}" ,DateTime.Today)</h3>
+    
 
+        <div class="well">
+            <div id="postContent">
+                <h3>
+                    <span class="smileyFace">
+                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                    </span>
+                    Darri Steinn Konráðsson
+                </h3>
+                <p>
+                    blabla
+                </p>
+            </div>
+        </div>
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your News Feed.
+    </h1>
+} 
