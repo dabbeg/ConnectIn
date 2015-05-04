@@ -10,6 +10,7 @@ namespace ConnectIn.Services
 {
     public class UserService
     {
+        #region setting up IAppDataContext db
         // readonly is something that cannot change, except in constructor
         // _db is a member variable
         private readonly IAppDataContext db;
@@ -18,6 +19,10 @@ namespace ConnectIn.Services
             // if context is null, then use new ApplicationDbContext();
             db = context ?? new ApplicationDbContext();
         }
+        #endregion
+
+        #region get the user by id
+        // Get all information about the user with a given Id
         public User GetUserById(string userId)
         {
             var theUser = (from u in db.Users
@@ -25,7 +30,10 @@ namespace ConnectIn.Services
                            select u).SingleOrDefault();
             return theUser;
         }
+        #endregion
 
+        #region queries regarding friends of the user
+        // Get the Id of all the users best friends by a given Id of user
         public List<string> GetBestFriendsFromUser(string userId)
         {
             // Get the added friends of the user, and put to a list
@@ -47,6 +55,7 @@ namespace ConnectIn.Services
             return list1;
         }
 
+        // Get the Id of all the users family by a given Id of user
         public List<string> GetFamilyFromUser(string userId)
         {
             // Get the added friends of the user, and put to a list
@@ -68,6 +77,7 @@ namespace ConnectIn.Services
             return list1;
         }
 
+        // Get the Id of all the users friends by a given Id of user
         public List<string> GetFriendsFromUser(string userId)
         {
             // Get the added friends of the user, and put to a list
@@ -86,7 +96,10 @@ namespace ConnectIn.Services
 
             return list1;
         }
+        #endregion
 
+        #region queries regarding posts
+        // Get the Id of all the users posts by a given Id of user
         public List<string> GetAllPostsFromUser(string userId)
         {
             // Create a list of all posts from the user
@@ -98,6 +111,7 @@ namespace ConnectIn.Services
             return list;
         }
 
+        // Get the Id of all the users news feeds posts by a given Id of user
         public List<string> GetEveryNewsFeedPostsForUser(string userId)
         {
             // Get the users friends
@@ -106,10 +120,13 @@ namespace ConnectIn.Services
             // Get all the posts from friends
             var statuses = (from s in db.Posts
                             where friends.Contains(s.UserId)
-                            orderby s.Date ascending
+                            || s.UserId == userId
+                            orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
         }
+       
+        // Get the Id of all the users best friends posts by a given Id of user
         public List<string> GetBestFriendsPostsForUser(string userId)
         {
             // Get the users bestfriends
@@ -117,12 +134,14 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where bestFriends.Contains(s.UserId)
-                            orderby s.Date ascending
+                            where bestFriends.Contains(s.UserId) 
+                            || s.UserId == userId
+                            orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
         }
 
+        // Get the Id of all the users family posts by a given Id of user
         public List<string> GetFamilyPostsForUser(string userId)
         {
             // Get the users family
@@ -131,12 +150,15 @@ namespace ConnectIn.Services
             // Get all the posts from friends
             var statuses = (from s in db.Posts
                             where family.Contains(s.UserId)
-                            orderby s.Date ascending
+                            || s.UserId == userId
+                            orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
         }
+        #endregion
 
-
+        #region queries regarding the users photos
+        // Get the Id of all the users photos by a given Id of user
         public List<int> GetAllPhotosFromUser(string userId)
         {
             // Create a list of all photos from the user
@@ -147,7 +169,7 @@ namespace ConnectIn.Services
 
             return list;
         }
+        #endregion
 
-        
     }
 }

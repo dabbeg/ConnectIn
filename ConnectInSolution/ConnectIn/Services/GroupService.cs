@@ -10,6 +10,7 @@ namespace ConnectIn.Services
 {
     public class GroupService
     {
+        #region setting up IAppDataContext db
         // readonly is something that cannot change, except in constructor
         // _db is a member variable
         private readonly IAppDataContext db;
@@ -18,6 +19,7 @@ namespace ConnectIn.Services
             // if context is null, then use new ApplicationDbContext();
             db = context ?? new ApplicationDbContext();
         }
+        #endregion
 
         public Group GetGroupById(string groupId)
         {
@@ -37,6 +39,20 @@ namespace ConnectIn.Services
             return list;
         }
 
+        // Get the Id of all the users news feeds posts by a given Id of user
+        /* public List<string> GetEveryPostsOfGroup(string groupId)
+        {
+            // Get the Id of all members in that group
+            var members = GetMembersOfGroup(groupId);
+
+            // Get all the posts from friends
+            var statuses = (from s in db.Posts
+                            where friends.Contains(s.UserId)
+                            || s.UserId == userId
+                            orderby s.Date descending
+                            select s.PostId).Take(20).ToList();
+            return statuses;
+        }*/
         // get all posts of group
     }
 }
