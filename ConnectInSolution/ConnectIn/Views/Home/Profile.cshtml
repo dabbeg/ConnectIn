@@ -1,1 +1,45 @@
-﻿
+﻿@model IEnumerable<ConnectIn.Models.Entity.Post>
+
+@{
+    ViewBag.Title = "NewsFeed";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>*Username*'s Profile</h2>
+
+    foreach (var item in Model)
+    {
+        <div class="well">
+            <div id="postContent">
+                <h3>
+                    <!--Should display user's profile picture, a cat was used temporarily-->
+                    <span class="smileyFace">
+                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                    </span>
+                    <!--Should display username instead of item.userID-->
+                    @Html.ActionLink(item.UserId, "Profile", new { id = item.PostId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.Date)</small>
+                </h3>
+                <p>
+                    @item.Text
+                </p>
+            </div>
+
+            <div id="commentsLikesDeleteDiv">
+                <div id="commentsAndLikes">
+                    <div id="reactionButtons">
+                        <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-comment"></span> Comments</a>
+                        <a href="#" class="btn btn-default">2 smiles</a>
+                        <a href="#" class="btn btn-default">2 sadfaces</a>
+                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access Profile.
+    </h1>
+}

@@ -8,17 +8,17 @@ using System.Web;
 
 namespace ConnectIn.DAL
 {
-    public class ConnectInInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ConnectInInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         // A trick to disconnect all connections to the database to the database can be dropped.
         // Basically, just switching from multi-user to single-user and back clears the connections.
-        public override void InitializeDatabase(ApplicationDbContext context)
+        /*public override void InitializeDatabase(ApplicationDbContext context)
         {
             context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction
                 , string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", context.Database.Connection.Database));
 
             base.InitializeDatabase(context);
-        }
+        }*/
 
         // Seeds the new database with some hardcoded data
         protected override void Seed(ApplicationDbContext context)
