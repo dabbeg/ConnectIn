@@ -28,14 +28,32 @@ namespace ConnectIn.DAL
                 new User{
                     Id = "1",
                     UserName = "davidgudni@gmail.com",
-                    PhoneNumber = "8472547"
+                    PhoneNumber = "8472547",
                 }
             };
             var list = new List<Post>
             {
                 new Post{
                     PostId = "1",
-                    Text = "blblblbla",
+                    Text = "Davíð er mjög kúl gæji",
+                    UserId = "1",
+                    Date = DateTime.Now
+                },
+                new Post{
+                    PostId = "2",
+                    Text = "Það er skítalykt af Darra!",
+                    UserId = "1",
+                    Date = DateTime.Now
+                },
+                new Post{
+                    PostId = "3",
+                    Text = "Davíð lyktar eins og blóm",
+                    UserId = "1",
+                    Date = DateTime.Now
+                },
+                new Post{
+                    PostId = "4",
+                    Text = "Darri lítur út eins og skítur",
                     UserId = "1",
                     Date = DateTime.Now
                 }

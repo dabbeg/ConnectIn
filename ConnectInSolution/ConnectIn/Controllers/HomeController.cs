@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ConnectIn.Models.Entity;
+using ConnectIn.Models.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
 {
@@ -25,6 +27,27 @@ namespace ConnectIn.Controllers
 
         public ActionResult NewsFeed()
         {
+            var userId = User.Identity.GetUserId();
+         
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var postService = new PostService(context);
+
+            var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
+            var newsFeed = new List<PostsViewModel>();
+
+            foreach (var id in postIdList)
+            {
+                var post = postService.GetPostById(id);
+                newsFeed.Add(
+                    new PostsViewModel()
+                    {
+                        Body = post.Text,
+                        DateInserted = post.Date,
+                        Comments = new List<CommentViewModel>()
+                    });
+            }
+            /*
             List<Post> NewsFeed = new List<Post>();
             Post post1 = new Post();
             post1.Text = "Er jarðskjálft­inn varð í Nepal fyr­ir viku var níu ára göm­ul stúlka, sem dýrkuð er sem gyðja, að und­ir­búa sig fyr­ir að taka á móti til­biðjend­um á heim­ili sínu sem stend­ur við Dur­bar-torgið í Kat­mandú.";
@@ -37,8 +60,8 @@ namespace ConnectIn.Controllers
             post2.PostId = "2";
             post2.UserId = "2";
             NewsFeed.Add(post2);
-
-            return View(NewsFeed);
+            */
+            return View(newsFeed);
         }
 
         public ActionResult About()
