@@ -57,7 +57,20 @@ namespace ConnectIn.Controllers
 
         public ActionResult Profile()
         {
-            return View();
+            List<Post> Profile = new List<Post>();
+            Post post1 = new Post();
+            post1.Text = "Er jarðskjálft­inn varð í Nepal fyr­ir viku var níu ára göm­ul stúlka, sem dýrkuð er sem gyðja, að und­ir­búa sig fyr­ir að taka á móti til­biðjend­um á heim­ili sínu sem stend­ur við Dur­bar-torgið í Kat­mandú.";
+            post1.PostId = "1";
+            post1.UserId = "1";
+            Profile.Add(post1);
+
+            Post post2 = new Post();
+            post2.Text = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.";
+            post2.PostId = "2";
+            post2.UserId = "2";
+            Profile.Add(post2);
+
+            return View(Profile);
         }
         public ActionResult FriendsList()
         {

@@ -58,5 +58,7 @@ namespace ConnectIn.DAL
         {
             return new ApplicationDbContext();
         }
+
+        /*public System.Data.Entity.DbSet<ConnectIn.Models.Entity.User> IdentityUsers { get; set; }*/
     }
 }

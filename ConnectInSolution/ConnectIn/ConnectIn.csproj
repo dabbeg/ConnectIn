@@ -195,6 +195,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\iconHappy.ico" />
     <Content Include="Content\Images\iconSad.png" />
+    <Content Include="Content\Images\largeProfilePic.jpg" />
     <Content Include="Content\Images\profilepic.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -243,12 +244,15 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\NewsFeed.cshtml" />
+
     <Content Include="Views\Home\FriendsList.cshtml" />
     <Content Include="Views\Home\GroupsList.cshtml" />
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Home\Birthdays.cshtml" />
+
+    <Content Include="Views\Home\Profile.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
