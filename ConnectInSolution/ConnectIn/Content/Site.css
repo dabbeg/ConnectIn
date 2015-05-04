@@ -198,3 +198,35 @@ a.navbar-brand
     float: right;
 }
 
+#profileHeader {
+    
+}
+
+#profileborder {
+    border-top: solid rgb(228, 228, 228) 1px;
+    margin-bottom: 20px
+}
+
+#userNameOnProfile {
+    display: inline-block;
+    margin-left: 20px;
+    position: relative;
+    bottom: -20px;
+    left: 155px;
+}
+
+#userProfilePicture {
+    display: inline-block;
+}
+
+.personalInfoGlyphs {
+    display: flex;
+    margin-bottom: 4px;
+    font-size: 17px;
+    
+}
+
+#addFriendButton {
+    display: inline-block;
+    float: right;
+}
