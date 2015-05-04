@@ -75,6 +75,20 @@ namespace ConnectIn.Tests.Services
                 privacy = true
             };
             mockDb.Users.Add(u4);
+
+            var u5 = new User()
+            {
+                Id = "5",
+                Email = "user5@m.com",
+                UserName = "user5",
+                birthday = DateTime.Today,
+                work = "FG",
+                school = "FG",
+                gender = "Female",
+                address = "add5",
+                privacy = true
+            };
+            mockDb.Users.Add(u5);
             #endregion
 
             #region Posts
@@ -336,18 +350,21 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Name = "Group1"
             };
+            mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
                 Id = "2",
                 Name = "Group2"
             };
+            mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
                 Id = "3",
                 Name = "Group3"
             };
+            mockDb.Groups.Add(g3);
             #endregion
 
             #region Friends
@@ -395,6 +412,15 @@ namespace ConnectIn.Tests.Services
                 Family = false
             };
             mockDb.Friends.Add(f5);
+
+            var f6 = new Friend()
+            {
+                UserId = "5",
+                FriendUserId = "1",
+                BestFriend = false,
+                Family = false
+            };
+            mockDb.Friends.Add(f6);
             #endregion
 
             #region Comments
@@ -493,7 +519,7 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFriendsFromUser(user2);
 
             // Assert
-            string[] list1 = { "2", "3", "4" };
+            string[] list1 = { "2", "3", "4", "5" };
             string[] list2 = { "1", "3" };
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
@@ -503,7 +529,7 @@ namespace ConnectIn.Tests.Services
                 Assert.AreNotEqual(item, user1);
             }
 
-            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(4, result1.Count);
             Assert.AreEqual(2, result2.Count);
         }
 
@@ -682,6 +708,21 @@ namespace ConnectIn.Tests.Services
             Assert.AreEqual(4, result1.Count);
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
+        }
+
+        [TestMethod]
+        public void TestGetAllFriendsBirthdays()
+        {
+            // Arrange
+            const string user1 = "1";
+
+            // Act
+            var result1 = service.GetAllFriendsBirthdays(user1);
+
+            // Assert
+            string[] list1 = { "5" };
+            
+            CollectionAssert.AreEqual(list1, result1);
         }
     }
 }
