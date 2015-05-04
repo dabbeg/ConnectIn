@@ -15,6 +15,11 @@ namespace ConnectIn.Models.Entity
         public string PhotoPath { get; set; }
         public string UserId { get; set; }
         public bool IsProfilePicture { get; set; }
+
+        public int ImageSize { get; set; }
+
+        public string FileName { get; set; }
+        public byte[] ImageData { get; set; }
         #endregion
 
         #region ForeignKeys

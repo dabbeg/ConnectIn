@@ -1,0 +1,33 @@
+﻿@model List<ConnectIn.Photo>
+
+@{
+    ViewBag.Title = "Gallery";
+}
+
+<h2>Gallery</h2>
+
+<p>
+    @Html.ActionLink("Upload New", "Upload")
+</p>
+@* Here will the uploaded images be shown*@
+<table class="table">
+    @{
+        int j = 0;
+        for (int i = 0; i < Model.Count(); i+=4)
+        {
+            j = i;
+            <tr>
+                @*This is to show 4 images in a row*@
+                @while (j < i + 4 && j < Model.Count())+
+                {
+                    <td>
+                        <img src="data:image/png;base64,@Convert.ToBase64String(Model[j].ImageData, 0, Model[j].ImageData.length)" width="100"/>
+                    </td>
+                    j++;
+                }
+            </tr>
+        }
+    }
+
+
+</table>
