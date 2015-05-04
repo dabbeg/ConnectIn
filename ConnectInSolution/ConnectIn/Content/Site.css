@@ -207,3 +207,27 @@ a.navbar-brand
     float: right;
 }
 
+.btn-default-like {
+    background-image: url("/Content/Images/smileySMALL.png");
+	background-repeat: no-repeat;
+	padding-left: 25px;
+    background-size: contain;
+  display: block;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: -9999px;
+}
+.btn-default-dislike {
+    background-image: url("/Content/Images/sadfaceSMALL.png");
+	background-repeat: no-repeat;
+	padding-left: 25px;
+    background-size: contain;
+  display: block;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: -9999px;
+}
