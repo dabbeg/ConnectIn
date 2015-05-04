@@ -101,6 +101,10 @@
     <Compile Include="MockDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Service\PostServiceTest.cs" />
+    <Compile Include="Service\GroupServiceTest.cs" />
+    <Compile Include="Service\CommentServiceTest.cs" />
+    <Compile Include="Service\FriendServiceTest.cs" />
     <Compile Include="Service\UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>

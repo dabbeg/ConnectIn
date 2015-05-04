@@ -1,17 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ConnectIn.Services;
-using ConnectIn.Tests;
 using ConnectIn.Models.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
+using ConnectIn.Services;
 
-namespace ConnectIn.Tests.Services
+namespace ConnectIn.Tests.Service
 {
     [TestClass]
-    public class UserServiceTest
+    public class FriendServiceTest
     {
-        private UserService service;
+        private FriendService service;
 
         // Initialize is run before every unit test
         [TestInitialize]
@@ -25,7 +22,7 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
-                birthday = new DateTime(2000,1,1),
+                birthday = new DateTime(2000, 1, 1),
                 work = "HR",
                 school = "HR",
                 gender = "Male",
@@ -83,7 +80,7 @@ namespace ConnectIn.Tests.Services
                 PostId = "1",
                 Text = "someText 1",
                 UserId = "1",
-                Date = new DateTime(2000,1,1)
+                Date = new DateTime(2000, 1, 1)
             };
             mockDb.Posts.Add(p1);
 
@@ -139,7 +136,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
-                Date = new DateTime(2000,1,1),
+                Date = new DateTime(2000, 1, 1),
                 IsProfilePicture = true
             };
             mockDb.Photos.Add(ph1);
@@ -181,7 +178,7 @@ namespace ConnectIn.Tests.Services
                 NotificationId = 1,
                 FriendUserId = "2",
                 UserId = "1",
-                Date = new DateTime(2000,1,1)
+                Date = new DateTime(2000, 1, 1)
             };
             mockDb.Notifications.Add(n1);
 
@@ -404,7 +401,7 @@ namespace ConnectIn.Tests.Services
                 UserId = "1",
                 PostId = "1",
                 Text = "bla 1",
-                Date = new DateTime(2000,11,11)
+                Date = new DateTime(2000, 11, 11)
             };
             mockDb.Comments.Add(c1);
 
@@ -479,209 +476,11 @@ namespace ConnectIn.Tests.Services
             mockDb.Comments.Add(c8);
             #endregion
 
-            service = new UserService(mockDb);
+            service = new FriendService(mockDb);
         }
         [TestMethod]
-        public void TestGetFriendsFromUser()
+        public void TestMethod1()
         {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-            
-            // Act
-            var result1 = service.GetFriendsFromUser(user1);
-            var result2 = service.GetFriendsFromUser(user2);
-
-            // Assert
-            string[] list1 = { "2", "3", "4" };
-            string[] list2 = { "1", "3" };
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-
-            foreach (var item in result1)
-            {
-                Assert.AreNotEqual(item, user1);
-            }
-
-            Assert.AreEqual(3, result1.Count);
-            Assert.AreEqual(2, result2.Count);
-        }
-
-        [TestMethod]
-        public void TestGetUserById()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetUserById(user1);
-            var result2 = service.GetUserById(user2);
-
-            // Assert
-            User u1 = new User();
-            u1.Id = "1";
-            u1.Email = "user1@m.com";
-            u1.UserName = "user1";
-            u1.birthday = new DateTime(2000,1,1);
-            u1.work = "HR";
-            u1.school = "HR";
-            u1.gender = "Male";
-            u1.address = "add1";
-            u1.privacy = false;
-
-            Assert.AreEqual(u1.Email, result1.Email);
-            Assert.AreEqual(u1.UserName, result1.UserName);
-            Assert.AreEqual(u1.address, result1.address);
-
-            User u2 = new User();
-            u2.Id = "2";
-            u2.Email = "user2@m.com";
-            u2.UserName = "user2";
-            u2.birthday = new DateTime(2001, 1, 1);
-            u2.work = "HI";
-            u2.school = "HI";
-            u2.gender = "Male";
-            u2.address = "add2";
-            u2.privacy = false;
-
-            Assert.AreEqual(u2.Email, result2.Email);
-            Assert.AreEqual(u2.UserName, result2.UserName);
-            Assert.AreEqual(u2.address, result2.address);
-        }
-
-        [TestMethod]
-        public void TestGetBestFriendsFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetBestFriendsFromUser(user1);
-            var result2 = service.GetBestFriendsFromUser(user2);
-
-            // Assert
-            string[] list1 = { "2" };
-            string[] list2 = { "1" };
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-        }
-
-        [TestMethod]
-        public void TestGetFamilyFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetFamilyFromUser(user1);
-            var result2 = service.GetFamilyFromUser(user2);
-
-            // Assert
-            string[] list1 = { "2" };
-            string[] list2 = { "1" , "3" };
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-        }
-
-        [TestMethod]
-        public void TestGetAllPostsFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-            const string user3 = "3";
-
-            // Act
-            var result1 = service.GetAllPostsFromUser(user1);
-            var result2 = service.GetAllPostsFromUser(user2);
-            var result3 = service.GetAllPostsFromUser(user3);
-
-            // Assert
-            string[] list1 = { "4", "1" };
-            string[] list2 = { "6", "2" };
-            string[] list3 = { "5" };
-
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-            CollectionAssert.AreEqual(list3, result3);
-        }
-
-        [TestMethod]
-        public void TestGetAllPhotosFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetAllPhotosFromUser(user1);
-            var result2 = service.GetAllPhotosFromUser(user2);
-
-            // Assert
-            int[] list1 = { 2, 1 };
-            int[] list2 = { 3 };
-
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-        }
-
-        [TestMethod]
-        public void TestGetEveryNewsfeedPostsForUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetEveryNewsFeedPostsForUser(user1);
-            var result2 = service.GetEveryNewsFeedPostsForUser(user2);
-
-            // Assert
-            string[] list1 = { "6", "5", "4", "3", "2", "1" };
-            string[] list2 = { "6", "5", "4", "2", "1" };
-
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-            Assert.AreEqual(6, result1.Count);
-        }
-
-        [TestMethod]
-        public void TestGetBestFriendsPostsForUser()
-        {
-            // Arrange
-            const string user1 = "1";
-
-            // Act
-            var result1 = service.GetBestFriendsPostsForUser(user1);
-
-            // Assert
-            string[] list1 = { "6", "4", "2", "1" };
-
-            CollectionAssert.AreEqual(list1, result1);
-            Assert.AreEqual(4, result1.Count);
-        }
-
-        [TestMethod]
-        public void TestGetFamilyPostsForUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetFamilyPostsForUser(user1);
-            var result2 = service.GetFamilyPostsForUser(user2);
-
-            // Assert
-            string[] list1 = { "6", "4", "2", "1" };
-            string[] list2 = { "6", "5", "4", "2", "1" };
-
-            Assert.AreEqual(4, result1.Count);
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
         }
     }
 }
