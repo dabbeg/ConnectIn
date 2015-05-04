@@ -13,7 +13,13 @@
         <li><a href="#">Best friends</a></li>
         <li><a href="#">Family</a></li>
     </ul>
-
+    <div>
+      <textarea placeholder="Share your thoughts" id="newsfeedstatus" > </textarea> 
+       <br/>
+        <input id="submitstatus" type="button" value="Submit" />
+        <!--Jquery $('textarea').autoResize();-->
+    </div>
+    <br/>
     foreach (var item in Model)
     {
         <div class="well">

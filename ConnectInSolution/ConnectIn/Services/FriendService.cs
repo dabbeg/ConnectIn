@@ -1,34 +1,27 @@
-﻿using System;
+﻿using ConnectIn.DAL;
+using ConnectIn.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ConnectIn.Models.Entity;
-using ConnectIn.Models;
-using ConnectIn.DAL;
 
 namespace ConnectIn.Services
 {
-    public class PostService
+    public class FriendService
     {
         // readonly is something that cannot change, except in constructor
         // _db is a member variable
         private readonly IAppDataContext db;
-        public PostService(IAppDataContext context)
+        public FriendService(IAppDataContext context)
         {
             // if context is null, then use new ApplicationDbContext();
             db = context ?? new ApplicationDbContext();
         }
-        public Post GetPostById(string userId)
+        /*public Friend GetFriendEntryById(string userId, string friendId)
         {
-            var post = (from p in db.Posts
-                        where userId == p.PostId
+            var post = (from p in db.Friends
                         select p).SingleOrDefault();
             return post;
-        }
-
-        
-        
-        // comments likes dislikes
-        // group service
+        }*/
     }
 }

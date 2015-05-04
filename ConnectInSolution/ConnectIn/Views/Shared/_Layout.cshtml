@@ -45,16 +45,20 @@
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav">                    
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-user sidebarGlyphs"></span>Friends</a>
+                        <a href="#"><span class="glyphicon glyphicon-user sidebarGlyphs"></span></a>
+                        @Html.ActionLink("Friends", "FriendsList", "Home")
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-glass sidebarGlyphs"></span>Groups</a>
+                        <a href="#"><span class="glyphicon glyphicon-glass sidebarGlyphs"></span></a>
+                        @Html.ActionLink("Groups", "GroupsList", "Home")
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-gift sidebarGlyphs"></span>Birthdays</a>
+                        <a href="#"><span class="glyphicon glyphicon-gift sidebarGlyphs"></span></a>
+                        @Html.ActionLink("Birthdays", "Birthdays", "Home")
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-bell sidebarGlyphs"></span>Notifications</a>
+                        <a href="#"><span class="glyphicon glyphicon-bell sidebarGlyphs"></span></a>
+                        @Html.ActionLink("Notifications", "Notifications", "Home")
                     </li>
                 </ul>
             </div>

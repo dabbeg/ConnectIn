@@ -30,6 +30,7 @@ namespace ConnectIn.Tests
             this.Notifications = new InMemoryDbSet<Notification>();
             this.Photos = new InMemoryDbSet<Photo>();
             this.Posts = new InMemoryDbSet<Post>();
+            this.Users = new InMemoryDbSet<User>();
         }
 
         public IDbSet<Comment> Comments { get; set; }
@@ -40,6 +41,7 @@ namespace ConnectIn.Tests
         public IDbSet<Notification> Notifications { get; set; }
         public IDbSet<Photo> Photos { get; set; }
         public IDbSet<Post> Posts { get; set; }
+        public IDbSet<User> Users { get; set; }
 
         public int SaveChanges()
         {
