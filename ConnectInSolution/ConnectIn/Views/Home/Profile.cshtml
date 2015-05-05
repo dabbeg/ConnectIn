@@ -1,4 +1,7 @@
-﻿@model ConnectIn.Models.ViewModels.ProfileViewModel
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.ProfileViewModel
 
 @{
     ViewBag.Title = "NewsFeed";
@@ -22,7 +25,34 @@
                 <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: </div>
             </div>
             <div id="addFriendButton">
-                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>
+                @{
+                    if (Model.User.UserId != User.Identity.GetUserId())
+                    {
+                        var context = new ApplicationDbContext();
+                        var userService = new UserService(context);
+                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                        if (listOfFriends.Contains(@Model.User.UserId))
+                        {
+                            using (Html.BeginForm("Remove", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
+                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("Add", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
+                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                            }
+                        }
+                    }
+                }
+                
+                <!--<a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>-->
             </div>
         </div>
     </div>
