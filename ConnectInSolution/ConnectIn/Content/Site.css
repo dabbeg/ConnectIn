@@ -277,3 +277,16 @@ a.navbar-brand
     display: inline-block;
     float: right;
 }
+
+#groupWell {
+    float: right;
+    position: relative;
+    bottom: 36px;
+}
+
+#createNewGroup {
+    float: right;
+    position: relative;
+    bottom: 34px;
+    right: 22px;
+}

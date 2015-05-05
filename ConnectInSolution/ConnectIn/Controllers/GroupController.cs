@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ConnectIn.Models.Entity;
 
 namespace ConnectIn.Controllers
 {
@@ -39,7 +40,19 @@ namespace ConnectIn.Controllers
         }
         public ActionResult GroupsList()
         {
-            return View();
+            List<Group> groupsList = new List<Group>();
+
+            Group g1 = new Group();
+            g1.GroupId = 1;
+            g1.Name = "Sogn";
+            groupsList.Add(g1);
+
+            Group g2 = new Group();
+            g2.GroupId = 2;
+            g2.Name = "Kleppur";
+            groupsList.Add(g2);
+
+            return View(groupsList);
         }
     }
 }
