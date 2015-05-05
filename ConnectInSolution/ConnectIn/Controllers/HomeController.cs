@@ -44,16 +44,9 @@ namespace ConnectIn.Controllers
                     {
                         Body = post.Text,
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>(),
-                        User = new UserViewModel()
-                        {
-                            UserId = User.Identity.GetUserId(),
-                            UserName = User.Identity.Name
-                        }
+                        Comments = new List<CommentViewModel>()
                     });
             }
-
-            
 
             return View(newsFeed);
         }
@@ -72,7 +65,7 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult Profile(int? id)
+        public ActionResult Profile()
         {
             List<Post> Profile = new List<Post>();
             Post post1 = new Post();
@@ -99,7 +92,34 @@ namespace ConnectIn.Controllers
         }
         public ActionResult Birthdays()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var birthdayList = userService.GetAllFriendsBirthdays(userId);
+
+            var context = new ApplicationDbContext();
+
+            var postService = new PostService(context);
+
+            var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
+            var newsFeed = new List<PostsViewModel>();
+
+            foreach (var id in postIdList)
+            {
+                var post = postService.GetPostById(id);
+                newsFeed.Add(
+                    new PostsViewModel()
+                    {
+                        Body = post.Text,
+                        DateInserted = post.Date,
+                        Comments = new List<CommentViewModel>()
+                    });
+            }
+
+            return View(newsFeed);
+            // return View();
         }
         public ActionResult GroupsList()
         {

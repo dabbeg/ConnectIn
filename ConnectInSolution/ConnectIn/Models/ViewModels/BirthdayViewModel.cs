@@ -7,5 +7,6 @@ namespace ConnectIn.Models.ViewModels
 {
     public class BirthdayViewModel
     {
+        public string Name { get; set; }
     }
 }
