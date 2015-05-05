@@ -15,7 +15,7 @@ namespace ConnectIn.Models.Entity
         public string UserId { get; set; }
         [Key]
         [Column(Order = 1)]
-        public string GroupId { get; set; }
+        public int GroupId { get; set; }
         #endregion
 
         #region ForeignKeys

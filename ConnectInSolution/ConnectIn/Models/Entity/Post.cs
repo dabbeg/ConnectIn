@@ -11,7 +11,8 @@ namespace ConnectIn.Models.Entity
     {
         #region Columns
         [Key]
-        public string PostId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PostId { get; set; }
         public string Text { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
