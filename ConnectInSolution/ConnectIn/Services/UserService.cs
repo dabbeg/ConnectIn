@@ -96,6 +96,16 @@ namespace ConnectIn.Services
 
             return list1;
         }
+
+        // Get the Id of all the users birthdays by a given Id of the user
+        public List<string> GetAllFriendsBirthdays(string userId)
+        {
+            var friends = GetFriendsFromUser(userId);
+            var birthdays = (from b in db.Users
+                             where b.birthday == DateTime.Today
+                             select b.Id).ToList();
+            return birthdays;
+        }
         #endregion
 
         #region queries regarding posts

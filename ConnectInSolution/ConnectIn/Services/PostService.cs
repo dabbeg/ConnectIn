@@ -77,6 +77,5 @@ namespace ConnectIn.Services
             return (int) count;
         }
         #endregion
-        // group service
     }
 }

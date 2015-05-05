@@ -333,18 +333,21 @@ namespace ConnectIn.Tests.Service
                 Id = "1",
                 Name = "Group1"
             };
+            mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
                 Id = "2",
                 Name = "Group2"
             };
+            mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
                 Id = "3",
                 Name = "Group3"
             };
+            mockDb.Groups.Add(g3);
             #endregion
 
             #region Friends
@@ -478,9 +481,71 @@ namespace ConnectIn.Tests.Service
 
             service = new GroupService(mockDb);
         }
+
         [TestMethod]
-        public void TestMethod1()
+        public void TestGetGroupById()
         {
+            // Arrange
+            const string group1 = "1";
+            const string group2 = "2";
+
+            // Act
+            var result1 = service.GetGroupById(group1);
+            var result2 = service.GetGroupById(group2);
+
+            // Assert
+            var c1 = new Group()
+            {
+                Id = "1",
+                Name = "Group1"
+            };
+
+            var c2 = new Group()
+            {
+                Id = "2",
+                Name = "Group2"
+            };
+
+            Assert.AreEqual(c1.Name, result1.Name);
+            Assert.AreEqual(c2.Name, result2.Name);
+        }
+
+        [TestMethod]
+        public void TestGetMembersOfGroup()
+        {
+            // Arrange
+            const string group1 = "1";
+            const string group3 = "3";
+
+            // Act
+            var result1 = service.GetMembersOfGroup(group1);
+            var result3 = service.GetMembersOfGroup(group3);
+
+            // Assert
+            string[] list1 = { "1", "2" };
+            string[] list3 = { "1", "2", "4" };
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list3, result3);
+        }
+
+        [TestMethod]
+        public void TestGetEveryPostsOfGroup()
+        {
+            // Arrange
+            const string group1 = "1";
+            const string group3 = "3";
+
+            // Act
+            var result1 = service.GetAllPostsOfGroup(group1);
+            var result3 = service.GetAllPostsOfGroup(group3);
+
+            // Assert
+            string[] list1 = { "6", "4", "2", "1" };
+            string[] list3 = { "6", "4", "3", "2", "1" };
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list3, result3);
+            Assert.AreEqual(4, result1.Count);
+            Assert.AreEqual(5, result3.Count);
         }
     }
 }

@@ -333,18 +333,21 @@ namespace ConnectIn.Tests.Service
                 Id = "1",
                 Name = "Group1"
             };
+            mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
                 Id = "2",
                 Name = "Group2"
             };
+            mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
                 Id = "3",
                 Name = "Group3"
             };
+            mockDb.Groups.Add(g3);
             #endregion
 
             #region Friends
