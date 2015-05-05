@@ -44,7 +44,13 @@ namespace ConnectIn.Controllers
                     {
                         Body = post.Text,
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>()
+                        Comments = new List<CommentViewModel>(),
+                        User = new UserViewModel()
+                        {
+                            UserId = User.Identity.GetUserId(),
+                            UserName = User.Identity.Name,
+                            ProfilePicture = "~/Content/Images/profilepic.png"
+                        }
                     });
             }
 
