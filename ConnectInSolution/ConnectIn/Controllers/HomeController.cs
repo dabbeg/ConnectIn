@@ -92,7 +92,7 @@ namespace ConnectIn.Controllers
         }
         public ActionResult Birthdays()
         {
-            var userId = User.Identity.GetUserId();
+            /* var userId = User.Identity.GetUserId();
 
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
@@ -118,8 +118,8 @@ namespace ConnectIn.Controllers
                     });
             }
 
-            return View(newsFeed);
-            // return View();
+            return View(newsFeed);*/
+            return View();
         }
         public ActionResult GroupsList()
         {

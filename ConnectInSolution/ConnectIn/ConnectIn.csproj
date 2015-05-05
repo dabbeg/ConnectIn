@@ -179,6 +179,7 @@
     <Compile Include="Models\Entity\Photo.cs" />
     <Compile Include="Models\Entity\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\BirthdayViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FrontPageViewModel.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />

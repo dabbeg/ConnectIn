@@ -9,6 +9,7 @@ namespace ConnectIn.Models.ViewModels
     {
         public string UserId { get; set; }
         public string UserName { get; set; }
+        public string Birthday { get; set; }
         public string ProfilePicture { get; set; }
     }
 }
