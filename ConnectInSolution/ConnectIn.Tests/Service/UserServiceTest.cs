@@ -725,12 +725,12 @@ namespace ConnectIn.Tests.Services
 
             // Assert
             string[] list1 = { "2" };
-            string[] list2 = { "5" };
+            string[] list2 = { "2", "5" };
             
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
             Assert.AreEqual(1, result1.Count);
-            Assert.AreEqual(1, result2.Count);
+            Assert.AreEqual(2, result2.Count);
         }
 
         [TestMethod]
