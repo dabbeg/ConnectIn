@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
+using ConnectIn.Services;
+using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
 {
@@ -12,16 +15,8 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Create(FormCollection collection)
         {
-            var group = new Group()
-            {
-                Name = collection["groupName"]
-            };
-
-            var context = new ApplicationDbContext();
-            context.Groups.Add(group);
-            context.SaveChanges();
-
-            return RedirectToAction("GroupsList", "Group");
+            //return RedirectToAction("GroupsList", "Group");
+            return View("CreateGroup");
         }
 
         public ActionResult Delete()
@@ -48,9 +43,9 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
-        public ActionResult GroupsList()
+        public ActionResult GroupsList(FormCollection collection)
         {
-            List<Group> groupsList = new List<Group>();
+            /*List<Group> groupsList = new List<Group>();
 
             Group g1 = new Group();
             g1.GroupId = 1;
@@ -62,7 +57,35 @@ namespace ConnectIn.Controllers
             g2.Name = "Kleppur";
             groupsList.Add(g2);
 
-            return View(groupsList);
+            return View(groupsList);*/
+
+            var group = new Group()
+            {
+                Name = collection["groupName"]
+            };
+
+            var context = new ApplicationDbContext();
+            context.Groups.Add(group);
+            context.SaveChanges();
+
+            /*-----*/
+
+            var userId = User.Identity.GetUserId();
+
+            var context2 = new ApplicationDbContext();
+            var userService = new UserService(context2);
+            var groupService = new GroupService(context2);
+
+            var groupIdList = userService.GetAllGroupsOfUser(userId);
+            var groupList = new List<Group>();
+
+            foreach (var id in groupIdList)
+            {
+                var grp = groupService.GetGroupById(id);
+                groupList.Add(grp);
+            }
+
+            return View(groupList);
         }
     }
 }
