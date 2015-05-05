@@ -20,13 +20,28 @@ namespace ConnectIn.Controllers
 
         public ActionResult CreateGroup(FormCollection collection)
         {
-            var group = new Group()
-            {
-                Name = collection["groupName"]
-            };
-
             var context = new ApplicationDbContext();
-            context.Groups.Add(group);
+            var userId = User.Identity.GetUserId();
+            UserService userService = new UserService(context);
+
+            Group newGroup = new Group()
+            {
+                Name = collection["groupName"],
+            };
+            newGroup.Members = new List<Member>();
+            //TODO:
+            //Make the creator a member of the group
+            Member groupMember = new Member();
+
+            groupMember.GroupId = newGroup.GroupId;
+            groupMember.UserId = userId;
+            groupMember.Group = newGroup;
+            Models.Entity.User currentUser = userService.GetUserById(userId);
+            groupMember.User = currentUser;
+
+            newGroup.Members.Add(groupMember);
+
+            context.Groups.Add(newGroup);
             context.SaveChanges();
 
             return RedirectToAction("GroupsList", "Group");
