@@ -13,12 +13,12 @@ namespace ConnectIn.Models.Entity
     {
         #region Columns
         public string Name { get; set; }
-        public DateTime birthday { get; set; }
-        public string work { get; set; }
-        public string school { get; set; }
-        public string gender { get; set; }
-        public string address { get; set; }
-        public bool privacy { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Work { get; set; }
+        public string School { get; set; }
+        public string Gender { get; set; }
+        public string Address { get; set; }
+        public bool Privacy { get; set; }
         #endregion
 
         #region ForeignKeys
@@ -33,7 +33,7 @@ namespace ConnectIn.Models.Entity
 
         public User()
         {
-            birthday = DateTime.Now;
+            Birthday = DateTime.Now;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

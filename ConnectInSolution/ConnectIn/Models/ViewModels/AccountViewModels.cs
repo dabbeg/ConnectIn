@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ConnectIn.Models
+namespace ConnectIn.Models.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

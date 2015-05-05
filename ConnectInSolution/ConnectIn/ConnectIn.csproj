@@ -181,9 +181,12 @@
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\BirthdayViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
-    <Compile Include="Models\ViewModels\FrontPageViewModel.cs" />
+    <Compile Include="Models\ViewModels\FriendViewModel.cs" />
+    <Compile Include="Models\ViewModels\GroupViewModel.cs" />
+    <Compile Include="Models\ViewModels\NewsFeedViewModel.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="Models\ViewModels\LikeDislikeViewModel.cs" />
+    <Compile Include="Models\ViewModels\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModels\PostsViewModel.cs" />
     <Compile Include="Models\ViewModels\ProfileViewModel.cs" />
     <Compile Include="Models\ViewModels\SearchViewModel.cs" />

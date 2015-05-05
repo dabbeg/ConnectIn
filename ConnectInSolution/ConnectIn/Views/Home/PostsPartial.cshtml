@@ -24,11 +24,11 @@
                     <div id="reactionButtons">
                         @using (Html.BeginForm("Like", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btn btn-default-like">@item.LikesDislikes.Likes Smiles</button>
+                            <button type="submit" class="btn btn-default-like">@item.LikeDislike.Likes Smiles</button>
                         }
                         @using (Html.BeginForm("Dislike", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btn btn-default-dislike">@item.LikesDislikes.Dislikes Sadfaces</button>
+                            <button type="submit" class="btn btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
                         }
                         @using (Html.BeginForm("AddComment", "Status", new { postId = item.PostId }))
                         {

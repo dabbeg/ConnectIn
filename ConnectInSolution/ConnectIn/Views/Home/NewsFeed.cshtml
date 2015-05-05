@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
+﻿@model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 @{
     ViewBag.Title = "NewsFeed";
@@ -15,17 +15,18 @@
     </ul>
 
     <div>
-    @using (Html.BeginForm("AddPost", "Status"))
-    {
-        <div class="form-horizontal">
-            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-            <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
-        </div>
-        @Html.ValidationSummary(false)
-    }
+        @using (Html.BeginForm("AddPost", "Status"))
+        {
+            <div class="form-horizontal">
+                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+            </div>
+            @Html.ValidationSummary(false)
+        }
     </div>
+    
     {
-        Html.RenderPartial("PostsPartial", Model);
+        Html.RenderPartial("PostsPartial", Model.Posts);
     }
 }
 else
