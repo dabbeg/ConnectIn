@@ -5,9 +5,7 @@ using System.Web;
 
 namespace ConnectIn.Models.ViewModels
 {
-    public class CommentViewModel
+    public class NotificationViewModel
     {
-        public string Body { get; set; }
-        public DateTime DateInserted { get; set; }
     }
 }
