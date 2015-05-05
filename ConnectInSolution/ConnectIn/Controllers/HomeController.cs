@@ -43,6 +43,7 @@ namespace ConnectIn.Controllers
                 newsFeed.Add(
                     new PostsViewModel()
                     {
+                        PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
@@ -93,6 +94,7 @@ namespace ConnectIn.Controllers
                 postsViewModels.Add(
                  new PostsViewModel()
                  {
+                     PostId = postId,
                      Body = post.Text,
                      DateInserted = post.Date,
                      Comments = new List<CommentViewModel>(),

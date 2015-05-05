@@ -28,9 +28,20 @@ namespace ConnectIn.Controllers
             return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult RemovePost()
+        public ActionResult RemovePost(int? postId)
         {
-            return View();
+            if (!postId.HasValue)
+            {
+                return View("Error");
+            }
+            int id = postId.Value;
+
+            var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            context.Posts.Remove(postService.GetPostById(id));
+            context.SaveChanges();
+
+            return RedirectToAction("NewsFeed", "Home");
         }
 
         public ActionResult AddComment()
