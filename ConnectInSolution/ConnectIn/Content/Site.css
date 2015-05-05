@@ -12,6 +12,11 @@
 
 
 
+.container .carouselphotos
+{
+max-height:455px;
+width:40%;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 #newsfeedstatus
 {
