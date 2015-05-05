@@ -1,106 +1,19 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home page";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <style>
-        .carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-            
-            margin: auto;
-        }
-    </style>
-</head>
 <body>
-    <div class="jumbotron">
-        <h1>ConnectIn</h1>
 
-        <p class="lead">ConnectIn is an social network, created to bring people closer together</p>
-       
-    </div>
-
-
-
-
-    <div class="container">
-        <br>
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-                <li data-target="#myCarousel" data-slide-to="3"></li>
-                <li data-target="#myCarousel" data-slide-to="4"></li>
-                <li data-target="#myCarousel" data-slide-to="5"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                <div class="item active" id="connectIn">
-                    <img class="carouselphotos" src="~/Content/images/cinlogo.png" alt="ConnectIn">
-                    <div class="carousel-caption">
-                        <h3>ConnectIn</h3>
-                        <p>Founded in 2015 by 4 geniuses and 1 Janitor</p>
-                    </div>
-                </div>
-                <div class="item" id="Darri">
-                    <img class="carouselphotos" id="darriphoto" src="~/Content/images/darri2.jpg" alt="Darri">
-                    <div class="carousel-caption">
-                        <h3>CEO</h3>
-                        <p>Gets paid the most</p>
-                    </div>
-                </div>
-                <div class="item" id="Dabbi">
-                    <img class="carouselphotos" id="dabbiphot" src="~/Content/images/dabbi2.jpg" alt="Dabbi">
-                    <div class="carousel-caption">
-                        <h3>Project Manager</h3>
-                        <p>Takes all the credit</p>
-                    </div>
-                </div>
-
-                <div class="item" id="Thor">
-                    <img class="carouselphotos" id="thorphoto" src="~/Content/images/thor2.jpg" alt="Ingthor" >
-                    <div class="carousel-caption">
-                        <h3>CTO</h3>
-                        <p>Has a fancy title, does nothing</p>
-                    </div>
-                </div>
-
-                <div class="item" id="Logi">
-                    <img class="carouselphotos" id="logiphoto" src="~/Content/images/logi2.jpg" alt="Logi" >
-                    <div class="carousel-caption">
-                        <h3>Graphic Designer</h3>
-                        <p>Draws pictures and shit</p>
-                    </div>
-                </div>
-                <div class="item" id="Jan">
-                    <img class="carouselphotos"  id="Janphoto" src="~/Content/images/janitor.jpg" alt="Jan" >
-                    <div class="carousel-caption">
-                        <h3>Janitor</h3>
-                        <p>Specifies in cleaning our code up</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+    <div id="backgroundindex" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="active item one"></div>
+            <div class="item two"></div>
+            <div class="item three"></div>
         </div>
     </div>
-
+    <div id="Indextext" >
+        <h2>ConnectIn</h2>
+        <p>This is a social network created by students of HR for a project. With the goal to create a community for people to be welcomed and getting people closer through communicating.
+         <br />We won't share valuable information to corporations, we offer security and fun. What we offer are to create groups with friends, post status on your wall and follow your friends.</p>
+        <p>Forgot your friends birthday?  Don't worry at ConnectIn you can follow who's birthday it is today.</p>
+    </div>
 </body>
-</html>
