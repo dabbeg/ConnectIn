@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ConnectIn.Models
 {
@@ -54,6 +55,11 @@ namespace ConnectIn.Models
     public class RegisterViewModel
     {
         [Required]
+        [DataType(DataType.Text)]        
+        [Display(Name = "Full Name")]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -68,6 +74,11 @@ namespace ConnectIn.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Birthday")]
+        [DataType(DataType.Date)]
+        public DateTime Birthday { get; set; }
     }
 
     public class ResetPasswordViewModel

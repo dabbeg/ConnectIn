@@ -77,7 +77,7 @@ namespace ConnectIn.Tests.Service
             #region Posts
             var p1 = new Post()
             {
-                PostId = "1",
+                PostId = 1,
                 Text = "someText 1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1)
@@ -86,7 +86,7 @@ namespace ConnectIn.Tests.Service
 
             var p2 = new Post()
             {
-                PostId = "2",
+                PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
                 Date = new DateTime(2001, 1, 1)
@@ -95,7 +95,7 @@ namespace ConnectIn.Tests.Service
 
             var p3 = new Post()
             {
-                PostId = "3",
+                PostId = 3,
                 Text = "someText 3",
                 UserId = "4",
                 Date = new DateTime(2002, 1, 1)
@@ -104,7 +104,7 @@ namespace ConnectIn.Tests.Service
 
             var p4 = new Post()
             {
-                PostId = "4",
+                PostId = 4,
                 Text = "someText 4",
                 UserId = "1",
                 Date = new DateTime(2003, 1, 1)
@@ -113,7 +113,7 @@ namespace ConnectIn.Tests.Service
 
             var p5 = new Post()
             {
-                PostId = "5",
+                PostId = 5,
                 Text = "someText 5",
                 UserId = "3",
                 Date = new DateTime(2004, 1, 1)
@@ -122,7 +122,7 @@ namespace ConnectIn.Tests.Service
 
             var p6 = new Post()
             {
-                PostId = "6",
+                PostId = 6,
                 Text = "someText 6",
                 UserId = "2",
                 Date = new DateTime(2005, 1, 1)
@@ -205,49 +205,49 @@ namespace ConnectIn.Tests.Service
             var m1 = new Member()
             {
                 UserId = "1",
-                GroupId = "1"
+                GroupId = 1
             };
             mockDb.Members.Add(m1);
 
             var m2 = new Member()
             {
                 UserId = "1",
-                GroupId = "2"
+                GroupId = 2
             };
             mockDb.Members.Add(m2);
 
             var m3 = new Member()
             {
                 UserId = "1",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m3);
 
             var m4 = new Member()
             {
                 UserId = "2",
-                GroupId = "1"
+                GroupId = 1
             };
             mockDb.Members.Add(m4);
 
             var m5 = new Member()
             {
                 UserId = "2",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m5);
 
             var m6 = new Member()
             {
                 UserId = "3",
-                GroupId = "2"
+                GroupId = 2
             };
             mockDb.Members.Add(m6);
 
             var m7 = new Member()
             {
                 UserId = "4",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m7);
 
@@ -256,7 +256,7 @@ namespace ConnectIn.Tests.Service
             #region LikesDislikes
             var ld1 = new LikeDislike()
             {
-                PostId = "1",
+                PostId = 1,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -265,7 +265,7 @@ namespace ConnectIn.Tests.Service
 
             var ld2 = new LikeDislike()
             {
-                PostId = "1",
+                PostId = 1,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -274,7 +274,7 @@ namespace ConnectIn.Tests.Service
 
             var ld3 = new LikeDislike()
             {
-                PostId = "2",
+                PostId = 2,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -283,7 +283,7 @@ namespace ConnectIn.Tests.Service
 
             var ld4 = new LikeDislike()
             {
-                PostId = "3",
+                PostId = 3,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -292,7 +292,7 @@ namespace ConnectIn.Tests.Service
 
             var ld5 = new LikeDislike()
             {
-                PostId = "3",
+                PostId = 3,
                 UserId = "3",
                 Like = true,
                 Dislike = false
@@ -301,7 +301,7 @@ namespace ConnectIn.Tests.Service
 
             var ld6 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "4",
                 Like = true,
                 Dislike = false
@@ -310,7 +310,7 @@ namespace ConnectIn.Tests.Service
 
             var ld7 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -319,7 +319,7 @@ namespace ConnectIn.Tests.Service
 
             var ld8 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -330,21 +330,21 @@ namespace ConnectIn.Tests.Service
             #region Groups
             var g1 = new Group()
             {
-                Id = "1",
+                GroupId = 1,
                 Name = "Group1"
             };
             mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
-                Id = "2",
+                GroupId = 2,
                 Name = "Group2"
             };
             mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
-                Id = "3",
+                GroupId = 3,
                 Name = "Group3"
             };
             mockDb.Groups.Add(g3);
@@ -402,7 +402,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 1,
                 UserId = "1",
-                PostId = "1",
+                PostId = 1,
                 Text = "bla 1",
                 Date = new DateTime(2000, 11, 11)
             };
@@ -412,7 +412,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 2,
                 UserId = "1",
-                PostId = "1",
+                PostId = 1,
                 Text = "bla 2",
                 Date = new DateTime(2001, 11, 11)
             };
@@ -422,7 +422,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 3,
                 UserId = "2",
-                PostId = "2",
+                PostId = 2,
                 Text = "bla 3",
                 Date = new DateTime(2002, 11, 11)
             };
@@ -432,7 +432,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 4,
                 UserId = "1",
-                PostId = "3",
+                PostId = 3,
                 Text = "bla 4",
                 Date = new DateTime(2003, 11, 11)
             };
@@ -442,7 +442,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 5,
                 UserId = "2",
-                PostId = "4",
+                PostId = 4,
                 Text = "bla 5",
                 Date = new DateTime(2004, 11, 11)
             };
@@ -452,7 +452,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 6,
                 UserId = "3",
-                PostId = "6",
+                PostId = 6,
                 Text = "bla 6",
                 Date = new DateTime(2005, 11, 11)
             };
@@ -462,7 +462,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 7,
                 UserId = "4",
-                PostId = "6",
+                PostId = 6,
                 Text = "bla 7",
                 Date = new DateTime(2006, 11, 11)
             };
@@ -472,7 +472,7 @@ namespace ConnectIn.Tests.Service
             {
                 CommentId = 8,
                 UserId = "4",
-                PostId = "4",
+                PostId = 4,
                 Text = "bla 8",
                 Date = new DateTime(2007, 11, 11)
             };
@@ -485,8 +485,8 @@ namespace ConnectIn.Tests.Service
         public void TestGetPostById()
         {
             // Arrange
-            const string post1 = "1";
-            const string post2 = "2";
+            const int post1 = 1;
+            const int post2 = 2;
 
             // Act
             var result1 = service.GetPostById(post1);
@@ -495,7 +495,7 @@ namespace ConnectIn.Tests.Service
             // Assert
             var p1 = new Post()
             {
-                PostId = "1",
+                PostId = 1,
                 Text = "someText 1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1)
@@ -503,7 +503,7 @@ namespace ConnectIn.Tests.Service
 
             var p2 = new Post()
             {
-                PostId = "2",
+                PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
                 Date = new DateTime(2001, 1, 1)
@@ -522,9 +522,9 @@ namespace ConnectIn.Tests.Service
         public void TestGetPostsComments()
         {
             // Arrange
-            const string post1 = "1";
-            const string post2 = "2";
-            const string post4 = "4";
+            const int post1 = 1;
+            const int post2 = 2;
+            const int post4 = 4;
 
             // Act
             var result1 = service.GetPostsComments(post1);
@@ -547,8 +547,8 @@ namespace ConnectIn.Tests.Service
         public void TestGetPostsLikes()
         {
             // Arrange
-            const string post2 = "2";
-            const string post4 = "4";
+            const int post2 = 2;
+            const int post4 = 4;
 
             // Act
             var result2 = service.GetPostsLikes(post2);
@@ -563,7 +563,7 @@ namespace ConnectIn.Tests.Service
         public void TestGetPostsDislikes()
         {
             // Arrange
-            const string post4 = "4";
+            const int post4 = 4;
 
             // Act
             var result4 = service.GetPostsDislikes(post4);
