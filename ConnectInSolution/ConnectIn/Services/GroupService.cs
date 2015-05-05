@@ -21,14 +21,14 @@ namespace ConnectIn.Services
         }
         #endregion
 
-        public Group GetGroupById(string groupId)
+        public Group GetGroupById(int groupId)
         {
             var gro = (from g in db.Groups
-                       where g.Id == groupId
+                       where g.GroupId == groupId
                        select g).SingleOrDefault();
             return gro;
         }
-        public List<string> GetMembersOfGroup(string groupId)
+        public List<string> GetMembersOfGroup(int groupId)
         {
             // Get the ID of all members in that group
             var list = (from gm in db.Members

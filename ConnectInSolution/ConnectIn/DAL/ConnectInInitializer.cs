@@ -34,25 +34,25 @@ namespace ConnectIn.DAL
             var list = new List<Post>
             {
                 new Post{
-                    PostId = "1",
+                    //PostId = "1",
                     Text = "Davíð er mjög kúl gæji",
                     UserId = "1",
                     Date = DateTime.Now
                 },
                 new Post{
-                    PostId = "2",
+                    //PostId = "2",
                     Text = "Það er skítalykt af Darra!",
                     UserId = "1",
                     Date = DateTime.Now
                 },
                 new Post{
-                    PostId = "3",
+                    //PostId = "3",
                     Text = "Davíð lyktar eins og blóm",
                     UserId = "1",
                     Date = DateTime.Now
                 },
                 new Post{
-                    PostId = "4",
+                    //PostId = "4",
                     Text = "Darri lítur út eins og skítur",
                     UserId = "1",
                     Date = DateTime.Now
