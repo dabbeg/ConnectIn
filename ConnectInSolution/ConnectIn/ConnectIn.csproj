@@ -252,6 +252,7 @@
     <Content Include="Views\Home\Birthdays.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Group\GroupsList.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

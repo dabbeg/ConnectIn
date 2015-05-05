@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
 
 namespace ConnectIn.Controllers
 {
     public class GroupController : Controller
     {
-        public ActionResult Create()
+        public ActionResult Create(FormCollection collection)
         {
-            return View();
+            var group = new Group()
+            {
+                Name = collection["groupName"]
+            };
+
+            var context = new ApplicationDbContext();
+            context.Groups.Add(group);
+            context.SaveChanges();
+
+            return RedirectToAction("GroupsList", "Group");
         }
 
         public ActionResult Delete()
