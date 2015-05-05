@@ -7,7 +7,10 @@
 @if (Request.IsAuthenticated)
 {
     <h2>Birthdays</h2>
-    <h3>Today is @String.Format("{0:dddd, MMMM M yyyy}" ,DateTime.Today)</h3>
+    <h3>Today is @DateTime.Today.ToString("dddd, MMMMM d", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))@string.Format("{1} {0:yyyy}", DateTime.Now, (DateTime.Now.Day % 10 == 1 && DateTime.Now.Day != 11) ? "st"
+: (DateTime.Now.Day % 10 == 2 && DateTime.Now.Day != 12) ? "nd"
+: (DateTime.Now.Day % 10 == 3 && DateTime.Now.Day != 13) ? "rd"
+ : "th") </h3>
     
 
         <div class="well">
