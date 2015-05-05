@@ -12,5 +12,10 @@ namespace ConnectIn.Models.ViewModels
         public string UserName { get; set; }
         public DateTime Birthday { get; set; }
         public string ProfilePicture { get; set; }
+        public string Gender { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Work { get; set; }
+        public string School { get; set; }
+        public string Address { get; set; }
     }
 }

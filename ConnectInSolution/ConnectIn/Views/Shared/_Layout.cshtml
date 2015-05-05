@@ -22,10 +22,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    { 
+                        <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
+                        <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -50,7 +53,7 @@
                     </li>
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-glass sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Groups", "GroupsList", "Home")
+                        @Html.ActionLink("Groups", "GroupsList", "Group")
                     </li>
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-gift sidebarGlyphs"></span></a>
