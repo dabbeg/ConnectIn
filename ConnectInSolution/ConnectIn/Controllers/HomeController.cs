@@ -44,7 +44,13 @@ namespace ConnectIn.Controllers
                     {
                         Body = post.Text,
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>()
+                        Comments = new List<CommentViewModel>(),
+                        User = new UserViewModel()
+                        {
+                            UserId = User.Identity.GetUserId(),
+                            UserName = User.Identity.Name,
+                            ProfilePicture = "~/Content/Images/profilepic.png"
+                        }
                     });
             }
 
@@ -92,7 +98,34 @@ namespace ConnectIn.Controllers
         }
         public ActionResult Birthdays()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var birthdayList = userService.GetAllFriendsBirthdays(userId);
+
+            var context = new ApplicationDbContext();
+
+            var postService = new PostService(context);
+
+            var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
+            var newsFeed = new List<PostsViewModel>();
+
+            foreach (var id in postIdList)
+            {
+                var post = postService.GetPostById(id);
+                newsFeed.Add(
+                    new PostsViewModel()
+                    {
+                        Body = post.Text,
+                        DateInserted = post.Date,
+                        Comments = new List<CommentViewModel>()
+                    });
+            }
+
+            return View(newsFeed);
+            // return View();
         }
         public ActionResult GroupsList()
         {

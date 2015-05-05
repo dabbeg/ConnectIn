@@ -33,10 +33,10 @@
                 <h3>
                     <!--Should display user's profile picture, a cat was used temporarily-->
                     <span class="smileyFace">
-                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                        <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                     </span>
                     <!--Should display username instead of item.userID-->
-                    @*@Html.ActionLink(item.UserId, "Profile", new {id = item.PostId})*@ <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                    @Html.ActionLink(item.User.UserName, "Profile", new {id = item.User.UserId}) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                 </h3>
                 <p>
                     @item.Body
