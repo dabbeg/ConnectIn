@@ -110,7 +110,7 @@ namespace ConnectIn.Services
 
         #region queries regarding posts
         // Get the Id of all the users posts by a given Id of user
-        public List<string> GetAllPostsFromUser(string userId)
+        public List<int> GetAllPostsFromUser(string userId)
         {
             // Create a list of all posts from the user
             var list = (from up in db.Posts
@@ -122,7 +122,7 @@ namespace ConnectIn.Services
         }
 
         // Get the Id of all the users news feeds posts by a given Id of user
-        public List<string> GetEveryNewsFeedPostsForUser(string userId)
+        public List<int> GetEveryNewsFeedPostsForUser(string userId)
         {
             // Get the users friends
             var friends = GetFriendsFromUser(userId);
@@ -137,7 +137,7 @@ namespace ConnectIn.Services
         }
        
         // Get the Id of all the users best friends posts by a given Id of user
-        public List<string> GetBestFriendsPostsForUser(string userId)
+        public List<int> GetBestFriendsPostsForUser(string userId)
         {
             // Get the users bestfriends
             var bestFriends = GetBestFriendsFromUser(userId);
@@ -152,7 +152,7 @@ namespace ConnectIn.Services
         }
 
         // Get the Id of all the users family posts by a given Id of user
-        public List<string> GetFamilyPostsForUser(string userId)
+        public List<int> GetFamilyPostsForUser(string userId)
         {
             // Get the users family
             var family = GetFamilyFromUser(userId);
