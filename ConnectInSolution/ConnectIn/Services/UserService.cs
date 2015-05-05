@@ -102,7 +102,7 @@ namespace ConnectIn.Services
         {
             var friends = GetFriendsFromUser(userId);
             var birthdays = (from b in db.Users
-                             where friends.Contains(b.Id)
+                             where (friends.Contains(b.Id) || b.Id == userId)
                              && b.birthday.Day == DateTime.Today.Day
                              select b.Id).ToList();
             return birthdays;
