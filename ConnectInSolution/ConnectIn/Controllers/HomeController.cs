@@ -48,7 +48,8 @@ namespace ConnectIn.Controllers
                         User = new UserViewModel()
                         {
                             UserId = User.Identity.GetUserId(),
-                            UserName = User.Identity.Name
+                            UserName = User.Identity.Name,
+                            ProfilePicture = "~/Content/Images/profilepic.png"
                         }
                     });
             }
