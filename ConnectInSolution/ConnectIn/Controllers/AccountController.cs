@@ -91,7 +91,7 @@ namespace ConnectIn.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User() { fullName = model.Name, UserName = model.Email, Email = model.Email, birthday = model.Birthday };
+                var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, birthday = model.Birthday };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

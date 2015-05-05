@@ -23,14 +23,13 @@
                             <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                         </span>
                         <!--Should display username instead of item.userID-->
-                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.User.Birthday)</small>
-                        <strong class="pull-right"> @DateTime.Today.Year - item.User.Birthday;</strong>
+                        @Html.ActionLink(item.User.Name ?? item.User.UserName, "Profile", new { id = item.User.UserId })
+                        <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year)</span> <br />
+                        <span>
+                            @item.User.Birthday.Date.ToString("dd/MM/yyyy")
+                        </span>
                     </h3>
-                    <p>
-                        @item.User.Birthday
-                    </p>
                 </div>
-
             </div>
         }
     </div>

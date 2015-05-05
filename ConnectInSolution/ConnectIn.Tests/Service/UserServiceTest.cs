@@ -39,7 +39,7 @@ namespace ConnectIn.Tests.Services
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
-                birthday = new DateTime(2001, 1, 1),
+                birthday = new DateTime(2001, 5, 5),
                 work = "HI",
                 school = "HI",
                 gender = "Male",
@@ -88,6 +88,7 @@ namespace ConnectIn.Tests.Services
                 address = "add5",
                 privacy = true
             };
+
             mockDb.Users.Add(u5);
             #endregion
 
@@ -416,7 +417,7 @@ namespace ConnectIn.Tests.Services
             var f6 = new Friend()
             {
                 UserId = "5",
-                FriendUserId = "1",
+                FriendUserId = "2",
                 BestFriend = false,
                 Family = false
             };
@@ -519,8 +520,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFriendsFromUser(user2);
 
             // Assert
-            string[] list1 = { "2", "3", "4", "5" };
-            string[] list2 = { "1", "3" };
+            string[] list1 = { "2", "3", "4" };
+            string[] list2 = { "1", "3" , "5" };
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
 
@@ -529,8 +530,8 @@ namespace ConnectIn.Tests.Services
                 Assert.AreNotEqual(item, user1);
             }
 
-            Assert.AreEqual(4, result1.Count);
-            Assert.AreEqual(2, result2.Count);
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(3, result2.Count);
         }
 
         [TestMethod]
@@ -715,14 +716,20 @@ namespace ConnectIn.Tests.Services
         {
             // Arrange
             const string user1 = "1";
+            const string user2 = "2";
 
             // Act
             var result1 = service.GetAllFriendsBirthdays(user1);
+            var result2 = service.GetAllFriendsBirthdays(user2);
 
             // Assert
-            string[] list1 = { "5" };
+            string[] list1 = { "2" };
+            string[] list2 = { "5" };
             
             CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(1, result1.Count);
+            Assert.AreEqual(1, result2.Count);
         }
     }
 }
