@@ -23,7 +23,7 @@
                             <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                         </span>
                         <!--Should display username instead of item.userID-->
-                        @Html.ActionLink(item.User.Name ?? item.User.UserName, "Profile", new { id = item.User.UserId })
+                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
                         <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year)</span> <br />
                         <span>
                             @item.User.Birthday.Date.ToString("dd/MM/yyyy")

@@ -29,7 +29,6 @@ namespace ConnectIn.Controllers
                 Name = collection["groupName"],
             };
             newGroup.Members = new List<Member>();
-            //TODO:
             //Make the creator a member of the group
             Member groupMember = new Member();
 

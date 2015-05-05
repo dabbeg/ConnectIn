@@ -35,27 +35,28 @@ namespace ConnectIn.Controllers
             var postService = new PostService(context);
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
-            var newsFeed = new List<PostsViewModel>();
+            var newsFeed = new NewsFeedViewModel();
+            newsFeed.Posts = new List<PostsViewModel>();
 
             foreach (var id in postIdList)
             {
                 var post = postService.GetPostById(id);
-                newsFeed.Add(
+                newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
                         PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
-                        LikesDislikes = new LikeDislikeViewModel()
+                        LikeDislike = new LikeDislikeViewModel()
                         {
                             Likes = postService.GetPostsLikes(id),
                             Dislikes = postService.GetPostsDislikes(id)
                         },
                         User = new UserViewModel()
                         {
-                            UserId = User.Identity.GetUserId(),
-                            UserName = User.Identity.Name,
+                            UserId = post.UserId,
+                            UserName = userService.GetUserById(post.UserId).Name,
                             ProfilePicture = "~/Content/Images/profilepic.png"
                         }
                     });
@@ -93,6 +94,7 @@ namespace ConnectIn.Controllers
             var posts = userService.GetAllPostsFromUser(id);
 
             var postsViewModels = new List<PostsViewModel>();
+
             foreach (var postId in posts)
             {
                 var post = postService.GetPostById(postId);
@@ -103,16 +105,22 @@ namespace ConnectIn.Controllers
                      Body = post.Text,
                      DateInserted = post.Date,
                      Comments = new List<CommentViewModel>(),
-                     LikesDislikes = new LikeDislikeViewModel()
+                     LikeDislike = new LikeDislikeViewModel()
                      {
                          Likes = postService.GetPostsLikes(postId),
                          Dislikes = postService.GetPostsDislikes(postId)
                      },
                      User = new UserViewModel()
                      {
-                         UserId = User.Identity.GetUserId(),
-                         UserName = User.Identity.Name,
-                         ProfilePicture = "~/Content/Images/profilepic.png"
+                         UserId = user.Id,
+                         UserName = user.UserName,
+                         Name = user.Name,
+                         ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                         Gender = user.Gender,
+                         Birthday = user.Birthday,
+                         Work = user.Work,
+                         School = user.School,
+                         Address = user.Address
                      }
                  });
             }
@@ -125,12 +133,13 @@ namespace ConnectIn.Controllers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
+                    Name = user.Name,
                     ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                    Gender = user.gender,
-                    Birthday = user.birthday,
-                    Work = user.work,
-                    School = user.school,
-                    Address = user.address
+                    Gender = user.Gender,
+                    Birthday = user.Birthday,
+                    Work = user.Work,
+                    School = user.School,
+                    Address = user.Address
                 }
             };
 
@@ -143,6 +152,41 @@ namespace ConnectIn.Controllers
         public ActionResult Notifications()
         {
             return View();
+        }
+        public ActionResult Search(FormCollection collection)
+        {
+            var searchWord = collection["status"];
+
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var searchList = userService.GetPossibleUsersByName(searchWord);
+
+            var searchResult = new List<SearchViewModel>();
+
+            foreach (var id in searchList)
+            {
+                var user = userService.GetUserById(id);
+                searchResult.Add(
+                    new SearchViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
+                    });
+            }
+            return View(searchResult);
         }
         public ActionResult Birthdays()
         {
@@ -164,19 +208,19 @@ namespace ConnectIn.Controllers
                         User = new UserViewModel()
                         {
                             UserId = user.Id,
-                            Name = user.Name,
                             UserName = user.UserName,
-                            Birthday = user.birthday,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
-                        },
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
                     });
             }
 
             return View(birthdays);
-        }
-        public ActionResult GroupsList()
-        {
-            return View();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ConnectIn.DAL
 {
-    public class ConnectInInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ConnectInInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         // A trick to disconnect all connections to the database to the database can be dropped.
         // Basically, just switching from multi-user to single-user and back clears the connections.

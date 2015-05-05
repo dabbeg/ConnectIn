@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ConnectIn.Models.ViewModels.SearchViewModel>
+@{
+    ViewBag.Title = "Search";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>Search</h2>
+    <div style="margin-top: 80px;">
+        @foreach (var item in Model)
+        {
+            <div class="well">
+                <div id="postContent">
+                    <h3>
+                        <!--Should display user's profile picture, a cat was used temporarily-->
+                        <span class="containers">
+                            <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                        </span>
+                        <!--Should display username instead of item.userID-->
+                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
+                        <a href="#" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>
+                    </h3>
+                    <div class="glyphicon glyphicon-envelope personalInfoGlyphs"><span>@string.Format("School: {0}", item.User.School)</span></div>
+                    <div class="glyphicon glyphicon-briefcase personalInfoGlyphs"><span>@string.Format("Work: {0}", item.User.Work)</span></div>
+                    
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your News Feed.
+    </h1>
+}
+
+

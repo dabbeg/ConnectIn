@@ -26,12 +26,13 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
-                birthday = new DateTime(2000, 1, 1),
-                work = "HR",
-                school = "HR",
-                gender = "Male",
-                address = "add1",
-                privacy = false
+                Name = "user1",
+                Birthday = new DateTime(2000, 1, 1),
+                Work = "HR",
+                School = "HR",
+                Gender = "Male",
+                Address = "add1",
+                Privacy = false
             };
             mockDb.Users.Add(u1);
 
@@ -40,12 +41,13 @@ namespace ConnectIn.Tests.Services
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
-                birthday = new DateTime(2001, 5, 5),
-                work = "HI",
-                school = "HI",
-                gender = "Male",
-                address = "add2",
-                privacy = false
+                Name = "user2",
+                Birthday = new DateTime(2001, 5, 5),
+                Work = "HI",
+                School = "HI",
+                Gender = "Male",
+                Address = "add2",
+                Privacy = false
             };
             mockDb.Users.Add(u2);
 
@@ -54,12 +56,13 @@ namespace ConnectIn.Tests.Services
                 Id = "3",
                 Email = "user3@m.com",
                 UserName = "user3",
-                birthday = new DateTime(2002, 1, 1),
-                work = "HA",
-                school = "HA",
-                gender = "Female",
-                address = "add3",
-                privacy = false
+                Name = "user3",
+                Birthday = new DateTime(2002, 1, 1),
+                Work = "HA",
+                School = "HA",
+                Gender = "Female",
+                Address = "add3",
+                Privacy = false
             };
             mockDb.Users.Add(u3);
 
@@ -68,12 +71,13 @@ namespace ConnectIn.Tests.Services
                 Id = "4",
                 Email = "user4@m.com",
                 UserName = "user4",
-                birthday = new DateTime(2003, 1, 1),
-                work = "FG",
-                school = "FG",
-                gender = "Female",
-                address = "add4",
-                privacy = true
+                Name = "user4",
+                Birthday = new DateTime(2003, 1, 1),
+                Work = "FG",
+                School = "FG",
+                Gender = "Female",
+                Address = "add4",
+                Privacy = true
             };
             mockDb.Users.Add(u4);
 
@@ -82,12 +86,13 @@ namespace ConnectIn.Tests.Services
                 Id = "5",
                 Email = "user5@m.com",
                 UserName = "user5",
-                birthday = DateTime.Today,
-                work = "FG",
-                school = "FG",
-                gender = "Female",
-                address = "add5",
-                privacy = true
+                Name = "user5",
+                Birthday = DateTime.Today,
+                Work = "FG",
+                School = "FG",
+                Gender = "Female",
+                Address = "add5",
+                Privacy = true
             };
 
             mockDb.Users.Add(u5);
@@ -551,31 +556,31 @@ namespace ConnectIn.Tests.Services
             u1.Id = "1";
             u1.Email = "user1@m.com";
             u1.UserName = "user1";
-            u1.birthday = new DateTime(2000,1,1);
-            u1.work = "HR";
-            u1.school = "HR";
-            u1.gender = "Male";
-            u1.address = "add1";
-            u1.privacy = false;
+            u1.Birthday = new DateTime(2000,1,1);
+            u1.Work = "HR";
+            u1.School = "HR";
+            u1.Gender = "Male";
+            u1.Address = "add1";
+            u1.Privacy = false;
 
             Assert.AreEqual(u1.Email, result1.Email);
             Assert.AreEqual(u1.UserName, result1.UserName);
-            Assert.AreEqual(u1.address, result1.address);
+            Assert.AreEqual(u1.Address, result1.Address);
 
             User u2 = new User();
             u2.Id = "2";
             u2.Email = "user2@m.com";
             u2.UserName = "user2";
-            u2.birthday = new DateTime(2001, 1, 1);
-            u2.work = "HI";
-            u2.school = "HI";
-            u2.gender = "Male";
-            u2.address = "add2";
-            u2.privacy = false;
+            u2.Birthday = new DateTime(2001, 1, 1);
+            u2.Work = "HI";
+            u2.School = "HI";
+            u2.Gender = "Male";
+            u2.Address = "add2";
+            u2.Privacy = false;
 
             Assert.AreEqual(u2.Email, result2.Email);
             Assert.AreEqual(u2.UserName, result2.UserName);
-            Assert.AreEqual(u2.address, result2.address);
+            Assert.AreEqual(u2.Address, result2.Address);
         }
 
         [TestMethod]
@@ -743,6 +748,26 @@ namespace ConnectIn.Tests.Services
             int[] list = {1, 2, 3};
 
             CollectionAssert.AreEqual(list, result);
+        }
+
+        public void TestGetPossibleUsersByName()
+        {
+            // Arrange
+            const string user1 = "user";
+            const string user2 = "r2";
+
+            // Act
+            var result1 = service.GetPossibleUsersByName(user1);
+            var result2 = service.GetPossibleUsersByName(user2);
+
+            // Assert
+            string[] list1 = { "1", "2", "3", "4", "5" };
+            string[] list2 = { "2" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(5, result1.Count);
+            Assert.AreEqual(1, result2.Count);
         }
     }
 }

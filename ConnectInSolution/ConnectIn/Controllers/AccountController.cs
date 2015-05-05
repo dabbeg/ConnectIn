@@ -12,6 +12,7 @@ using Microsoft.Owin.Security;
 using Owin;
 using ConnectIn.Models;
 using ConnectIn.Models.Entity;
+using ConnectIn.Models.ViewModels;
 
 namespace ConnectIn.Controllers
 {
@@ -91,7 +92,7 @@ namespace ConnectIn.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, birthday = model.Birthday };
+                var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
