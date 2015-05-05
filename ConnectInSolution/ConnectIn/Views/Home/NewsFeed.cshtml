@@ -24,38 +24,9 @@
         @Html.ValidationSummary(false)
     }
     </div>
-
-    <div style="margin-top: 80px;">
-    @foreach (var item in Model)
     {
-        <div class="well">
-            <div id="postContent">
-                <h3>
-                    <!--Should display user's profile picture, a cat was used temporarily-->
-                    <span class="smileyFace">
-                        <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
-                    </span>
-                    <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.User.UserName, "Profile", new {id = item.User.UserId}) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
-                </h3>
-                <p>
-                    @item.Body
-                </p>
-            </div>
-
-            <div id="commentsLikesDeleteDiv">
-                <div id="commentsAndLikes">
-                    <div id="reactionButtons">
-                        <a href="#" class="btn btn-default-like">2 Smiles</a>
-                        <a href="#" class="btn btn-default-dislike">2 Sadfaces</a>
-                        <a href="#" class="btn btn-default-comment">Comments</a>
-                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        Html.RenderPartial("PostsPartial", Model);
     }
-    </div>
 }
 else
 {
