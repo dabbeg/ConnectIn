@@ -28,37 +28,105 @@ namespace ConnectIn.Controllers
             return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult RemovePost()
+        public ActionResult RemovePost(int? postId)
+        {
+            if (!postId.HasValue)
+            {
+                return View("Error");
+            }
+            int id = postId.Value;
+
+            var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            context.Posts.Remove(postService.GetPostById(id));
+            context.SaveChanges();
+
+            return RedirectToAction("NewsFeed", "Home");
+        }
+
+        public ActionResult Comment()
         {
             return View();
         }
 
         public ActionResult AddComment()
         {
-            return View();
+            return RedirectToAction("NewsFeed", "Home");
         }
 
         public ActionResult RemoveComment()
         {
-            return View();
+            return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult Like()
+        public ActionResult Like(int? postId)
+        {
+            if (!postId.HasValue)
+            {
+                return View("Error");
+            }
+
+            var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            var id = postId.Value;
+
+            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), id);
+            if (ld != null)
+            {
+                context.LikesDislikes.Remove(ld);
+            }
+            
+            var model = new LikeDislike()
+            {
+                PostId = id,
+                UserId = User.Identity.GetUserId(),
+                Like = true,
+                Dislike = false
+            };
+            
+            context.LikesDislikes.Add(model);
+            context.SaveChanges();
+
+            return RedirectToAction("NewsFeed", "Home");
+        }
+
+        public ActionResult UnLike(int? postId)
         {
             return View();
         }
 
-        public ActionResult UnLike()
+        public ActionResult Dislike(int? postId)
         {
-            return View();
+            if (!postId.HasValue)
+            {
+                return View("Error");
+            }
+
+            var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            var id = postId.Value;
+
+            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), id);
+            if (ld != null)
+            {
+                context.LikesDislikes.Remove(ld);
+            }
+
+            var model = new LikeDislike()
+            {
+                PostId = id,
+                UserId = User.Identity.GetUserId(),
+                Like = false,
+                Dislike = true
+            };
+
+            context.LikesDislikes.Add(model);
+            context.SaveChanges();
+
+            return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult Dislike()
-        {
-            return View();
-        }
-
-        public ActionResult UnDislike()
+        public ActionResult UnDislike(int? postId)
         {
             return View();
         }
