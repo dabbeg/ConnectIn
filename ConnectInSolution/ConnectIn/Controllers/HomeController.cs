@@ -55,8 +55,8 @@ namespace ConnectIn.Controllers
                         },
                         User = new UserViewModel()
                         {
-                            UserId = User.Identity.GetUserId(),
-                            UserName = User.Identity.Name,
+                            UserId = post.UserId,
+                            UserName = userService.GetUserById(post.UserId).Name,
                             ProfilePicture = "~/Content/Images/profilepic.png"
                         }
                     });
