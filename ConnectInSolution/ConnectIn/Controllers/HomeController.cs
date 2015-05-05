@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
@@ -71,22 +72,57 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult Profile()
+        public ActionResult Profile(string id)
         {
-            List<Post> Profile = new List<Post>();
-            Post post1 = new Post();
-            post1.Text = "Er jarðskjálft­inn varð í Nepal fyr­ir viku var níu ára göm­ul stúlka, sem dýrkuð er sem gyðja, að und­ir­búa sig fyr­ir að taka á móti til­biðjend­um á heim­ili sínu sem stend­ur við Dur­bar-torgið í Kat­mandú.";
-            post1.PostId = 1;
-            post1.UserId = "1";
-            Profile.Add(post1);
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
 
-            Post post2 = new Post();
-            post2.Text = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.";
-            post2.PostId = 2;
-            post2.UserId = "2";
-            Profile.Add(post2);
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var postService = new PostService(context);
 
-            return View(Profile);
+            var user = userService.GetUserById(id);
+            var posts = userService.GetAllPostsFromUser(id);
+
+            var postsViewModels = new List<PostsViewModel>();
+            foreach (var postId in posts)
+            {
+                var post = postService.GetPostById(postId);
+                postsViewModels.Add(
+                 new PostsViewModel()
+                 {
+                     Body = post.Text,
+                     DateInserted = post.Date,
+                     Comments = new List<CommentViewModel>(),
+                     User = new UserViewModel()
+                     {
+                         UserId = User.Identity.GetUserId(),
+                         UserName = User.Identity.Name,
+                         ProfilePicture = "~/Content/Images/profilepic.png"
+                     }
+                 });
+            }
+
+            var model = new ProfileViewModel()
+            {
+                
+                Posts = postsViewModels,
+                User = new UserViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                    Gender = user.gender,
+                    Birthday = user.birthday,
+                    Work = user.work,
+                    School = user.school,
+                    Address = user.address
+                }
+            };
+
+            return View(model);
         }
         public ActionResult FriendsList()
         {
