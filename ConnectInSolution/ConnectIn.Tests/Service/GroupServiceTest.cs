@@ -22,12 +22,12 @@ namespace ConnectIn.Tests.Service
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
-                birthday = new DateTime(2000, 1, 1),
-                work = "HR",
-                school = "HR",
-                gender = "Male",
-                address = "add1",
-                privacy = false
+                Birthday = new DateTime(2000, 1, 1),
+                Work = "HR",
+                School = "HR",
+                Gender = "Male",
+                Address = "add1",
+                Privacy = false
             };
             mockDb.Users.Add(u1);
 
@@ -36,12 +36,12 @@ namespace ConnectIn.Tests.Service
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
-                birthday = new DateTime(2001, 1, 1),
-                work = "HI",
-                school = "HI",
-                gender = "Male",
-                address = "add2",
-                privacy = false
+                Birthday = new DateTime(2001, 1, 1),
+                Work = "HI",
+                School = "HI",
+                Gender = "Male",
+                Address = "add2",
+                Privacy = false
             };
             mockDb.Users.Add(u2);
 
@@ -50,12 +50,12 @@ namespace ConnectIn.Tests.Service
                 Id = "3",
                 Email = "user3@m.com",
                 UserName = "user3",
-                birthday = new DateTime(2002, 1, 1),
-                work = "HA",
-                school = "HA",
-                gender = "Female",
-                address = "add3",
-                privacy = false
+                Birthday = new DateTime(2002, 1, 1),
+                Work = "HA",
+                School = "HA",
+                Gender = "Female",
+                Address = "add3",
+                Privacy = false
             };
             mockDb.Users.Add(u3);
 
@@ -64,12 +64,12 @@ namespace ConnectIn.Tests.Service
                 Id = "4",
                 Email = "user4@m.com",
                 UserName = "user4",
-                birthday = new DateTime(2003, 1, 1),
-                work = "FG",
-                school = "FG",
-                gender = "Female",
-                address = "add4",
-                privacy = true
+                Birthday = new DateTime(2003, 1, 1),
+                Work = "FG",
+                School = "FG",
+                Gender = "Female",
+                Address = "add4",
+                Privacy = true
             };
             mockDb.Users.Add(u4);
             #endregion

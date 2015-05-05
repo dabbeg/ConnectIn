@@ -35,19 +35,20 @@ namespace ConnectIn.Controllers
             var postService = new PostService(context);
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
-            var newsFeed = new List<PostsViewModel>();
+            var newsFeed = new NewsFeedViewModel();
+            newsFeed.Posts = new List<PostsViewModel>();
 
             foreach (var id in postIdList)
             {
                 var post = postService.GetPostById(id);
-                newsFeed.Add(
+                newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
                         PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
-                        LikesDislikes = new LikeDislikeViewModel()
+                        LikeDislike = new LikeDislikeViewModel()
                         {
                             Likes = postService.GetPostsLikes(id),
                             Dislikes = postService.GetPostsDislikes(id)
@@ -93,6 +94,7 @@ namespace ConnectIn.Controllers
             var posts = userService.GetAllPostsFromUser(id);
 
             var postsViewModels = new List<PostsViewModel>();
+
             foreach (var postId in posts)
             {
                 var post = postService.GetPostById(postId);
@@ -103,7 +105,7 @@ namespace ConnectIn.Controllers
                      Body = post.Text,
                      DateInserted = post.Date,
                      Comments = new List<CommentViewModel>(),
-                     LikesDislikes = new LikeDislikeViewModel()
+                     LikeDislike = new LikeDislikeViewModel()
                      {
                          Likes = postService.GetPostsLikes(postId),
                          Dislikes = postService.GetPostsDislikes(postId)
@@ -126,11 +128,11 @@ namespace ConnectIn.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                    Gender = user.gender,
-                    Birthday = user.birthday,
-                    Work = user.work,
-                    School = user.school,
-                    Address = user.address
+                    Gender = user.Gender,
+                    Birthday = user.Birthday,
+                    Work = user.Work,
+                    School = user.School,
+                    Address = user.Address
                 }
             };
 
@@ -166,7 +168,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             Name = user.Name,
                             UserName = user.UserName,
-                            Birthday = user.birthday,
+                            Birthday = user.Birthday,
                             ProfilePicture = "~/Content/Images/profilepic.png"
                         },
                     });
