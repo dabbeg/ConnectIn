@@ -22,8 +22,8 @@ namespace ConnectIn.Models.Entity
         public User User { get; set; }
         #endregion
 
-        #region Constructors
 
+        #region Contructors
         public Photo()
         {
             Date = DateTime.Now;

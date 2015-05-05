@@ -12,7 +12,7 @@ namespace ConnectIn.Models.Entity
     public class User : IdentityUser
     {
         #region Columns
-        public string fullName { get; set; }
+        public string Name { get; set; }
         public DateTime birthday { get; set; }
         public string work { get; set; }
         public string school { get; set; }

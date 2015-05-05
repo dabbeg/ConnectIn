@@ -43,9 +43,15 @@ namespace ConnectIn.Controllers
                 newsFeed.Add(
                     new PostsViewModel()
                     {
+                        PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
+                        LikesDislikes = new LikeDislikeViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(id),
+                            Dislikes = postService.GetPostsDislikes(id)
+                        },
                         User = new UserViewModel()
                         {
                             UserId = User.Identity.GetUserId(),
@@ -93,9 +99,15 @@ namespace ConnectIn.Controllers
                 postsViewModels.Add(
                  new PostsViewModel()
                  {
+                     PostId = postId,
                      Body = post.Text,
                      DateInserted = post.Date,
                      Comments = new List<CommentViewModel>(),
+                     LikesDislikes = new LikeDislikeViewModel()
+                     {
+                         Likes = postService.GetPostsLikes(postId),
+                         Dislikes = postService.GetPostsDislikes(postId)
+                     },
                      User = new UserViewModel()
                      {
                          UserId = User.Identity.GetUserId(),
@@ -152,7 +164,7 @@ namespace ConnectIn.Controllers
                         User = new UserViewModel()
                         {
                             UserId = user.Id,
-                            Name = user.fullName,
+                            Name = user.Name,
                             UserName = user.UserName,
                             Birthday = user.birthday,
                             ProfilePicture = "~/Content/Images/profilepic.png"

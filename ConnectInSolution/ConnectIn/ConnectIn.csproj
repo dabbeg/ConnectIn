@@ -183,6 +183,7 @@
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FrontPageViewModel.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
+    <Compile Include="Models\ViewModels\LikeDislikeViewModel.cs" />
     <Compile Include="Models\ViewModels\PostsViewModel.cs" />
     <Compile Include="Models\ViewModels\ProfileViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
@@ -253,12 +254,15 @@
     <Content Include="Views\Home\Birthdays.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Group\GroupsList.cshtml" />
+
     <Content Include="Views\Group\CreateGroup.cshtml" />
+
+    <Content Include="Views\Home\PostsPartial.cshtml" />
+    <Content Include="Views\Status\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Friend\" />
-    <Folder Include="Views\Status\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
