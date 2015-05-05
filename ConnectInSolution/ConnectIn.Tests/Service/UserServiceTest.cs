@@ -25,6 +25,7 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
+                Name = "user1",
                 birthday = new DateTime(2000, 1, 1),
                 work = "HR",
                 school = "HR",
@@ -39,6 +40,7 @@ namespace ConnectIn.Tests.Services
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
+                Name = "user2",
                 birthday = new DateTime(2001, 5, 5),
                 work = "HI",
                 school = "HI",
@@ -53,6 +55,7 @@ namespace ConnectIn.Tests.Services
                 Id = "3",
                 Email = "user3@m.com",
                 UserName = "user3",
+                Name = "user3",
                 birthday = new DateTime(2002, 1, 1),
                 work = "HA",
                 school = "HA",
@@ -67,6 +70,7 @@ namespace ConnectIn.Tests.Services
                 Id = "4",
                 Email = "user4@m.com",
                 UserName = "user4",
+                Name = "user4",
                 birthday = new DateTime(2003, 1, 1),
                 work = "FG",
                 school = "FG",
@@ -81,6 +85,7 @@ namespace ConnectIn.Tests.Services
                 Id = "5",
                 Email = "user5@m.com",
                 UserName = "user5",
+                Name = "user5",
                 birthday = DateTime.Today,
                 work = "FG",
                 school = "FG",
@@ -730,6 +735,27 @@ namespace ConnectIn.Tests.Services
             CollectionAssert.AreEqual(list2, result2);
             Assert.AreEqual(1, result1.Count);
             Assert.AreEqual(2, result2.Count);
+        }
+
+        [TestMethod]
+        public void TestGetPossibleUsersByName()
+        {
+            // Arrange
+            const string user1 = "user";
+            const string user2 = "r2";
+
+            // Act
+            var result1 = service.GetPossibleUsersByName(user1);
+            var result2 = service.GetPossibleUsersByName(user2);
+
+            // Assert
+            string[] list1 = { "1", "2", "3", "4", "5" };
+            string[] list2 = { "2" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(5, result1.Count);
+            Assert.AreEqual(1, result2.Count);
         }
     }
 }

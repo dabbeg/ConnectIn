@@ -21,13 +21,22 @@ namespace ConnectIn.Services
         }
         #endregion
 
-        #region get the user by id
+        #region get the user by id and name
         // Get all information about the user with a given Id
         public User GetUserById(string userId)
         {
             var theUser = (from u in db.Users
                            where userId == u.Id
                            select u).SingleOrDefault();
+            return theUser;
+        }
+
+        // Get all users that contain that name
+        public List<string> GetPossibleUsersByName(string userName)
+        {
+            var theUser = (from u in db.Users
+                           where u.Name.ToLower().Contains(userName)
+                           select u.Id).ToList();
             return theUser;
         }
         #endregion

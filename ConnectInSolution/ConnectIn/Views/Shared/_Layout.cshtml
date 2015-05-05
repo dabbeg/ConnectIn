@@ -63,6 +63,16 @@
                         <a href="#"><span class="glyphicon glyphicon-bell sidebarGlyphs"></span></a>
                         @Html.ActionLink("Notifications", "Notifications", "Home")
                     </li>
+                    <li>
+
+                        @using (Html.BeginForm("Search", "Home"))
+                        {
+                            <div class="form-horizontal">
+                                <input type="text" placeholder="Search..." class="form-control" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline" />
+                                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px; display: none;"></button>
+                            </div>
+                        }
+                    </li>
                 </ul>
             </div>
             <!-- /#sidebar-wrapper -->

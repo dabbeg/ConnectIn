@@ -110,9 +110,15 @@ namespace ConnectIn.Controllers
                      },
                      User = new UserViewModel()
                      {
-                         UserId = User.Identity.GetUserId(),
-                         UserName = User.Identity.Name,
-                         ProfilePicture = "~/Content/Images/profilepic.png"
+                         UserId = user.Id,
+                         UserName = user.UserName,
+                         Name = user.Name,
+                         ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                         Gender = user.gender,
+                         Birthday = user.birthday,
+                         Work = user.work,
+                         School = user.school,
+                         Address = user.address
                      }
                  });
             }
@@ -125,6 +131,7 @@ namespace ConnectIn.Controllers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
+                    Name = user.Name,
                     ProfilePicture = "~/Content/images/largeProfilePic.jpg",
                     Gender = user.gender,
                     Birthday = user.birthday,
@@ -143,6 +150,41 @@ namespace ConnectIn.Controllers
         public ActionResult Notifications()
         {
             return View();
+        }
+        public ActionResult Search(FormCollection collection)
+        {
+            var searchWord = collection["status"];
+
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var searchList = userService.GetPossibleUsersByName(searchWord);
+
+            var searchResult = new List<SearchViewModel>();
+
+            foreach (var id in searchList)
+            {
+                var user = userService.GetUserById(id);
+                searchResult.Add(
+                    new SearchViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.gender,
+                            Birthday = user.birthday,
+                            Work = user.work,
+                            School = user.school,
+                            Address = user.address
+                        }
+                    });
+            }
+            return View(searchResult);
         }
         public ActionResult Birthdays()
         {
@@ -164,11 +206,15 @@ namespace ConnectIn.Controllers
                         User = new UserViewModel()
                         {
                             UserId = user.Id,
-                            Name = user.Name,
                             UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.gender,
                             Birthday = user.birthday,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
-                        },
+                            Work = user.work,
+                            School = user.school,
+                            Address = user.address
+                        }
                     });
             }
 

@@ -17,6 +17,17 @@
   margin-right: -41px;
 }
 
+.containers {
+    width: 200px;
+    height: 120px;
+}
+
+/* resize images */
+.containers img {
+    width: 100%;
+    height: auto;
+}
+
 #huge {
   float: right!important;
   font-size: 52px;
