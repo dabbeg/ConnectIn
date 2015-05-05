@@ -164,7 +164,7 @@ namespace ConnectIn.Controllers
                         User = new UserViewModel()
                         {
                             UserId = user.Id,
-                            Name = user.fullName,
+                            Name = user.Name,
                             UserName = user.UserName,
                             Birthday = user.birthday,
                             ProfilePicture = "~/Content/Images/profilepic.png"

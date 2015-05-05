@@ -10,7 +10,18 @@
     padding-right: 15px;
 }
 
+#agesmall {
+  float: right!important;
+  font-size: 15px;
+  margin-top: 16px;
+  margin-right: -41px;
+}
 
+#huge {
+  float: right!important;
+  font-size: 52px;
+  margin-right: 25px;
+}
 
 .container .carouselphotos
 {
