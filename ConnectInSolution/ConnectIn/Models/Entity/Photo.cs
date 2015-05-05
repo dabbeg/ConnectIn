@@ -21,5 +21,12 @@ namespace ConnectIn.Models.Entity
         #region ForeignKeys
         public User User { get; set; }
         #endregion
+
+        #region Contructors
+        public Photo()
+        {
+            Date = DateTime.Now;
+        }
+        #endregion
     }
 }
