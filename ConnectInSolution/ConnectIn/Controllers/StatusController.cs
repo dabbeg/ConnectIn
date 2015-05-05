@@ -3,14 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ConnectIn.DAL;
+using ConnectIn.Models.Entity;
+using ConnectIn.Services;
+using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
 {
     public class StatusController : Controller
     {
-        public ActionResult AddPost()
+        public ActionResult AddPost(FormCollection collection)
         {
-            return View();
+            var post = new Post
+            {
+                UserId = User.Identity.GetUserId(),
+                Date = DateTime.Now,
+                Text = collection["status"]
+            };
+
+            var context = new ApplicationDbContext();
+            context.Posts.Add(post);
+            context.SaveChanges();
+
+            return RedirectToAction("NewsFeed", "Home");
         }
 
         public ActionResult RemovePost()

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ConnectIn.Models.Entity.Post>
+﻿@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
 
 @{
     ViewBag.Title = "NewsFeed";
@@ -13,14 +13,20 @@
         <li><a href="#">Best friends</a></li>
         <li><a href="#">Family</a></li>
     </ul>
+
     <div>
-      <textarea placeholder="Share your thoughts" id="newsfeedstatus" > </textarea> 
-       <br/>
-        <input id="submitstatus" type="button" value="Submit" />
-        <!--Jquery $('textarea').autoResize();-->
+    @using (Html.BeginForm("AddPost", "Status"))
+    {
+        <div class="form-horizontal">
+            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+            <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+        </div>
+        @Html.ValidationSummary(false)
+    }
     </div>
-    <br/>
-    foreach (var item in Model)
+
+    <div style="margin-top: 80px;">
+    @foreach (var item in Model)
     {
         <div class="well">
             <div id="postContent">
@@ -30,10 +36,10 @@
                         <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
                     </span>
                     <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.UserId, "Profile", new {id = item.PostId}) <small class="pull-right">@Html.DisplayFor(modelItem => item.Date)</small>
+                    @*@Html.ActionLink(item.UserId, "Profile", new {id = item.PostId})*@ <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                 </h3>
                 <p>
-                    @item.Text
+                    @item.Body
                 </p>
             </div>
 
@@ -49,6 +55,7 @@
             </div>
         </div>
     }
+    </div>
 }
 else
 {

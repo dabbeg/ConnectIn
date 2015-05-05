@@ -23,7 +23,7 @@ namespace ConnectIn.Services
 
         #region get post by id
         // Get post by a given user Id
-        public Post GetPostById(string postId)
+        public Post GetPostById(int postId)
         {
             var post = (from p in db.Posts
                         where postId == p.PostId
@@ -34,7 +34,7 @@ namespace ConnectIn.Services
 
         #region comments, likes and dislikes
         // Get the Id of all comments of the given Id of a post
-        public List<int> GetPostsComments(string postId)
+        public List<int> GetPostsComments(int postId)
         {
             var pc = (from n in db.Comments
                       where n.PostId == postId
@@ -44,7 +44,7 @@ namespace ConnectIn.Services
         }
 
         // Get count of all likes of the given Id of a post
-        public int GetPostsLikes(string postId)
+        public int GetPostsLikes(int postId)
         {
             var pl = (from n in db.LikesDislikes
                       where n.PostId == postId
@@ -61,7 +61,7 @@ namespace ConnectIn.Services
         }
 
         // Get count of all dislikes of the given Id of a post
-        public int GetPostsDislikes(string postId)
+        public int GetPostsDislikes(int postId)
         {
             var pl = (from n in db.LikesDislikes
                       where n.PostId == postId
@@ -77,6 +77,5 @@ namespace ConnectIn.Services
             return (int) count;
         }
         #endregion
-        // group service
     }
 }

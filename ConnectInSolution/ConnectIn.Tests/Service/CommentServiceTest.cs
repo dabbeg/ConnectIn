@@ -333,18 +333,21 @@ namespace ConnectIn.Tests.Service
                 Id = "1",
                 Name = "Group1"
             };
+            mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
                 Id = "2",
                 Name = "Group2"
             };
+            mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
                 Id = "3",
                 Name = "Group3"
             };
+            mockDb.Groups.Add(g3);
             #endregion
 
             #region Friends
@@ -479,8 +482,40 @@ namespace ConnectIn.Tests.Service
             service = new CommentService(mockDb);
         }
         [TestMethod]
-        public void TestMethod1()
+        public void TestGetCommentById()
         {
+            // Arrange
+            const int comment1 = 1;
+            const int comment2 = 2;
+
+            // Act
+            var result1 = service.GetCommentById(comment1);
+            var result2 = service.GetCommentById(comment2);
+
+            // Assert
+            var c1 = new Comment()
+            {
+                CommentId = 1,
+                UserId = "1",
+                PostId = "1",
+                Text = "bla 1",
+                Date = new DateTime(2000, 11, 11)
+            };
+
+            var c2 = new Comment()
+            {
+                CommentId = 2,
+                UserId = "1",
+                PostId = "1",
+                Text = "bla 2",
+                Date = new DateTime(2001, 11, 11)
+            };
+
+            Assert.AreEqual(c1.Text, result1.Text);
+            Assert.AreEqual(c1.UserId, result1.UserId);
+
+            Assert.AreEqual(c2.Text, result2.Text);
+            Assert.AreEqual(c2.PostId, result2.PostId);
         }
     }
 }
