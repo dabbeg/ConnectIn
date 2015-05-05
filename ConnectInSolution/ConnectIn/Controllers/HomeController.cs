@@ -47,6 +47,11 @@ namespace ConnectIn.Controllers
                         Body = post.Text,
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
+                        LikesDislikes = new LikeDislikeViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(id),
+                            Dislikes = postService.GetPostsDislikes(id)
+                        },
                         User = new UserViewModel()
                         {
                             UserId = User.Identity.GetUserId(),
@@ -98,6 +103,11 @@ namespace ConnectIn.Controllers
                      Body = post.Text,
                      DateInserted = post.Date,
                      Comments = new List<CommentViewModel>(),
+                     LikesDislikes = new LikeDislikeViewModel()
+                     {
+                         Likes = postService.GetPostsLikes(postId),
+                         Dislikes = postService.GetPostsDislikes(postId)
+                     },
                      User = new UserViewModel()
                      {
                          UserId = User.Identity.GetUserId(),

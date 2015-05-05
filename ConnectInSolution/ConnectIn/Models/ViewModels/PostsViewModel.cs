@@ -12,5 +12,6 @@ namespace ConnectIn.Models.ViewModels
         public UserViewModel User { get; set; }
         public DateTime DateInserted { get; set; }
         public List<CommentViewModel> Comments { get; set; }
+        public LikeDislikeViewModel LikesDislikes { get; set; }
     }
 }
