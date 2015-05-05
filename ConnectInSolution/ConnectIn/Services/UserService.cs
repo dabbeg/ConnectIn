@@ -116,6 +116,17 @@ namespace ConnectIn.Services
                              select b.Id).ToList();
             return birthdays;
         }
+
+        // Get one row from the Friends table where userId and friendId are in the row
+        public Friend GetFriendShip(string userId, string friendId)
+        {
+            var fs = (from f in db.Friends
+                where f.UserId == userId
+                      && f.FriendUserId == friendId
+                select f).SingleOrDefault();
+
+            return fs;
+        }
         #endregion
 
         #region queries regarding posts
