@@ -209,27 +209,41 @@ a.navbar-brand
 
 .btn-default-like {
     background-image: url("/Content/Images/smileySMALL.png");
-	background-repeat: no-repeat;
-	padding-left: 25px;
+    background-repeat: no-repeat;
     background-size: contain;
-  display: block;
-  float:left;
-  outline: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-indent: -9999px;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
 }
 .btn-default-dislike {
     background-image: url("/Content/Images/sadfaceSMALL.png");
-	background-repeat: no-repeat;
-	padding-left: 25px;
+    background-repeat: no-repeat;
     background-size: contain;
-  display: block;
-  float:left;
-  outline: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-indent: -9999px;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
+.btn-default-comment {
+    background-image: url("/Content/Images/commentSMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 35px;
+}
+#reactionButtons {
+    padding-bottom: 40px;
+    font-size: 100%;
+    
 }
 #profileHeader {
     
