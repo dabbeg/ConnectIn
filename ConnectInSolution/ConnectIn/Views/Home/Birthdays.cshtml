@@ -1,7 +1,35 @@
-﻿
+﻿@model IEnumerable<ConnectIn.Models.Entity.User>
+
 @{
     ViewBag.Title = "Birthdays";
 }
 
-<h2>Birthdays</h2>
+@if (Request.IsAuthenticated)
+{
+    <h2>Birthdays</h2>
+    <h3>Today is @DateTime.Today.ToString("dddd, MMMMM d", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))@string.Format("{1} {0:yyyy}", DateTime.Now, (DateTime.Now.Day % 10 == 1 && DateTime.Now.Day != 11) ? "st"
+: (DateTime.Now.Day % 10 == 2 && DateTime.Now.Day != 12) ? "nd"
+: (DateTime.Now.Day % 10 == 3 && DateTime.Now.Day != 13) ? "rd"
+ : "th") </h3>
+    
 
+        <div class="well">
+            <div id="postContent">
+                <h3>
+                    <span class="smileyFace">
+                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
+                    </span>
+                    Darri Steinn Konráðsson
+                </h3>
+                <p>
+                    blabla
+                </p>
+            </div>
+        </div>
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your News Feed.
+    </h1>
+} 
