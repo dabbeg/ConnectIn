@@ -20,7 +20,8 @@ namespace ConnectIn.Services
         }
         #endregion
 
-        // Get post by a given user Id
+        #region comments of a given post id
+        // Get comments by a given user Id
         public Comment GetCommentById(int commentId)
         {
             var comment = (from c in db.Comments
@@ -28,5 +29,6 @@ namespace ConnectIn.Services
                         select c).SingleOrDefault();
             return comment;
         }
+        #endregion
     }
 }

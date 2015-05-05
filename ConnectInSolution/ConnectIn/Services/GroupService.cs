@@ -21,6 +21,8 @@ namespace ConnectIn.Services
         }
         #endregion
 
+        #region Get group by Id
+        // Get a group by a Id
         public Group GetGroupById(string groupId)
         {
             var gro = (from g in db.Groups
@@ -28,6 +30,10 @@ namespace ConnectIn.Services
                        select g).SingleOrDefault();
             return gro;
         }
+        #endregion
+
+        #region Members and posts of groups
+        // Get the Id of all memebers in a group, given its Id
         public List<string> GetMembersOfGroup(string groupId)
         {
             // Get the ID of all members in that group
@@ -40,19 +46,18 @@ namespace ConnectIn.Services
         }
 
         // Get the Id of all the users news feeds posts by a given Id of user
-        /* public List<string> GetEveryPostsOfGroup(string groupId)
+        public List<string> GetAllPostsOfGroup(string groupId)
         {
             // Get the Id of all members in that group
             var members = GetMembersOfGroup(groupId);
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where friends.Contains(s.UserId)
-                            || s.UserId == userId
+                            where members.Contains(s.UserId)
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
-        }*/
-        // get all posts of group
+        }
+        #endregion
     }
 }
