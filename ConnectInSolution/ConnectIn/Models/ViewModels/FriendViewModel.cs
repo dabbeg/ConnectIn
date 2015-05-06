@@ -7,6 +7,6 @@ namespace ConnectIn.Models.ViewModels
 {
     public class FriendViewModel
     {
-        public List<UserViewModel> Users { get; set; }
+        public UserViewModel User { get; set; }
     }
 }

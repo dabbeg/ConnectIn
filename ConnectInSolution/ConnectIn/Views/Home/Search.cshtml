@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<ConnectIn.Models.ViewModels.SearchViewModel>
+@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Search";
 }
@@ -17,7 +20,34 @@
                         </span>
                         <!--Should display username instead of item.userID-->
                         @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
-                        <a href="#" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>
+                        <div id="addFriendButton">
+                            @{
+                                if (item.User.UserId != User.Identity.GetUserId())
+                                {
+                                    var context = new ApplicationDbContext();
+                                    var userService = new UserService(context);
+                                    var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                                    if (listOfFriends.Contains(@item.User.UserId))
+                                    {
+                                        using (Html.BeginForm("Remove", "Friend"))
+                                        {
+                                            <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                            <input type="hidden" name="friendId" value="@item.User.UserId"/>
+                                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginForm("Add", "Friend"))
+                                        {
+                                            <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                            <input type="hidden" name="friendId" value="@item.User.UserId"/>
+                                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
                     </h3>
                     <div class="glyphicon glyphicon-envelope personalInfoGlyphs"><span>@string.Format("School: {0}", item.User.School)</span></div>
                     <div class="glyphicon glyphicon-briefcase personalInfoGlyphs"><span>@string.Format("Work: {0}", item.User.Work)</span></div>

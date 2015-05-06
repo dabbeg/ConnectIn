@@ -1,123 +1,56 @@
-﻿@model IEnumerable<ConnectIn.Models.Entity.Post>
-
+﻿@model IEnumerable<ConnectIn.Models.ViewModels.FriendViewModel>
+@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "FriendsList";
 }
 
-<div class="container">
-    <h1>Friends</h1>
+@if (Request.IsAuthenticated)
+{
+    <h2>Friends</h2>
+    <div style="margin-top: 80px;">
+        @foreach (var item in Model)
+        {
+            <div class="well">
+                <div id="postContent">
+                    <h3>
+                        <!--Should display user's profile picture, a cat was used temporarily-->
+                        <span class="containers">
+                            <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                        </span>
+                        <!--Should display username instead of item.userID-->
+                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
+                        <div id="addFriendButton">
+                            @{
+                                using (Html.BeginForm("Remove", "Friend"))
+                                {
+                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                    <input type="hidden" name="friendId" value="@item.User.UserId" />
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                }
+                            }
+                        </div>
+                    </h3>
+                    <div class="glyphicon glyphicon-envelope personalInfoGlyphs"><span>@string.Format("School: {0}", item.User.School)</span></div>
+                    <div class="glyphicon glyphicon-briefcase personalInfoGlyphs"><span>@string.Format("Work: {0}", item.User.Work)</span></div>
 
-    <div id="posts" class="row">
-        <div id="1" class="post item span3">
-            <div class="well" id="FriendsListWell">
-                <div class="friendsListPhoto">
-                    <img class="img-responsive img-rounded pull-left" src="http://i.imgur.com/3h6Ha2F.jpg">
-                </div>
-
-                <div class="friendsListAbout">
-                    <div class="friendsListName">
-                        <h4>
-                            <a href="#" target="_blank" class="profileNameLink">Ingþór</a>
-                        </h4>
-                    </div>
-                    <table class="tableFriends">
-                        <tbody>
-                            <tr>
-                                <td class="glyphicon glyphicon-briefcase tableItem">
-                                    Work
-                                </td>
-                                <td class="glyphicon workFriendsList tableItemInfo">
-                                    McDonalds drivethu expert
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-envelope tableItem">
-                                    School
-                                </td>
-                                <td class="glyphicon schoolFriendsList tableItemInfo">
-                                    School of life
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </div>
-
-
-        <div id="2" class="post item span3">
-            <div class="well" id="FriendsListWell">
-                <div class="friendsListPhoto">
-                    <img class="img-responsive img-rounded pull-left" src="http://i.imgur.com/L3mgQUK.gif">
-                </div>
-
-                <div class="friendsListAbout">
-                    <div class="friendsListName">
-                        <h4>
-                            <a href="#" target="_blank" class="profileNameLink">Logi</a>
-                        </h4>
-                    </div>
-                    <table class="tableFriends">
-                        <tbody>
-                            <tr>
-                                <td class="glyphicon glyphicon-briefcase tableItem">
-                                    Work
-                                </td>
-                                <td class="glyphicon workFriendsList tableItemInfo">
-                                    McDonalds drivethu expert
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-envelope tableItem">
-                                    School
-                                </td>
-                                <td class="glyphicon schoolFriendsList tableItemInfo">
-                                    School of life
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div id="3" class="post item span3">
-            <div class="well" id="FriendsListWell">
-                <div class="friendsListPhoto">
-                    <img class="img-responsive img-rounded pull-left" src="http://i.imgur.com/6lIM3mM.jpg">
-                </div>
-
-                <div class="friendsListAbout">
-                    <div class="friendsListName">
-                        <h4>
-                            <a href="#" target="_blank" class="profileNameLink">Jan</a>
-                        </h4>
-                    </div>
-                    <table class="tableFriends">
-                        <tbody>
-                            <tr>
-                                <td class="glyphicon glyphicon-briefcase tableItem">
-                                    Work
-                                </td>
-                                <td class="glyphicon workFriendsList tableItemInfo">
-                                    McDonalds drivethu expert
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-envelope tableItem">
-                                    School
-                                </td>
-                                <td class="glyphicon schoolFriendsList tableItemInfo">
-                                    School of life
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        }
     </div>
-</div>
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your News Feed.
+    </h1>
+}
+
+
+
+
+
 
 
 

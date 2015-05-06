@@ -13,26 +13,51 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink(" ","NewsFeed", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                @Html.Partial("_LoginPartial")
-                <ul class="nav navbar-nav navbar-right">
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
-                        <li>@Html.ActionLink("Profile", "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    }
-                </ul>
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    
 
-            </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink(" ", "NewsFeed", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+            @if (Request.IsAuthenticated)
+            {
+                <li>@Html.ActionLink(@String.Format("Hello, {0}", User.Identity.GetUserName().Substring(0, (User.Identity.GetUserName().IndexOf('@') == -1 ? User.Identity.GetUserName().Length : User.Identity.GetUserName().IndexOf('@')))), "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
+            }
+        </ul>
+    </div>
+    
+        </div>
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
+                    <li>@Html.ActionLink("Profile", "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicons glyphicons-user"></span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Settings", "Manage", "Account")</li>
+                            <li>@Html.Partial("_LoginPartial")</li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.Partial("_LoginPartial")</li>
+                }
+            </ul>
+
+        </div>
         </div>
     </div>
 
