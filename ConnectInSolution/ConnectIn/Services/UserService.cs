@@ -31,11 +31,11 @@ namespace ConnectIn.Services
             return theUser;
         }
 
-        // Get all users that contain that name
-        public List<string> GetPossibleUsersByName(string userName)
+        // Get all users that contain that search word
+        public List<string> GetPossibleUsersByName(string searchWord)
         {
             var theUser = (from u in db.Users
-                           where u.Name.ToLower().Contains(userName)
+                           where u.Name.ToLower().Contains(searchWord.ToLower())
                            select u.Id).ToList();
             return theUser;
         }
