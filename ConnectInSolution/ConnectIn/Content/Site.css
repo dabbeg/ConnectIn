@@ -277,3 +277,47 @@ a.navbar-brand
     display: inline-block;
     float: right;
 }
+
+.friendsListName {
+        display: block;
+    font-size: 25px;
+}
+
+.friendsListPhoto {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin: auto;
+}
+
+.friendsListAbout {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.personalInfoGlyphsFriends {
+    position: relative;
+    display: block;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.profileNameLink {
+    font-size: 25px
+}
+
+
+.img-responsive, img-rounded {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.friendsListAbout div p{
+    font-style: italic;
+    position: relative;
+    left: 20px;
+        font-size: 10pt;
+}
