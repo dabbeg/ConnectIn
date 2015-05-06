@@ -85,7 +85,7 @@ overflow:hidden;
 
 .search-form-control {
   display: block;
-  width: 66%;
+  width: 83%;
   margin-top: 20%;
   height: 34px;
   padding: 6px 12px;
@@ -238,7 +238,7 @@ width:40%;
 
     #sidebar-wrapper {
         width: 250px;
-        padding-left: 50px;
+        /* padding-left: 50px; */
     }
 
     #wrapper.toggled #sidebar-wrapper {
