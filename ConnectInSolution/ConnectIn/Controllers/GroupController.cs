@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
+using ConnectIn.Models.ViewModels;
 using ConnectIn.Services;
 using Microsoft.AspNet.Identity;
 
@@ -49,9 +50,38 @@ namespace ConnectIn.Controllers
         public ActionResult Details(int Id)
         {
             var context = new ApplicationDbContext();
+            var userService = new UserService(context);
             var groupService = new GroupService(context);
-            var grp = groupService.GetGroupById(Id);
-            return View("GroupDetails", grp);
+
+            var memberList = groupService.GetMembersOfGroup(Id);
+            var group = groupService.GetGroupById(Id);
+
+            var members = new List<GroupDetailViewModel>();
+
+            foreach (var id in memberList)
+            {
+                var user = userService.GetUserById(id);
+
+                members.Add(
+                    new GroupDetailViewModel()
+                    {
+                        Name = group.Name,
+                        GroupId = group.GroupId,
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
+                    });
+            }
+            return View("GroupDetails", members);
         }
 
         public ActionResult Delete()
@@ -85,15 +115,18 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
-            var groupSercvice = new GroupService(context);
+            var groupService = new GroupService(context);
 
             var groupIdList = userService.GetAllGroupsOfUser(userId);
-            var groupList = new List<Group>();
+            var groupList = new List<GroupListViewModel>();
 
             foreach (var id in groupIdList)
             {
-                var group = groupSercvice.GetGroupById(id);
-                groupList.Add(group);
+                var groupById = groupService.GetGroupById(id);
+                var newGroup = new GroupListViewModel();
+                newGroup.Name = groupById.Name;
+                newGroup.GroupId = groupById.GroupId;
+                groupList.Add(newGroup);
             }
             return View(groupList);
         }
