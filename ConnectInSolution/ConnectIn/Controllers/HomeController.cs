@@ -141,7 +141,6 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
-
         public ActionResult Notifications()
         {
             var context = new ApplicationDbContext();
@@ -219,6 +218,7 @@ namespace ConnectIn.Controllers
             }
             return View(searchResult);
         }
+       
         public ActionResult FriendsList()
         {
             var userId = User.Identity.GetUserId();
@@ -251,6 +251,7 @@ namespace ConnectIn.Controllers
             }
             return View(friends);
         }
+        
         public ActionResult Birthdays()
         {
             var userId = User.Identity.GetUserId();
