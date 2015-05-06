@@ -21,13 +21,22 @@ namespace ConnectIn.Services
         }
         #endregion
 
-        #region get the user by id
+        #region get the user by id and name
         // Get all information about the user with a given Id
         public User GetUserById(string userId)
         {
             var theUser = (from u in db.Users
                            where userId == u.Id
                            select u).SingleOrDefault();
+            return theUser;
+        }
+
+        // Get all users that contain that name
+        public List<string> GetPossibleUsersByName(string userName)
+        {
+            var theUser = (from u in db.Users
+                           where u.Name.ToLower().Contains(userName)
+                           select u.Id).ToList();
             return theUser;
         }
         #endregion
@@ -102,9 +111,21 @@ namespace ConnectIn.Services
         {
             var friends = GetFriendsFromUser(userId);
             var birthdays = (from b in db.Users
-                             where b.birthday == DateTime.Today
+                             where (friends.Contains(b.Id) || b.Id == userId)
+                             && b.Birthday.Day == DateTime.Today.Day
                              select b.Id).ToList();
             return birthdays;
+        }
+
+        // Get one row from the Friends table where userId and friendId are in the row
+        public Friend GetFriendShip(string userId, string friendId)
+        {
+            var fs = (from f in db.Friends
+                where f.UserId == userId
+                      && f.FriendUserId == friendId
+                select f).SingleOrDefault();
+
+            return fs;
         }
         #endregion
 
@@ -181,5 +202,15 @@ namespace ConnectIn.Services
         }
         #endregion
 
+        #region queries regarding the user's groups
+
+        public List<int> GetAllGroupsOfUser(string userId)
+        {
+            var gr = (from g in db.Members
+                where g.UserId == userId
+                select g.GroupId).ToList();
+            return gr;
+        }
+        #endregion
     }
 }

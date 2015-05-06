@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,7 +8,6 @@
     <title>Connectin</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>  
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,10 +22,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    { 
+                        <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
+                        <li>@Html.ActionLink("Profile", "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -50,7 +53,7 @@
                     </li>
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-glass sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Groups", "GroupsList", "Home")
+                        @Html.ActionLink("Groups", "GroupsList", "Group")
                     </li>
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-gift sidebarGlyphs"></span></a>
@@ -59,6 +62,16 @@
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-bell sidebarGlyphs"></span></a>
                         @Html.ActionLink("Notifications", "Notifications", "Home")
+                    </li>
+                    <li>
+
+                        @using (Html.BeginForm("Search", "Home"))
+                        {
+                            <div class="form-horizontal">
+                                <input type="text" placeholder="Search..." class="search-form-control" name="status" style="max-width: 100%; display: inline" />
+                                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px; display: none;"></button>
+                            </div>
+                        }
                     </li>
                 </ul>
             </div>

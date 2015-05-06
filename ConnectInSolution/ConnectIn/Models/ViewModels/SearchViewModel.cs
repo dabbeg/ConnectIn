@@ -5,9 +5,8 @@ using System.Web;
 
 namespace ConnectIn.Models.ViewModels
 {
-    public class CommentViewModel
+    public class SearchViewModel
     {
-        public string Body { get; set; }
-        public DateTime DateInserted { get; set; }
+        public UserViewModel User { get; set; }
     }
 }

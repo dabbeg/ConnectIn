@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
+﻿@model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 @{
     ViewBag.Title = "NewsFeed";
@@ -15,47 +15,19 @@
     </ul>
 
     <div>
-    @using (Html.BeginForm("AddPost", "Status"))
-    {
-        <div class="form-horizontal">
-            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-            <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
-        </div>
-        @Html.ValidationSummary(false)
-    }
-    </div>
-
-    <div style="margin-top: 80px;">
-    @foreach (var item in Model)
-    {
-        <div class="well">
-            <div id="postContent">
-                <h3>
-                    <!--Should display user's profile picture, a cat was used temporarily-->
-                    <span class="smileyFace">
-                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
-                    </span>
-                    <!--Should display username instead of item.userID-->
-                    @*@Html.ActionLink(item.UserId, "Profile", new {id = item.PostId})*@ <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
-                </h3>
-                <p>
-                    @item.Body
-                </p>
+        @using (Html.BeginForm("AddPost", "Status"))
+        {
+            <div class="form-horizontal">
+                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
             </div>
-
-            <div id="commentsLikesDeleteDiv">
-                <div id="commentsAndLikes">
-                    <div id="reactionButtons">
-                        <a href="#" class="btn btn-default-like">2 Smiles</a>
-                        <a href="#" class="btn btn-default-dislike">2 Sadfaces</a>
-                        <a href="#" class="btn btn-default-comment">Comments</a>
-                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+            @Html.ValidationSummary(false)
+        }
     </div>
+    
+    {
+        Html.RenderPartial("PostsPartial", Model.Posts);
+    }
 }
 else
 {

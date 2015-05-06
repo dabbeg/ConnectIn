@@ -5,6 +5,7 @@ using ConnectIn.Tests;
 using ConnectIn.Models.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.IO.Ports;
 
 namespace ConnectIn.Tests.Services
 {
@@ -25,12 +26,13 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
-                birthday = new DateTime(2000,1,1),
-                work = "HR",
-                school = "HR",
-                gender = "Male",
-                address = "add1",
-                privacy = false
+                Name = "user1",
+                Birthday = new DateTime(2000, 1, 1),
+                Work = "HR",
+                School = "HR",
+                Gender = "Male",
+                Address = "add1",
+                Privacy = false
             };
             mockDb.Users.Add(u1);
 
@@ -39,12 +41,13 @@ namespace ConnectIn.Tests.Services
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
-                birthday = new DateTime(2001, 1, 1),
-                work = "HI",
-                school = "HI",
-                gender = "Male",
-                address = "add2",
-                privacy = false
+                Name = "user2",
+                Birthday = new DateTime(2001, 5, 5),
+                Work = "HI",
+                School = "HI",
+                Gender = "Male",
+                Address = "add2",
+                Privacy = false
             };
             mockDb.Users.Add(u2);
 
@@ -53,12 +56,13 @@ namespace ConnectIn.Tests.Services
                 Id = "3",
                 Email = "user3@m.com",
                 UserName = "user3",
-                birthday = new DateTime(2002, 1, 1),
-                work = "HA",
-                school = "HA",
-                gender = "Female",
-                address = "add3",
-                privacy = false
+                Name = "user3",
+                Birthday = new DateTime(2002, 1, 1),
+                Work = "HA",
+                School = "HA",
+                Gender = "Female",
+                Address = "add3",
+                Privacy = false
             };
             mockDb.Users.Add(u3);
 
@@ -67,12 +71,13 @@ namespace ConnectIn.Tests.Services
                 Id = "4",
                 Email = "user4@m.com",
                 UserName = "user4",
-                birthday = new DateTime(2003, 1, 1),
-                work = "FG",
-                school = "FG",
-                gender = "Female",
-                address = "add4",
-                privacy = true
+                Name = "user4",
+                Birthday = new DateTime(2003, 1, 1),
+                Work = "FG",
+                School = "FG",
+                Gender = "Female",
+                Address = "add4",
+                Privacy = true
             };
             mockDb.Users.Add(u4);
 
@@ -81,29 +86,31 @@ namespace ConnectIn.Tests.Services
                 Id = "5",
                 Email = "user5@m.com",
                 UserName = "user5",
-                birthday = DateTime.Today,
-                work = "FG",
-                school = "FG",
-                gender = "Female",
-                address = "add5",
-                privacy = true
+                Name = "user5",
+                Birthday = DateTime.Today,
+                Work = "FG",
+                School = "FG",
+                Gender = "Female",
+                Address = "add5",
+                Privacy = true
             };
+
             mockDb.Users.Add(u5);
             #endregion
 
             #region Posts
             var p1 = new Post()
             {
-                PostId = "1",
+                PostId = 1,
                 Text = "someText 1",
                 UserId = "1",
-                Date = new DateTime(2000,1,1)
+                Date = new DateTime(2000, 1, 1)
             };
             mockDb.Posts.Add(p1);
 
             var p2 = new Post()
             {
-                PostId = "2",
+                PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
                 Date = new DateTime(2001, 1, 1)
@@ -112,7 +119,7 @@ namespace ConnectIn.Tests.Services
 
             var p3 = new Post()
             {
-                PostId = "3",
+                PostId = 3,
                 Text = "someText 3",
                 UserId = "4",
                 Date = new DateTime(2002, 1, 1)
@@ -121,7 +128,7 @@ namespace ConnectIn.Tests.Services
 
             var p4 = new Post()
             {
-                PostId = "4",
+                PostId = 4,
                 Text = "someText 4",
                 UserId = "1",
                 Date = new DateTime(2003, 1, 1)
@@ -130,7 +137,7 @@ namespace ConnectIn.Tests.Services
 
             var p5 = new Post()
             {
-                PostId = "5",
+                PostId = 5,
                 Text = "someText 5",
                 UserId = "3",
                 Date = new DateTime(2004, 1, 1)
@@ -139,7 +146,7 @@ namespace ConnectIn.Tests.Services
 
             var p6 = new Post()
             {
-                PostId = "6",
+                PostId = 6,
                 Text = "someText 6",
                 UserId = "2",
                 Date = new DateTime(2005, 1, 1)
@@ -153,7 +160,7 @@ namespace ConnectIn.Tests.Services
                 PhotoId = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
-                Date = new DateTime(2000,1,1),
+                Date = new DateTime(2000, 1, 1),
                 IsProfilePicture = true
             };
             mockDb.Photos.Add(ph1);
@@ -195,7 +202,7 @@ namespace ConnectIn.Tests.Services
                 NotificationId = 1,
                 FriendUserId = "2",
                 UserId = "1",
-                Date = new DateTime(2000,1,1)
+                Date = new DateTime(2000, 1, 1)
             };
             mockDb.Notifications.Add(n1);
 
@@ -222,49 +229,49 @@ namespace ConnectIn.Tests.Services
             var m1 = new Member()
             {
                 UserId = "1",
-                GroupId = "1"
+                GroupId = 1
             };
             mockDb.Members.Add(m1);
 
             var m2 = new Member()
             {
                 UserId = "1",
-                GroupId = "2"
+                GroupId = 2
             };
             mockDb.Members.Add(m2);
 
             var m3 = new Member()
             {
                 UserId = "1",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m3);
 
             var m4 = new Member()
             {
                 UserId = "2",
-                GroupId = "1"
+                GroupId = 1
             };
             mockDb.Members.Add(m4);
 
             var m5 = new Member()
             {
                 UserId = "2",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m5);
 
             var m6 = new Member()
             {
                 UserId = "3",
-                GroupId = "2"
+                GroupId = 2
             };
             mockDb.Members.Add(m6);
 
             var m7 = new Member()
             {
                 UserId = "4",
-                GroupId = "3"
+                GroupId = 3
             };
             mockDb.Members.Add(m7);
 
@@ -273,7 +280,7 @@ namespace ConnectIn.Tests.Services
             #region LikesDislikes
             var ld1 = new LikeDislike()
             {
-                PostId = "1",
+                PostId = 1,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -282,7 +289,7 @@ namespace ConnectIn.Tests.Services
 
             var ld2 = new LikeDislike()
             {
-                PostId = "1",
+                PostId = 1,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -291,7 +298,7 @@ namespace ConnectIn.Tests.Services
 
             var ld3 = new LikeDislike()
             {
-                PostId = "2",
+                PostId = 2,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -300,7 +307,7 @@ namespace ConnectIn.Tests.Services
 
             var ld4 = new LikeDislike()
             {
-                PostId = "3",
+                PostId = 3,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -309,7 +316,7 @@ namespace ConnectIn.Tests.Services
 
             var ld5 = new LikeDislike()
             {
-                PostId = "3",
+                PostId = 3,
                 UserId = "3",
                 Like = true,
                 Dislike = false
@@ -318,7 +325,7 @@ namespace ConnectIn.Tests.Services
 
             var ld6 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "4",
                 Like = true,
                 Dislike = false
@@ -327,7 +334,7 @@ namespace ConnectIn.Tests.Services
 
             var ld7 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "1",
                 Like = true,
                 Dislike = false
@@ -336,7 +343,7 @@ namespace ConnectIn.Tests.Services
 
             var ld8 = new LikeDislike()
             {
-                PostId = "4",
+                PostId = 4,
                 UserId = "2",
                 Like = false,
                 Dislike = true
@@ -347,21 +354,21 @@ namespace ConnectIn.Tests.Services
             #region Groups
             var g1 = new Group()
             {
-                Id = "1",
+                GroupId = 1,
                 Name = "Group1"
             };
             mockDb.Groups.Add(g1);
 
             var g2 = new Group()
             {
-                Id = "2",
+                GroupId = 2,
                 Name = "Group2"
             };
             mockDb.Groups.Add(g2);
 
             var g3 = new Group()
             {
-                Id = "3",
+                GroupId = 3,
                 Name = "Group3"
             };
             mockDb.Groups.Add(g3);
@@ -416,7 +423,7 @@ namespace ConnectIn.Tests.Services
             var f6 = new Friend()
             {
                 UserId = "5",
-                FriendUserId = "1",
+                FriendUserId = "2",
                 BestFriend = false,
                 Family = false
             };
@@ -428,9 +435,9 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 1,
                 UserId = "1",
-                PostId = "1",
+                PostId = 1,
                 Text = "bla 1",
-                Date = new DateTime(2000,11,11)
+                Date = new DateTime(2000, 11, 11)
             };
             mockDb.Comments.Add(c1);
 
@@ -438,7 +445,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 2,
                 UserId = "1",
-                PostId = "1",
+                PostId = 1,
                 Text = "bla 2",
                 Date = new DateTime(2001, 11, 11)
             };
@@ -448,7 +455,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 3,
                 UserId = "2",
-                PostId = "2",
+                PostId = 2,
                 Text = "bla 3",
                 Date = new DateTime(2002, 11, 11)
             };
@@ -458,7 +465,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 4,
                 UserId = "1",
-                PostId = "3",
+                PostId = 3,
                 Text = "bla 4",
                 Date = new DateTime(2003, 11, 11)
             };
@@ -468,7 +475,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 5,
                 UserId = "2",
-                PostId = "4",
+                PostId = 4,
                 Text = "bla 5",
                 Date = new DateTime(2004, 11, 11)
             };
@@ -478,7 +485,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 6,
                 UserId = "3",
-                PostId = "6",
+                PostId = 6,
                 Text = "bla 6",
                 Date = new DateTime(2005, 11, 11)
             };
@@ -488,7 +495,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 7,
                 UserId = "4",
-                PostId = "6",
+                PostId = 6,
                 Text = "bla 7",
                 Date = new DateTime(2006, 11, 11)
             };
@@ -498,7 +505,7 @@ namespace ConnectIn.Tests.Services
             {
                 CommentId = 8,
                 UserId = "4",
-                PostId = "4",
+                PostId = 4,
                 Text = "bla 8",
                 Date = new DateTime(2007, 11, 11)
             };
@@ -519,8 +526,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFriendsFromUser(user2);
 
             // Assert
-            string[] list1 = { "2", "3", "4", "5" };
-            string[] list2 = { "1", "3" };
+            string[] list1 = { "2", "3", "4" };
+            string[] list2 = { "1", "3" , "5" };
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
 
@@ -529,8 +536,8 @@ namespace ConnectIn.Tests.Services
                 Assert.AreNotEqual(item, user1);
             }
 
-            Assert.AreEqual(4, result1.Count);
-            Assert.AreEqual(2, result2.Count);
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(3, result2.Count);
         }
 
         [TestMethod]
@@ -549,31 +556,31 @@ namespace ConnectIn.Tests.Services
             u1.Id = "1";
             u1.Email = "user1@m.com";
             u1.UserName = "user1";
-            u1.birthday = new DateTime(2000,1,1);
-            u1.work = "HR";
-            u1.school = "HR";
-            u1.gender = "Male";
-            u1.address = "add1";
-            u1.privacy = false;
+            u1.Birthday = new DateTime(2000,1,1);
+            u1.Work = "HR";
+            u1.School = "HR";
+            u1.Gender = "Male";
+            u1.Address = "add1";
+            u1.Privacy = false;
 
             Assert.AreEqual(u1.Email, result1.Email);
             Assert.AreEqual(u1.UserName, result1.UserName);
-            Assert.AreEqual(u1.address, result1.address);
+            Assert.AreEqual(u1.Address, result1.Address);
 
             User u2 = new User();
             u2.Id = "2";
             u2.Email = "user2@m.com";
             u2.UserName = "user2";
-            u2.birthday = new DateTime(2001, 1, 1);
-            u2.work = "HI";
-            u2.school = "HI";
-            u2.gender = "Male";
-            u2.address = "add2";
-            u2.privacy = false;
+            u2.Birthday = new DateTime(2001, 1, 1);
+            u2.Work = "HI";
+            u2.School = "HI";
+            u2.Gender = "Male";
+            u2.Address = "add2";
+            u2.Privacy = false;
 
             Assert.AreEqual(u2.Email, result2.Email);
             Assert.AreEqual(u2.UserName, result2.UserName);
-            Assert.AreEqual(u2.address, result2.address);
+            Assert.AreEqual(u2.Address, result2.Address);
         }
 
         [TestMethod]
@@ -626,9 +633,9 @@ namespace ConnectIn.Tests.Services
             var result3 = service.GetAllPostsFromUser(user3);
 
             // Assert
-            string[] list1 = { "4", "1" };
-            string[] list2 = { "6", "2" };
-            string[] list3 = { "5" };
+            int[] list1 = { 4, 1 };
+            int[] list2 = { 6, 2 };
+            int[] list3 = { 5 };
 
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
@@ -666,8 +673,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetEveryNewsFeedPostsForUser(user2);
 
             // Assert
-            string[] list1 = { "6", "5", "4", "3", "2", "1" };
-            string[] list2 = { "6", "5", "4", "2", "1" };
+            int[] list1 = { 6, 5, 4, 3, 2, 1 };
+            int[] list2 = { 6, 5, 4, 2, 1 };
 
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
@@ -684,7 +691,7 @@ namespace ConnectIn.Tests.Services
             var result1 = service.GetBestFriendsPostsForUser(user1);
 
             // Assert
-            string[] list1 = { "6", "4", "2", "1" };
+            int[] list1 = { 6, 4, 2, 1 };
 
             CollectionAssert.AreEqual(list1, result1);
             Assert.AreEqual(4, result1.Count);
@@ -702,8 +709,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFamilyPostsForUser(user2);
 
             // Assert
-            string[] list1 = { "6", "4", "2", "1" };
-            string[] list2 = { "6", "5", "4", "2", "1" };
+            int[] list1 = { 6, 4, 2, 1 };
+            int[] list2 = { 6, 5, 4, 2, 1 };
 
             Assert.AreEqual(4, result1.Count);
             CollectionAssert.AreEqual(list1, result1);
@@ -715,14 +722,52 @@ namespace ConnectIn.Tests.Services
         {
             // Arrange
             const string user1 = "1";
+            const string user2 = "2";
 
             // Act
             var result1 = service.GetAllFriendsBirthdays(user1);
+            var result2 = service.GetAllFriendsBirthdays(user2);
 
             // Assert
-            string[] list1 = { "5" };
+            string[] list1 = { "2" };
+            string[] list2 = { "2", "5" };
             
             CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(1, result1.Count);
+            Assert.AreEqual(2, result2.Count);
+        }
+
+        [TestMethod]
+        public void TestGetAllGroupsOfUser()
+        {
+            const string user1 = "1";
+
+            var result = service.GetAllGroupsOfUser(user1);
+
+            int[] list = {1, 2, 3};
+
+            CollectionAssert.AreEqual(list, result);
+        }
+
+        public void TestGetPossibleUsersByName()
+        {
+            // Arrange
+            const string user1 = "user";
+            const string user2 = "r2";
+
+            // Act
+            var result1 = service.GetPossibleUsersByName(user1);
+            var result2 = service.GetPossibleUsersByName(user2);
+
+            // Assert
+            string[] list1 = { "1", "2", "3", "4", "5" };
+            string[] list2 = { "2" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(5, result1.Count);
+            Assert.AreEqual(1, result2.Count);
         }
     }
 }

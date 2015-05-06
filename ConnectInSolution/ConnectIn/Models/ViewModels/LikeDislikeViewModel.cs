@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ConnectIn.Models.ViewModels
 {
-    public class CommentViewModel
+    public class LikeDislikeViewModel
     {
-        public string Body { get; set; }
-        public DateTime DateInserted { get; set; }
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
     }
 }

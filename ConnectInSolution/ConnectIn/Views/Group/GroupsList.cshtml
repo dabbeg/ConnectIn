@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ConnectIn.Models.Entity.Group>
+
+@{
+    ViewBag.Title = "GroupsList";
+}
+
+<h2>Your groups</h2>
+
+<p id="createNewGroup">
+    <span class="glyphicon glyphicon-plus"></span>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+    
+@foreach (var item in Model) {
+
+    <div class="well">
+        <span>
+            <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+        </span>
+        
+        <span id="groupWell">
+            @Html.ActionLink("Edit", "Edit", new { id = item.GroupId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.GroupId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.GroupId })
+        </span>
+    </div>
+}
+
+

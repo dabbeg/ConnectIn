@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
@@ -34,17 +35,30 @@ namespace ConnectIn.Controllers
             var postService = new PostService(context);
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
-            var newsFeed = new List<PostsViewModel>();
+            var newsFeed = new NewsFeedViewModel();
+            newsFeed.Posts = new List<PostsViewModel>();
 
             foreach (var id in postIdList)
             {
                 var post = postService.GetPostById(id);
-                newsFeed.Add(
+                newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
+                        PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>()
+                        Comments = new List<CommentViewModel>(),
+                        LikeDislike = new LikeDislikeViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(id),
+                            Dislikes = postService.GetPostsDislikes(id)
+                        },
+                        User = new UserViewModel()
+                        {
+                            UserId = post.UserId,
+                            UserName = userService.GetUserById(post.UserId).Name,
+                            ProfilePicture = "~/Content/Images/profilepic.png"
+                        }
                     });
             }
 
@@ -65,22 +79,71 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult Profile()
+        public ActionResult Profile(string id)
         {
-            List<Post> Profile = new List<Post>();
-            Post post1 = new Post();
-            post1.Text = "Er jarðskjálft­inn varð í Nepal fyr­ir viku var níu ára göm­ul stúlka, sem dýrkuð er sem gyðja, að und­ir­búa sig fyr­ir að taka á móti til­biðjend­um á heim­ili sínu sem stend­ur við Dur­bar-torgið í Kat­mandú.";
-            post1.PostId = 1;
-            post1.UserId = "1";
-            Profile.Add(post1);
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
 
-            Post post2 = new Post();
-            post2.Text = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.";
-            post2.PostId = 2;
-            post2.UserId = "2";
-            Profile.Add(post2);
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var postService = new PostService(context);
 
-            return View(Profile);
+            var user = userService.GetUserById(id);
+            var posts = userService.GetAllPostsFromUser(id);
+
+            var postsViewModels = new List<PostsViewModel>();
+
+            foreach (var postId in posts)
+            {
+                var post = postService.GetPostById(postId);
+                postsViewModels.Add(
+                 new PostsViewModel()
+                 {
+                     PostId = postId,
+                     Body = post.Text,
+                     DateInserted = post.Date,
+                     Comments = new List<CommentViewModel>(),
+                     LikeDislike = new LikeDislikeViewModel()
+                     {
+                         Likes = postService.GetPostsLikes(postId),
+                         Dislikes = postService.GetPostsDislikes(postId)
+                     },
+                     User = new UserViewModel()
+                     {
+                         UserId = user.Id,
+                         UserName = user.UserName,
+                         Name = user.Name,
+                         ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                         Gender = user.Gender,
+                         Birthday = user.Birthday,
+                         Work = user.Work,
+                         School = user.School,
+                         Address = user.Address
+                     }
+                 });
+            }
+
+            var model = new ProfileViewModel()
+            {
+                
+                Posts = postsViewModels,
+                User = new UserViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    Name = user.Name,
+                    ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                    Gender = user.Gender,
+                    Birthday = user.Birthday,
+                    Work = user.Work,
+                    School = user.School,
+                    Address = user.Address
+                }
+            };
+
+            return View(model);
         }
         public ActionResult FriendsList()
         {
@@ -90,13 +153,74 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
+        public ActionResult Search(FormCollection collection)
+        {
+            var searchWord = collection["status"];
+
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var searchList = userService.GetPossibleUsersByName(searchWord);
+
+            var searchResult = new List<SearchViewModel>();
+
+            foreach (var id in searchList)
+            {
+                var user = userService.GetUserById(id);
+                searchResult.Add(
+                    new SearchViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
+                    });
+            }
+            return View(searchResult);
+        }
         public ActionResult Birthdays()
         {
-            return View();
-        }
-        public ActionResult GroupsList()
-        {
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var birthdayList = userService.GetAllFriendsBirthdays(userId);
+
+            var birthdays = new List<BirthdayViewModel>();
+            
+            foreach (var id in birthdayList)
+            {
+                var user = userService.GetUserById(id);
+                birthdays.Add(
+                    new BirthdayViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
+                    });
+            }
+
+            return View(birthdays);
         }
     }
 }

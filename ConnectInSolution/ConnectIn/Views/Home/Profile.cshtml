@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ConnectIn.Models.Entity.Post>
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.ProfileViewModel
 
 @{
     ViewBag.Title = "NewsFeed";
@@ -7,7 +10,7 @@
 {
     <div class="well">
         <div id="userProfilePicture">
-            <img src="@Url.Content("~/Content/images/largeProfilePic.jpg")" alt="Profile Picture" />
+            <img src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
         </div>
         <div id="userNameOnProfile">
             <div>
@@ -22,41 +25,42 @@
                 <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: </div>
             </div>
             <div id="addFriendButton">
-                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>
+                @{
+                    if (Model.User.UserId != User.Identity.GetUserId())
+                    {
+                        var context = new ApplicationDbContext();
+                        var userService = new UserService(context);
+                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                        if (listOfFriends.Contains(@Model.User.UserId))
+                        {
+                            using (Html.BeginForm("Remove", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
+                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("Add", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
+                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                            }
+                        }
+                    }
+                }
+                
+                <!--<a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>-->
             </div>
         </div>
     </div>
     
     <div id="profileborder"></div>
 
-    foreach (var item in Model)
     {
-        <div class="well">
-            <div id="postContent">
-                <h3>
-                    <!--Should display user's profile picture, a cat was used temporarily-->
-                    <span class="smileyFace">
-                        <img src="@Url.Content("~/Content/images/profilepic.png")" alt="Profile Picture" />
-                    </span>
-                    <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.UserId, "Profile", new { id = item.PostId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.Date)</small>
-                </h3>
-                <p>
-                    @item.Text
-                </p>
-            </div>
-
-            <div id="commentsLikesDeleteDiv">
-                <div id="commentsAndLikes">
-                    <div id="reactionButtons">
-                        <a href="#" class="btn btn-default-like">2 Smiles</a>
-                        <a href="#" class="btn btn-default-dislike">2 Sadfaces</a>
-                        <a href="#" class="btn btn-default-comment">Comments</a>
-                        <a href="#" class="btn btn-danger deletePostButton">Delete post</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        Html.RenderPartial("PostsPartial", Model.Posts);
     }
 }
 else
