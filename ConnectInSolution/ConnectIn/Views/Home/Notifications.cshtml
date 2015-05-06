@@ -1,7 +1,92 @@
-﻿
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
+@model IEnumerable<ConnectIn.Models.ViewModels.NotificationViewModel>
+
 @{
     ViewBag.Title = "Notifications";
 }
 
-<h2>Notifications</h2>
+<h2>Friend Requests</h2>
+
+
+<div class="container">
+    <div id="posts" class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="post item span3" style="position: relative">
+            <div class="well" id="FriendsListWell">
+                <div class="friendsListPhoto">
+                    <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
+                </div>
+
+                <div class="friendsListAbout">
+                    <div class="friendsListName">
+                        <h4>
+                            @Html.ActionLink(item.Friend.Name, "Profile", new { id = item.Friend.UserId })
+                        </h4>
+                    </div>
+                    <table class="tableFriends">
+                        <tbody>
+                        <tr>
+                            <td class="glyphicon glyphicon-briefcase tableItem">
+                                Work
+                            </td>
+                            <td class="glyphicon workFriendsList tableItemInfo">
+                                @item.Friend.Work
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-envelope tableItem">
+                                School
+                            </td>
+                            <td class="glyphicon schoolFriendsList tableItemInfo">
+                                @item.Friend.School
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (item.IsPending)
+            {
+                <span class="bottomRightButtonRight">
+                @using (Html.BeginForm("DeclineFriendRequest", "Friend"))
+                {
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
+                }
+                </span>
+                <span class="bottomRightButtonLeft">
+                @using (Html.BeginForm("AcceptFriendRequest", "Friend"))
+                {
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
+                }
+                </span>
+            }
+            else
+            {
+                if (item.IsApproved)
+                {
+                    <span class="bottomRightButtonLeft">
+                        <button type="submit" class="btn">Approved</button>
+                    </span>
+                }
+                else
+                {
+                    <span class="bottomRightButtonRight">
+                        <button type="submit" class="btn">Declined</button>
+                    </span>
+                }
+                
+            }
+        </div>
+    }
+    </div>
+</div>
+
+
+
 
