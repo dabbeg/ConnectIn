@@ -25,7 +25,7 @@
             <li>@Html.ActionLink(" ", "NewsFeed", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
             @if (Request.IsAuthenticated)
             {
-                <li>@Html.ActionLink("Hello, " + User.Identity.GetUserName().Substring(0, (User.Identity.GetUserName().IndexOf('@') == -1 ? User.Identity.GetUserName().Length : User.Identity.GetUserName().IndexOf('@'))) + "!", "Profile", "Home", routeValues: null, htmlAttributes: new {title = "Manage"})</li>
+                <li>@Html.ActionLink(@String.Format("Hello, {0}", User.Identity.GetUserName().Substring(0, (User.Identity.GetUserName().IndexOf('@') == -1 ? User.Identity.GetUserName().Length : User.Identity.GetUserName().IndexOf('@')))), "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
             }
         </ul>
     </div>
