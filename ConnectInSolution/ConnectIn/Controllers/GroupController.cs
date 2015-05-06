@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
+using ConnectIn.Services;
+using Microsoft.AspNet.Identity;
 
 namespace ConnectIn.Controllers
 {
@@ -11,7 +15,35 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Create()
         {
-            return View();
+            return View("CreateGroup");
+        }
+
+        public ActionResult CreateGroup(FormCollection collection)
+        {
+            var context = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            UserService userService = new UserService(context);
+
+            Group newGroup = new Group()
+            {
+                Name = collection["groupName"],
+            };
+            newGroup.Members = new List<Member>();
+            //Make the creator a member of the group
+            Member groupMember = new Member();
+
+            groupMember.GroupId = newGroup.GroupId;
+            groupMember.UserId = userId;
+            groupMember.Group = newGroup;
+            Models.Entity.User currentUser = userService.GetUserById(userId);
+            groupMember.User = currentUser;
+
+            newGroup.Members.Add(groupMember);
+
+            context.Groups.Add(newGroup);
+            context.SaveChanges();
+
+            return RedirectToAction("GroupsList", "Group");
         }
 
         public ActionResult Delete()
@@ -23,7 +55,7 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
-        
+
         public ActionResult Post()
         {
             return View();
@@ -38,21 +70,24 @@ namespace ConnectIn.Controllers
         {
             return View();
         }
+
         public ActionResult GroupsList()
         {
-            List<Group> groupsList = new List<Group>();
+            var userId = User.Identity.GetUserId();
 
-            Group g1 = new Group();
-            g1.GroupId = 1;
-            g1.Name = "Sogn";
-            groupsList.Add(g1);
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var groupSercvice = new GroupService(context);
 
-            Group g2 = new Group();
-            g2.GroupId = 2;
-            g2.Name = "Kleppur";
-            groupsList.Add(g2);
+            var groupIdList = userService.GetAllGroupsOfUser(userId);
+            var groupList = new List<Group>();
 
-            return View(groupsList);
+            foreach (var id in groupIdList)
+            {
+                var group = groupSercvice.GetGroupById(id);
+                groupList.Add(group);
+            }
+            return View(groupList);
         }
     }
 }

@@ -35,8 +35,8 @@
                         {
                             using (Html.BeginForm("Remove", "Friend"))
                             {
-                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
-                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
                                 <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
                             }
                         }
@@ -44,15 +44,14 @@
                         {
                             using (Html.BeginForm("Add", "Friend"))
                             {
-                                <input type="hidden" name="userId" value="@Model.User.UserId"/>
-                                <input type="hidden" name="friendId" value="@User.Identity.GetUserId()"/>
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
                                 <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
                             }
                         }
                     }
                 }
                 
-                <!--<a href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</a>-->
             </div>
         </div>
     </div>

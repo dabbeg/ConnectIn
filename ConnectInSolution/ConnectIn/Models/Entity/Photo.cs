@@ -22,6 +22,7 @@ namespace ConnectIn.Models.Entity
         public User User { get; set; }
         #endregion
 
+
         #region Contructors
         public Photo()
         {
