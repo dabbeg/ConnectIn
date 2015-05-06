@@ -17,7 +17,7 @@ namespace ConnectIn.Models.Entity
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
         public bool IsPending { get; set; }
-        public bool IsFriendRequest { get; set; }
+        public bool IsApproved { get; set; }
         #endregion
 
         #region ForeignKeys

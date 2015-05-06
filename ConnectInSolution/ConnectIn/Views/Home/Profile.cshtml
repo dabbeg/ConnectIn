@@ -18,11 +18,11 @@
             </div>
 
             <div class="well" id="aboutUser">
-                <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: </div>
-                <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: </div>
-                <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: </div>
-                <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: </div>
-                <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: </div>
+                <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: @Model.User.Gender</div>
+                <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: @Model.User.Birthday</div>
+                <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: @Model.User.Work</div>
+                <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: @Model.User.School</div>
+                <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: @Model.User.Address</div>
             </div>
             <div id="addFriendButton">
                 @{
@@ -31,7 +31,12 @@
                         var context = new ApplicationDbContext();
                         var userService = new UserService(context);
                         var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                        if (listOfFriends.Contains(@Model.User.UserId))
+                        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
+                        if (notification != null)
+                        {
+                            <button type="button" class="btn">Pending</button>
+                        }
+                        else if (listOfFriends.Contains(@Model.User.UserId))
                         {
                             using (Html.BeginForm("Remove", "Friend"))
                             {

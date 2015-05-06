@@ -18,19 +18,27 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-
-            var notification = new Notification()
-            {
-                UserId = userId,
-                FriendUserId = friendId,
-                Date = DateTime.Now,
-                IsPending = true,
-                IsFriendRequest = true
-            };
-
+            
             var context = new ApplicationDbContext();
-            context.Notifications.Add(notification);
-            context.SaveChanges();
+            var userService = new UserService(context);
+
+            var friendship = userService.GetFriendShip(userId, friendId);
+            if (friendship == null)
+            {
+
+                var notification = new Notification()
+                {
+                    UserId = userId,
+                    FriendUserId = friendId,
+                    Date = DateTime.Now,
+                    IsPending = true,
+                    IsApproved = false
+                };
+
+
+                context.Notifications.Add(notification);
+                context.SaveChanges();
+            }
 
             return RedirectToAction("Profile", "Home", new { id = friendId });
         }
@@ -48,16 +56,6 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
-            var notification = new Notification()
-            {
-                UserId = userId,
-                FriendUserId = friendId,
-                Date = DateTime.Now,
-                IsPending = false,
-                IsFriendRequest = false
-            };
-            context.Notifications.Add(notification);
-
             var friendShip = userService.GetFriendShip(userId, friendId);
             context.Friends.Remove(friendShip);
             context.SaveChanges();
@@ -65,20 +63,22 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Profile", "Home", new { id = friendId });
         }
 
-        public ActionResult AcceptFriendRequest(int? id)
+        public ActionResult AcceptFriendRequest(FormCollection collection)
         {
-            if (!id.HasValue)
+            string id = collection["notificationId"];
+            if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
             
-            int notificationId = id.Value;
+            int notificationId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
             var notification = userService.GetNotificationById(notificationId);
             notification.IsPending = false;
+            notification.IsApproved = true;
 
             var friends = new Friend
             {
@@ -92,20 +92,22 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Notifications", "Home");
         }
 
-        public ActionResult DeclineFriendRequest(int? id)
+        public ActionResult DeclineFriendRequest(FormCollection collection)
         {
-            if (!id.HasValue)
+            string id = collection["notificationId"];
+            if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
-            int notificationId = id.Value;
+            int notificationId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
             var notification = userService.GetNotificationById(notificationId);
             notification.IsPending = false;
+            notification.IsApproved = false;
             context.SaveChanges();
 
             return RedirectToAction("Notifications", "Home");

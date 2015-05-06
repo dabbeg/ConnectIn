@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.NotificationViewModel>
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
+@model IEnumerable<ConnectIn.Models.ViewModels.NotificationViewModel>
 
 @{
     ViewBag.Title = "Notifications";
@@ -12,7 +15,7 @@
 
     @foreach (var item in Model)
     {
-        <div class="post item span3">
+        <div class="post item span3" style="position: relative">
             <div class="well" id="FriendsListWell">
                 <div class="friendsListPhoto">
                     <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
@@ -21,7 +24,7 @@
                 <div class="friendsListAbout">
                     <div class="friendsListName">
                         <h4>
-                            <a href="#" target="_blank" class="profileNameLink">@item.Friend.Name</a>
+                            @Html.ActionLink(item.Friend.Name, "Profile", new { id = item.Friend.UserId })
                         </h4>
                     </div>
                     <table class="tableFriends">
@@ -46,6 +49,39 @@
                     </table>
                 </div>
             </div>
+            @if (item.IsPending)
+            {
+                <span class="bottomRightButtonRight">
+                @using (Html.BeginForm("DeclineFriendRequest", "Friend"))
+                {
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
+                }
+                </span>
+                <span class="bottomRightButtonLeft">
+                @using (Html.BeginForm("AcceptFriendRequest", "Friend"))
+                {
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
+                }
+                </span>
+            }
+            else
+            {
+                if (item.IsApproved)
+                {
+                    <span class="bottomRightButtonLeft">
+                        <button type="submit" class="btn">Approved</button>
+                    </span>
+                }
+                else
+                {
+                    <span class="bottomRightButtonRight">
+                        <button type="submit" class="btn">Declined</button>
+                    </span>
+                }
+                
+            }
         </div>
     }
     </div>
