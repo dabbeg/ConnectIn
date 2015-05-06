@@ -212,5 +212,27 @@ namespace ConnectIn.Services
             return gr;
         }
         #endregion
+
+        #region queries regarding users notification
+        //Get a notification by notification Id
+        public Notification GetNotificationById(int notificationId)
+        {
+            var notification = (from n in db.Notifications
+                where n.NotificationId == notificationId
+                select n).SingleOrDefault();
+
+            return notification;
+        }
+
+        //Get a list of all notifications for the user with userId 
+        public List<Notification> GetAllNotificationsForUser(string userId)
+        {
+            var notifications = (from n in db.Notifications
+                where n.UserId == userId
+                select n).ToList();
+
+            return notifications;
+        } 
+        #endregion
     }
 }

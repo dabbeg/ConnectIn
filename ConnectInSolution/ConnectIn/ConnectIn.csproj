@@ -254,16 +254,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\NewsFeed.cshtml" />
     <Content Include="Views\Home\FriendsList.cshtml" />
-    <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Home\Birthdays.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Group\GroupsList.cshtml" />
-
     <Content Include="Views\Group\CreateGroup.cshtml" />
-
     <Content Include="Views\Home\PostsPartial.cshtml" />
     <Content Include="Views\Status\Comment.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

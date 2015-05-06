@@ -145,14 +145,38 @@ namespace ConnectIn.Controllers
 
             return View(model);
         }
+
         public ActionResult FriendsList()
         {
             return View();
         }
+
         public ActionResult Notifications()
         {
-            return View();
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
+
+            var model = new List<NotificationViewModel>();
+
+            foreach (var item in notifications)
+            {
+                model.Add(
+                    new NotificationViewModel()
+                    {
+                        UserId = item.UserId,
+                        FriendId = item.FriendUserId,
+                        Date = item.Date,
+                        IsPending = item.IsPending,
+                        IsFriendRequest = item.IsFriendRequest
+                    }
+                );
+
+            }
+
+            return View(model);
         }
+
         public ActionResult Search(FormCollection collection)
         {
             var searchWord = collection["status"];

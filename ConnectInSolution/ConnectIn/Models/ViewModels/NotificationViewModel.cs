@@ -10,5 +10,7 @@ namespace ConnectIn.Models.ViewModels
         public string UserId { get; set; }
         public string FriendId { get; set; }
         public DateTime Date { get; set; }
+        public bool IsPending { get; set; }
+        public bool IsFriendRequest { get; set; }
     }
 }

@@ -11,10 +11,13 @@ namespace ConnectIn.Models.Entity
     {
         #region Columns
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationId { get; set; }
         public string FriendUserId { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
+        public bool IsPending { get; set; }
+        public bool IsFriendRequest { get; set; }
         #endregion
 
         #region ForeignKeys
