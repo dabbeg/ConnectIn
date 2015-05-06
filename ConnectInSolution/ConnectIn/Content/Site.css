@@ -384,18 +384,16 @@ a.navbar-brand
     font-size: 25px;
 }
 
-div.well.FriendsListWell {
-    width: 100%;
+#FriendsListWell {
     overflow: hidden;
-    max-height: 300px;
-    
-
+    height: auto;
 }
 
 .friendsListPhoto {
     display: inline-block;
     width: 200px;
-    height: 200px;
+    height: auto;
+    max-height: 200px;
     float: left;
     margin-right: 15px;
 }
