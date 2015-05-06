@@ -486,3 +486,9 @@ a.navbar-brand
     bottom: 20px;
     right: 120px;
 }
+
+#logOutDropdownOption {
+    position: relative;
+    left: 7px;
+    bottom: 12px;
+}
