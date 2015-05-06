@@ -15,7 +15,9 @@
             </div>
             <div id="userNameOnProfile">
                 <div>
-                    <h1>A random user's profile</h1>
+                    <h1>
+                        @Html.ActionLink(Model.User.Name, "Profile", new { id = Model.User.UserId })
+                    </h1>
                 </div>
 
                 <div class="well" id="aboutUser">
@@ -26,7 +28,7 @@
                                     Gender
                                 </td>
                                 <td class="glyphicon profileGender tableItemInfo">
-                                    Male
+                                    <span>@string.Format("{0}", Model.User.Gender)</span>
                                 </td>
                             </tr>
                             <tr>
@@ -34,7 +36,7 @@
                                     Birthday
                                 </td>
                                 <td class="glyphicon profileBirthday tableItemInfo">
-                                    May the 4th
+                                    <span>@string.Format("{0}", Model.User.Birthday)</span>
                                 </td>
                             </tr>
                             <tr>
@@ -42,7 +44,7 @@
                                     Work
                                 </td>
                                 <td class="glyphicon workFriendsList tableItemInfo">
-                                    McDonalds drivethu expert
+                                    <span>@string.Format("{0}", Model.User.Work)</span>
                                 </td>
                             </tr>
                             <tr>
@@ -50,7 +52,7 @@
                                     School
                                 </td>
                                 <td class="glyphicon schoolFriendsList tableItemInfo">
-                                    School of life
+                                    <span>@string.Format("{0}", Model.User.School)</span>
                                 </td>
                             </tr>
                             <tr>
@@ -58,7 +60,7 @@
                                     Address
                                 </td>
                                 <td class="glyphicon workFriendsList tableItemInfo">
-                                    Dúfnahólar 10
+                                    <span>@string.Format("{0}", Model.User.Address)</span>
                                 </td>
                             </tr>
                         </tbody>
