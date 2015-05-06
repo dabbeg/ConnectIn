@@ -384,29 +384,36 @@ a.navbar-brand
     font-size: 25px;
 }
 
+div.well.FriendsListWell {
+    width: 100%;
+    overflow: hidden;
+    max-height: 300px;
+    
+
+}
+
 .friendsListPhoto {
     display: inline-block;
     width: 200px;
     height: 200px;
     float: left;
-    margin: auto;
     margin-right: 15px;
 }
 
 .tableFriends{
-    font-size: 20px;
-	text-align: left;
+    font-size: 16px;
+
+}
+.glyphicon {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Glyphicons Halflings';
+
 }
 .tableItem {
     font-weight: bold;
-    text-align: left;
-    width: 150px;
-    margin-bottom: 20px;
+    width: 100px;
 
 }
 .tableItemInfo {
-    text-align: left;
-    margin-bottom: 20px;
 }
 
 .profileNameLink {
