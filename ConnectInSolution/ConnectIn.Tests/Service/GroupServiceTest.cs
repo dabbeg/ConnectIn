@@ -89,7 +89,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
-                Date = new DateTime(2001, 1, 1)
+                Date = new DateTime(2001, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p2);
 
@@ -107,7 +108,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 4,
                 Text = "someText 4",
                 UserId = "1",
-                Date = new DateTime(2003, 1, 1)
+                Date = new DateTime(2003, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p4);
 
@@ -116,7 +118,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 5,
                 Text = "someText 5",
                 UserId = "3",
-                Date = new DateTime(2004, 1, 1)
+                Date = new DateTime(2004, 1, 1),
+                GroupId = 2
             };
             mockDb.Posts.Add(p5);
 
@@ -125,7 +128,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 6,
                 Text = "someText 6",
                 UserId = "2",
-                Date = new DateTime(2005, 1, 1)
+                Date = new DateTime(2005, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p6);
             #endregion
@@ -533,19 +537,19 @@ namespace ConnectIn.Tests.Service
         {
             // Arrange
             const int group1 = 1;
-            const int group3 = 3;
+            const int group2 = 2;
 
             // Act
             var result1 = service.GetAllPostsOfGroup(group1);
-            var result3 = service.GetAllPostsOfGroup(group3);
+            var result2 = service.GetAllPostsOfGroup(group2);
 
             // Assert
-            int[] list1 = { 6, 4, 2, 1 };
-            int[] list3 = { 6, 4, 3, 2, 1 };
+            int[] list1 = { 6, 4, 2 };
+            int[] list2 = { 5 };
             CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list3, result3);
-            Assert.AreEqual(4, result1.Count);
-            Assert.AreEqual(5, result3.Count);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(1, result2.Count);
         }
     }
 }

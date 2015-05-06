@@ -42,7 +42,7 @@ namespace ConnectIn.Tests.Services
                 Email = "user2@m.com",
                 UserName = "user2",
                 Name = "user2",
-                Birthday = new DateTime(2001, 5, 5),
+                Birthday = DateTime.Today,
                 Work = "HI",
                 School = "HI",
                 Gender = "Male",

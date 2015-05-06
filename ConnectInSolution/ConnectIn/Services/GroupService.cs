@@ -52,9 +52,10 @@ namespace ConnectIn.Services
             // Get the Id of all members in that group
             var members = GetMembersOfGroup(groupId);
 
-            // Get all the posts from friends
+            // Get all the posts from friends with that postgroupId
             var statuses = (from s in db.Posts
                             where members.Contains(s.UserId)
+                            && s.GroupId == groupId
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
