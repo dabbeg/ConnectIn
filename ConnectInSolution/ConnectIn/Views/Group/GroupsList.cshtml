@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ConnectIn.Models.Entity.Group>
+﻿@model IEnumerable<ConnectIn.Models.ViewModels.GroupListViewModel>
 
 @{
     ViewBag.Title = "GroupsList";
@@ -16,12 +16,11 @@
 
     <div class="well">
         <span>
-            <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+            <h2>@Html.ActionLink(item.Name, "Details", new { id = item.GroupId })</h2>
         </span>
         
         <span id="groupWell">
             @Html.ActionLink("Edit", "Edit", new { id = item.GroupId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.GroupId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.GroupId })
         </span>
     </div>

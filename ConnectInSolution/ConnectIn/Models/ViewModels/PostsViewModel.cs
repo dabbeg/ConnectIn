@@ -13,5 +13,6 @@ namespace ConnectIn.Models.ViewModels
         public DateTime DateInserted { get; set; }
         public List<CommentViewModel> Comments { get; set; }
         public LikeDislikeViewModel LikeDislike { get; set; }
+        public int? GroupId { get; set; }
     }
 }
