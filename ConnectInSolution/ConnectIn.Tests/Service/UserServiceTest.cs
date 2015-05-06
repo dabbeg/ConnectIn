@@ -5,6 +5,7 @@ using ConnectIn.Tests;
 using ConnectIn.Models.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.IO.Ports;
 
 namespace ConnectIn.Tests.Services
 {
@@ -738,6 +739,17 @@ namespace ConnectIn.Tests.Services
         }
 
         [TestMethod]
+        public void TestGetAllGroupsOfUser()
+        {
+            const string user1 = "1";
+
+            var result = service.GetAllGroupsOfUser(user1);
+
+            int[] list = {1, 2, 3};
+
+            CollectionAssert.AreEqual(list, result);
+        }
+
         public void TestGetPossibleUsersByName()
         {
             // Arrange

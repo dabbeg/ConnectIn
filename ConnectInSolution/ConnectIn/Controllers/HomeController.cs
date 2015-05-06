@@ -222,9 +222,5 @@ namespace ConnectIn.Controllers
 
             return View(birthdays);
         }
-        public ActionResult GroupsList()
-        {
-            return View();
-        }
     }
 }

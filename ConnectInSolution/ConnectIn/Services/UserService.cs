@@ -202,5 +202,15 @@ namespace ConnectIn.Services
         }
         #endregion
 
+        #region queries regarding the user's groups
+
+        public List<int> GetAllGroupsOfUser(string userId)
+        {
+            var gr = (from g in db.Members
+                where g.UserId == userId
+                select g.GroupId).ToList();
+            return gr;
+        }
+        #endregion
     }
 }
