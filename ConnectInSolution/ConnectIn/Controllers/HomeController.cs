@@ -156,11 +156,26 @@ namespace ConnectIn.Controllers
 
             foreach (var item in notifications)
             {
+                var user = userService.GetUserById(item.UserId);
+                var friend = userService.GetUserById(item.FriendUserId);
                 model.Add(
                     new NotificationViewModel()
                     {
-                        UserId = item.UserId,
-                        FriendId = item.FriendUserId,
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.Name,
+                            Work = user.Work,
+                            School = user.School
+                        },
+                        Friend = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.Name,
+                            Work = user.Work,
+                            School = user.School,
+                            ProfilePicture = "http://i.imgur.com/3h6Ha2F.jpg"
+                        },
                         Date = item.Date,
                         IsPending = item.IsPending,
                         IsFriendRequest = item.IsFriendRequest

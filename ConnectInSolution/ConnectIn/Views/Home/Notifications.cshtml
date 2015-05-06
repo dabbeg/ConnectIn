@@ -6,3 +6,51 @@
 
 <h2>Friend Requests</h2>
 
+
+<div class="container">
+    <div id="posts" class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="post item span3">
+            <div class="well" id="FriendsListWell">
+                <div class="friendsListPhoto">
+                    <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
+                </div>
+
+                <div class="friendsListAbout">
+                    <div class="friendsListName">
+                        <h4>
+                            <a href="#" target="_blank" class="profileNameLink">@item.Friend.Name</a>
+                        </h4>
+                    </div>
+                    <table class="tableFriends">
+                        <tbody>
+                        <tr>
+                            <td class="glyphicon glyphicon-briefcase tableItem">
+                                Work
+                            </td>
+                            <td class="glyphicon workFriendsList tableItemInfo">
+                                @item.Friend.Work
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-envelope tableItem">
+                                School
+                            </td>
+                            <td class="glyphicon schoolFriendsList tableItemInfo">
+                                @item.Friend.School
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+
