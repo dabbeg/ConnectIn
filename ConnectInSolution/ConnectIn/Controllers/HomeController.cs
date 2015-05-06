@@ -145,10 +145,6 @@ namespace ConnectIn.Controllers
 
             return View(model);
         }
-        public ActionResult FriendsList()
-        {
-            return View();
-        }
         public ActionResult Notifications()
         {
             return View();
@@ -187,6 +183,38 @@ namespace ConnectIn.Controllers
                     });
             }
             return View(searchResult);
+        }
+        public ActionResult FriendsList()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var friendList = userService.GetFriendsFromUser(userId);
+            var friends = new List<FriendViewModel>();
+
+            foreach (var id in friendList)
+            {
+                var user = userService.GetUserById(id);
+                friends.Add(
+                    new FriendViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            UserName = user.UserName,
+                            Name = user.Name,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = user.Gender,
+                            Birthday = user.Birthday,
+                            Work = user.Work,
+                            School = user.School,
+                            Address = user.Address
+                        }
+                    });  
+            }
+            return View(friends);
         }
         public ActionResult Birthdays()
         {
