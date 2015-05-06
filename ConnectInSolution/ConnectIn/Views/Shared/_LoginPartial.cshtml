@@ -7,7 +7,7 @@
             @Html.AntiForgeryToken()
 
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li class="pull-left">
                     @Html.ActionLink("Hello, " + User.Identity.GetUserName().Substring(0, User.Identity.GetUserName().IndexOf('@')) + "!", "Manage", "Account", routeValues: null, htmlAttributes: new {title = "Manage"})
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>

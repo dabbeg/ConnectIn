@@ -21,16 +21,17 @@
                 @Html.ActionLink(" ","NewsFeed", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
                     @if (Request.IsAuthenticated)
-                    { 
+                    {
                         <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
                         <li>@Html.ActionLink("Profile", "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     }
                 </ul>
-                @Html.Partial("_LoginPartial")
+
             </div>
         </div>
     </div>
