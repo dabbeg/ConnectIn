@@ -46,6 +46,14 @@ namespace ConnectIn.Controllers
             return RedirectToAction("GroupsList", "Group");
         }
 
+        public ActionResult Details(int Id)
+        {
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var grp = groupService.GetGroupById(Id);
+            return View("GroupDetails", grp);
+        }
+
         public ActionResult Delete()
         {
             return View();
