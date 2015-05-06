@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Web.UI;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
 using ConnectIn.Services;

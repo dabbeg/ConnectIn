@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
@@ -112,21 +109,6 @@ namespace ConnectIn.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Notifications", "Home");
-        }
-
-        public ActionResult Notifications()
-        {
-            return View();
-        }
-
-        public ActionResult FriendsList()
-        {
-            return View();
-        }
-
-        public ActionResult Birthdays()
-        {
-            return View();
         }
     }
 }

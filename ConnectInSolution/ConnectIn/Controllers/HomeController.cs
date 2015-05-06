@@ -1,12 +1,7 @@
 ﻿using ConnectIn.DAL;
 using ConnectIn.Services;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
