@@ -8,55 +8,99 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <div class="well">
-        <div id="userProfilePicture">
-            <img src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
-        </div>
-        <div id="userNameOnProfile">
-            <div>
-                <h1>A random user's profile</h1>
+    <div class="container">
+        <div class="well" id="ProfileWell">
+            <div id="userProfilePicture">
+                <img class="img-rounded pull-left" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
             </div>
+            <div id="userNameOnProfile">
+                <div>
+                    <h1>A random user's profile</h1>
+                </div>
 
-            <div class="well" id="aboutUser">
-                <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: </div>
-                <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: </div>
-                <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: </div>
-                <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: </div>
-                <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: </div>
-            </div>
-            <div id="addFriendButton">
-                @{
-                    if (Model.User.UserId != User.Identity.GetUserId())
-                    {
-                        var context = new ApplicationDbContext();
-                        var userService = new UserService(context);
-                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                        if (listOfFriends.Contains(@Model.User.UserId))
-                        {
-                            using (Html.BeginForm("Remove", "Friend"))
-                            {
-                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
-                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
-                            }
-                        }
-                        else
-                        {
-                            using (Html.BeginForm("Add", "Friend"))
-                            {
-                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
-                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-                            }
-                        }
+                <div class="well" id="aboutUser">
+                    <table class="tableFriends">
+                        <tbody>
+                            <tr>
+                                <td class="glyphicon glyphicon-user tableItem">
+                                    Gender
+                                </td>
+                                <td class="glyphicon profileGender tableItemInfo">
+                                    Male
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="glyphicon glyphicon-gift tableItem">
+                                    Birthday
+                                </td>
+                                <td class="glyphicon profileBirthday tableItemInfo">
+                                    May the 4th
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="glyphicon glyphicon-briefcase tableItem">
+                                    Work
+                                </td>
+                                <td class="glyphicon workFriendsList tableItemInfo">
+                                    McDonalds drivethu expert
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="glyphicon glyphicon-pencil tableItem">
+                                    School
+                                </td>
+                                <td class="glyphicon schoolFriendsList tableItemInfo">
+                                    School of life
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="glyphicon glyphicon-home tableItem">
+                                    Address
+                                </td>
+                                <td class="glyphicon workFriendsList tableItemInfo">
+                                    Dúfnahólar 10
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="addFriendButton">
+                    @{
+    if (Model.User.UserId != User.Identity.GetUserId())
+    {
+        var context = new ApplicationDbContext();
+        var userService = new UserService(context);
+        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+        if (listOfFriends.Contains(@Model.User.UserId))
+        {
+            using (Html.BeginForm("Remove", "Friend"))
+            {
+                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("Add", "Friend"))
+            {
+                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+            }
+        }
+    }
                     }
-                }
-                
+
+                </div>
             </div>
         </div>
+
+
+
+        <div id="profileborder"></div>
     </div>
-    
-    <div id="profileborder"></div>
+
 
     {
         Html.RenderPartial("PostsPartial", Model.Posts);
