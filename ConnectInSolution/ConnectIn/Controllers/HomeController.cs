@@ -17,19 +17,14 @@ namespace ConnectIn.Controllers
     {
         public ActionResult Index()
         {
-            // if i send null, the other one will be used (database?)
-            // var service = new UserService(null);
-
-            // var friendlist = service.GetFriendsFromUser(this.User.Identity.Name);
-
-            // return View(friendlist);
-            return View();
+            if (User.Identity.IsAuthenticated) return RedirectToAction("NewsFeed", "Home");
+            else return View();
         }
 
         public ActionResult NewsFeed()
         {
             var userId = User.Identity.GetUserId();
-         
+            
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var postService = new PostService(context);
@@ -68,14 +63,12 @@ namespace ConnectIn.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
 

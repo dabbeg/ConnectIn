@@ -8,11 +8,28 @@
     <h2>News Feed</h2>
 
     <!--Filters for the news feed-->
-    <ul class="nav nav-justified newsFeedFilters">
+
+    <!--<ul class="nav nav-justified newsFeedFilters">
         <li><a href="#">Everyone</a></li>
         <li><a href="#">Best friends</a></li>
         <li><a href="#">Family</a></li>
-    </ul>
+    </ul>-->
+
+    <div class="nav nav-justified newsFeedFilters" style="margin-bottom: 25px; margin-top: 25px; ">
+        <div class="pull-right">
+            <div class="btn-group btn-group-justified movie-views" data-toggle="buttons">
+                <label class="btn btn-default active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" value="Everyone" checked> Everyone
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option2" autocomplete="off" value="BestFriends"> Best Friends
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option3" autocomplete="off" value="Family"> Family
+                </label>
+            </div>
+        </div>
+    </div>
 
     <div>
         @using (Html.BeginForm("AddPost", "Status"))
