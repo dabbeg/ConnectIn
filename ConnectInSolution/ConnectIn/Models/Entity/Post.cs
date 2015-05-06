@@ -16,6 +16,7 @@ namespace ConnectIn.Models.Entity
         public string Text { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
+        public int? GroupId { get; set; }
         #endregion
 
         #region ForeignKeys

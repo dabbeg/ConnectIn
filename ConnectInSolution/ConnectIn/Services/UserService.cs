@@ -136,6 +136,7 @@ namespace ConnectIn.Services
             // Create a list of all posts from the user
             var list = (from up in db.Posts
                        where up.UserId == userId
+                       && up.GroupId == null
                        orderby up.Date descending
                        select up.PostId).ToList();
 
@@ -150,8 +151,9 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where friends.Contains(s.UserId)
-                            || s.UserId == userId
+                            where (friends.Contains(s.UserId)
+                            || s.UserId == userId)
+                            && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
@@ -165,8 +167,9 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where bestFriends.Contains(s.UserId) 
-                            || s.UserId == userId
+                            where (bestFriends.Contains(s.UserId) 
+                            || s.UserId == userId)
+                            && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
@@ -180,8 +183,9 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where family.Contains(s.UserId)
-                            || s.UserId == userId
+                            where (family.Contains(s.UserId)
+                            || s.UserId == userId)
+                            && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
             return statuses;
