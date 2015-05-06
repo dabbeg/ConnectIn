@@ -11,12 +11,32 @@
 }
 
 /*About*/
-.carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-    width:auto;
-            margin: auto;
-        }
-
+.photosabout {
+    max-height: 200px;
+    max-width: 200px;
+}
+#darri
+{
+    width:200px;
+    height:auto;
+}
+#dabbi
+{
+    width:200px;
+    height:auto; 
+}
+.row
+{
+    padding-left:12px;
+}
+.caption
+{
+    width:600px;
+}
+#aboutinfo
+{
+    resize:none;
+}
 #headliner
 {
         background-image: url("/Content/Images/background.jpg");
@@ -28,6 +48,18 @@
 #headliner > h1
 {
     color:white;
+}
+.thumbnail.right-caption > img {
+    float: left;
+    margin-right: 9px;
+}
+
+.thumbnail.right-caption {
+    float: left;
+}
+
+.thumbnail.right-caption > .caption {
+    padding: 4px;
 }
 
 
