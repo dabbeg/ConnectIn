@@ -232,7 +232,7 @@ namespace ConnectIn.Services
         public List<Notification> GetAllNotificationsForUser(string userId)
         {
             var notifications = (from n in db.Notifications
-                where n.UserId == userId
+                where n.FriendUserId == userId
                 select n).ToList();
 
             return notifications;
