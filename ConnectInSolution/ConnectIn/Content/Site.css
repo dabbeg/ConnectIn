@@ -268,7 +268,9 @@ a.navbar-brand
   background: url(../Content/Images/Cinlogolol.png) no-repeat;
   background-size: contain;
   display: block;
-  margin: 10px;
+    width: 100%;
+    height: 100%;
+  margin: 5px;
   float:left;
   outline: none;
   overflow: hidden;
@@ -384,29 +386,34 @@ a.navbar-brand
     font-size: 25px;
 }
 
+#FriendsListWell {
+    overflow: hidden;
+    height: auto;
+}
+
 .friendsListPhoto {
     display: inline-block;
     width: 200px;
-    height: 200px;
+    height: auto;
+    max-height: 200px;
     float: left;
-    margin: auto;
     margin-right: 15px;
 }
 
 .tableFriends{
-    font-size: 20px;
-	text-align: left;
+    font-size: 16px;
+
+}
+.glyphicon {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Glyphicons Halflings';
+
 }
 .tableItem {
     font-weight: bold;
-    text-align: left;
-    width: 150px;
-    margin-bottom: 20px;
+    width: 100px;
 
 }
 .tableItemInfo {
-    text-align: left;
-    margin-bottom: 20px;
 }
 
 .profileNameLink {
