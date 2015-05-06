@@ -89,7 +89,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
-                Date = new DateTime(2001, 1, 1)
+                Date = new DateTime(2001, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p2);
 
@@ -98,7 +99,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 3,
                 Text = "someText 3",
                 UserId = "4",
-                Date = new DateTime(2002, 1, 1)
+                Date = new DateTime(2002, 1, 1),
+                GroupId = 2
             };
             mockDb.Posts.Add(p3);
 
@@ -107,7 +109,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 4,
                 Text = "someText 4",
                 UserId = "1",
-                Date = new DateTime(2003, 1, 1)
+                Date = new DateTime(2003, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p4);
 
@@ -116,7 +119,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 5,
                 Text = "someText 5",
                 UserId = "3",
-                Date = new DateTime(2004, 1, 1)
+                Date = new DateTime(2004, 1, 1),
+                GroupId = 2
             };
             mockDb.Posts.Add(p5);
 
@@ -125,7 +129,8 @@ namespace ConnectIn.Tests.Service
                 PostId = 6,
                 Text = "someText 6",
                 UserId = "2",
-                Date = new DateTime(2005, 1, 1)
+                Date = new DateTime(2005, 1, 1),
+                GroupId = 1
             };
             mockDb.Posts.Add(p6);
             #endregion

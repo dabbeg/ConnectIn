@@ -379,6 +379,46 @@ a.navbar-brand
     float: right;
 }
 
+.friendsListName {
+    display: block;
+    font-size: 25px;
+}
+
+.friendsListPhoto {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin: auto;
+    margin-right: 15px;
+}
+
+.tableFriends{
+    font-size: 20px;
+	text-align: left;
+}
+.tableItem {
+    font-weight: bold;
+    text-align: left;
+    width: 150px;
+    margin-bottom: 20px;
+
+}
+.tableItemInfo {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.profileNameLink {
+    font-size: 25px
+}
+
+
+.img-responsive, img-rounded {
+    max-height: 200px;
+    max-width: 200px;
+}
+
 #groupWell {
     float: right;
     position: relative;
