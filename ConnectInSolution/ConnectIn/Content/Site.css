@@ -473,3 +473,15 @@ a.navbar-brand
     bottom: 34px;
     right: 22px;
 }
+
+.bottomRightButtonRight {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.bottomRightButtonLeft {
+    position: absolute;
+    bottom: 20px;
+    right: 120px;
+}

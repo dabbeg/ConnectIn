@@ -1,12 +1,7 @@
 ﻿using ConnectIn.DAL;
 using ConnectIn.Services;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -145,10 +140,50 @@ namespace ConnectIn.Controllers
 
             return View(model);
         }
+
+
         public ActionResult Notifications()
         {
-            return View();
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
+
+            var model = new List<NotificationViewModel>();
+
+            foreach (var item in notifications)
+            {
+                var user = userService.GetUserById(item.FriendUserId);
+                var friend = userService.GetUserById(item.UserId);
+                model.Add(
+                    new NotificationViewModel()
+                    {
+                        User = new UserViewModel()
+                        {
+                            UserId = user.Id,
+                            Name = user.Name,
+                            Work = user.Work,
+                            School = user.School
+                        },
+                        Friend = new UserViewModel()
+                        {
+                            UserId = friend.Id,
+                            Name = friend.Name,
+                            Work = friend.Work,
+                            School = friend.School,
+                            ProfilePicture = "http://i.imgur.com/3h6Ha2F.jpg"
+                        },
+                        NotificationId = item.NotificationId,
+                        Date = item.Date,
+                        IsPending = item.IsPending,
+                        IsApproved = item.IsApproved
+                    }
+                );
+
+            }
+
+            return View(model);
         }
+
         public ActionResult Search(FormCollection collection)
         {
             var searchWord = collection["status"];

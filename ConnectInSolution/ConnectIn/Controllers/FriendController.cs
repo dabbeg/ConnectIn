@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
@@ -21,16 +18,27 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-
-            var friends = new Friend()
-            {
-                UserId = userId,
-                FriendUserId = friendId
-            };
-
+            
             var context = new ApplicationDbContext();
-            context.Friends.Add(friends);
-            context.SaveChanges();
+            var userService = new UserService(context);
+
+            var friendship = userService.GetFriendShip(userId, friendId);
+            if (friendship == null)
+            {
+
+                var notification = new Notification()
+                {
+                    UserId = userId,
+                    FriendUserId = friendId,
+                    Date = DateTime.Now,
+                    IsPending = true,
+                    IsApproved = false
+                };
+
+
+                context.Notifications.Add(notification);
+                context.SaveChanges();
+            }
 
             return RedirectToAction("Profile", "Home", new { id = friendId });
         }
@@ -55,17 +63,54 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Profile", "Home", new { id = friendId });
         }
 
-        public ActionResult FriendsList()
+        public ActionResult AcceptFriendRequest(FormCollection collection)
         {
-            return View();
+            string id = collection["notificationId"];
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            
+            int notificationId = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var notification = userService.GetNotificationById(notificationId);
+            notification.IsPending = false;
+            notification.IsApproved = true;
+
+            var friends = new Friend
+            {
+                UserId = notification.UserId,
+                FriendUserId = notification.FriendUserId
+            };
+            
+            context.Friends.Add(friends);
+            context.SaveChanges();
+
+            return RedirectToAction("Notifications", "Home");
         }
-        public ActionResult Notifications()
+
+        public ActionResult DeclineFriendRequest(FormCollection collection)
         {
-            return View();
-        }
-        public ActionResult Birthdays()
-        {
-            return View();
+            string id = collection["notificationId"];
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            int notificationId = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var notification = userService.GetNotificationById(notificationId);
+            notification.IsPending = false;
+            notification.IsApproved = false;
+            context.SaveChanges();
+
+            return RedirectToAction("Notifications", "Home");
         }
     }
 }

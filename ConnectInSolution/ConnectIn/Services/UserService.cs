@@ -121,8 +121,10 @@ namespace ConnectIn.Services
         public Friend GetFriendShip(string userId, string friendId)
         {
             var fs = (from f in db.Friends
-                where f.UserId == userId
-                      && f.FriendUserId == friendId
+                where (f.UserId == userId
+                      && f.FriendUserId == friendId)
+                      || (f.UserId == friendId
+                      && f.FriendUserId == userId)
                 select f).SingleOrDefault();
 
             return fs;
@@ -214,6 +216,39 @@ namespace ConnectIn.Services
                 where g.UserId == userId
                 select g.GroupId).ToList();
             return gr;
+        }
+        #endregion
+
+        #region queries regarding users notification
+        //Get a notification by notification Id
+        public Notification GetNotificationById(int notificationId)
+        {
+            var notification = (from n in db.Notifications
+                where n.NotificationId == notificationId
+                select n).SingleOrDefault();
+
+            return notification;
+        }
+
+        //Get a list of all notifications for the user with userId 
+        public List<Notification> GetAllNotificationsForUser(string userId)
+        {
+            var notifications = (from n in db.Notifications
+                where n.FriendUserId == userId
+                select n).ToList();
+
+            return notifications;
+        }
+
+        public Notification GetIfFriendRequestIsPending(string userId, string friendId)
+        {
+            var notification = (from n in db.Notifications
+                where n.UserId == userId
+                      && n.FriendUserId == friendId
+                      && n.IsPending == true
+                select n).SingleOrDefault();
+
+            return notification;
         }
         #endregion
     }
