@@ -8,19 +8,26 @@
 
 <div>
     <h4>Group</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-    </dl>
+</div>
+<div class="well" id="membersDiv">
+    <table class="table table-hover table-striped">
+        <tr>
+            <td>Name</td>
+            <td>Birthday</td>
+            <td>E-mail</td>
+        </tr>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.User.Name</td>
+                <td>@member.User.Birthday</td>
+                <td>@member.User.Email</td>
+            </tr>
+        }
+        
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "GroupsList")
 </p>
