@@ -6,33 +6,41 @@
 
 @if (Request.IsAuthenticated)
 {
-    <h2>Birthdays</h2>
-    <h3>Today is @DateTime.Today.ToString("dddd, MMMMM d", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))@string.Format("{1} {0:yyyy}", DateTime.Now, (DateTime.Now.Day % 10 == 1 && DateTime.Now.Day != 11) ? "st"
-: (DateTime.Now.Day % 10 == 2 && DateTime.Now.Day != 12) ? "nd"
-: (DateTime.Now.Day % 10 == 3 && DateTime.Now.Day != 13) ? "rd"
- : "th") </h3>
 
-    <div style="margin-top: 80px;">
-        @foreach (var item in Model)
-        {
-            <div class="well">
-                <div id="postContent">
-                    <h3>
-                        <!--Should display user's profile picture, a cat was used temporarily-->
-                        <span class="smileyFace">
-                            <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
-                        </span>
-                        <!--Should display username instead of item.userID-->
-                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
-                        <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year)</span> <br />
-                        <span>
-                            @item.User.Birthday.Date.ToString("dd/MM/yyyy")
-                        </span>
-                    </h3>
-                </div>
+    <div class="container">
+        <h2>Birthdays</h2>
+        <h3>Today is @DateTime.Today.ToString("dddd, MMMMM d", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))@string.Format("{1} {0:yyyy}", DateTime.Now, (DateTime.Now.Day%10 == 1 && DateTime.Now.Day != 11) ? "st"
+                                                                                                                                   : (DateTime.Now.Day%10 == 2 && DateTime.Now.Day != 12) ? "nd"
+                                                                                                                                       : (DateTime.Now.Day%10 == 3 && DateTime.Now.Day != 13) ? "rd"
+                                                                                                                                           : "th") </h3>
+        <div id="posts" class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="post item span3">
+                        <div class="well" id="FriendsListWell">
+                            <div id="postContent">
+                                <!--Should display user's profile picture, a cat was used temporarily-->
+                                <div class="friendsListPhoto">
+                                    <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
+                                </div>
+                                <!--Should display username instead of item.userID-->
+                                <div class="friendsListName">
+                                    <h2>
+                                        @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
+                                    </h2>
+                                </div>
+                                <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year)</span> <br/>
+                                <span>
+                                    @item.User.Birthday.Date.ToString("dd/MM/yyyy")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        }
-    </div>
+        </div>
+    
+    
 }
 else
 {
