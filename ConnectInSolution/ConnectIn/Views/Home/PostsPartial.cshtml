@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
 
 
 <div style="margin-top: 80px;">
@@ -34,9 +35,12 @@
                         {
                             <button type="submit" class="btn btn-default-comment">Comment</button>
                         }
-                        @using (Html.BeginForm("RemovePost", "Status", new {postId = item.PostId}))
+                        @if(item.User.UserId == User.Identity.GetUserId())
                         {
-                            <button type="submit" class="btn btn-danger deletePostButton">Delete Post</button>
+                            using (Html.BeginForm("RemovePost", "Status", new {postId = item.PostId}))
+                            {
+                                <button type="submit" class="btn btn-danger deletePostButton">Delete Post</button>
+                            }
                         }
                     </div>
                 </div>
