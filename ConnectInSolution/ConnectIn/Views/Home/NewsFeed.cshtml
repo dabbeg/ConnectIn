@@ -8,11 +8,16 @@
     <h2>News Feed</h2>
 
     <!--Filters for the news feed-->
-    <ul class="nav nav-justified newsFeedFilters">
+    <select class="nav nav-justified newsFeedFilters">
+        <option value="Everyone" selected="selected">Everyone</option>
+        <option value="Best friends">Everyone</option>
+        <option value="Family">Everyone</option>
+    </select>
+    <!--<ul class="nav nav-justified newsFeedFilters">
         <li><a href="#">Everyone</a></li>
         <li><a href="#">Best friends</a></li>
         <li><a href="#">Family</a></li>
-    </ul>
+    </ul>-->
 
     <div>
         @using (Html.BeginForm("AddPost", "Status"))

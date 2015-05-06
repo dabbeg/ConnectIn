@@ -72,7 +72,11 @@
             <!-- Sidebar -->
 
             <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">                    
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-align-left sidebarGlyphs"></span></a>
+                        @Html.ActionLink("News Feed", "NewsFeed", "Home")
+                    </li>
                     <li>
                         <a href="#"><span class="glyphicon glyphicon-user sidebarGlyphs"></span></a>
                         @Html.ActionLink("Friends", "FriendsList", "Home")
@@ -94,7 +98,7 @@
                         @using (Html.BeginForm("Search", "Home"))
                         {
                             <div class="form-horizontal">
-                                <input type="text" placeholder="Search..." class="search-form-control" name="status" style="max-width: 100%; display: inline" />
+                                <input type="text" placeholder="Search..." class="search-form-control" name="status" style="max-width: 100%; display: inline"/>
                                 <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px; display: none;"></button>
                             </div>
                         }
