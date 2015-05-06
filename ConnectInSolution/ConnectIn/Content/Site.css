@@ -11,12 +11,32 @@
 }
 
 /*About*/
-.carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-    width:auto;
-            margin: auto;
-        }
-
+.photosabout {
+    max-height: 200px;
+    max-width: 200px;
+}
+#darri
+{
+    width:200px;
+    height:auto;
+}
+#dabbi
+{
+    width:200px;
+    height:auto; 
+}
+.row
+{
+    padding-left:12px;
+}
+.caption
+{
+    width:600px;
+}
+#aboutinfo
+{
+    resize:none;
+}
 #headliner
 {
         background-image: url("/Content/Images/background.jpg");
@@ -28,6 +48,18 @@
 #headliner > h1
 {
     color:white;
+}
+.thumbnail.right-caption > img {
+    float: left;
+    margin-right: 9px;
+}
+
+.thumbnail.right-caption {
+    float: left;
+}
+
+.thumbnail.right-caption > .caption {
+    padding: 4px;
 }
 
 
@@ -378,35 +410,40 @@ a.navbar-brand
     display: inline-block;
     float: right;
 }
-
 .friendsListName {
     display: block;
     font-size: 25px;
 }
 
+#FriendsListWell {
+    overflow: hidden;
+    height: auto;
+
+}
+
 .friendsListPhoto {
     display: inline-block;
     width: 200px;
-    height: 200px;
+    height: auto;
+    max-height: 200px;
     float: left;
-    margin: auto;
     margin-right: 15px;
 }
 
 .tableFriends{
-    font-size: 20px;
-	text-align: left;
+    font-size: 16px;
+
+}
+.glyphicon {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Glyphicons Halflings';
+
 }
 .tableItem {
     font-weight: bold;
-    text-align: left;
-    width: 150px;
-    margin-bottom: 20px;
+    width: 100px;
 
 }
 .tableItemInfo {
-    text-align: left;
-    margin-bottom: 20px;
 }
 
 .profileNameLink {
