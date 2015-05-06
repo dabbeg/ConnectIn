@@ -8,37 +8,64 @@
 
 @if (Request.IsAuthenticated)
 {
-    <h2>Friends</h2>
-    <div style="margin-top: 80px;">
-        @foreach (var item in Model)
-        {
-            <div class="well">
-                <div id="postContent">
-                    <h3>
-                        <!--Should display user's profile picture, a cat was used temporarily-->
-                        <span class="containers">
-                            <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
-                        </span>
-                        <!--Should display username instead of item.userID-->
-                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
-                        <div id="addFriendButton">
-                            @{
-                                using (Html.BeginForm("Remove", "Friend"))
-                                {
-                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                                    <input type="hidden" name="friendId" value="@item.User.UserId" />
-                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
-                                }
-                            }
-                        </div>
-                    </h3>
-                    <div class="glyphicon glyphicon-envelope personalInfoGlyphs"><span>@string.Format("School: {0}", item.User.School)</span></div>
-                    <div class="glyphicon glyphicon-briefcase personalInfoGlyphs"><span>@string.Format("Work: {0}", item.User.Work)</span></div>
+   <div class="container">
+       <h2>Friends</h2>
+   <div id="posts" class="row">
 
-                </div>
+       @foreach (var item in Model)
+       {
+           <div class="post item span3">
+               <div class="well" id="FriendsListWell">
+                   <div id="postContent">
+                           <!--Should display user's profile picture, a cat was used temporarily-->
+                       <div class="friendsListPhoto">
+                           <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                       </div>
+                       <!--Should display username instead of item.userID-->
+                       <div class="friendsListAbout">
+                           <div class="friendsListName">
+                               <h4>
+                                   @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
+                               </h4>
+                           </div>
+                           <div id="addFriendButton">
+                               @{
+                                   using (Html.BeginForm("Remove", "Friend"))
+                                   {
+                                       <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                       <input type="hidden" name="friendId" value="@item.User.UserId"/>
+                                       <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                   }
+                               }
+                           </div>
+
+                           <table class="tableFriends">
+                               <tbody>
+                                   <tr>
+                                       <td class="glyphicon glyphicon-briefcase tableItem">
+                                           Work
+                                       </td>
+                                       <td class="glyphicon workFriendsList tableItemInfo">
+                                           <span>@string.Format("{0}", item.User.Work)</span>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <td class="glyphicon glyphicon-pencil tableItem">
+                                           School
+                                       </td>
+                                       <td class="glyphicon schoolFriendsList tableItemInfo">
+                                           <span>@string.Format("{0}", item.User.School)</span>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div>
+               </div>
             </div>
-        }
-    </div>
+           </div>
+       }
+   </div>
+       </div>
 }
 else
 {
