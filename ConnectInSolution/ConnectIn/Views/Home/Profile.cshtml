@@ -36,7 +36,7 @@
                                     Birthday
                                 </td>
                                 <td class="glyphicon profileBirthday tableItemInfo">
-                                    <span>@string.Format("{0}", Model.User.Birthday)</span>
+                                    <span>@string.Format("{0}.{1}.{2}", Model.User.Birthday.Day, Model.User.Birthday.Month, Model.User.Birthday.Year)</span>
                                 </td>
                             </tr>
                             <tr>
