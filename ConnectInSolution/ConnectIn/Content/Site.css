@@ -10,6 +10,15 @@
     padding-right: 15px;
 }
 
+.navbar-nav>li>.dropdown-menu {
+  margin-top: 51px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-color: #101010;
+  background-color: #222;
+  width: 27px;
+}
+
 /*About*/
 .photosabout {
     max-height: 200px;
