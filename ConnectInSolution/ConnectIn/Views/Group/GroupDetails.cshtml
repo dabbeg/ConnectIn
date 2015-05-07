@@ -34,6 +34,8 @@
 
 
 
+@Html.RenderPartial("~/Home/PostsPartial" Model.Posts.Posts);
+
 
 <div>
     @using (Html.BeginForm("AddPost", "Status"))

@@ -18,6 +18,7 @@ namespace ConnectIn.Controllers
 
         public ActionResult NewsFeed()
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var userId = User.Identity.GetUserId();
             
             var context = new ApplicationDbContext();
@@ -26,6 +27,7 @@ namespace ConnectIn.Controllers
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
             var newsFeed = new NewsFeedViewModel();
+            newsFeed.Id = "-1";
             newsFeed.Posts = new List<PostsViewModel>();
 
             foreach (var id in postIdList)
@@ -69,6 +71,7 @@ namespace ConnectIn.Controllers
 
         public ActionResult Profile(string id)
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
@@ -116,7 +119,11 @@ namespace ConnectIn.Controllers
             var model = new ProfileViewModel()
             {
                 
-                Posts = postsViewModels,
+                NewsFeed = new NewsFeedViewModel()
+                {
+                    Posts = postsViewModels,
+                    Id = id
+                },
                 User = new UserViewModel()
                 {
                     UserId = user.Id,
@@ -136,6 +143,7 @@ namespace ConnectIn.Controllers
 
         public ActionResult Notifications()
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
@@ -176,6 +184,7 @@ namespace ConnectIn.Controllers
 
         public ActionResult Search(FormCollection collection)
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var searchWord = collection["status"];
 
             var userId = User.Identity.GetUserId();
@@ -212,6 +221,7 @@ namespace ConnectIn.Controllers
        
         public ActionResult FriendsList()
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var userId = User.Identity.GetUserId();
 
             var db = new ApplicationDbContext();
@@ -245,6 +255,7 @@ namespace ConnectIn.Controllers
         
         public ActionResult Birthdays()
         {
+            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var userId = User.Identity.GetUserId();
 
             var db = new ApplicationDbContext();
