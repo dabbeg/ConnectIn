@@ -1,6 +1,9 @@
-﻿using ConnectIn.DAL;
+﻿using System;
+using ConnectIn.DAL;
 using ConnectIn.Services;
 using System.Collections.Generic;
+using System.IO;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using ConnectIn.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
@@ -281,6 +284,22 @@ namespace ConnectIn.Controllers
             }
 
             return View(birthdays);
+        }
+
+        public ActionResult UploadImage()
+        {
+            var photo = WebImage.GetImageFromRequest("Image");
+            if (photo != null)
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" +
+                                  Path.GetFileName(photo.FileName);
+                var imagePath = @"Content\UserImages\" + User.Identity.Name + newFileName;
+
+                photo.Save(@"~\" + imagePath);
+            }
+          
+
+            return View();
         }
     }
 }

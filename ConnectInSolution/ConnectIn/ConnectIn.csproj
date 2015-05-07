@@ -264,9 +264,11 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Group\GroupDetails.cshtml" />
     <Content Include="Views\Home\Notifications.cshtml" />
+    <Content Include="Views\Home\UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UserImages\" />
     <Folder Include="Views\Friend\" />
   </ItemGroup>
   <ItemGroup>
