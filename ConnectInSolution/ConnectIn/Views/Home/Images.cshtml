@@ -20,10 +20,17 @@
 
 @if (Model.UserId == User.Identity.GetUserId())
 {
-    <div>
+    <div class="btnUpload">
         @using (Html.BeginForm("UploadImage", "Home", FormMethod.Get))
         {
-            <input type="hidden" name="userId" value="@Model.UserId"/>
+            <button type="submit" class="btn btn-primary">Upload Photo</button>
+        }
+    </div>
+
+    <div class="btnUpload">
+        @using (Html.BeginForm("PickProfilePicture", "Home", FormMethod.Post))
+        {
+            <input type="hidden" name="photoId" value="PUT PHOTOID" />
             <button type="submit" class="btn btn-primary">Upload Photo</button>
         }
     </div>

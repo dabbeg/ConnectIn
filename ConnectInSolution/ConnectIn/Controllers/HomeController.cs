@@ -326,7 +326,7 @@ namespace ConnectIn.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadImage(FormCollection collection)
+        public ActionResult UploadImage()
         {
             var photo = WebImage.GetImageFromRequest("Image");
             if (photo != null)
@@ -347,6 +347,15 @@ namespace ConnectIn.Controllers
                 context.Photos.Add(img);
                 context.SaveChanges();
             }
+
+            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+        }
+
+        public ActionResult PickProfilePicture(FormCollection collection)
+        {
+            string photoId = collection["photoId"];
+
+
 
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
