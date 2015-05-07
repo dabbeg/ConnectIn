@@ -67,14 +67,14 @@
                     </table>
                 </div>
 
-<!--            <div class="well" id="aboutUser">
-                <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: @Model.User.Gender</div>
-                <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: @Model.User.Birthday</div>
-                <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: @Model.User.Work</div>
-                <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: @Model.User.School</div>
-                <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: @Model.User.Address</div>
-            </div>-->
-            <div id="addFriendButton">
+                <div>
+                    @using (Html.BeginForm("Images", "Home", new { userId = Model.User.UserId }))
+                    {
+                        <button type="submit" class="btn btn-primary">Photos</button>
+                    }
+                </div>
+
+                <div id="addFriendButton">
                 @{
                     if (Model.User.UserId != User.Identity.GetUserId())
                     {

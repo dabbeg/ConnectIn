@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.PhotoAlbumViewModel
+
+@{
+    ViewBag.Title = "Images";
+}
+
+<h2>Images</h2>
+
+<div>
+    @foreach (var item in Model.Images)
+    {
+        <span>
+            <img src="@item.ImagePath" alt="userPhoto"/>
+        </span>
+    }
+</div>
+
+@if (Model.UserId == User.Identity.GetUserId())
+{
+    <div>
+        @using (Html.BeginForm("UploadImage", "Home", FormMethod.Get))
+        {
+            <input type="hidden" name="userId" value="@Model.UserId"/>
+            <button type="submit" class="btn btn-primary">Upload Photo</button>
+        }
+    </div>
+}
+
