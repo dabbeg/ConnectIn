@@ -49,39 +49,22 @@
                     </table>
                 </div>
             </div>
-            @if (item.IsPending)
+            
+            <span class="bottomRightButtonRight">
+            @using (Html.BeginForm("DeclineFriendRequest", "Friend"))
             {
-                <span class="bottomRightButtonRight">
-                @using (Html.BeginForm("DeclineFriendRequest", "Friend"))
-                {
-                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
-                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
-                }
-                </span>
-                <span class="bottomRightButtonLeft">
-                @using (Html.BeginForm("AcceptFriendRequest", "Friend"))
-                {
-                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
-                }
-                </span>
+                <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
             }
-            else
+            </span>
+            <span class="bottomRightButtonLeft">
+            @using (Html.BeginForm("AcceptFriendRequest", "Friend"))
             {
-                if (item.IsApproved)
-                {
-                    <span class="bottomRightButtonLeft">
-                        <button type="submit" class="btn">Approved</button>
-                    </span>
-                }
-                else
-                {
-                    <span class="bottomRightButtonRight">
-                        <button type="submit" class="btn">Declined</button>
-                    </span>
-                }
-                
+                <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
             }
+            </span>
+            
         </div>
     }
     </div>

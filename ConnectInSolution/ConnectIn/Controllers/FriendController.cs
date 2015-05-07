@@ -22,6 +22,7 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
+            //?
             var friendship = userService.GetFriendShip(userId, friendId);
             if (friendship == null)
             {
@@ -30,9 +31,7 @@ namespace ConnectIn.Controllers
                 {
                     UserId = userId,
                     FriendUserId = friendId,
-                    Date = DateTime.Now,
-                    IsPending = true,
-                    IsApproved = false
+                    Date = DateTime.Now
                 };
 
 
@@ -77,15 +76,14 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
 
             var notification = userService.GetNotificationById(notificationId);
-            notification.IsPending = false;
-            notification.IsApproved = true;
 
             var friends = new Friend
             {
                 UserId = notification.UserId,
                 FriendUserId = notification.FriendUserId
             };
-            
+
+            context.Notifications.Remove(notification);
             context.Friends.Add(friends);
             context.SaveChanges();
 
@@ -106,8 +104,7 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
 
             var notification = userService.GetNotificationById(notificationId);
-            notification.IsPending = false;
-            notification.IsApproved = false;
+            context.Notifications.Remove(notification);
             context.SaveChanges();
 
             return RedirectToAction("Notifications", "Home");

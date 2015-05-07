@@ -165,9 +165,7 @@ namespace ConnectIn.Controllers
                             ProfilePicture = "http://i.imgur.com/3h6Ha2F.jpg"
                         },
                         NotificationId = item.NotificationId,
-                        Date = item.Date,
-                        IsPending = item.IsPending,
-                        IsApproved = item.IsApproved
+                        Date = item.Date
                     }
                 );
 
