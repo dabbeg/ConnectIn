@@ -10,6 +10,15 @@
     padding-right: 15px;
 }
 
+.navbar-nav>li>.dropdown-menu {
+  margin-top: 51px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-color: #101010;
+  background-color: #222;
+  width: 27px;
+}
+
 /*About*/
 .photosabout {
     max-height: 200px;
@@ -162,7 +171,7 @@ width:40%;
 /*-------------------------------TEST MENU------------------------------*/
 
 @import url(netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-}
+
 @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
 .fa-2x {
 font-size: 2em;
@@ -491,6 +500,7 @@ a.navbar-brand
     position: relative;
     left: 7px;
     bottom: 12px;
+
 }
 
 .PartialViewResponsive {

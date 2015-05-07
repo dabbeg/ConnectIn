@@ -27,7 +27,12 @@ details,
 figcaption,
 figure,
 footer,
-header,
+
+
+
+
+
+er,
 hgroup,
 main,
 nav,
@@ -1415,7 +1420,7 @@ th {
 
 .table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 20px; 
 }
 
 .table thead > tr > th,

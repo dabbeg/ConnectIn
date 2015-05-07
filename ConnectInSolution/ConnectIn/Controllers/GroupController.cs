@@ -43,41 +43,49 @@ namespace ConnectIn.Controllers
             return RedirectToAction("GroupsList", "Group");
         }
 
-        public ActionResult Details(int Id)
+        public ActionResult Details(int ? Id)
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var groupService = new GroupService(context);
-
-            var memberList = groupService.GetMembersOfGroup(Id);
-            var group = groupService.GetGroupById(Id);
-
-            var members = new List<GroupDetailViewModel>();
-
-            foreach (var id in memberList)
+            if (!Id.HasValue)
             {
-                var user = userService.GetUserById(id);
-
-                members.Add(
-                    new GroupDetailViewModel()
-                    {
-                        Name = group.Name,
-                        GroupId = group.GroupId,
-                        User = new UserViewModel()
-                        {
-                            UserId = user.Id,
-                            UserName = user.UserName,
-                            Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                            Gender = user.Gender,
-                            Birthday = user.Birthday,
-                            Work = user.Work,
-                            School = user.School,
-                            Address = user.Address
-                        }
-                    });
+                return View("Error");
             }
-            return View("GroupDetails", members);
+            else
+            {
+                int myId = Id.Value;
+                var memberList = groupService.GetMembersOfGroup(myId);
+                var group = groupService.GetGroupById(myId);
+
+                var members = new List<GroupDetailViewModel>();
+
+                foreach (var id in memberList)
+                {
+                    var user = userService.GetUserById(id);
+
+                    members.Add(
+                        new GroupDetailViewModel()
+                        {
+                            Name = group.Name,
+                            GroupId = group.GroupId,
+                            User = new UserViewModel()
+                            {
+                                UserId = user.Id,
+                                UserName = user.UserName,
+                                Name = user.Name,
+                                ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                                Gender = user.Gender,
+                                Birthday = user.Birthday,
+                                Work = user.Work,
+                                School = user.School,
+                                Address = user.Address
+                            }
+                        });
+                }
+                return View("GroupDetails", members);
+            }
+            
         }
 
         public ActionResult Delete()
