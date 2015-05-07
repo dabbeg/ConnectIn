@@ -29,30 +29,29 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
             var postService = new PostService(context);
 
-            var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
+            var postList = userService.GetEveryNewsFeedPostsForUser(userId);
             var newsFeed = new NewsFeedViewModel();
             newsFeed.Id = "-1";
             newsFeed.Posts = new List<PostsViewModel>();
 
-            foreach (var id in postIdList)
+            foreach (var item in postList)
             {
-                var post = postService.GetPostById(id);
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
-                        PostId = id,
-                        Body = post.Text,
-                        DateInserted = post.Date,
+                        PostId = item.PostId,
+                        Body = item.Text,
+                        DateInserted = item.Date,
                         Comments = new List<CommentViewModel>(),
                         LikeDislike = new LikeDislikeViewModel()
                         {
-                            Likes = postService.GetPostsLikes(id),
-                            Dislikes = postService.GetPostsDislikes(id)
+                            Likes = postService.GetPostsLikes(item.PostId),
+                            Dislikes = postService.GetPostsDislikes(item.PostId)
                         },
                         User = new UserViewModel()
                         {
-                            UserId = post.UserId,
-                            Name = userService.GetUserById(post.UserId).Name,
+                            UserId = item.UserId,
+                            Name = userService.GetUserById(item.UserId).Name,
                             ProfilePicture = "~/Content/Images/profilepic.png"
                         }
                     });
