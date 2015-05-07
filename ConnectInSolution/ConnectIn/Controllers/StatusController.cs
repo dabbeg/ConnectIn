@@ -19,10 +19,25 @@ namespace ConnectIn.Controllers
             };
 
             var context = new ApplicationDbContext();
-            context.Posts.Add(post);
-            context.SaveChanges();
 
-            return RedirectToAction("NewsFeed", "Home");
+            if (collection["location"].Equals("newsfeed"))
+            {
+                context.Posts.Add(post);
+                context.SaveChanges();
+                return RedirectToAction("NewsFeed", "Home");
+            }
+            if (collection["location"].Equals("group"))
+            {
+                var grpId = Int32.Parse(collection["idOfGroup"]);
+                post.GroupId = grpId;
+
+                context.Posts.Add(post);
+                context.SaveChanges();
+                return RedirectToAction("Details", "Group", new {Id = grpId});
+                
+            }
+            return View();
+
         }
 
         public ActionResult RemovePost(int? postId)
