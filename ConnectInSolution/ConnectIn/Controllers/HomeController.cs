@@ -1,7 +1,11 @@
-﻿using ConnectIn.DAL;
+﻿using System;
+using ConnectIn.DAL;
 using ConnectIn.Services;
 using System.Collections.Generic;
+using System.IO;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -287,6 +291,65 @@ namespace ConnectIn.Controllers
             }
 
             return View(birthdays);
+        }
+
+        
+        public ActionResult Images(string userId)
+        {
+            if (userId.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var photos = userService.GetAllPhotosFromUser(userId);
+            var model = new PhotoAlbumViewModel();
+            model.Images = new List<ImageViewModel>();
+            model.UserId = userId;
+
+            foreach (var item in photos)
+            {
+                model.Images.Add(new ImageViewModel()
+                {
+                    ImagePath = item.PhotoPath
+                });
+            }
+            
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult UploadImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadImage(FormCollection collection)
+        {
+            var photo = WebImage.GetImageFromRequest("Image");
+            if (photo != null)
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" +
+                                  Path.GetFileName(photo.FileName);
+                var imagePath = @"Content\UserImages\" + newFileName;
+                photo.Save(@"~\" + imagePath);
+                
+                var context = new ApplicationDbContext();
+                var img = new Photo()
+                {
+                    PhotoPath = "/Content/UserImages/" + newFileName,
+                    UserId = User.Identity.GetUserId(),
+                    Date = DateTime.Now,
+                    IsProfilePicture = false
+                };
+                context.Photos.Add(img);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
     }
 }
