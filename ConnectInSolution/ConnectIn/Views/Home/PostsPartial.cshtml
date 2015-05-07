@@ -13,7 +13,7 @@
                         <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                     </span>
                     <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.User.UserName, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                    @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                 </h3>
                 <p>
                     @item.Body
