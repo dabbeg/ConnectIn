@@ -113,6 +113,10 @@ overflow:hidden;
   margin-right: -41px;
 }
 
+#logoffs {
+  padding-left: 16px;
+}
+
 .containers {
     width: 200px;
     height: 120px;

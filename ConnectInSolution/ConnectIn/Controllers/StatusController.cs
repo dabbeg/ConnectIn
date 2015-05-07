@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
 using ConnectIn.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.Ajax.Utilities;
+using ConnectIn.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace ConnectIn.Controllers
 {
@@ -57,14 +60,53 @@ namespace ConnectIn.Controllers
             return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult Comment()
+        public ActionResult Comment(FormCollection collection)
         {
-            return View();
+            var pId = collection["postId"];
+            int postId = pId.AsInt();
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var commentService = new CommentService(db);
+            var postService = new PostService(db);
+
+            var comments = new List<CommentViewModel>();
+            var commentIdList = postService.GetPostsComments(postId);
+            foreach (var id in commentIdList)
+            {
+                var commentList = commentService.GetCommentById(id);
+                comments.Add(
+                    new CommentViewModel()
+                    {
+                        Body = commentList.Text,
+                        DateInserted = commentList.Date,
+                        CommentId = commentList.CommentId,
+                        PostId = commentList.PostId,
+                        User = new UserViewModel()
+                        {
+                            UserId = commentList.UserId,
+                            Name = userService.GetUserById(commentList.UserId).Name
+                        }
+                    });
+            }
+
+            return View(comments);
         }
 
-        public ActionResult AddComment()
+        public ActionResult AddComment(FormCollection collection)
         {
-            return RedirectToAction("NewsFeed", "Home");
+            var comment = new Comment
+            {
+                UserId = User.Identity.GetUserId(),
+                Date = DateTime.Now,
+                Text = collection["status"],
+                PostId = collection["postId"].AsInt()
+            };
+            var db = new ApplicationDbContext();
+            db.Comments.Add(comment);
+            db.SaveChanges();
+
+            return RedirectToAction("Comment", "Status");
         }
 
         public ActionResult RemoveComment()

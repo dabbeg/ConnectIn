@@ -1,7 +1,84 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<ConnectIn.Models.ViewModels.CommentViewModel>
 @{
     ViewBag.Title = "Comment";
 }
+@if (Request.IsAuthenticated)
+{
+    <h2>Comments</h2>
+    <div>
+        @using (Html.BeginForm("AddComment", "Status"))
+        {
+            <div class="form-horizontal">
+                <!--Notifies the StatusController that the post comes from NewsFeed:-->
+                <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
+                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+            </div>
+            @Html.ValidationSummary(false)
+        }
+    </div>
 
-<h2>Comment</h2>
 
+    <div class="container">
+        <div id="posts" class="row">
+            @foreach (var item in Model)
+            {
+                <div class="post item span3">
+                    <div class="well" id="FriendsListWell">
+                        <div id="postContent">
+                            <!--Should display user's profile picture, a cat was used temporarily-->
+                            <div class="PostPartialViewPhoto">
+                                <img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
+                            </div>
+                            <!--Should display username instead of item.userID-->
+                            <div class="friendsListName">
+                                <h3>
+                                    @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId}) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                                </h3>
+                            </div>
+                            <p id="PartialPostsText">
+                                @item.Body
+                            </p>
+                        </div>
+
+                        <div id="commentsLikesDeleteDiv">
+                            <div id="commentsAndLikes">
+                                <div id="reactionButtons">
+                                    @using (Html.BeginForm("Like", "Status"))
+                                    {
+
+                                        var action = ViewContext.RouteData.GetRequiredString("action");
+                                        <input type="hidden" name="location" value="@action"/>
+                                        <input type="hidden" name="postId" value="@item.PostId"/>
+                                    }
+                                    @using (Html.BeginForm("Dislike", "Status"))
+                                    {
+
+                                        var action = ViewContext.RouteData.GetRequiredString("action");
+                                        <input type="hidden" name="location" value="@action"/>
+                                        <input type="hidden" name="postId" value="@item.PostId"/>
+
+                                    }
+                                    @using (Html.BeginForm("AddComment", "Status", new {postId = item.PostId}))
+                                    {
+                                        <input type="hidden" name="postId" value="@item.PostId"/>
+                                        <button type="submit" class="btnNew btn-default-comment">Comment</button>
+                                    }
+                                    @if (item.User.UserId == User.Identity.GetUserId())
+                                    {
+                                        
+                                        using (Html.BeginForm("RemoveComment", "Status", new {postId = item.PostId}))
+                                        {
+                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
