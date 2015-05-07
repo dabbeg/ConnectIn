@@ -510,7 +510,7 @@ a.navbar-brand
     margin-right: 15px;
 }
 #PartialPostsText {
-    display: inline-block;
+    display: block;
 }
 
 .btnNew {

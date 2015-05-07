@@ -245,7 +245,6 @@ namespace ConnectIn.Services
             var notification = (from n in db.Notifications
                 where n.UserId == userId
                       && n.FriendUserId == friendId
-                      && n.IsPending == true
                 select n).SingleOrDefault();
 
             return notification;
