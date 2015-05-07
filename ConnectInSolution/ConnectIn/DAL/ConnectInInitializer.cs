@@ -27,7 +27,7 @@ namespace ConnectIn.DAL
             {
                 new User{
                     Id = "1",
-                    UserName = "davidgudni@gmail.com",
+                    UserName = "davidgui@gmail.com",
                     PhoneNumber = "8472547",
                 }
             };

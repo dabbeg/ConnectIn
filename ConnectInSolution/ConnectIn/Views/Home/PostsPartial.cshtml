@@ -1,21 +1,24 @@
 ﻿@using Microsoft.AspNet.Identity
 @model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
 
-
-<div style="margin-top: 80px;">
-    @foreach (var item in Model)
-    {
-        <div class="well">
+<div class="container">
+    <div id="posts" class="row">
+        @foreach (var item in Model)
+{
+    <div class="post item span3">
+        <div class="well" id="FriendsListWell">
             <div id="postContent">
-                <h3>
-                    <!--Should display user's profile picture, a cat was used temporarily-->
-                    <span class="smileyFace">
-                        <img src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
-                    </span>
-                    <!--Should display username instead of item.userID-->
-                    @Html.ActionLink(item.User.UserName, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
-                </h3>
-                <p>
+                <!--Should display user's profile picture, a cat was used temporarily-->
+                <div class="PostPartialViewPhoto">
+                    <img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                </div>
+                <!--Should display username instead of item.userID-->
+                <div class="friendsListName">
+                    <h3>
+                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                    </h3>
+                </div>
+                <p id="PartialPostsText">
                     @item.Body
                 </p>
             </div>
@@ -25,19 +28,19 @@
                     <div id="reactionButtons">
                         @using (Html.BeginForm("Like", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btn btn-default-like">@item.LikeDislike.Likes Smiles</button>
+                            <button type="submit" class="btnNew btn-default-like">@item.LikeDislike.Likes Smiles</button>
                         }
                         @using (Html.BeginForm("Dislike", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btn btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
+                            <button type="submit" class="btnNew btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
                         }
                         @using (Html.BeginForm("AddComment", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btn btn-default-comment">Comment</button>
+                            <button type="submit" class="btnNew btn-default-comment">Comment</button>
                         }
-                        @if(item.User.UserId == User.Identity.GetUserId())
+                        @if (item.User.UserId == User.Identity.GetUserId())
                         {
-                            using (Html.BeginForm("RemovePost", "Status", new {postId = item.PostId}))
+                            using (Html.BeginForm("RemovePost", "Status", new { postId = item.PostId }))
                             {
                                 <button type="submit" class="btn btn-danger deletePostButton">Delete Post</button>
                             }
@@ -46,5 +49,8 @@
                 </div>
             </div>
         </div>
-    }
+    </div>
+}
+    </div>
 </div>
+
