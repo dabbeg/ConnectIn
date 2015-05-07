@@ -7,7 +7,7 @@ namespace ConnectIn.Models.ViewModels
 {
     public class ProfileViewModel
     {
-        public List<PostsViewModel> Posts { get; set; }
+        public NewsFeedViewModel NewsFeed { get; set; }
         public UserViewModel User { get; set; }
     }
 }

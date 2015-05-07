@@ -27,6 +27,7 @@ namespace ConnectIn.Controllers
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
             var newsFeed = new NewsFeedViewModel();
+            newsFeed.Id = "-1";
             newsFeed.Posts = new List<PostsViewModel>();
 
             foreach (var id in postIdList)
@@ -118,7 +119,11 @@ namespace ConnectIn.Controllers
             var model = new ProfileViewModel()
             {
                 
-                Posts = postsViewModels,
+                NewsFeed = new NewsFeedViewModel()
+                {
+                    Posts = postsViewModels,
+                    Id = id
+                },
                 User = new UserViewModel()
                 {
                     UserId = user.Id,

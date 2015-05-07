@@ -4,6 +4,7 @@ using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
 using ConnectIn.Services;
 using Microsoft.AspNet.Identity;
+using Microsoft.Ajax.Utilities;
 
 namespace ConnectIn.Controllers
 {
@@ -71,16 +72,21 @@ namespace ConnectIn.Controllers
             return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult Like(int? postId)
+        public ActionResult Like(FormCollection collection)
         {
-            if (!postId.HasValue)
+            string postId = collection["postId"];
+            string location = collection["location"];
+            string profileOrGroupId = collection["id"];
+
+
+            if (postId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace() || profileOrGroupId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            var id = postId.Value;
+            var id = Int32.Parse(postId);
 
             var ld = postService.GetLikeDislike(User.Identity.GetUserId(), id);
             if (ld != null)
@@ -99,7 +105,7 @@ namespace ConnectIn.Controllers
             context.LikesDislikes.Add(model);
             context.SaveChanges();
 
-            return RedirectToAction("NewsFeed", "Home");
+            return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
         public ActionResult UnLike(int? postId)
@@ -107,18 +113,22 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult Dislike(int? postId)
+        public ActionResult Dislike(FormCollection collection)
         {
-            if (!postId.HasValue)
+            string postId = collection["postId"];
+            string location = collection["location"];
+            string profileOrGroupId = collection["id"];
+
+            if (postId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace() || profileOrGroupId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            var id = postId.Value;
+            var pid = Int32.Parse(postId);
 
-            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), id);
+            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
                 context.LikesDislikes.Remove(ld);
@@ -126,7 +136,7 @@ namespace ConnectIn.Controllers
 
             var model = new LikeDislike()
             {
-                PostId = id,
+                PostId = pid,
                 UserId = User.Identity.GetUserId(),
                 Like = false,
                 Dislike = true
@@ -135,7 +145,7 @@ namespace ConnectIn.Controllers
             context.LikesDislikes.Add(model);
             context.SaveChanges();
 
-            return RedirectToAction("NewsFeed", "Home");
+            return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
         public ActionResult UnDislike(int? postId)
