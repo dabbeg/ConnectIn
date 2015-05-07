@@ -34,8 +34,6 @@
 
 
 
-@Html.RenderPartial("~/Home/PostsPartial" Model.Posts.Posts);
-
 
 <div>
     @using (Html.BeginForm("AddPost", "Status"))
@@ -44,12 +42,16 @@
             <!--Notifies the StatusController that the post comes from a Group:-->
             <input type="hidden" name="location" value="group"/>
             <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
-            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+            <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
             <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
         </div>
         @Html.ValidationSummary(false)
     }
 </div>
+
+@{
+    Html.RenderPartial("~/Views/Home/PostsPartial.cshtml", Model.Posts);
+}
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
