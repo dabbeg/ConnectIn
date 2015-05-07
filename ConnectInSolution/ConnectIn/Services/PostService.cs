@@ -77,6 +77,15 @@ namespace ConnectIn.Services
             return (int) count;
         }
 
+        // Get count of all comments of the given Id of a post
+        public int GetPostsCommentsCount(int postId)
+        {
+            var pc = (from n in db.Comments
+                where n.PostId == postId
+                select n).Count();
+            return pc;
+        }
+
         // Return the LikeDislike from userid and postid
         public LikeDislike GetLikeDislike(string userId, int postId)
         {
