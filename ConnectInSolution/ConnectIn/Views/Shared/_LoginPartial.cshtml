@@ -2,13 +2,10 @@
 
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav" }))
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
-
-            <ul class="nav navbar-nav pull-left">
-                <li id="logOutDropdownOption"><a href="javascript:document.getElementById('logoutForm').submit()" id="dropDownLogOut" style="padding-bottom: 0px">Log off</a></li>
-            </ul>
+                <a id="logoffs" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
         }
     }
     else

@@ -47,9 +47,9 @@
 
                             <button type="submit" class="btnNew btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
                         }
-                        @using (Html.BeginForm("AddComment", "Status", new { postId = item.PostId }))
+                        @using (Html.BeginForm("Comment", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btnNew btn-default-comment">Comment</button>
+                            <button type="submit" class="btnNew btn-default-comment">@item.Comments.Count Comments</button>
                         }
                         @if (item.User.UserId == User.Identity.GetUserId())
                         {
