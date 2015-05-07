@@ -21,9 +21,9 @@ namespace ConnectIn.Controllers
             var userId = User.Identity.GetUserId();
             UserService userService = new UserService(context);
 
-            Group newGroup = new Group()
+            var newGroup = new Group()
             {
-                Name = collection["groupName"],
+                Name = collection["groupName"]
             };
             newGroup.Members = new List<Member>();
             //Make the creator a member of the group
@@ -32,7 +32,7 @@ namespace ConnectIn.Controllers
             groupMember.GroupId = newGroup.GroupId;
             groupMember.UserId = userId;
             groupMember.Group = newGroup;
-            Models.Entity.User currentUser = userService.GetUserById(userId);
+            User currentUser = userService.GetUserById(userId);
             groupMember.User = currentUser;
 
             newGroup.Members.Add(groupMember);
@@ -43,26 +43,26 @@ namespace ConnectIn.Controllers
             return RedirectToAction("GroupsList", "Group");
         }
 
-        public ActionResult Details(int ? Id)
+        public ActionResult Details(int ? id)
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var groupService = new GroupService(context);
-            if (!Id.HasValue)
+            if (!id.HasValue)
             {
                 return View("Error");
             }
             else
             {
-                int myId = Id.Value;
+                int myId = id.Value;
                 var memberList = groupService.GetMembersOfGroup(myId);
                 var group = groupService.GetGroupById(myId);
 
                 var members = new List<GroupDetailViewModel>();
 
-                foreach (var id in memberList)
+                foreach (var did in memberList)
                 {
-                    var user = userService.GetUserById(id);
+                    var user = userService.GetUserById(did);
 
                     members.Add(
                         new GroupDetailViewModel()

@@ -35,7 +35,7 @@
                             <input type="hidden" name="postId" value="@item.PostId"/>
                             <input type="hidden" name="id" value="@Model.Id" />
                             
-                            <button type="submit" class="btnNew btn-default-like">@item.LikeDislike.Likes Smiles</button>
+                            <button type="submit" class="btnNew btn-default-like">@item.LikeDislikeComment.Likes Smiles</button>
                         }
                         @using (Html.BeginForm("Dislike", "Status"))
                         {
@@ -45,11 +45,12 @@
                             <input type="hidden" name="postId" value="@item.PostId" />
                             <input type="hidden" name="id" value="@Model.Id" />
 
-                            <button type="submit" class="btnNew btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
+                            <button type="submit" class="btnNew btn-default-dislike">@item.LikeDislikeComment.Dislikes Sadfaces</button>
                         }
                         @using (Html.BeginForm("Comment", "Status", new { postId = item.PostId }))
                         {
-                            <button type="submit" class="btnNew btn-default-comment">@item.Comments.Count Comments</button>
+                            <input type="hidden" name="postId" value="@item.PostId"/>
+                            <button type="submit" class="btnNew btn-default-comment">@item.LikeDislikeComment.Comments Comments</button>
                         }
                         @if (item.User.UserId == User.Identity.GetUserId())
                         {
