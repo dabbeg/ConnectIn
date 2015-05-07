@@ -10,6 +10,7 @@ namespace ConnectIn.Models.ViewModels
     {
         public string Name { get; set; }
         public int GroupId { get; set; }
-        public UserViewModel User { get; set; } 
+        public ICollection<UserViewModel> Users { get; set; }
+        public NewsFeedViewModel Posts { get; set; }  
     }
 }

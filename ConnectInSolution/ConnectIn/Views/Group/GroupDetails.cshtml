@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.GroupDetailViewModel>
+﻿@model ConnectIn.Models.ViewModels.GroupDetailViewModel
 
 @{
     ViewBag.Title = "GroupDetails";
 }
 
-<h2>@Model.First().Name</h2>
+<h2>@Model.Name</h2>
 
 <div>
     <h4>Members:</h4>
@@ -19,12 +19,12 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var member in Model)
+        @foreach (var member in Model.Users)
         {
             <tr>
-                <td>@member.User.Name</td>
-                <td>@member.User.Birthday</td>
-                <td>@member.User.UserName</td>
+                <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
+                <td>@member.Birthday</td>
+                <td>@member.UserName</td>
             </tr>
         }
         </tbody>
@@ -32,13 +32,16 @@
     </table>
 </div>
 
+
+
+
 <div>
     @using (Html.BeginForm("AddPost", "Status"))
     {
         <div class="form-horizontal">
             <!--Notifies the StatusController that the post comes from a Group:-->
             <input type="hidden" name="location" value="group"/>
-            <input type="hidden" name="idOfGroup" value="@Model.First().GroupId"/>
+            <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
             <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
             <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
         </div>
@@ -47,6 +50,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.First().GroupId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
     @Html.ActionLink("Back to List", "GroupsList")
 </p>

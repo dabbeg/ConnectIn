@@ -48,44 +48,79 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var groupService = new GroupService(context);
+            var postService = new PostService(context);
+
             if (!Id.HasValue)
             {
                 return View("Error");
             }
             else
             {
-                int myId = Id.Value;
-                var memberList = groupService.GetMembersOfGroup(myId);
-                var group = groupService.GetGroupById(myId);
+                int grpId = Id.Value;
+                var memberList = groupService.GetMembersOfGroup(grpId);
+                var group = groupService.GetGroupById(grpId);
 
-                var members = new List<GroupDetailViewModel>();
-
+                var myGroup = new GroupDetailViewModel()
+                {
+                    Name = group.Name,
+                    GroupId = grpId,
+                    Users = new List<UserViewModel>(),
+                    Posts = new NewsFeedViewModel()
+                    {
+                        Posts = new List<PostsViewModel>(),
+                        Id = grpId.ToString()
+                    }
+                };
                 foreach (var id in memberList)
                 {
-                    var user = userService.GetUserById(id);
-
-                    members.Add(
-                        new GroupDetailViewModel()
-                        {
-                            Name = group.Name,
-                            GroupId = group.GroupId,
-                            User = new UserViewModel()
-                            {
-                                UserId = user.Id,
-                                UserName = user.UserName,
-                                Name = user.Name,
-                                ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                                Gender = user.Gender,
-                                Birthday = user.Birthday,
-                                Work = user.Work,
-                                School = user.School,
-                                Address = user.Address
-                            }
-                        });
+                    var currMember = userService.GetUserById(id);
+                    myGroup.Users.Add(new UserViewModel()
+                    {
+                        Name = currMember.Name,
+                        UserId = currMember.Id,
+                        UserName = currMember.UserName,
+                        Birthday = currMember.Birthday,
+                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                        Gender = currMember.Gender,
+                        Work = currMember.Work,
+                        School = currMember.School,
+                        Address = currMember.Address
+                    });
                 }
-                return View("GroupDetails", members);
+                var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
+
+                foreach (var id in postsOfGroup)
+                {
+                    var post = postService.GetPostById(id);
+                    myGroup.Posts.Posts.Add(new PostsViewModel()
+                    {
+                        PostId = post.PostId,
+                        Body = post.Text,
+                        User = new UserViewModel()
+                        {
+                            Name = post.User.Name,
+                            UserId = post.User.Id,
+                            UserName = post.User.UserName,
+                            Birthday = post.User.Birthday,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = post.User.Gender,
+                            Work = post.User.Work,
+                            School = post.User.School,
+                            Address = post.User.Address
+                        },
+                        DateInserted = post.Date,
+                        Comments = new List<CommentViewModel>(),
+                        LikeDislike = new LikeDislikeViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId)
+                        },
+                        GroupId = post.GroupId
+                    });
+                }
+                return View("GroupDetails", myGroup);
             }
-            
+            return View();
         }
 
         public ActionResult Delete()
@@ -111,6 +146,11 @@ namespace ConnectIn.Controllers
         public ActionResult RemoveFriend()
         {
             return View();
+        }
+
+        public ActionResult GetUser(string Id)
+        {
+            return RedirectToAction("Profile", "Home", new {id = Id});
         }
 
         public ActionResult GroupsList()
