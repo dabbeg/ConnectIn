@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-@model IEnumerable<ConnectIn.Models.ViewModels.PostsViewModel>
+@model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 
 <div style="margin-top: 80px;">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Posts)
     {
         <div class="well">
             <div id="postContent">
@@ -23,12 +23,24 @@
             <div id="commentsLikesDeleteDiv">
                 <div id="commentsAndLikes">
                     <div id="reactionButtons">
-                        @using (Html.BeginForm("Like", "Status", new { postId = item.PostId }))
+                        @using (Html.BeginForm("Like", "Status"))
                         {
+                            
+                            var action = ViewContext.RouteData.GetRequiredString("action");
+                            <input type="hidden" name="location" value="@action"/>
+                            <input type="hidden" name="postId" value="@item.PostId"/>
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            
                             <button type="submit" class="btn btn-default-like">@item.LikeDislike.Likes Smiles</button>
                         }
-                        @using (Html.BeginForm("Dislike", "Status", new { postId = item.PostId }))
+                        @using (Html.BeginForm("Dislike", "Status"))
                         {
+                            
+                            var action = ViewContext.RouteData.GetRequiredString("action");
+                            <input type="hidden" name="location" value="@action"/>
+                            <input type="hidden" name="postId" value="@item.PostId" />
+                            <input type="hidden" name="id" value="@Model.Id" />
+
                             <button type="submit" class="btn btn-default-dislike">@item.LikeDislike.Dislikes Sadfaces</button>
                         }
                         @using (Html.BeginForm("AddComment", "Status", new { postId = item.PostId }))
