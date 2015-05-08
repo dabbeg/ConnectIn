@@ -10,15 +10,17 @@
 @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-
+  
     <div class="form-horizontal">
 
         <hr />
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.UserId)
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input class="editinfos" type="text" id="EditName" maxlength="40" name="EditName" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Name)
             </div>
         </div>
         <div class="form-group">
@@ -34,6 +36,7 @@
                     <span>Female</span>
                     <input type="radio" id="EditGender" name="EditGender" value="Female" />
                 </label>
+                @Html.ValidationMessageFor(model => model.Gender)
             </div>
         </div>
         <div class="form-group">

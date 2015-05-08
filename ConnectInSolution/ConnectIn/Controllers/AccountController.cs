@@ -52,8 +52,8 @@ namespace ConnectIn.Controllers
        [HttpPost]
        public ActionResult Edit(FormCollection collection)
        {
-           string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
-           string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
+           string name = (collection["EditName"]);
+           string gender = (collection["EditGender"]);
            string work = (collection["EditWork"]);
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
@@ -66,8 +66,7 @@ namespace ConnectIn.Controllers
                user.School = school;
                user.Address = address;
                context.SaveChanges();
-               return RedirectToAction("Edit");
-           
+               return RedirectToAction("Profile","Home", new { user.Id });
        }
         //
         // POST: /Account/Login
