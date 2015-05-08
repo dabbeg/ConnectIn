@@ -25,9 +25,8 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
-            <div class="btn-group col-md-10" data-toggle="buttons">
+            <div id="forerror" class="btn-group col-md-10" data-toggle="buttons">
                 <label class="btn btn-primary active">
-
                     <span>Male</span>
                     <input type="radio" id="EditGender" name="EditGender" value="Male" />
                     &nbsp;
@@ -36,7 +35,7 @@
                     <span>Female</span>
                     <input type="radio" id="EditGender" name="EditGender" value="Female" />
                 </label>
-                @Html.ValidationMessageFor(model => model.Gender)
+                <span id="error2">@Html.ValidationMessageFor(model => model.Gender)</span>
             </div>
         </div>
         <div class="form-group">
