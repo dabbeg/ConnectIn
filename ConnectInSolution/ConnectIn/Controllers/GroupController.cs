@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
@@ -20,25 +21,25 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             UserService userService = new UserService(context);
+            GroupService groupService = new GroupService(context);
 
             var newGroup = new Group()
             {
                 Name = collection["groupName"],
-                AdminID = User.Identity.GetUserId()
+                AdminID = User.Identity.GetUserId(),
+                Members = new List<Member>()
             };
-            newGroup.Members = new List<Member>();
-            //Make the creator a member of the group
-            Member groupMember = new Member();
-
-            groupMember.GroupId = newGroup.GroupId;
-            groupMember.UserId = userId;
-            groupMember.Group = newGroup;
-            User currentUser = userService.GetUserById(userId);
-            groupMember.User = currentUser;
-
-            newGroup.Members.Add(groupMember);
-
+           
             context.Groups.Add(newGroup);
+            //Make the creator a member of the group
+            context.Members.Add(new Member()
+            {
+                Group = newGroup,
+                User = userService.GetUserById(userId),
+                GroupId = newGroup.GroupId,
+                UserId = userId
+            });
+
             context.SaveChanges();
 
             return RedirectToAction("GroupsList", "Group");
@@ -161,9 +162,31 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult AddFriend()
+        public ActionResult AddFriend(FormCollection collection)
         {
-            return View();
+            string listOfNewMembers = collection["newFriendsInGroup"];
+            string[] userIdArray = listOfNewMembers.Split(',');
+
+            string groupId = collection["idOfGroup"];
+            var context = new ApplicationDbContext();
+            GroupService groupService = new GroupService(context);
+            UserService userService = new UserService(context);
+            var currentGroup = groupService.GetGroupById(Int32.Parse(groupId));
+
+            foreach (var id in userIdArray)
+            {
+                var user = userService.GetUserById(id);
+                context.Members.Add(new Member()
+                {
+                    Group = currentGroup,
+                    GroupId = Int32.Parse(groupId),
+                    User = user,
+                    UserId = user.Id
+                });
+            }
+            context.SaveChanges();
+
+            return RedirectToAction("Details", "Group", new {id = groupId});
         }
 
         public ActionResult RemoveFriend()

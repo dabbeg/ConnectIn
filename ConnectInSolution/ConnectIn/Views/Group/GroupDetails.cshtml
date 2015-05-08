@@ -6,18 +6,19 @@
 
 <h1 style="text-align: center;">@Model.Name</h1>
 
-    <div class="well" id="membersDiv">
-        <table class="table table-striped">
-            <thead>
+<div class="well" id="membersDiv" style="display: inline-block; OVERFLOW-Y: scroll; WIDTH: 72%; HEIGHT: 262px;">
+    <table class="table table-striped">
+        <thead>
             <caption style="float: left; font-weight: bold;">
-                <h2>Members:</h2></caption>
+                <h2>Members:</h2>
+            </caption>
             <tr>
                 <th>Name</th>
                 <th>Birthday:</th>
                 <th>Username:</th>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
             @foreach (var member in Model.Members)
             {
                 <tr>
@@ -26,38 +27,37 @@
                     <td>@member.UserName</td>
                 </tr>
             }
-            </tbody>
-        </table>
-    </div>
-<div class="well">
-    <h4>Add friends to group</h4>
-    <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px">
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-        <div>asdf</div>
-    </div>
+        </tbody>
+    </table>
 </div>
+
+
+<span class="well" style="display: inline-block; float: right; width: 25%">
+    <h4>Add friends to group</h4>
+    @using (Html.BeginForm("AddFriend", "Group"))
+    {
+        <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px;">
+        
+            @foreach (var id in Model.FriendsOfUser)
+            {
+                <div class="checkbox">
+                    <label><input type="checkbox" value="@id.UserId" name="newFriendsInGroup">@id.Name</label>
+                 </div>
+            }
+        
+        </div>
+        <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
+        <button type="submit" id="addfriendstogroup" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add to group</button>
+    }
+</span>
 
 <div>
     @using (Html.BeginForm("AddPost", "Status"))
     {
         <div class="form-horizontal">
             <!--Notifies the StatusController that the post comes from a Group:-->
-            <input type="hidden" name="location" value="group"/>
-            <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
+            <input type="hidden" name="location" value="group" />
+            <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
             <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
             <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
         </div>
@@ -65,12 +65,11 @@
     }
 </div>
 
-<hr/>
+<hr />
 
 @{
     Html.RenderPartial("~/Views/Home/PostsPartial.cshtml", Model.Posts);
 }
-
 
 
 <p>
