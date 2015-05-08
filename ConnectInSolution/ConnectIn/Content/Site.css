@@ -9,6 +9,15 @@
 .body-content {
     padding-right: 15px;
 }
+.field-validation-error
+{
+    color:red;
+    margin-left:10px;
+}
+#error2
+{
+    padding-left:40px;
+}
 
 .editinfos
 {
