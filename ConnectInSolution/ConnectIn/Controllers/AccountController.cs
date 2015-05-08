@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
+using ConnectIn.DAL;
+using ConnectIn.Services;
 
 namespace ConnectIn.Controllers
 {
@@ -42,7 +44,31 @@ namespace ConnectIn.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
+       
+       public ActionResult Edit()
+        {
+            return View();
+        }
+       [HttpPost]
+       public ActionResult Edit(FormCollection collection)
+       {
+           string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
+           string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
+           string work = (collection["EditWork"]);
+           string school = (collection["EditSchool"]);
+           string address = (collection["EditAddress"]);
+           var context = new ApplicationDbContext();
+           var userService = new UserService(context);
+           var user = userService.GetUserById(User.Identity.GetUserId());
+               user.Name = name;
+               user.Gender = gender;
+               user.Work = work;
+               user.School = school;
+               user.Address = address;
+               context.SaveChanges();
+               return RedirectToAction("Edit");
+           
+       }
         //
         // POST: /Account/Login
         [HttpPost]

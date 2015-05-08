@@ -270,6 +270,7 @@
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Home\UploadImage.cshtml" />
     <Content Include="Views\Home\Images.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
