@@ -10,6 +10,14 @@
     padding-right: 15px;
 }
 
+.editinfos
+{
+   max-width:200px;
+}
+#backgroundimg
+{
+     background-image: url("/Content/Images/background.jpg");
+}
 .navbar-nav>li>.dropdown-menu {
   margin-top: 51px;
   border-top-right-radius: 0;
@@ -18,7 +26,10 @@
   background-color: #222;
   width: 27px;
 }
-
+#buttonedit
+{
+    float:right;
+}
 /*About*/
 .photosabout {
     max-height: 200px;
@@ -401,15 +412,23 @@ a.navbar-brand
 
 #userNameOnProfile {
     display: inline-block;
+    
 }
 
+
 #userProfilePicture {
-    display: inline-block;
-    float: left;
-    width: 250px;
+    width: 200px;
     height: auto;
-    max-height: 250px;
+    max-height: 300px;
+    float: left;
     margin-right: 15px;
+}
+.img-responsiveProfilePic {
+    width: 100%;
+    max-width: 300px;
+    max-height: 300px;
+    width: 100%;
+    height: auto;
 }
 
 .personalInfoGlyphs {
@@ -417,6 +436,15 @@ a.navbar-brand
     margin-bottom: 4px;
     font-size: 17px;
     
+}
+
+.redBell {
+    color: red;
+    background-color: red;
+}
+
+#PhotoButton {
+    display: inline-block;
 }
 
 #addFriendButton {
@@ -429,8 +457,10 @@ a.navbar-brand
 }
 #ProfileWell {
     overflow: hidden;
+    max-height: 400px;
+    min-height: 200px;
     height: auto;
-    margin: 20px;
+    margin: 50px;
 }
 #FriendsListWell{
     overflow: hidden;

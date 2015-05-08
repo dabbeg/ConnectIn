@@ -180,6 +180,7 @@
     <Compile Include="Models\Entity\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\BirthdayViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommentHelperViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FriendViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailViewModel.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Home\UploadImage.cshtml" />
     <Content Include="Views\Home\Images.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

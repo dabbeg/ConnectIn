@@ -29,7 +29,7 @@ namespace ConnectIn.Controllers
                 AdminID = User.Identity.GetUserId(),
                 Members = new List<Member>()
             };
-           
+
             context.Groups.Add(newGroup);
             //Make the creator a member of the group
             context.Members.Add(new Member()
@@ -45,7 +45,7 @@ namespace ConnectIn.Controllers
             return RedirectToAction("GroupsList", "Group");
         }
 
-        public ActionResult Details(int ? id)
+        public ActionResult Details(int? id)
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
@@ -140,7 +140,7 @@ namespace ConnectIn.Controllers
                         Work = friend.Work,
                         School = friend.School,
                         Address = friend.Address
-                    });   
+                    });
                 }
                 return View("GroupDetails", myGroup);
             }
@@ -186,7 +186,7 @@ namespace ConnectIn.Controllers
             }
             context.SaveChanges();
 
-            return RedirectToAction("Details", "Group", new {id = groupId});
+            return RedirectToAction("Details", "Group", new { id = groupId });
         }
 
         public ActionResult RemoveFriend()
@@ -196,7 +196,7 @@ namespace ConnectIn.Controllers
 
         public ActionResult GetUser(string Id)
         {
-            return RedirectToAction("Profile", "Home", new {id = Id});
+            return RedirectToAction("Profile", "Home", new { id = Id });
         }
 
         public ActionResult GroupsList()
