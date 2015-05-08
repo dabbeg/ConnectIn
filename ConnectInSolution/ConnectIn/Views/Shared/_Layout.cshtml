@@ -67,21 +67,23 @@
 { 
         <nav class="main-menu">
             <ul>
-                <li class="has-subnav">
-                    <a href="#Search">
-                        <i class="fa fa-search fa-2x"></i>
+                <li class="has-subnav searchHover">
+                    <span class="searchHover">
+                        <a href="#Search" class="searchHover">
+                            <i class="fa fa-search fa-2x"></i>
 
-                        <span class="nav-text">
-                            @using (Html.BeginForm("Search", "Home"))
-                            {
-                                <div class="form-horizontal">
-                                    <input type="text" placeholder="Search..." class="search-form-control" name="status" />
-                                    <button type="submit" id="submitstatus" class="btn btn-primary" style="display: none;"></button>
-                                </div>
-                            }
+                            <span class="nav-text">
+                                @using (Html.BeginForm("Search", "Home"))
+                                {
+                                    <div class="form-horizontal">
+                                        <input type="text" placeholder="Search..." class="search-form-control" name="status" />
+                                        <button type="submit" id="submitstatus" class="btn btn-primary" style="display: none;"></button>
+                                    </div>
+                                }
 
-                        </span>
-                    </a>
+                            </span>
+                        </a>
+                    </span>
                 </li>
                 <li class="has-subnav">
                     <a href="/Home/NewsFeed">
