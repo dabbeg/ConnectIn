@@ -179,7 +179,7 @@ namespace ConnectIn.Services
         }
        
         // Get the Id of all the users best friends posts by a given Id of user
-        public List<int> GetBestFriendsPostsForUser(string userId)
+        public List<Post> GetBestFriendsPostsForUser(string userId)
         {
             // Get the users bestfriends
             var bestFriends = GetBestFriendsFromUser(userId);
@@ -190,12 +190,12 @@ namespace ConnectIn.Services
                             || s.UserId == userId)
                             && s.GroupId == null
                             orderby s.Date descending
-                            select s.PostId).Take(20).ToList();
+                            select s).Take(20).ToList();
             return statuses;
         }
 
         // Get the Id of all the users family posts by a given Id of user
-        public List<int> GetFamilyPostsForUser(string userId)
+        public List<Post> GetFamilyPostsForUser(string userId)
         {
             // Get the users family
             var family = GetFamilyFromUser(userId);
@@ -206,7 +206,7 @@ namespace ConnectIn.Services
                             || s.UserId == userId)
                             && s.GroupId == null
                             orderby s.Date descending
-                            select s.PostId).Take(20).ToList();
+                            select s).Take(20).ToList();
             return statuses;
         }
         #endregion
