@@ -54,8 +54,6 @@ namespace ConnectIn.Controllers
        {
            string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
            string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
-           // string username = (collection["EditUserName"] != null && collection["EditUserName"] != "") ? collection["EditUserName"] : null;
-           //string profile = (collection["EditUserProfile"] != null && collection["EditUserProfile"] != "") ? collection["EditUserProfile"] : null;
            string work = (collection["EditWork"]);
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
