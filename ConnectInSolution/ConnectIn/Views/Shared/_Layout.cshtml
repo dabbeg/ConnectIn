@@ -123,12 +123,14 @@
             </ul>
             <ul class="logout">
                 <li>
-                    <a href="">
-                        <i class="fa fa-power-off fa-2x"></i>
+                     <i class=" fa fa-power-off fa-2x LogoutSideBar"></i>
                         <span class="nav-text">
-                            <span style="display:none;">@Html.Partial("_LoginPartial")</span>
-                        </span>
-                    </a>
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a class="LogoutSideBar" href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+                        }
+                    </span>
                 </li>
             </ul>
 

@@ -599,6 +599,19 @@ a.navbar-brand
     margin: 10px;
 }
 
+.LogoutSideBar:hover {
+    color:#fff;
+background-color: rgba(255,255,255,0.2);
+}
+
+.LogoutSideBar {
+    height: 36px;
+    color:#999;
+
+        border-color: #101010;
+    background-color: #222;
+
+}
 
 /*-------------------------------TEST MENU------------------------------*/
 
