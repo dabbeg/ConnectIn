@@ -6,7 +6,7 @@
     <div id="posts" class="row">
         @foreach (var item in Model.Posts)
 {
-    <div class="post item span3">
+    <div id="post-@item.PostId" class="post item span3">
         <div class="well" id="FriendsListWell">
             <div id="postContent">
                 <!--Should display user's profile picture, a cat was used temporarily-->
