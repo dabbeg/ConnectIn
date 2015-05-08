@@ -32,9 +32,6 @@
     </table>
 </div>
 
-
-
-
 <div>
     @using (Html.BeginForm("AddPost", "Status"))
     {
@@ -48,6 +45,8 @@
         @Html.ValidationSummary(false)
     }
 </div>
+
+<hr/>
 
 @{
     Html.RenderPartial("~/Views/Home/PostsPartial.cshtml", Model.Posts);
