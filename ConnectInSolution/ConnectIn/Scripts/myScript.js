@@ -23,12 +23,19 @@
         }
         if (currFilter == "BestFriends") {
             $.get("/NewsFeed/EveryoneAndBestFriends", function (data, status) {
+                alert(status);
                 for (var i = 0; i < data.First.length; i++) {
                     $("#post-" + data.First[i].PostId).hide();
                 }
                 for (var i = 0; i < data.Second.length; i++) {
                     $("#post-" + data.Second[i].PostId).show();
                 }
+            }).done(function () {
+                alert("second success");
+            }).fail(function (error) {
+                alert("error " + error);
+            }).always(function () {
+                alert("finished " + status);
             });
         }
         if (currFilter == "Family") {
