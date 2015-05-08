@@ -44,7 +44,7 @@ namespace ConnectIn.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        
+       
        public ActionResult Edit()
         {
             return View();
@@ -54,26 +54,20 @@ namespace ConnectIn.Controllers
        {
            string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
            string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
-           //  string username = (collection["EditUserName"] != null && collection["EditUserName"] != "") ? collection["EditUserName"] : null;
-           string profile = (collection["EditUserProfile"] != null && collection["EditUserProfile"] != "") ? collection["EditUserProfile"] : null;
+           // string username = (collection["EditUserName"] != null && collection["EditUserName"] != "") ? collection["EditUserName"] : null;
+           //string profile = (collection["EditUserProfile"] != null && collection["EditUserProfile"] != "") ? collection["EditUserProfile"] : null;
            string work = (collection["EditWork"]);
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-           if (TryUpdateModel(user))
-           {
                user.Name = name;
                user.Gender = gender;
-               // user.UserName = username;
                user.Work = work;
                user.School = school;
                user.Address = address;
                context.SaveChanges();
-               return RedirectToAction("Profile");
-           }
-           
                return RedirectToAction("Edit");
            
        }

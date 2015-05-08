@@ -16,7 +16,7 @@
             <div id="userNameOnProfile">
                 <div>
                     <h1>
-                              @string.Format("{0}", Model.User.Name)
+                        @Html.ActionLink(Model.User.Name, "Profile", new { id = Model.User.UserId })
                     </h1>
                 </div>
 

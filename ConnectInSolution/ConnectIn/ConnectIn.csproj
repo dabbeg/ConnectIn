@@ -266,7 +266,6 @@
     <Content Include="Views\Group\GroupDetails.cshtml" />
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Account\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
