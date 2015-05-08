@@ -3,11 +3,13 @@ using System.Web.UI;
 using ConnectIn.DAL;
 using ConnectIn.Services;
 using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 
 namespace ConnectIn.Controllers
 {
     public class NewsFeedController : Controller
     {
+        [HttpGet]
         public ActionResult Everyone()
         {
             var context = new ApplicationDbContext();
@@ -17,26 +19,24 @@ namespace ConnectIn.Controllers
             return Json(posts, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EveryoneAndBestFriends()
+        [HttpGet]
+        public ActionResult BestFriends()
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
-            var posts1 = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
-            var posts2 = userService.GetBestFriendsPostsForUser(User.Identity.GetUserId());
-            var pair = new Pair(posts1, posts2);
-            
-            return Json(pair, JsonRequestBehavior.AllowGet);
+            var posts = userService.GetBestFriendsPostsForUser(User.Identity.GetUserId());
+
+            return Json(posts, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EveryoneAndFamily()
+        [HttpGet]
+        public ActionResult Family()
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
-            var posts1 = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
-            var posts2 = userService.GetFamilyPostsForUser(User.Identity.GetUserId());
-            var pair = new Pair(posts1, posts2);
+            var posts = userService.GetFamilyPostsForUser(User.Identity.GetUserId());
 
-            return Json(pair, JsonRequestBehavior.AllowGet);
+            return Json(posts, JsonRequestBehavior.AllowGet);
         }
     }
 }

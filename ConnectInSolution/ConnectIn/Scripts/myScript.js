@@ -15,37 +15,38 @@
 
         // Show and hide statuses according to the selected filter 
         if (currFilter == "Everyone") {
-            $.get("/NewsFeed/Everyone", function (data, status) {
+            $.get("/NewsFeed/Everyone", function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    $("#post-" + data[i].PostId).show();
+                    $("#post-" + data[i]).fadeOut();
+                }
+                for (var i = 0; i < data.length; i++) {
+                    $("#post-" + data[i]).fadeIn(500);
                 }
             });
         }
         if (currFilter == "BestFriends") {
-            $.get("/NewsFeed/EveryoneAndBestFriends", function (data, status) {
-                alert(status);
-                for (var i = 0; i < data.First.length; i++) {
-                    $("#post-" + data.First[i].PostId).hide();
+            $.get("/NewsFeed/Everyone", function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#post-" + data[i]).fadeOut();
                 }
-                for (var i = 0; i < data.Second.length; i++) {
-                    $("#post-" + data.Second[i].PostId).show();
-                }
-            }).done(function () {
-                alert("second success");
-            }).fail(function (error) {
-                alert("error " + error);
-            }).always(function () {
-                alert("finished " + status);
+                $.get("/NewsFeed/BestFriends", function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#post-" + data[i]).fadeIn();
+                    }
+                });
             });
+            
         }
         if (currFilter == "Family") {
-            $.get("/NewsFeed/EveryoneAndFamily", function (data, status) {
-                for (var i = 0; i < data.First.length; i++) {
-                    $("#post-" + data.First[i].PostId).hide();
+            $.get("/NewsFeed/Everyone", function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#post-" + data[i]).fadeOut();
                 }
-                for (var i = 0; i < data.Second.length; i++) {
-                    $("#post-" + data.Second[i].PostId).show();
-                }
+                $.get("/NewsFeed/Family", function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#post-" + data[i]).fadeIn();
+                    }
+                });
             });
         }
     });

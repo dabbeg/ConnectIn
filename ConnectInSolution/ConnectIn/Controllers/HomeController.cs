@@ -37,9 +37,10 @@ namespace ConnectIn.Controllers
 
             var postList = userService.GetEveryNewsFeedPostsForUser(userId);
 
-            foreach (var item in postList)
+            foreach (var id in postList)
             {
-                var profilePicture = userService.GetProfilePicture(item.UserId);
+                var post = postService.GetPostById(id);
+                var profilePicture = userService.GetProfilePicture(post.UserId);
                 string profilePicturePath;
                 if (profilePicture == null)
                 {
@@ -53,20 +54,20 @@ namespace ConnectIn.Controllers
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
-                        PostId = item.PostId,
-                        Body = item.Text,
-                        DateInserted = item.Date,
+                        PostId = id,
+                        Body = post.Text,
+                        DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
-                            Likes = postService.GetPostsLikes(item.PostId),
-                            Dislikes = postService.GetPostsDislikes(item.PostId),
-                            Comments = postService.GetPostsCommentsCount(item.PostId)
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsCommentsCount(post.PostId)
                         },
                         User = new UserViewModel()
                         {
-                            UserId = item.UserId,
-                            Name = userService.GetUserById(item.UserId).Name,
+                            UserId = post.UserId,
+                            Name = userService.GetUserById(post.UserId).Name,
                             ProfilePicture = profilePicturePath
                         }
                     });
