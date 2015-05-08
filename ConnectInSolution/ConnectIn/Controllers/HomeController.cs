@@ -29,34 +29,45 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
             var postService = new PostService(context);
 
-            var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
             var newsFeed = new NewsFeedViewModel
             {
                 Id = "-1",
                 Posts = new List<PostsViewModel>()
             };
 
-            foreach (var id in postIdList)
+            var postList = userService.GetEveryNewsFeedPostsForUser(userId);
+
+            foreach (var item in postList)
             {
-                var post = postService.GetPostById(id);
+                var profilePicture = userService.GetProfilePicture(item.UserId);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
-                        PostId = id,
-                        Body = post.Text,
-                        DateInserted = post.Date,
+                        PostId = item.PostId,
+                        Body = item.Text,
+                        DateInserted = item.Date,
                         Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
-                            Likes = postService.GetPostsLikes(id),
-                            Dislikes = postService.GetPostsDislikes(id),
-                            Comments = postService.GetPostsCommentsCount(id)
+                            Likes = postService.GetPostsLikes(item.PostId),
+                            Dislikes = postService.GetPostsDislikes(item.PostId),
+                            Comments = postService.GetPostsCommentsCount(item.PostId)
                         },
                         User = new UserViewModel()
                         {
-                            UserId = post.UserId,
-                            Name = userService.GetUserById(post.UserId).Name,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
+                            UserId = item.UserId,
+                            Name = userService.GetUserById(item.UserId).Name,
+                            ProfilePicture = profilePicturePath
                         }
                     });
             }
@@ -91,6 +102,17 @@ namespace ConnectIn.Controllers
             var user = userService.GetUserById(id);
             var posts = userService.GetAllPostsFromUser(id);
 
+            var profilePicture = userService.GetProfilePicture(id);
+            string profilePicturePath;
+            if (profilePicture == null)
+            {
+                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+            }
+            else
+            {
+                profilePicturePath = profilePicture.PhotoPath;
+            }
+
             var postsViewModels = new List<PostsViewModel>();
 
             foreach (var postId in posts)
@@ -114,7 +136,7 @@ namespace ConnectIn.Controllers
                          UserId = user.Id,
                          UserName = user.UserName,
                          Name = user.Name,
-                         ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                         ProfilePicture = profilePicturePath,
                          Gender = user.Gender,
                          Birthday = user.Birthday,
                          Work = user.Work,
@@ -137,7 +159,7 @@ namespace ConnectIn.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Name = user.Name,
-                    ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                    ProfilePicture = profilePicturePath,
                     Gender = user.Gender,
                     Birthday = user.Birthday,
                     Work = user.Work,
@@ -162,6 +184,19 @@ namespace ConnectIn.Controllers
             {
                 var user = userService.GetUserById(item.FriendUserId);
                 var friend = userService.GetUserById(item.UserId);
+
+                var profilePicture = userService.GetProfilePicture(item.UserId);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+                
+
                 model.Add(
                     new NotificationViewModel()
                     {
@@ -178,7 +213,7 @@ namespace ConnectIn.Controllers
                             Name = friend.Name,
                             Work = friend.Work,
                             School = friend.School,
-                            ProfilePicture = "http://i.imgur.com/3h6Ha2F.jpg"
+                            ProfilePicture = profilePicturePath
                         },
                         NotificationId = item.NotificationId,
                         Date = item.Date
@@ -206,6 +241,17 @@ namespace ConnectIn.Controllers
 
             foreach (var id in searchList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 searchResult.Add(
                     new SearchViewModel()
@@ -215,7 +261,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -240,6 +286,17 @@ namespace ConnectIn.Controllers
 
             foreach (var id in friendList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 friends.Add(
                     new FriendViewModel()
@@ -249,7 +306,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -275,6 +332,17 @@ namespace ConnectIn.Controllers
             
             foreach (var id in birthdayList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 birthdays.Add(
                     new BirthdayViewModel()
@@ -284,7 +352,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -317,7 +385,8 @@ namespace ConnectIn.Controllers
             {
                 model.Images.Add(new ImageViewModel()
                 {
-                    ImagePath = item.PhotoPath
+                    ImagePath = item.PhotoPath,
+                    PhotoId = item.PhotoId
                 });
             }
             
@@ -356,6 +425,35 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
 
+        public ActionResult PickProfilePicture(FormCollection collection)
+        {
+            string id = collection["photoId"];
 
+            if (id == "PUT PHOTOID")
+            {
+                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            }
+
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            int photoId = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var oldProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            if (oldProfilePicture != null)
+            {
+                oldProfilePicture.IsProfilePicture = false;
+            }
+            var photo = userService.GetPhotoById(photoId);
+            photo.IsProfilePicture = true;
+            context.SaveChanges();
+
+            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
+        }
     }
 }

@@ -1,0 +1,74 @@
+﻿@model ConnectIn.Models.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit your account</h2>
+
+
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="editinfos" type="text" id="EditName" maxlength="40" name="EditName" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
+            <div class="btn-group col-md-10" data-toggle="buttons">
+                <label class="btn btn-primary active">
+
+                    <span>Male</span>
+                    <input type="radio" id="EditGender" name="EditGender" value="Male" />
+                    &nbsp;
+                </label>
+                <label class="btn btn-primary">
+                    <span>Female</span>
+                    <input type="radio" id="EditGender" name="EditGender" value="Female" />
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Work, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="editinfos" type="text" id="EditWork" maxlength="40" name="EditWork" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.School, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="editinfos" type="text" id="EditSchool" maxlength="40" name="EditSchool" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="editinfos" type="text" id="EditAddress" maxlength="40" name="EditAddress" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to News feed", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

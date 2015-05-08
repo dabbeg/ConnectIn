@@ -8,10 +8,11 @@
 }
 @if (Request.IsAuthenticated)
 {
+
     <div class="container">
         <div class="well" id="ProfileWell">
             <div id="userProfilePicture">
-                <a href="/Home/UploadImage"><img class="img-rounded pull-left" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
+                <a href="/Home/UploadImage"><img class="img-responsiveProfilePic img-rounded " src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
             </div>
             <div id="userNameOnProfile">
                 <div>
@@ -63,11 +64,16 @@
                                     <span>@string.Format("{0}", Model.User.Address)</span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <span><button id="buttonedit" type="button" class="btn btn-link">@Html.ActionLink("Edit", "Edit", "Account")</button></span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div>
+                <div id="PhotoButton">
                     @using (Html.BeginForm("Images", "Home", new { userId = Model.User.UserId }))
                     {
                         <button type="submit" class="btn btn-primary">Photos</button>
