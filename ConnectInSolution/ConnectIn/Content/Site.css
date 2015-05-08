@@ -673,3 +673,12 @@ height: 100%;
 }
 
 /*-------------------------------TEST MENU------------------------------*/
+
+
+.btnUpload {
+    float: right;
+}
+
+.btnProfile {
+    float: right;
+}

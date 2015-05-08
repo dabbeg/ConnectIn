@@ -145,8 +145,8 @@ namespace ConnectIn.Services
             return list;
         }
 
-        // Get the Id of all the users news feeds posts by a given Id of user
-        public List<int> GetEveryNewsFeedPostsForUser(string userId)
+        // Get the post of all the users news feeds posts by a given Id of user
+        public List<Post> GetEveryNewsFeedPostsForUser(string userId)
         {
             // Get the users friends
             var friends = GetFriendsFromUser(userId);
@@ -157,7 +157,7 @@ namespace ConnectIn.Services
                             || s.UserId == userId)
                             && s.GroupId == null
                             orderby s.Date descending
-                            select s.PostId).Take(20).ToList();
+                            select s).Take(20).ToList();
             return statuses;
         }
        
@@ -195,6 +195,27 @@ namespace ConnectIn.Services
         #endregion
 
         #region queries regarding the users photos
+        // Get photo by Id
+        public Photo GetPhotoById(int photoId)
+        {
+            var photo = (from p in db.Photos
+                where p.PhotoId == photoId
+                select p).SingleOrDefault();
+            
+            return photo;
+        }
+
+        // Get profile picture from user
+        public Photo GetProfilePicture(string userId)
+        {
+            var pPhoto = (from p in db.Photos
+                where p.UserId == userId
+                      && p.IsProfilePicture == true
+                select p).SingleOrDefault();
+
+            return pPhoto;
+        }
+
         // Get all the users photos by a given Id of user
         public List<Photo> GetAllPhotosFromUser(string userId)
         {
