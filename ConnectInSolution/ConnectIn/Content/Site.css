@@ -9,6 +9,11 @@
 .body-content {
     padding-right: 15px;
 }
+
+.editinfos
+{
+   max-width:200px;
+}
 #backgroundimg
 {
      background-image: url("/Content/Images/background.jpg");
