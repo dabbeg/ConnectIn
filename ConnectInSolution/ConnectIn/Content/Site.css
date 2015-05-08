@@ -9,6 +9,14 @@
 .body-content {
     padding-right: 15px;
 }
+#buttonedit
+{
+    margin-bottom:0px;
+}
+.editinfos
+{
+   max-width:200px;
+}
 #backgroundimg
 {
      background-image: url("/Content/Images/background.jpg");
