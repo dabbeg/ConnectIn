@@ -11,7 +11,7 @@
     @foreach (var item in Model.Images)
     {
         <div class="col-xs-6 col-md-3">
-            <a href="#" class="thumbnail">
+            <a href="#" id="@item.PhotoId" class="thumbnail">
                 <img src="@item.ImagePath" alt="userPhoto" />
             </a>
         </div>
@@ -27,11 +27,11 @@
         }
     </div>
 
-    <div class="btnUpload">
+    <div class="btnProfile">
         @using (Html.BeginForm("PickProfilePicture", "Home", FormMethod.Post))
         {
-            <input type="hidden" name="photoId" value="PUT PHOTOID" />
-            <button type="submit" class="btn btn-primary">Upload Photo</button>
+            <input type="hidden" id="photoId" name="photoId" value="PUT PHOTOID" />
+            <button type="submit" class="btn btn-primary">Pick as Profile Picture</button>
         }
     </div>
 }

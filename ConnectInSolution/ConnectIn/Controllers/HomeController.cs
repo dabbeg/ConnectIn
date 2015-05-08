@@ -87,6 +87,17 @@ namespace ConnectIn.Controllers
             var user = userService.GetUserById(id);
             var posts = userService.GetAllPostsFromUser(id);
 
+            var profilePicture = userService.GetProfilePicture(id);
+            string profilePicturePath;
+            if (profilePicture == null)
+            {
+                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+            }
+            else
+            {
+                profilePicturePath = profilePicture.PhotoPath;
+            }
+
             var postsViewModels = new List<PostsViewModel>();
 
             foreach (var postId in posts)
@@ -109,7 +120,7 @@ namespace ConnectIn.Controllers
                          UserId = user.Id,
                          UserName = user.UserName,
                          Name = user.Name,
-                         ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                         ProfilePicture = profilePicturePath,
                          Gender = user.Gender,
                          Birthday = user.Birthday,
                          Work = user.Work,
@@ -132,7 +143,7 @@ namespace ConnectIn.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Name = user.Name,
-                    ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                    ProfilePicture = profilePicturePath,
                     Gender = user.Gender,
                     Birthday = user.Birthday,
                     Work = user.Work,
@@ -312,7 +323,8 @@ namespace ConnectIn.Controllers
             {
                 model.Images.Add(new ImageViewModel()
                 {
-                    ImagePath = item.PhotoPath
+                    ImagePath = item.PhotoPath,
+                    PhotoId = item.PhotoId
                 });
             }
             
@@ -326,7 +338,7 @@ namespace ConnectIn.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadImage()
+        public ActionResult UploadImage(FormCollection collection)
         {
             var photo = WebImage.GetImageFromRequest("Image");
             if (photo != null)
@@ -353,11 +365,33 @@ namespace ConnectIn.Controllers
 
         public ActionResult PickProfilePicture(FormCollection collection)
         {
-            string photoId = collection["photoId"];
+            string id = collection["photoId"];
 
+            if (id == "PUT PHOTOID")
+            {
+                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            }
 
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
 
-            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            int photoId = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var oldProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            if (oldProfilePicture != null)
+            {
+                oldProfilePicture.IsProfilePicture = false;
+            }
+            var photo = userService.GetPhotoById(photoId);
+            photo.IsProfilePicture = true;
+            context.SaveChanges();
+
+            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
         }
     }
 }
