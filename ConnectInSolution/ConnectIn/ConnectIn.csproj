@@ -180,6 +180,7 @@
     <Compile Include="Models\Entity\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\BirthdayViewModel.cs" />
+    <Compile Include="Models\ViewModels\CommentHelperViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FriendViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailViewModel.cs" />

@@ -26,7 +26,7 @@ namespace ConnectIn.Tests.Services
                 Id = "1",
                 Email = "user1@m.com",
                 UserName = "user1",
-                Name = "user1",
+                Name = "Darri",
                 Birthday = new DateTime(2000, 1, 1),
                 Work = "HR",
                 School = "HR",
@@ -41,7 +41,7 @@ namespace ConnectIn.Tests.Services
                 Id = "2",
                 Email = "user2@m.com",
                 UserName = "user2",
-                Name = "user2",
+                Name = "Jan",
                 Birthday = DateTime.Today,
                 Work = "HI",
                 School = "HI",
@@ -56,7 +56,7 @@ namespace ConnectIn.Tests.Services
                 Id = "3",
                 Email = "user3@m.com",
                 UserName = "user3",
-                Name = "user3",
+                Name = "Logi",
                 Birthday = new DateTime(2002, 1, 1),
                 Work = "HA",
                 School = "HA",
@@ -71,7 +71,7 @@ namespace ConnectIn.Tests.Services
                 Id = "4",
                 Email = "user4@m.com",
                 UserName = "user4",
-                Name = "user4",
+                Name = "Davíð",
                 Birthday = new DateTime(2003, 1, 1),
                 Work = "FG",
                 School = "FG",
@@ -86,7 +86,7 @@ namespace ConnectIn.Tests.Services
                 Id = "5",
                 Email = "user5@m.com",
                 UserName = "user5",
-                Name = "user5",
+                Name = "Ingþór",
                 Birthday = DateTime.Today,
                 Work = "FG",
                 School = "FG",
@@ -526,8 +526,8 @@ namespace ConnectIn.Tests.Services
             var result2 = service.GetFriendsFromUser(user2);
 
             // Assert
-            string[] list1 = { "2", "3", "4" };
-            string[] list2 = { "1", "3" , "5" };
+            string[] list1 = { "4", "2", "3" };
+            string[] list2 = { "1", "5" , "3" };
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
 
@@ -643,25 +643,6 @@ namespace ConnectIn.Tests.Services
         }
 
         [TestMethod]
-        public void TestGetAllPhotosFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetAllPhotosFromUser(user1);
-            var result2 = service.GetAllPhotosFromUser(user2);
-
-            // Assert
-            int[] list1 = { 2, 1 };
-            int[] list2 = { 3 };
-
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-        }
-
-        [TestMethod]
         public void TestGetEveryNewsfeedPostsForUser()
         {
             // Arrange
@@ -753,21 +734,21 @@ namespace ConnectIn.Tests.Services
         public void TestGetPossibleUsersByName()
         {
             // Arrange
-            const string user1 = "user";
-            const string user2 = "r2";
+            const string user1 = "a";
+            const string user2 = "r";
 
             // Act
             var result1 = service.GetPossibleUsersByName(user1);
             var result2 = service.GetPossibleUsersByName(user2);
 
             // Assert
-            string[] list1 = { "1", "2", "3", "4", "5" };
-            string[] list2 = { "2" };
+            string[] list1 = { "1", "4", "2" };
+            string[] list2 = { "2", "5" };
 
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
-            Assert.AreEqual(5, result1.Count);
-            Assert.AreEqual(1, result2.Count);
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(2, result2.Count);
         }
     }
 }

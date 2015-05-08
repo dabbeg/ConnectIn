@@ -1,29 +1,118 @@
-﻿
-@model IEnumerable<ConnectIn.Models.ViewModels.CommentViewModel>
+﻿@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.CommentHelperViewModel
 @{
     ViewBag.Title = "Comment";
 }
 @if (Request.IsAuthenticated)
 {
     <h2>Comments</h2>
-    
-
     <div class="container">
         <div id="posts" class="row">
-            @foreach (var item in Model)
-            {
-                <div>
-                    @using (Html.BeginForm("AddComment", "Status"))
-                    {
-                        <div class="form-horizontal">
-                            <!--Notifies the StatusController that the post comes from NewsFeed:-->
-                            <input type="hidden" name="postId" value="@item.PostId" />
-                            <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed" />
-                            <textarea placeholder="Comment..." class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-                            <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+            <div class="post item span3">
+                    <div class="well" id="FriendsListWell">
+                        <div id="postContent">
+                            <!--Should display user's profile picture, a cat was used temporarily-->
+                            <div class="PostPartialViewPhoto">
+                                <img class="PartialViewResponsive  img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" />
+                            </div>
+                            <!--Should display username instead of item.userID-->
+                            <div class="friendsListName">
+                                <h3>
+                                    @Html.ActionLink(Model.Post.User.Name, "Profile", "Home", new { id = Model.Post.User.UserId }, null) <small class="pull-right">@Html.DisplayFor(modelItem => Model.Post.DateInserted)</small>
+                                </h3>
+                            </div>
+                            <p id="PartialPostsText">
+                                @Model.Post.Body
+                            </p>
                         </div>
-                        @Html.ValidationSummary(false)
-                    }
+
+                        <div id="commentsLikesDeleteDiv">
+                            <div id="commentsAndLikes">
+                                <div id="reactionButtons">
+                                    @using (Html.BeginForm("Like", "Status"))
+                                    {
+
+                                        var action = ViewContext.RouteData.GetRequiredString("action");
+                                        <input type="hidden" name="location" value="@action" />
+                                        <input type="hidden" name="postId" value="@Model.Post.PostId" />
+                                        <input type="hidden" name="id" value="@Model.Post.User.UserId" />
+
+                                        <button type="submit" class="btnNew btn-default-like">@Model.Post.LikeDislikeComment.Likes Smiles</button>
+                                    }
+                                    @using (Html.BeginForm("Dislike", "Status"))
+                                    {
+
+                                        var action = ViewContext.RouteData.GetRequiredString("action");
+                                        <input type="hidden" name="location" value="@action" />
+                                        <input type="hidden" name="postId" value="@Model.Post.PostId" />
+                                        <input type="hidden" name="id" value="@Model.Post.User.UserId" />
+
+                                        <button type="submit" class="btnNew btn-default-dislike">@Model.Post.LikeDislikeComment.Dislikes Sadfaces</button>
+                                    }
+
+                                    @if (Model.Post.User.UserId == User.Identity.GetUserId())
+                                    {
+                                        using (Html.BeginForm("RemovePost", "Status", new { postId = Model.Post.PostId }))
+                                        {
+                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Post</button>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div>
+        @using (Html.BeginForm("AddComment", "Status"))
+        {
+            <div class="form-horizontal">
+                <!--Notifies the StatusController that the post comes from NewsFeed:-->
+                <input type="hidden" name="postId" value="@Model.Post.PostId"/>
+                <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
+                <textarea placeholder="Comment..." class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+            </div>
+            @Html.ValidationSummary(false)
+        }
+
+    </div>
+    
+    <div class="container">
+        <div id="posts" class="row">
+            @foreach (var item in Model.Comments)
+            {
+                <div class="post item span3">
+                    <div class="well" id="FriendsListWell">
+                        <div id="postContent">
+                            <!--Should display user's profile picture, a cat was used temporarily-->
+
+                            <div class="friendsListPhoto" style="margin-right: -115px;">
+                                <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
+                            </div>
+                            <!--Should display username instead of item.userID-->
+                            <div class="friendsListName">
+                                <h4>
+                                    @Html.ActionLink(item.User.Name, "Profile", "Home", new {id = item.User.UserId}, null)
+                                    <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                                </h4>
+     
+                            </div>
+                            <h5>
+                                @item.Body
+                                <span id="reactionButtons">
+                                    @if (Model.Post.User.UserId == User.Identity.GetUserId())
+                                    {
+                                        using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
+                                        {
+                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
+                                        }
+                                    }
+                                </span>
+                            </h5>
+                        </div>
+                    </div>
                 </div>
             }
         </div>

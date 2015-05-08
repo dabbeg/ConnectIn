@@ -36,7 +36,9 @@ namespace ConnectIn.Services
         {
             var theUser = (from u in db.Users
                            where u.Name.ToLower().Contains(searchWord.ToLower())
+                           orderby u.Name ascending
                            select u.Id).ToList();
+
             return theUser;
         }
         #endregion
@@ -49,19 +51,24 @@ namespace ConnectIn.Services
             var list1 = (from fc in db.Friends
                        where fc.UserId == userId
                        && fc.BestFriend == true
-                       select fc.FriendUserId).ToList();
+                       select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
                          && fc.BestFriend == true
-                         select fc.UserId).ToList();
+                         select fc).ToList();
 
             // Append list1 and list2 together
             list1.AddRange(list2);
-            list1.Sort();
-        
-            return list1;
+
+            // Sort by name
+            var list3 = (from fc in list1
+                         orderby fc.UserId == userId ? GetUserById(fc.FriendUserId).Name : GetUserById(fc.UserId).Name
+                         select fc.UserId == userId ? fc.FriendUserId : fc.UserId).ToList();
+
+
+            return list3;
         }
 
         // Get the Id of all the users family by a given Id of user
@@ -71,19 +78,24 @@ namespace ConnectIn.Services
             var list1 = (from fc in db.Friends
                          where fc.UserId == userId
                          && fc.Family == true
-                         select fc.FriendUserId).ToList();
+                         select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
                          && fc.Family == true
-                         select fc.UserId).ToList();
+                         select fc).ToList();
 
             // Append list1 and list2 together
             list1.AddRange(list2);
-            list1.Sort();
 
-            return list1;
+            // Sort by name
+            var list3 = (from fc in list1
+                         orderby fc.UserId == userId ? GetUserById(fc.FriendUserId).Name : GetUserById(fc.UserId).Name
+                         select fc.UserId == userId ? fc.FriendUserId : fc.UserId).ToList();
+
+
+            return list3;
         }
 
         // Get the Id of all the users friends by a given Id of user
@@ -92,18 +104,23 @@ namespace ConnectIn.Services
             // Get the added friends of the user, and put to a list
             var list1 = (from fc in db.Friends
                          where fc.UserId == userId
-                         select fc.FriendUserId).ToList();
+                         select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
-                         select fc.UserId).ToList();
+                         select fc).ToList();
 
             // Append list1 and list2 together
             list1.AddRange(list2);
-            list1.Sort();
 
-            return list1;
+            // Sort by name
+            var list3 = (from fc in list1
+                         orderby fc.UserId == userId ? GetUserById(fc.FriendUserId).Name : GetUserById(fc.UserId).Name
+                         select fc.UserId == userId ? fc.FriendUserId : fc.UserId).ToList();
+
+
+            return list3;
         }
 
         // Get the Id of all the users birthdays by a given Id of the user

@@ -17,7 +17,7 @@ namespace ConnectIn.Controllers
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated) return RedirectToAction("NewsFeed", "Home");
-            else return View();
+            return View();
         }
 
         public ActionResult NewsFeed()
@@ -30,9 +30,11 @@ namespace ConnectIn.Controllers
             var postService = new PostService(context);
 
             var postIdList = userService.GetEveryNewsFeedPostsForUser(userId);
-            var newsFeed = new NewsFeedViewModel();
-            newsFeed.Id = "-1";
-            newsFeed.Posts = new List<PostsViewModel>();
+            var newsFeed = new NewsFeedViewModel
+            {
+                Id = "-1",
+                Posts = new List<PostsViewModel>()
+            };
 
             foreach (var id in postIdList)
             {
@@ -353,5 +355,7 @@ namespace ConnectIn.Controllers
 
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
+
+
     }
 }

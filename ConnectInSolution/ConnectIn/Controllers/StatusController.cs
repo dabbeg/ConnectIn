@@ -60,32 +60,58 @@ namespace ConnectIn.Controllers
             return RedirectToAction("NewsFeed", "Home");
         }
 
-        public ActionResult Comment(FormCollection collection)
+        public ActionResult Comment(int ? PostId)
         {
-            var pId = collection["postId"];
-            int postId = pId.AsInt();
+            if (PostId == null)
+            {
+                return RedirectToAction("NewsFeed", "Home");
+            }
+            int postId = (int) PostId;
 
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
             var commentService = new CommentService(db);
             var postService = new PostService(db);
 
-            var comments = new List<CommentViewModel>();
+            var comments = new CommentHelperViewModel
+            {
+                Comments = new List<CommentViewModel>(),
+                Post = new PostsViewModel()
+                {
+                    PostId = postId,
+                    Body = postService.GetPostById(postId).Text,
+                    DateInserted = postService.GetPostById(postId).Date,
+                    LikeDislikeComment = new LikeDislikeCommentViewModel()
+                    {
+                        Likes = postService.GetPostsLikes(postId),
+                        Dislikes = postService.GetPostsDislikes(postId),
+                        Comments = postService.GetPostsCommentsCount(postId)
+                    },
+                    User = new UserViewModel()
+                    {
+                        UserId = postService.GetPostById(postId).UserId,
+                        Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
+                        ProfilePicture = "~/Content/Images/profilepic.png"
+                    }
+                }
+            };
             var commentIdList = postService.GetPostsComments(postId);
             foreach (var id in commentIdList)
             {
                 var commentList = commentService.GetCommentById(id);
-                comments.Add(
+                comments.Comments.Add(
                     new CommentViewModel()
                     {
-                        Body = commentList.Text,
-                        DateInserted = commentList.Date,
                         CommentId = commentList.CommentId,
                         PostId = commentList.PostId,
+                        Body = commentList.Text,
+                        DateInserted = commentList.Date,
                         User = new UserViewModel()
                         {
                             UserId = commentList.UserId,
-                            Name = userService.GetUserById(commentList.UserId).Name
+                            Name = userService.GetUserById(commentList.UserId).Name,
+                            UserName = userService.GetUserById(commentList.UserId).UserName,
+                            ProfilePicture = "~/Content/Images/profilepic.png"
                         }
                     });
             }
@@ -106,7 +132,7 @@ namespace ConnectIn.Controllers
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status");
+            return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
 
         public ActionResult RemoveComment(int ? commentId)
@@ -120,10 +146,11 @@ namespace ConnectIn.Controllers
             var db = new ApplicationDbContext();
             var commentService = new CommentService(db);
             db.Comments.Remove(commentService.GetCommentById(id));
+            int postId = commentService.GetCommentById(id).PostId;
 
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status");
+            return RedirectToAction("Comment", "Status", new {postId});
 
         }
 
@@ -155,6 +182,10 @@ namespace ConnectIn.Controllers
                 {
                     context.LikesDislikes.Remove(ld);
                     context.SaveChanges();
+                    if (location.Equals("Comment"))
+                    {
+                        return RedirectToAction("Comment", "Status", new { postId });
+                    }
                     return RedirectToAction(location, "Home", new { id = profileOrGroupId });
                 }
             }
@@ -171,6 +202,10 @@ namespace ConnectIn.Controllers
             context.LikesDislikes.Add(model);
             context.SaveChanges();
 
+            if (location.Equals("Comment"))
+            {
+                return RedirectToAction("Comment", "Status", new { postId });
+            }
             return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
@@ -201,6 +236,10 @@ namespace ConnectIn.Controllers
                 {
                     context.LikesDislikes.Remove(ld);
                     context.SaveChanges();
+                    if (location.Equals("Comment"))
+                    {
+                        return RedirectToAction("Comment", "Status", new { postId });
+                    }
                     return RedirectToAction(location, "Home", new { id = profileOrGroupId });
                 }
             }
@@ -215,7 +254,10 @@ namespace ConnectIn.Controllers
 
             context.LikesDislikes.Add(model);
             context.SaveChanges();
-
+            if (location.Equals("Comment"))
+            {
+                return RedirectToAction("Comment", "Status", new {postId});
+            }
             return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
