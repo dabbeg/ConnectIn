@@ -4,32 +4,51 @@
     ViewBag.Title = "GroupDetails";
 }
 
-<h2>@Model.Name</h2>
+<h1 style="text-align: center;">@Model.Name</h1>
 
-<div>
-    <h4>Members:</h4>
-</div>
-<div class="well" id="membersDiv">
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Birthday:</th>
-            <th>Username:</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var member in Model.Users)
-        {
+    <div class="well" id="membersDiv">
+        <table class="table table-striped">
+            <thead>
+            <caption style="float: left; font-weight: bold;">
+                <h2>Members:</h2></caption>
             <tr>
-                <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
-                <td>@member.Birthday</td>
-                <td>@member.UserName</td>
+                <th>Name</th>
+                <th>Birthday:</th>
+                <th>Username:</th>
             </tr>
-        }
-        </tbody>
-
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var member in Model.Members)
+            {
+                <tr>
+                    <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
+                    <td>@member.Birthday</td>
+                    <td>@member.UserName</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+<div class="well">
+    <h4>Add friends to group</h4>
+    <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px">
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+        <div>asdf</div>
+    </div>
 </div>
 
 <div>
@@ -51,6 +70,8 @@
 @{
     Html.RenderPartial("~/Views/Home/PostsPartial.cshtml", Model.Posts);
 }
+
+
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |

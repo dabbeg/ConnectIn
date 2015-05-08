@@ -23,7 +23,8 @@ namespace ConnectIn.Controllers
 
             var newGroup = new Group()
             {
-                Name = collection["groupName"]
+                Name = collection["groupName"],
+                AdminID = User.Identity.GetUserId()
             };
             newGroup.Members = new List<Member>();
             //Make the creator a member of the group
@@ -64,17 +65,18 @@ namespace ConnectIn.Controllers
                 {
                     Name = group.Name,
                     GroupId = grpId,
-                    Users = new List<UserViewModel>(),
+                    Members = new List<UserViewModel>(),
                     Posts = new NewsFeedViewModel()
                     {
                         Posts = new List<PostsViewModel>(),
                         Id = grpId.ToString()
-                    }
+                    },
+                    FriendsOfUser = new List<UserViewModel>()
                 };
                 foreach (var userId in memberList)
                 {
                     var currMember = userService.GetUserById(userId);
-                    myGroup.Users.Add(new UserViewModel()
+                    myGroup.Members.Add(new UserViewModel()
                     {
                         Name = currMember.Name,
                         UserId = currMember.Id,
@@ -119,6 +121,25 @@ namespace ConnectIn.Controllers
                         },
                         GroupId = post.GroupId
                     });
+                }
+
+                var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                foreach (var userId in userFriendList)
+                {
+                    var friend = userService.GetUserById(userId);
+
+                    myGroup.FriendsOfUser.Add(new UserViewModel()
+                    {
+                        Name = friend.Name,
+                        UserId = friend.Id,
+                        UserName = friend.UserName,
+                        Birthday = friend.Birthday,
+                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                        Gender = friend.Gender,
+                        Work = friend.Work,
+                        School = friend.School,
+                        Address = friend.Address
+                    });   
                 }
                 return View("GroupDetails", myGroup);
             }

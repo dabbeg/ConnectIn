@@ -12,6 +12,7 @@ namespace ConnectIn.Models.Entity
         [Key]
         public int GroupId { get; set; }
         public string Name { get; set; }
+        public string AdminID { get; set; }
         #endregion
 
         #region ForeignKeys
