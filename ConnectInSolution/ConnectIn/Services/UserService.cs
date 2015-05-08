@@ -264,8 +264,10 @@ namespace ConnectIn.Services
         public Notification GetIfFriendRequestIsPending(string userId, string friendId)
         {
             var notification = (from n in db.Notifications
-                where n.UserId == userId
-                      && n.FriendUserId == friendId
+                where (n.UserId == userId
+                      && n.FriendUserId == friendId)
+                      || (n.UserId == friendId
+                      && n.FriendUserId == userId)
                 select n).SingleOrDefault();
 
             return notification;
