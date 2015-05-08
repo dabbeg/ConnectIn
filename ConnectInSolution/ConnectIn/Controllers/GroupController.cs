@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
@@ -20,72 +21,130 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             UserService userService = new UserService(context);
+            GroupService groupService = new GroupService(context);
 
             var newGroup = new Group()
             {
-                Name = collection["groupName"]
+                Name = collection["groupName"],
+                AdminID = User.Identity.GetUserId(),
+                Members = new List<Member>()
             };
-            newGroup.Members = new List<Member>();
-            //Make the creator a member of the group
-            Member groupMember = new Member();
-
-            groupMember.GroupId = newGroup.GroupId;
-            groupMember.UserId = userId;
-            groupMember.Group = newGroup;
-            User currentUser = userService.GetUserById(userId);
-            groupMember.User = currentUser;
-
-            newGroup.Members.Add(groupMember);
 
             context.Groups.Add(newGroup);
+            //Make the creator a member of the group
+            context.Members.Add(new Member()
+            {
+                Group = newGroup,
+                User = userService.GetUserById(userId),
+                GroupId = newGroup.GroupId,
+                UserId = userId
+            });
+
             context.SaveChanges();
 
             return RedirectToAction("GroupsList", "Group");
         }
 
-        public ActionResult Details(int ? id)
+        public ActionResult Details(int? id)
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var groupService = new GroupService(context);
+            var postService = new PostService(context);
+
             if (!id.HasValue)
             {
                 return View("Error");
             }
             else
             {
-                int myId = id.Value;
-                var memberList = groupService.GetMembersOfGroup(myId);
-                var group = groupService.GetGroupById(myId);
+                int grpId = id.Value;
+                var memberList = groupService.GetMembersOfGroup(grpId);
+                var group = groupService.GetGroupById(grpId);
 
-                var members = new List<GroupDetailViewModel>();
-
-                foreach (var did in memberList)
+                var myGroup = new GroupDetailViewModel()
                 {
-                    var user = userService.GetUserById(did);
-
-                    members.Add(
-                        new GroupDetailViewModel()
-                        {
-                            Name = group.Name,
-                            GroupId = group.GroupId,
-                            User = new UserViewModel()
-                            {
-                                UserId = user.Id,
-                                UserName = user.UserName,
-                                Name = user.Name,
-                                ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                               // Gender = user.Gender,
-                                Birthday = user.Birthday,
-                                Work = user.Work,
-                                School = user.School,
-                                Address = user.Address
-                            }
-                        });
+                    Name = group.Name,
+                    GroupId = grpId,
+                    Members = new List<UserViewModel>(),
+                    Posts = new NewsFeedViewModel()
+                    {
+                        Posts = new List<PostsViewModel>(),
+                        Id = grpId.ToString()
+                    },
+                    FriendsOfUser = new List<UserViewModel>()
+                };
+                foreach (var userId in memberList)
+                {
+                    var currMember = userService.GetUserById(userId);
+                    myGroup.Members.Add(new UserViewModel()
+                    {
+                        Name = currMember.Name,
+                        UserId = currMember.Id,
+                        UserName = currMember.UserName,
+                        Birthday = currMember.Birthday,
+                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                        Gender = currMember.Gender,
+                        Work = currMember.Work,
+                        School = currMember.School,
+                        Address = currMember.Address
+                    });
                 }
-                return View("GroupDetails", members);
+                var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
+                int myId = id.Value;
+
+                foreach (var userId in postsOfGroup)
+                {
+                    var post = postService.GetPostById(userId);
+                    myGroup.Posts.Posts.Add(new PostsViewModel()
+                    {
+                        PostId = post.PostId,
+                        Body = post.Text,
+                        User = new UserViewModel()
+                        {
+                            Name = post.User.Name,
+                            UserId = post.User.Id,
+                            UserName = post.User.UserName,
+                            Birthday = post.User.Birthday,
+                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            Gender = post.User.Gender,
+                            Work = post.User.Work,
+                            School = post.User.School,
+                            Address = post.User.Address
+                        },
+                        DateInserted = post.Date,
+                        Comments = new List<CommentViewModel>(),
+                        LikeDislikeComment = new LikeDislikeCommentViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsCommentsCount(post.PostId)
+                        },
+                        GroupId = post.GroupId
+                    });
+                }
+
+                var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                foreach (var userId in userFriendList)
+                {
+                    var friend = userService.GetUserById(userId);
+
+                    myGroup.FriendsOfUser.Add(new UserViewModel()
+                    {
+                        Name = friend.Name,
+                        UserId = friend.Id,
+                        UserName = friend.UserName,
+                        Birthday = friend.Birthday,
+                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                        Gender = friend.Gender,
+                        Work = friend.Work,
+                        School = friend.School,
+                        Address = friend.Address
+                    });
+                }
+                return View("GroupDetails", myGroup);
             }
-            
+            return View();
         }
 
         public ActionResult Delete()
@@ -103,14 +162,41 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult AddFriend()
+        public ActionResult AddFriend(FormCollection collection)
         {
-            return View();
+            string listOfNewMembers = collection["newFriendsInGroup"];
+            string[] userIdArray = listOfNewMembers.Split(',');
+
+            string groupId = collection["idOfGroup"];
+            var context = new ApplicationDbContext();
+            GroupService groupService = new GroupService(context);
+            UserService userService = new UserService(context);
+            var currentGroup = groupService.GetGroupById(Int32.Parse(groupId));
+
+            foreach (var id in userIdArray)
+            {
+                var user = userService.GetUserById(id);
+                context.Members.Add(new Member()
+                {
+                    Group = currentGroup,
+                    GroupId = Int32.Parse(groupId),
+                    User = user,
+                    UserId = user.Id
+                });
+            }
+            context.SaveChanges();
+
+            return RedirectToAction("Details", "Group", new { id = groupId });
         }
 
         public ActionResult RemoveFriend()
         {
             return View();
+        }
+
+        public ActionResult GetUser(string Id)
+        {
+            return RedirectToAction("Profile", "Home", new { id = Id });
         }
 
         public ActionResult GroupsList()

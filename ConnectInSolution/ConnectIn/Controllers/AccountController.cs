@@ -50,25 +50,31 @@ namespace ConnectIn.Controllers
             return View();
         }
        [HttpPost]
-       public ActionResult Edit(FormCollection collection)
+       public ActionResult Edit(FormCollection collection, UserViewModel t)
        {
-           string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
-           string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
+           string name = (collection["EditName"]);
+           string gender = (collection["EditGender"]);
            string work = (collection["EditWork"]);
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
+           if (ModelState.IsValid)
+           {
                user.Name = name;
                user.Gender = gender;
                user.Work = work;
                user.School = school;
                user.Address = address;
                context.SaveChanges();
-               return RedirectToAction("Edit");
-           
-       }
+               return RedirectToAction("Profile", "Home", new { user.Id });
+           }
+           else
+           {
+               return View(t);
+           }
+               }
         //
         // POST: /Account/Login
         [HttpPost]

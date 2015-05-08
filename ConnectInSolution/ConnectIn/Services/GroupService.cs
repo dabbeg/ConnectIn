@@ -61,5 +61,19 @@ namespace ConnectIn.Services
             return statuses;
         }
         #endregion
+
+        #region Get group by name and Admin ID
+        //Is used when creating a new group, to set the creator as a member of the group.
+
+        public Group GetGroupByNameAndAdminId(string name, string adminId)
+        {
+            var gro = (from g in db.Groups
+                where g.Name == name
+                      && g.AdminID == adminId
+                select g).SingleOrDefault();
+            return gro;
+        }
+
+        #endregion
     }
 }
