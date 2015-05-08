@@ -28,19 +28,36 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var postService = new PostService(context);
+            
+            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            string profilePicturePath;
+            
+
+            if (profilePicture == null)
+            {
+                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+            }
+            else
+            {
+                profilePicturePath = profilePicture.PhotoPath;
+            }
+
 
             var newsFeed = new NewsFeedViewModel
             {
                 Id = "-1",
-                Posts = new List<PostsViewModel>()
+                Posts = new List<PostsViewModel>(),
+                User = new UserViewModel()
+                {
+                    ProfilePicture = profilePicturePath
+                }
             };
 
             var postList = userService.GetEveryNewsFeedPostsForUser(userId);
 
             foreach (var item in postList)
             {
-                var profilePicture = userService.GetProfilePicture(item.UserId);
-                string profilePicturePath;
+                profilePicture = userService.GetProfilePicture(item.UserId);
                 if (profilePicture == null)
                 {
                     profilePicturePath = "~/Content/images/largeProfilePic.jpg";

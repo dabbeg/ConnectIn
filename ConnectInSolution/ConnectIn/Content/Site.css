@@ -178,10 +178,7 @@ width:40%;
   
    
 }
-#submitstatus
-{
-    margin-left:1080px;
-}
+
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -535,12 +532,9 @@ a.navbar-brand
 
 }
 
-
-
 .PartialViewResponsive {
-    display: block;
+    display: inline-block;
     height: auto;
-    max-width: 100%;
     max-height: 100px;
     max-width: 100px;
 }
@@ -551,6 +545,8 @@ a.navbar-brand
     max-height: 100px;
     float:left;
     margin-right: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 #PartialPostsText {
     display: block;
@@ -567,7 +563,32 @@ a.navbar-brand
   border: 1px solid transparent;
 }
 
+#newsfeedProfilePhoto {
+    width: 100px;
+    height: auto;
+    max-height: 100px;
+    margin-right: 15px;
+}
+.newsfeedViewResponsive {
+    display: block;
+    height: auto;
+    max-height: 100px;
+    max-width: 100px;
+}
 
+#newsfeedstatus {
+    max-width: 75%;
+    display: inline-block;
+}
+
+.NewsFeedContainer {
+    margin-bottom: 20px;
+}
+
+
+#submitstatus {
+    margin: 10px;
+}
 
 
 /*-------------------------------TEST MENU------------------------------*/
@@ -692,9 +713,11 @@ background-color: rgba(255,255,255,0.2);
 }
 .searchHover {
     color:#999;
+    margin-bottom: 25px;
 }
 .searchHover:hover {
-    color:#fff
+    color: #fff;
+    margin-bottom:25px;
 }
 .area {
 float: left;
