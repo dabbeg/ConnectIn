@@ -83,7 +83,7 @@ namespace ConnectIn.Controllers
                         UserId = currMember.Id,
                         UserName = currMember.UserName,
                         Birthday = currMember.Birthday,
-                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                        ProfilePicture = userService.GetProfilePicture(currMember.Id).PhotoPath,
                         Gender = currMember.Gender,
                         Work = currMember.Work,
                         School = currMember.School,
@@ -106,7 +106,7 @@ namespace ConnectIn.Controllers
                             UserId = post.User.Id,
                             UserName = post.User.UserName,
                             Birthday = post.User.Birthday,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = userService.GetProfilePicture(post.User.Id).PhotoPath,
                             Gender = post.User.Gender,
                             Work = post.User.Work,
                             School = post.User.School,
@@ -125,22 +125,39 @@ namespace ConnectIn.Controllers
                 }
 
                 var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
+
+                bool isGroupMemberAlready = false;
+                
                 foreach (var userId in userFriendList)
                 {
-                    var friend = userService.GetUserById(userId);
+                    var usersFriend = userService.GetUserById(userId);
 
-                    myGroup.FriendsOfUser.Add(new UserViewModel()
+                    foreach (var Id in memberList)
                     {
-                        Name = friend.Name,
-                        UserId = friend.Id,
-                        UserName = friend.UserName,
-                        Birthday = friend.Birthday,
-                        ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                        Gender = friend.Gender,
-                        Work = friend.Work,
-                        School = friend.School,
-                        Address = friend.Address
-                    });
+                        var member = userService.GetUserById(Id);
+                        if (member.Id == usersFriend.Id)
+                        {
+                            isGroupMemberAlready = true;
+                        }
+                        
+                    }
+                    if (isGroupMemberAlready == false)
+                    {
+                        var friend = userService.GetUserById(userId);
+
+                        myGroup.FriendsOfUser.Add(new UserViewModel()
+                        {
+                            Name = friend.Name,
+                            UserId = friend.Id,
+                            UserName = friend.UserName,
+                            Birthday = friend.Birthday,
+                            ProfilePicture = userService.GetProfilePicture(friend.Id).PhotoPath,
+                            Gender = friend.Gender,
+                            Work = friend.Work,
+                            School = friend.School,
+                            Address = friend.Address
+                        });
+                    }
                 }
                 return View("GroupDetails", myGroup);
             }
