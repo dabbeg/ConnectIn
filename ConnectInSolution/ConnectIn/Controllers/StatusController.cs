@@ -109,9 +109,22 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Comment", "Status");
         }
 
-        public ActionResult RemoveComment()
+        public ActionResult RemoveComment(int ? commentId)
         {
-            return RedirectToAction("NewsFeed", "Home");
+            if (!commentId.HasValue)
+            {
+                return View("Error");
+            }
+            int id = commentId.Value;
+
+            var db = new ApplicationDbContext();
+            var commentService = new CommentService(db);
+            db.Comments.Remove(commentService.GetCommentById(id));
+
+            db.SaveChanges();
+
+            return RedirectToAction("Comment", "Status");
+
         }
 
         public ActionResult Like(FormCollection collection)
@@ -127,14 +140,25 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var postService = new PostService(context);
+
+            var likedislikeService = new LikeDislikeService(context);
             var id = Int32.Parse(postId);
 
-            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), id);
+            var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id);
             if (ld != null)
             {
-                context.LikesDislikes.Remove(ld);
+                if (ld.Dislike)
+                {
+                    context.LikesDislikes.Remove(ld);
+                }
+                else if (ld.Like) // UnLike
+                {
+                    context.LikesDislikes.Remove(ld);
+                    context.SaveChanges();
+                    return RedirectToAction(location, "Home", new { id = profileOrGroupId });
+                }
             }
+            
             
             var model = new LikeDislike()
             {
@@ -150,11 +174,6 @@ namespace ConnectIn.Controllers
             return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
-        public ActionResult UnLike(int? postId)
-        {
-            return View();
-        }
-
         public ActionResult Dislike(FormCollection collection)
         {
             string postId = collection["postId"];
@@ -167,13 +186,23 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var postService = new PostService(context);
+            var likedislikesService = new LikeDislikeService(context);
+
             var pid = Int32.Parse(postId);
 
-            var ld = postService.GetLikeDislike(User.Identity.GetUserId(), pid);
+            var ld = likedislikesService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
-                context.LikesDislikes.Remove(ld);
+                if (ld.Like)
+                {
+                    context.LikesDislikes.Remove(ld);
+                }
+                else if (ld.Dislike) // UnDislike
+                {
+                    context.LikesDislikes.Remove(ld);
+                    context.SaveChanges();
+                    return RedirectToAction(location, "Home", new { id = profileOrGroupId });
+                }
             }
 
             var model = new LikeDislike()
@@ -190,9 +219,5 @@ namespace ConnectIn.Controllers
             return RedirectToAction(location, "Home", new { id = profileOrGroupId });
         }
 
-        public ActionResult UnDislike(int? postId)
-        {
-            return View();
-        }
     }
 }

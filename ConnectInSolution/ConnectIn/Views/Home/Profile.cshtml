@@ -11,7 +11,7 @@
     <div class="container">
         <div class="well" id="ProfileWell">
             <div id="userProfilePicture">
-                <img class="img-rounded pull-left" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
+                <a href="/Home/UploadImage"><img class="img-rounded pull-left" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
             </div>
             <div id="userNameOnProfile">
                 <div>
@@ -67,16 +67,22 @@
                     </table>
                 </div>
 
-                <!-- <div class="well" id="aboutUser">
-                    <div class="glyphicon glyphicon-user personalInfoGlyphs">&nbsp;Gender: @Model.User.Gender</div>
-                    <div class="glyphicon glyphicon-gift personalInfoGlyphs">&nbsp;Birthday: @Model.User.Birthday</div>
-                    <div class="glyphicon glyphicon-briefcase personalInfoGlyphs">&nbsp;Work: @Model.User.Work</div>
-                    <div class="glyphicon glyphicon-envelope personalInfoGlyphs">&nbsp;School: @Model.User.School</div>
-                    <div class="glyphicon glyphicon-home personalInfoGlyphs">&nbsp;Address: @Model.User.Address</div>
-                </div>-->
+                <div>
+                    @using (Html.BeginForm("Images", "Home", new { userId = Model.User.UserId }))
+                    {
+                        <button type="submit" class="btn btn-primary">Photos</button>
+                    }
+                </div>
+
                 <div id="addFriendButton">
-                    @{
-                        if (Model.User.UserId != User.Identity.GetUserId())
+                @{
+                    if (Model.User.UserId != User.Identity.GetUserId())
+                    {
+                        var context = new ApplicationDbContext();
+                        var userService = new UserService(context);
+                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
+                        if (notification != null)
                         {
                             var context = new ApplicationDbContext();
                             var userService = new UserService(context);

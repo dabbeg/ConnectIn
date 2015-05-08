@@ -195,14 +195,14 @@ namespace ConnectIn.Services
         #endregion
 
         #region queries regarding the users photos
-        // Get the Id of all the users photos by a given Id of user
-        public List<int> GetAllPhotosFromUser(string userId)
+        // Get all the users photos by a given Id of user
+        public List<Photo> GetAllPhotosFromUser(string userId)
         {
             // Create a list of all photos from the user
             var list = (from up in db.Photos
                         where up.UserId == userId
                         orderby up.Date descending
-                        select up.PhotoId).ToList();
+                        select up).ToList();
 
             return list;
         }

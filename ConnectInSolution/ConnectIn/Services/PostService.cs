@@ -86,16 +86,6 @@ namespace ConnectIn.Services
             return pc;
         }
 
-        // Return the LikeDislike from userid and postid
-        public LikeDislike GetLikeDislike(string userId, int postId)
-        {
-            var ld = (from n in db.LikesDislikes
-                where n.UserId == userId
-                      && n.PostId == postId
-                select n).SingleOrDefault();
-
-            return ld;
-        }
         #endregion
     }
 }
