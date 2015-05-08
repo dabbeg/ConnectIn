@@ -52,16 +52,17 @@ namespace ConnectIn.Controllers
        [HttpPost]
        public ActionResult Edit(FormCollection collection, UserViewModel t)
        {
+        
+           var context = new ApplicationDbContext();
+           var userService = new UserService(context);
+           var user = userService.GetUserById(User.Identity.GetUserId());
+           if (ModelState.IsValid)
+           { 
            string name = (collection["EditName"]);
            string gender = (collection["EditGender"]);
            string work = (collection["EditWork"]);
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
-           var context = new ApplicationDbContext();
-           var userService = new UserService(context);
-           var user = userService.GetUserById(User.Identity.GetUserId());
-           if (ModelState.IsValid)
-           {
                user.Name = name;
                user.Gender = gender;
                user.Work = work;
