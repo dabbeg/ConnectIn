@@ -21,9 +21,9 @@ namespace ConnectIn.Controllers
             var userId = User.Identity.GetUserId();
             UserService userService = new UserService(context);
 
-            Group newGroup = new Group()
+            var newGroup = new Group()
             {
-                Name = collection["groupName"],
+                Name = collection["groupName"]
             };
             newGroup.Members = new List<Member>();
             //Make the creator a member of the group
@@ -32,7 +32,7 @@ namespace ConnectIn.Controllers
             groupMember.GroupId = newGroup.GroupId;
             groupMember.UserId = userId;
             groupMember.Group = newGroup;
-            Models.Entity.User currentUser = userService.GetUserById(userId);
+            User currentUser = userService.GetUserById(userId);
             groupMember.User = currentUser;
 
             newGroup.Members.Add(groupMember);
@@ -43,20 +43,20 @@ namespace ConnectIn.Controllers
             return RedirectToAction("GroupsList", "Group");
         }
 
-        public ActionResult Details(int ? Id)
+        public ActionResult Details(int ? id)
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var groupService = new GroupService(context);
             var postService = new PostService(context);
 
-            if (!Id.HasValue)
+            if (!id.HasValue)
             {
                 return View("Error");
             }
             else
             {
-                int grpId = Id.Value;
+                int grpId = id.Value;
                 var memberList = groupService.GetMembersOfGroup(grpId);
                 var group = groupService.GetGroupById(grpId);
 
@@ -71,9 +71,9 @@ namespace ConnectIn.Controllers
                         Id = grpId.ToString()
                     }
                 };
-                foreach (var id in memberList)
+                foreach (var userId in memberList)
                 {
-                    var currMember = userService.GetUserById(id);
+                    var currMember = userService.GetUserById(userId);
                     myGroup.Users.Add(new UserViewModel()
                     {
                         Name = currMember.Name,
@@ -88,10 +88,11 @@ namespace ConnectIn.Controllers
                     });
                 }
                 var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
+                int myId = id.Value;
 
-                foreach (var id in postsOfGroup)
+                foreach (var userId in postsOfGroup)
                 {
-                    var post = postService.GetPostById(id);
+                    var post = postService.GetPostById(userId);
                     myGroup.Posts.Posts.Add(new PostsViewModel()
                     {
                         PostId = post.PostId,
@@ -110,10 +111,11 @@ namespace ConnectIn.Controllers
                         },
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
-                        LikeDislike = new LikeDislikeViewModel()
+                        LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
                             Likes = postService.GetPostsLikes(post.PostId),
-                            Dislikes = postService.GetPostsDislikes(post.PostId)
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsCommentsCount(post.PostId)
                         },
                         GroupId = post.GroupId
                     });
