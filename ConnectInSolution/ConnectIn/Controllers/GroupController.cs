@@ -75,7 +75,7 @@ namespace ConnectIn.Controllers
                                 UserName = user.UserName,
                                 Name = user.Name,
                                 ProfilePicture = "~/Content/images/largeProfilePic.jpg",
-                                Gender = user.Gender,
+                               // Gender = user.Gender,
                                 Birthday = user.Birthday,
                                 Work = user.Work,
                                 School = user.School,
