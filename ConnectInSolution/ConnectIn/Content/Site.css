@@ -9,7 +9,10 @@
 .body-content {
     padding-right: 15px;
 }
-
+#backgroundimg
+{
+     background-image: url("/Content/Images/background.jpg");
+}
 .navbar-nav>li>.dropdown-menu {
   margin-top: 51px;
   border-top-right-radius: 0;
@@ -18,7 +21,10 @@
   background-color: #222;
   width: 27px;
 }
-
+#buttonedit
+{
+    float:right;
+}
 /*About*/
 .photosabout {
     max-height: 200px;
