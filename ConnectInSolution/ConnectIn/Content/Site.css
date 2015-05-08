@@ -129,7 +129,7 @@ overflow:hidden;
 }
 
 .search-form-control {
-  display: block;
+  display: inline-block;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.428571429;
@@ -163,8 +163,6 @@ width:40%;
     outline:none;
     resize:none;
     overflow:auto;
- 
-  
    
 }
 #submitstatus
