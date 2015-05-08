@@ -50,7 +50,7 @@ namespace ConnectIn.Controllers
             return View();
         }
        [HttpPost]
-       public ActionResult Edit(FormCollection collection)
+       public ActionResult Edit(FormCollection collection, UserViewModel t)
        {
            string name = (collection["EditName"]);
            string gender = (collection["EditGender"]);
@@ -60,14 +60,21 @@ namespace ConnectIn.Controllers
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
+           if (ModelState.IsValid)
+           {
                user.Name = name;
                user.Gender = gender;
                user.Work = work;
                user.School = school;
                user.Address = address;
                context.SaveChanges();
-               return RedirectToAction("Profile","Home", new { user.Id });
-       }
+               return RedirectToAction("Profile", "Home", new { user.Id });
+           }
+           else
+           {
+               return View(t);
+           }
+               }
         //
         // POST: /Account/Login
         [HttpPost]

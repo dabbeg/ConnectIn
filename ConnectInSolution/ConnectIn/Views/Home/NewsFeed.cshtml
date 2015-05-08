@@ -7,6 +7,12 @@
 
     <!--Filters for the news feed-->
 
+    <!--<ul class="nav nav-justified newsFeedFilters">
+        <li><a href="#">Everyone</a></li>
+        <li><a href="#">Best friends</a></li>
+        <li><a href="#">Family</a></li>
+    </ul>-->
+
     <div class="nav nav-justified newsFeedFilters" style="margin-bottom: 25px; margin-top: 25px; ">
         <div class="pull-right">
             <div class="btn-group btn-group-justified movie-views" data-toggle="buttons">
@@ -23,25 +29,30 @@
         </div>
     </div>
 
-    <div>
+    <div class="NewsFeedContainer">
         @using (Html.BeginForm("AddPost", "Status"))
         {
             <div class="form-horizontal">
                 <!--Notifies the StatusController that the post comes from NewsFeed:-->
                 <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
-                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 1px; margin-bottom: 10px;">Submit</button>
+
+                <div class="PostPartialViewPhoto">
+                    <img class="PartialViewResponsive  img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
+                </div>
+                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status"></textarea>
+                    <button type="submit" id="submitstatus" class="btn btn-primary">Submit</button>
             </div>
             @Html.ValidationSummary(false)
         }
     </div>
     
-    {
+    { 
         Html.RenderPartial("PostsPartial", Model);
     }
 }
 else
 {
-    
-    @Html.BeginForm("Index", "Home")
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your News Feed.
+    </h1>
 }
