@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="@Url.Content("~/icon.ico")" />
+    <link rel="shortcut icon" href="@Url.Content("~/icon.ico")"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
     <title>Connectin</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -63,68 +65,84 @@
 
 @if (Request.IsAuthenticated)
 { 
-    <style>
-        body {padding-left: 280px;}
-    </style>
-    <div class="sidebar">
-        <div id="wrapper">
+        <nav class="main-menu">
+            <ul>
+                <li class="has-subnav searchHover">
+                    <span class="searchHover">
+                        <a href="#Search" class="searchHover">
+                            <i class="fa fa-search fa-2x"></i>
 
-            <!-- Sidebar -->
+                            <span class="nav-text">
+                                @using (Html.BeginForm("Search", "Home"))
+                                {
+                                    <div class="form-horizontal">
+                                        <input type="text" placeholder="Search..." class="search-form-control" name="status" />
+                                        <button type="submit" id="submitstatus" class="btn btn-primary" style="display: none;"></button>
+                                    </div>
+                                }
 
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-align-left sidebarGlyphs"></span></a>
-                        @Html.ActionLink("News Feed", "NewsFeed", "Home")
-                    </li>
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-user sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Friends", "FriendsList", "Home")
-                    </li>
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-glass sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Groups", "GroupsList", "Group")
-                    </li>
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-gift sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Birthdays", "Birthdays", "Home")
-                    </li>
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-bell sidebarGlyphs"></span></a>
-                        @Html.ActionLink("Notifications", "Notifications", "Home")
-                    </li>
-                    <li>
+                            </span>
+                        </a>
+                    </span>
+                </li>
+                <li class="has-subnav">
+                    <a href="/Home/NewsFeed">
+                        <i class="fa fa-newspaper-o fa-2x"></i>
+                        <span class="nav-text">News Feed</span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a href="/Home/Friendslist">
+                        <i class="fa fa-user fa-2x"></i>
+                        <span class="nav-text">Friends</span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a href="/Group/GroupsList">
+                        <i class="fa fa-group fa-2x"></i>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a href="/Home/Birthdays">
+                        <i class="fa fa-birthday-cake fa-2x"></i>
+                        <span class="nav-text">Birthdays</span>
+                    </a>
+                </li>
+                <li class="has-subnav">
+                    <a href="/Home/Notifications">
+                        <i class="fa fa-bell fa-2x"></i>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                </li>
 
-                        @using (Html.BeginForm("Search", "Home"))
-                        {
-                            <div class="form-horizontal">
-                                <input type="text" placeholder="Search..." class="search-form-control" name="status" style="max-width: 100%; display: inline"/>
-                                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px; display: none;"></button>
-                            </div>
-                        }
-                    </li>
-                </ul>
-            </div>
+            </ul>
+            <ul class="logout">
+                <li>
+                    <a href="">
+                        <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            <span style="display:none;">@Html.Partial("_LoginPartial")</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
             <!-- /#sidebar-wrapper -->
-        </div>
-    </div>
 }
+<div class="area">
 
-    <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="container body-content">
-                        @RenderBody()
-                        <hr />
-                        <footer>
-                            <p>&copy; @DateTime.Now.Year - ConnectIn</p>
-                        </footer>
-                    </div>
-                </div>
-            </div>
+    <div class="col-lg-12">
+        <div class="container body-content">
+            @RenderBody()
+            <hr/>
+            <footer>
+                <p>&copy; @DateTime.Now.Year - ConnectIn</p>
+            </footer>
         </div>
     </div>
+</div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
