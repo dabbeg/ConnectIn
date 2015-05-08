@@ -17,25 +17,26 @@ namespace ConnectIn.Controllers
             return Json(posts, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult BestFriends()
+        public ActionResult EveryoneAndBestFriends()
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
-            var posts1 = userService.GetBestFriendsPostsForUser(User.Identity.GetUserId());
-            var posts2 = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
-
+            var posts1 = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
+            var posts2 = userService.GetBestFriendsPostsForUser(User.Identity.GetUserId());
             var pair = new Pair(posts1, posts2);
             
             return Json(pair, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Family()
+        public ActionResult EveryoneAndFamily()
         {
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
-            var posts = userService.GetFamilyPostsForUser(User.Identity.GetUserId());
+            var posts1 = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
+            var posts2 = userService.GetFamilyPostsForUser(User.Identity.GetUserId());
+            var pair = new Pair(posts1, posts2);
 
-            return Json(posts, JsonRequestBehavior.AllowGet);
+            return Json(pair, JsonRequestBehavior.AllowGet);
         }
     }
 }
