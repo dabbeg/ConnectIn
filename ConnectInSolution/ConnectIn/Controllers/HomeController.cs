@@ -36,6 +36,17 @@ namespace ConnectIn.Controllers
 
             foreach (var item in postList)
             {
+                var profilePicture = userService.GetProfilePicture(item.UserId);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
@@ -52,7 +63,7 @@ namespace ConnectIn.Controllers
                         {
                             UserId = item.UserId,
                             Name = userService.GetUserById(item.UserId).Name,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
+                            ProfilePicture = profilePicturePath
                         }
                     });
             }
@@ -169,6 +180,19 @@ namespace ConnectIn.Controllers
             {
                 var user = userService.GetUserById(item.FriendUserId);
                 var friend = userService.GetUserById(item.UserId);
+
+                var profilePicture = userService.GetProfilePicture(item.UserId);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+                
+
                 model.Add(
                     new NotificationViewModel()
                     {
@@ -185,7 +209,7 @@ namespace ConnectIn.Controllers
                             Name = friend.Name,
                             Work = friend.Work,
                             School = friend.School,
-                            ProfilePicture = "http://i.imgur.com/3h6Ha2F.jpg"
+                            ProfilePicture = profilePicturePath
                         },
                         NotificationId = item.NotificationId,
                         Date = item.Date
@@ -213,6 +237,17 @@ namespace ConnectIn.Controllers
 
             foreach (var id in searchList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 searchResult.Add(
                     new SearchViewModel()
@@ -222,7 +257,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -247,6 +282,17 @@ namespace ConnectIn.Controllers
 
             foreach (var id in friendList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 friends.Add(
                     new FriendViewModel()
@@ -256,7 +302,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -282,6 +328,17 @@ namespace ConnectIn.Controllers
             
             foreach (var id in birthdayList)
             {
+                var profilePicture = userService.GetProfilePicture(id);
+                string profilePicturePath;
+                if (profilePicture == null)
+                {
+                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
+                }
+
                 var user = userService.GetUserById(id);
                 birthdays.Add(
                     new BirthdayViewModel()
@@ -291,7 +348,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = "~/Content/images/largeProfilePic.jpg",
+                            ProfilePicture = profilePicturePath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
