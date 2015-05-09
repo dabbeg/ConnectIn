@@ -751,7 +751,7 @@ background-color: rgba(255,255,255,0.2);
 .searchHover {
     color: #999;
     margin-top: 27px;
-    margin-bottom: 9px;
+    margin-bottom: 25px;
 }
 .searchHover:hover {
     color: #fff;
