@@ -767,14 +767,22 @@ background-color: rgba(255,255,255,0.2);
 }
 .searchHover {
     color: #999;
-    margin-top: 27px;
+    margin-top: 25px;
     margin-bottom: 5px;
 }
+
 .searchHover:hover {
     color: #fff;
-        margin-top: 27px;
+       margin-top: 25px;
     margin-bottom:5px;
 }
+.main-menu ul a:visited {
+    color: #999;
+}
+.main-menu ul a:hover {
+    color: #fff;
+}
+
 .area {
 float: left;
 width: 100%;
