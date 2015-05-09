@@ -6,7 +6,7 @@
     <div id="posts" class="row">
         @foreach (var item in Model.Posts)
 {
-    <div class="post item span3">
+    <div id="post-@item.PostId" class="post item span3">
         <div class="well" id="FriendsListWell">
             <div id="postContent">
                 <!--Should display user's profile picture, a cat was used temporarily-->
@@ -16,7 +16,7 @@
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">
                     <h3>
-                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId }) <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                     </h3>
                 </div>
                 <p id="PartialPostsText">

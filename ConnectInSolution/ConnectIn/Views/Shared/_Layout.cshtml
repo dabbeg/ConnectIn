@@ -119,18 +119,32 @@
                         <span class="nav-text">Notifications</span>
                     </a>
                 </li>
+<!-- // <<<<<<< HEAD -->
                 <li class="has-subnav">
                     <a href="#">
                         <i class="fa fa-power-off fa-2x"></i>
                         <span class="nav-text">Logoff</span>
                     </a>
+<!-- ======= -->
+
+            </ul>
+            <ul class="logout">
+                <li>
+                     <i class=" fa fa-power-off fa-2x LogoutSideBar"></i>
+                        <span class="nav-text">
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a class="LogoutSideBar" href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+                        }
+                    </span>
+<!-- >>>>>>> 6d2628ddc989f77d2f20f3bb983104ec0c675fb0 -->
                 </li>
 
             </ul>
         </nav>
             <!-- /#sidebar-wrapper -->
 }
-<div class="area">
 
     <div class="col-lg-12">
         <div class="container body-content">
@@ -141,7 +155,6 @@
             </footer>
         </div>
     </div>
-</div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

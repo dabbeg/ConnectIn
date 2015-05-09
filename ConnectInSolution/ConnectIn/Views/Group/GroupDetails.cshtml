@@ -1,52 +1,78 @@
-﻿@model IEnumerable<ConnectIn.Models.ViewModels.GroupDetailViewModel>
+﻿@model ConnectIn.Models.ViewModels.GroupDetailViewModel
 
 @{
     ViewBag.Title = "GroupDetails";
 }
 
-<h2>@Model.First().Name</h2>
+<h1 style="text-align: center;">@Model.Name</h1>
 
-<div>
-    <h4>Members:</h4>
-</div>
-<div class="well" id="membersDiv">
-    <table class="table table-hover table-striped">
+<div class="well" id="membersDiv" style="display: inline-block; OVERFLOW-Y: scroll; WIDTH: 72%; HEIGHT: 262px;">
+    <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Birthday:</th>
-            <th>Username:</th>
-        </tr>
+            <caption style="float: left; font-weight: bold;">
+                <h2>Members:</h2>
+            </caption>
+            <tr>
+                <th>Name</th>
+                <th>Birthday:</th>
+                <th>Username:</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var member in Model)
-        {
-            <tr>
-                <td>@member.User.Name</td>
-                <td>@member.User.Birthday</td>
-                <td>@member.User.UserName</td>
-            </tr>
-        }
+            @foreach (var member in Model.Members)
+            {
+                <tr>
+                    <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
+                    <td>@member.Birthday</td>
+                    <td>@member.UserName</td>
+                </tr>
+            }
         </tbody>
-
     </table>
 </div>
+
+
+<span class="well" style="display: inline-block; float: right; width: 25%">
+    <h4>Add friends to group</h4>
+    @using (Html.BeginForm("AddFriend", "Group"))
+    {
+        <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px;">
+        
+            @foreach (var id in Model.FriendsOfUser)
+            {
+                <div class="checkbox">
+                    <label><input type="checkbox" value="@id.UserId" name="newFriendsInGroup">@id.Name</label>
+                 </div>
+            }
+        
+        </div>
+        <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
+        <button type="submit" id="addfriendstogroup" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add to group</button>
+    }
+</span>
 
 <div>
     @using (Html.BeginForm("AddPost", "Status"))
     {
         <div class="form-horizontal">
             <!--Notifies the StatusController that the post comes from a Group:-->
-            <input type="hidden" name="location" value="group"/>
-            <input type="hidden" name="idOfGroup" value="@Model.First().GroupId"/>
-            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+            <input type="hidden" name="location" value="group" />
+            <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
+            <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
             <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
         </div>
         @Html.ValidationSummary(false)
     }
 </div>
 
+<hr />
+
+@{
+    Html.RenderPartial("~/Views/Home/PostsPartial.cshtml", Model.Posts);
+}
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.First().GroupId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
     @Html.ActionLink("Back to List", "GroupsList")
 </p>

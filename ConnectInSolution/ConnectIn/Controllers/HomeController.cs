@@ -30,18 +30,36 @@ namespace ConnectIn.Controllers
             var postService = new PostService(context);
             var likedislikeService = new LikeDislikeService(context);
 
+            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            string profilePicturePath;
+
+            if (profilePicture == null)
+            {
+                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+            }
+            else
+            {
+                profilePicturePath = profilePicture.PhotoPath;
+            }
+
             var newsFeed = new NewsFeedViewModel
             {
                 Id = "-1",
-                Posts = new List<PostsViewModel>()
+                Posts = new List<PostsViewModel>(),
+                User = new UserViewModel()
+                {
+                    ProfilePicture = profilePicturePath
+                }
             };
 
             var postList = userService.GetEveryNewsFeedPostsForUser(userId);
 
-            foreach (var item in postList)
+            foreach (var id in postList)
             {
-                var profilePicture = userService.GetProfilePicture(item.UserId);
-                string profilePicturePath, lPic, dPic;
+
+                var post = postService.GetPostById(id);
+                profilePicture = userService.GetProfilePicture(post.UserId);
+
                 if (profilePicture == null)
                 {
                     profilePicturePath = "~/Content/images/largeProfilePic.jpg";
@@ -51,17 +69,18 @@ namespace ConnectIn.Controllers
                     profilePicturePath = profilePicture.PhotoPath;
                 }
                 // checka ef það er til færsla... fyrir unlike og undislike
-                if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId) == null)
+                string lPic, dPic;
+                if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id) == null)
                 {
                     lPic = "~/Content/images/smileySMALL.png";
                     dPic = "~/Content/images/sadfaceSMALL.png";
                 }
-                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId).Like)
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id).Like)
                 {
                     lPic = "~/Content/images/smileyGREEN.png";
                     dPic = "~/Content/images/sadfaceSMALL.png";
                 }
-                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId).Dislike)
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id).Dislike)
                 {
                     lPic = "~/Content/images/smileySMALL.png";
                     dPic = "~/Content/images/sadfaceRED.png";
@@ -73,20 +92,20 @@ namespace ConnectIn.Controllers
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
-                        PostId = item.PostId,
-                        Body = item.Text,
-                        DateInserted = item.Date,
+                        PostId = id,
+                        Body = post.Text,
+                        DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
-                            Likes = postService.GetPostsLikes(item.PostId),
-                            Dislikes = postService.GetPostsDislikes(item.PostId),
-                            Comments = postService.GetPostsCommentsCount(item.PostId)
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsCommentsCount(post.PostId)
                         },
                         User = new UserViewModel()
                         {
-                            UserId = item.UserId,
-                            Name = userService.GetUserById(item.UserId).Name,
+                            UserId = post.UserId,
+                            Name = userService.GetUserById(post.UserId).Name,
                             ProfilePicture = profilePicturePath
                         },
                         LikePic = lPic,
