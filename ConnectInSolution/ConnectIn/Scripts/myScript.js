@@ -1,21 +1,21 @@
-﻿$(document).ready(function () {
+﻿$(document).ready(function() {
 
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
-    $(".row a").click(function () {
+    $(".row a").click(function() {
         document.getElementById("photoId").value = $(this).attr("id");
     });
 
 
     // Everyone, Best friends, and Family
-    $(".newsFeedFilters input[name=filters]:radio").change(function () {
+    $(".newsFeedFilters input[name=filters]:radio").change(function() {
 
         // Get current filter
         var currFilter = this.value;
 
         // Show and hide statuses according to the selected filter 
         if (currFilter == "Everyone") {
-            $.get("/NewsFeed/Everyone", function (data) {
+            $.get("/NewsFeed/Everyone", function(data) {
                 for (var i = 0; i < data.length; i++) {
                     $("#post-" + data[i]).hide();
                 }
@@ -25,8 +25,8 @@
             });
         }
         if (currFilter == "BestFriends") {
-            $.get("/NewsFeed/Everyone", function (everyone) {
-                $.get("/NewsFeed/BestFriends", function (bestFriends) {
+            $.get("/NewsFeed/Everyone", function(everyone) {
+                $.get("/NewsFeed/BestFriends", function(bestFriends) {
                     for (var i = 0; i < everyone.length; i++) {
                         $("#post-" + everyone[i]).hide();
                     }
@@ -35,11 +35,11 @@
                     }
                 });
             });
-            
+
         }
         if (currFilter == "Family") {
-            $.get("/NewsFeed/Everyone", function (everyone) {
-                $.get("/NewsFeed/Family", function (family) {
+            $.get("/NewsFeed/Everyone", function(everyone) {
+                $.get("/NewsFeed/Family", function(family) {
                     for (var i = 0; i < everyone.length; i++) {
                         $("#post-" + everyone[i]).hide();
                     }
@@ -94,27 +94,26 @@
         var json = {
             "postId": val
         };
-        $.post("/Status/Like", json, function (data) {
+        $.post("/Status/Like", json, function(data) {
             if (data.action == null) {
                 smiley(true);
             } else if (data.action.Like) {
                 smiley(false);
-            } else if(data.action.Dislike) {
+            } else if (data.action.Dislike) {
                 smiley(true);
                 sadface(false);
             }
         });
     });
 
-    
 
-    // Asynchronus dislike
-    $("#dislikeBtn").click(function () {
+// Asynchronus dislike
+    $("#dislikeBtn").click(function() {
         var val = $("input[name=postId]").val();
         var json = {
             "postId": val
         };
-        $.post("/Status/Dislike", json, function (data) {
+        $.post("/Status/Dislike", json, function(data) {
             if (data.action == null) {
                 sadface(true);
             } else if (data.action.Dislike) {
@@ -126,7 +125,34 @@
         });
     });
 
-    
-    
+    $.get("/Home/BirthdayCounter", function (bdayCounter) {
+        var d = new Date();
+        var time = d.getDate();
+        console.log(time);
+        if (bdayCounter > 0 ) {
+            $("#birthdayBubble").show();
+            $("#birthdayBubble").text(bdayCounter);
+        } else {
+            $("#birthdayBubble").hide();
+
+        }
+
+        $("a#birthdayClick").click(function(){
+            $("#birthdayBubble").hide();
+        });
+
+    });
+
+    $.get("/Home/NotificationCounter", function(counter) {
+        if (counter > 0) {
+            $("#notificationBubble").show();
+            $("#notificationBubble").text(counter)
+        } else {
+            $("#notificationBubble").hide();
+        }
+
+    });
+
+
 });
 

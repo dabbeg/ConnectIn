@@ -288,6 +288,17 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult NotificationCounter()
+        {
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId()).Count;
+
+            return Json(notifications, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Search(FormCollection collection)
         {
             if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
@@ -428,6 +439,14 @@ namespace ConnectIn.Controllers
             return View(birthdays);
         }
 
+        [HttpGet]
+        public ActionResult BirthdayCounter()
+        {
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var birthdays = userService.GetAllFriendsBirthdays(User.Identity.GetUserId()).Count;
+            return Json(birthdays, JsonRequestBehavior.AllowGet);
+        }
         
         public ActionResult Images(string userId)
         {
@@ -519,4 +538,5 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
         }
     }
+
 }
