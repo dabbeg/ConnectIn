@@ -120,17 +120,12 @@
                     </a>
                 </li>
 
-            </ul>
-            <ul class="logout">
-                <li>
-                     <i class=" fa fa-power-off fa-2x LogoutSideBar"></i>
-                        <span class="nav-text">
+                <li class="sub-nav">
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
                         {
                             @Html.AntiForgeryToken()
-                            <a class="LogoutSideBar" href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+                            <a class="LogoutSideBar" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off fa-2 faLogOut"></i><span>Log out</span></a>
                         }
-                    </span>
                 </li>
 
             </ul>
