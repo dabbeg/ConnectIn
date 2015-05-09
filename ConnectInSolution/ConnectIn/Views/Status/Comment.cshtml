@@ -13,7 +13,7 @@
                         <div id="postContent">
                             <!--Should display user's profile picture, a cat was used temporarily-->
                             <div class="PostPartialViewPhoto">
-                                <img class="PartialViewResponsive  img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" />
+                                <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" />
                             </div>
                             <!--Should display username instead of item.userID-->
                             <div class="friendsListName">
@@ -48,17 +48,16 @@
         </div>
     </div>
     <div>
-        @using (Html.BeginForm("AddComment", "Status"))
-        {
+
             <div class="form-horizontal">
                 <!--Notifies the StatusController that the post comes from NewsFeed:-->
                 <input type="hidden" name="postId" value="@Model.Post.PostId"/>
                 <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
-                <textarea placeholder="Comment..." class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-                <button type="submit" id="submitstatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+                <textarea placeholder="Comment..." class="form-control" rows="5" id="commentstatus" name="status" style="max-width: 100%; display: inline"></textarea>
+                <button type="submit" id="submitcomment" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
             </div>
-            @Html.ValidationSummary(false)
-        }
+          
+        
 
     </div>
     
@@ -72,28 +71,30 @@
                             <!--Should display user's profile picture, a cat was used temporarily-->
 
                             <div class="friendsListPhoto" style="margin-right: -115px;">
-                                <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
+                                <img class="PartialViewResponsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                             </div>
                             <!--Should display username instead of item.userID-->
-                            <div class="friendsListName">
-                                <h4>
-                                    @Html.ActionLink(item.User.Name, "Profile", "Home", new {id = item.User.UserId}, null)
-                                    <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
-                                </h4>
-     
-                            </div>
-                            <h5>
-                                @item.Body
-                                <span id="reactionButtons">
-                                    @if (Model.Post.User.UserId == User.Identity.GetUserId())
-                                    {
-                                        using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
+                            <div id="comm" style="margin-left:100px">
+                                <div class="friendsListName">
+                                    <h4>
+                                        @Html.ActionLink(item.User.Name, "Profile", "Home", new { id = item.User.UserId }, null)
+                                        <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                                    </h4>
+
+                                </div>
+                                <h5>
+                                    @item.Body
+                                    <span id="reactionButtons">
+                                        @if (Model.Post.User.UserId == User.Identity.GetUserId())
                                         {
-                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
+                                            using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
+                                            {
+                                                <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
+                                            }
                                         }
-                                    }
-                                </span>
-                            </h5>
+                                    </span>
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 </div>

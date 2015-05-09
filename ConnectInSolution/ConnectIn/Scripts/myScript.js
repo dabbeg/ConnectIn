@@ -126,6 +126,26 @@
         });
     });
 
+    // Asynchronus review
+    $("#submitcomment").click(function () {
+        var commentText = $("#commentstatus").val();
+        var val = $("input[name=postId]").val();
+        if (commentText != null && commentText != "") {
+            var json = {
+                "postId": val
+            };
+            $("#commentstatus").val(''); // Clear the textarea
+
+            $.post("/Status/AddComment", json, function (listOfComments) {
+                // Display all comments that have been commented
+                for (var i = 0; i < listOfComments.length; i++) {
+                    var p = $("<p></p>").text(/*listOfComments[i].U + " | " +*/ listOfComments[i].Text).fadeIn();
+                    $("#comm").append(p);
+                }
+            });
+        }
+    });
+
     
     
 });

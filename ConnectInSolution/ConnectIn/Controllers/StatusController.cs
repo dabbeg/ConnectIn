@@ -73,6 +73,13 @@ namespace ConnectIn.Controllers
             var commentService = new CommentService(db);
             var postService = new PostService(db);
             var likedislikeService = new LikeDislikeService(db);
+
+            var profilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId);
+
+            string profilePicturePath = profilePicture == null 
+                ? "~/Content/images/largeProfilePic.jpg" 
+                : profilePicture.PhotoPath;
+
             if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
             {
                 lPic = "~/Content/images/smileySMALL.png";
@@ -110,7 +117,7 @@ namespace ConnectIn.Controllers
                     {
                         UserId = postService.GetPostById(postId).UserId,
                         Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
-                        ProfilePicture = "~/Content/Images/profilepic.png"
+                        ProfilePicture = profilePicturePath
                     },
                     LikePic = lPic,
                     DislikePic = dPic
@@ -120,6 +127,10 @@ namespace ConnectIn.Controllers
             foreach (var id in commentIdList)
             {
                 var commentList = commentService.GetCommentById(id);
+                profilePicture = userService.GetProfilePicture(commentList.UserId);
+                profilePicturePath = profilePicture == null
+                ? "~/Content/images/largeProfilePic.jpg"
+                : profilePicture.PhotoPath;
                 comments.Comments.Add(
                     new CommentViewModel()
                     {
@@ -132,7 +143,7 @@ namespace ConnectIn.Controllers
                             UserId = commentList.UserId,
                             Name = userService.GetUserById(commentList.UserId).Name,
                             UserName = userService.GetUserById(commentList.UserId).UserName,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
+                            ProfilePicture = profilePicturePath
                         }
                     });
             }
@@ -153,7 +164,9 @@ namespace ConnectIn.Controllers
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
+            return Json(new {comment, JsonRequestBehavior.AllowGet});
+            // return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
+            // return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
 
         public ActionResult RemoveComment(int ? commentId)
