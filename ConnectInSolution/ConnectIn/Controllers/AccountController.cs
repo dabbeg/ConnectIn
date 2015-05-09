@@ -47,32 +47,41 @@ namespace ConnectIn.Controllers
        
        public ActionResult Edit()
         {
-            return View();
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+           var user = userService.GetUserById(User.Identity.GetUserId());
+            if(user != null)
+           {
+               UserViewModel t = new UserViewModel();
+               t.Name = user.Name;
+               t.Gender = user.Gender;
+               t.Work = user.Work;
+               t.School = user.School;
+               t.Address = user.Address;
+               return View(t);
+           }
+            return View("Error");
         }
        [HttpPost]
        public ActionResult Edit(FormCollection collection, UserViewModel t)
        {
         
            var context = new ApplicationDbContext();
+           
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-           string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
-           string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
-           string work = (collection["EditWork"] );
-           string school = (collection["EditSchool"]);
-           string address = (collection["EditAddress"]);
-           if (name != null && gender != null)
+          if(ModelState.IsValid)
            { 
-               user.Name = name;
-               user.Gender = gender;
-               user.Work = work;
-               user.School = school;
-               user.Address = address;
+               user.Name = t.Name;
+               user.Gender = t.Gender;
+               user.Work = t.Work;
+               user.School = t.School;
+               user.Address = t.Address;
                context.SaveChanges();
                return RedirectToAction("Profile", "Home", new { user.Id });
-           }
-          
-               return View(t);
+           }      
+              return View(t);
            
                }
         //
