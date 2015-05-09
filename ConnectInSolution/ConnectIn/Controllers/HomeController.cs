@@ -28,6 +28,7 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var postService = new PostService(context);
+            var likedislikeService = new LikeDislikeService(context);
 
             var newsFeed = new NewsFeedViewModel
             {
@@ -40,7 +41,7 @@ namespace ConnectIn.Controllers
             foreach (var item in postList)
             {
                 var profilePicture = userService.GetProfilePicture(item.UserId);
-                string profilePicturePath;
+                string profilePicturePath, lPic, dPic;
                 if (profilePicture == null)
                 {
                     profilePicturePath = "~/Content/images/largeProfilePic.jpg";
@@ -49,7 +50,26 @@ namespace ConnectIn.Controllers
                 {
                     profilePicturePath = profilePicture.PhotoPath;
                 }
-
+                // checka ef það er til færsla... fyrir unlike og undislike
+                if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId) == null)
+                {
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
+                }
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId).Like)
+                {
+                    lPic = "~/Content/images/smileyGREEN.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
+                }
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), item.PostId).Dislike)
+                {
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceRED.png";
+                }
+                else
+                {
+                    return View("Error");
+                }
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
@@ -68,7 +88,9 @@ namespace ConnectIn.Controllers
                             UserId = item.UserId,
                             Name = userService.GetUserById(item.UserId).Name,
                             ProfilePicture = profilePicturePath
-                        }
+                        },
+                        LikePic = lPic,
+                        DislikePic = dPic
                     });
             }
 
@@ -98,12 +120,13 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
             var postService = new PostService(context);
+            var likedislikeService = new LikeDislikeService(context);
 
             var user = userService.GetUserById(id);
             var posts = userService.GetAllPostsFromUser(id);
 
             var profilePicture = userService.GetProfilePicture(id);
-            string profilePicturePath;
+            string profilePicturePath, lPic, dPic;
             if (profilePicture == null)
             {
                 profilePicturePath = "~/Content/images/largeProfilePic.jpg";
@@ -117,6 +140,25 @@ namespace ConnectIn.Controllers
 
             foreach (var postId in posts)
             {
+                if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
+                {
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
+                }
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Like)
+                {
+                    lPic = "~/Content/images/smileyGREEN.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
+                }
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Dislike)
+                {
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceRED.png";
+                }
+                else
+                {
+                    return View("Error");
+                }
                 var post = postService.GetPostById(postId);
                 postsViewModels.Add(
                  new PostsViewModel()
@@ -142,7 +184,9 @@ namespace ConnectIn.Controllers
                          Work = user.Work,
                          School = user.School,
                          Address = user.Address
-                     }
+                     },
+                     LikePic = lPic,
+                     DislikePic = dPic
                  });
             }
 

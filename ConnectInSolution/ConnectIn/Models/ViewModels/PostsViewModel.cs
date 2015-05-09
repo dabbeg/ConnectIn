@@ -14,5 +14,7 @@ namespace ConnectIn.Models.ViewModels
         public List<CommentViewModel> Comments { get; set; }
         public LikeDislikeCommentViewModel LikeDislikeComment { get; set; }
         public int? GroupId { get; set; }
+        public string LikePic { get; set; }
+        public string DislikePic { get; set; }
     }
 }

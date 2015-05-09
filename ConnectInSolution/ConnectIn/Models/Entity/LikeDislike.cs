@@ -18,6 +18,7 @@ namespace ConnectIn.Models.Entity
         public string UserId { get; set; }
         public bool Like { get; set; }
         public bool Dislike { get; set; }
+
         #endregion
 
         #region ForeignKeys

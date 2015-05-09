@@ -37,7 +37,7 @@
                                         <input type="hidden" name="postId" value="@Model.Post.PostId" />
                                         <input type="hidden" name="id" value="@Model.Post.User.UserId" />
 
-                                        <button type="submit" class="btnNew btn-default-like">@Model.Post.LikeDislikeComment.Likes Smiles</button>
+                                        <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(Model.Post.LikePic)" alt="Dislike Picture" />@Model.Post.LikeDislikeComment.Likes Smiles</button>
                                     }
                                     @using (Html.BeginForm("Dislike", "Status"))
                                     {
@@ -47,7 +47,7 @@
                                         <input type="hidden" name="postId" value="@Model.Post.PostId" />
                                         <input type="hidden" name="id" value="@Model.Post.User.UserId" />
 
-                                        <button type="submit" class="btnNew btn-default-dislike">@Model.Post.LikeDislikeComment.Dislikes Sadfaces</button>
+                                        <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(Model.Post.DislikePic)" alt="Dislike Picture" />@Model.Post.LikeDislikeComment.Dislikes Sadfaces</button>
                                     }
 
                                     @if (Model.Post.User.UserId == User.Identity.GetUserId())
