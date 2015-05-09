@@ -67,12 +67,31 @@ namespace ConnectIn.Controllers
                 return RedirectToAction("NewsFeed", "Home");
             }
             int postId = (int) PostId;
-
+            string lPic, dPic;
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
             var commentService = new CommentService(db);
             var postService = new PostService(db);
-
+            var likedislikeService = new LikeDislikeService(db);
+            if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
+            {
+                lPic = "~/Content/images/smileySMALL.png";
+                dPic = "~/Content/images/sadfaceSMALL.png";
+            }
+            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Like)
+            {
+                lPic = "~/Content/images/smileyGREEN.png";
+                dPic = "~/Content/images/sadfaceSMALL.png";
+            }
+            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Dislike)
+            {
+                lPic = "~/Content/images/smileySMALL.png";
+                dPic = "~/Content/images/sadfaceRED.png";
+            }
+            else
+            {
+                return View("Error");
+            }
             var comments = new CommentHelperViewModel
             {
                 Comments = new List<CommentViewModel>(),
@@ -92,7 +111,9 @@ namespace ConnectIn.Controllers
                         UserId = postService.GetPostById(postId).UserId,
                         Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
                         ProfilePicture = "~/Content/Images/profilepic.png"
-                    }
+                    },
+                    LikePic = lPic,
+                    DislikePic = dPic
                 }
             };
             var commentIdList = postService.GetPostsComments(postId);

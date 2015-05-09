@@ -162,8 +162,8 @@ namespace ConnectIn.Services
             return list;
         }
 
-        // Get the post of all the users news feeds posts by a given Id of user
-        public List<Post> GetEveryNewsFeedPostsForUser(string userId)
+        // Get the id of all posts of all the users news feeds posts by a given Id of user
+        public List<int> GetEveryNewsFeedPostsForUser(string userId)
         {
             // Get the users friends
             var friends = GetFriendsFromUser(userId);
@@ -174,7 +174,7 @@ namespace ConnectIn.Services
                             || s.UserId == userId)
                             && s.GroupId == null
                             orderby s.Date descending
-                            select s).Take(20).ToList();
+                            select s.PostId).Take(20).ToList();
             return statuses;
         }
        
@@ -194,7 +194,7 @@ namespace ConnectIn.Services
             return statuses;
         }
 
-        // Get the Id of all the users family posts by a given Id of user
+        // Get the Id of all posts of the users family posts by a given Id of user
         public List<int> GetFamilyPostsForUser(string userId)
         {
             // Get the users family

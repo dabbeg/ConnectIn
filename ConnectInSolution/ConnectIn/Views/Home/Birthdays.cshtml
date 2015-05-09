@@ -29,7 +29,7 @@
                                         @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
                                     </h2>
                                 </div>
-                                <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year)</span> <br/>
+                                <span id="huge"> @String.Format("{0}", DateTime.Today.Year - item.User.Birthday.Year) years old</span> <br/>
                                 <span>
                                     @item.User.Birthday.Date.ToString("dd/MM/yyyy")
                                 </span>

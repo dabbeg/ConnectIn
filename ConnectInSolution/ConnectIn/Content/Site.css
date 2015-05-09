@@ -380,6 +380,24 @@ a.navbar-brand
     white-space: nowrap;
     text-indent: 20px;
 }
+#likedislikeimg {
+  width: 28px;
+}
+.commentss {
+  margin-left: 20px;
+  margin-top: 2px;
+}
+.btn-default-clicked {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
 .btn-default-dislike {
     background-image: url("/Content/Images/sadfaceSMALL.png");
     background-repeat: no-repeat;
@@ -391,6 +409,7 @@ a.navbar-brand
     white-space: nowrap;
     text-indent: 20px;
 }
+
 .btn-default-comment {
     background-image: url("/Content/Images/commentSMALL.png");
     background-repeat: no-repeat;
@@ -405,9 +424,6 @@ a.navbar-brand
 #reactionButtons {
     padding-bottom: 40px;
     font-size: 100%;
-    
-}
-#profileHeader {
     
 }
 
@@ -496,8 +512,7 @@ a.navbar-brand
     width: 100px;
 
 }
-.tableItemInfo {
-}
+
 
 .profileNameLink {
     font-size: 25px
@@ -564,7 +579,7 @@ a.navbar-brand
 .btnNew {
   display: inline-block;
   background-color: transparent;
-  padding: 6px 12px;
+  padding: 6px 0;
   font-size: 15px;
   font-weight: normal;
   line-height: 1.428571429;
@@ -734,7 +749,8 @@ background-color: rgba(255,255,255,0.2);
 
 }
 .searchHover {
-    color:#999;
+    color: #999;
+    margin-top: 27px;
     margin-bottom: 25px;
 }
 .searchHover:hover {
