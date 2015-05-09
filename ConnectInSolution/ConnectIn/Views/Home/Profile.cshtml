@@ -68,8 +68,10 @@
                             {
                             <tr>
                                 <td id="hidebutton" class="hideedit">
-                                    <button id="buttonedit" type="button" class="btn btn-link">@Html.ActionLink("Edit", "Edit", "Account")</button>
-                                    <i class=" icon-trash"></i>
+                                    <a id="Editpencil" href="@Url.Action("Edit", "Account")" >
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        <span class="sr-only">Edit</span>
+                                        </a>
                                 </td>
                             </tr>
                             }

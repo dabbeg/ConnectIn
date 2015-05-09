@@ -24,6 +24,11 @@
     display:none;
     overflow:auto;
     padding:0px;
+   
+}
+#Editpencil
+ {
+    float:right;
 }
 #aboutUser:hover #hidebutton
 {
