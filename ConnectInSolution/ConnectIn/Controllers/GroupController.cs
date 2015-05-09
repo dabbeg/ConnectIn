@@ -51,6 +51,7 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
             var groupService = new GroupService(context);
             var postService = new PostService(context);
+            var likedislikeService = new LikeDislikeService(context);
 
             if (!id.HasValue)
             {
@@ -65,6 +66,7 @@ namespace ConnectIn.Controllers
                 var myGroup = new GroupDetailViewModel()
                 {
                     Name = group.Name,
+                    AdminId = group.AdminID,
                     GroupId = grpId,
                     Members = new List<UserViewModel>(),
                     Posts = new NewsFeedViewModel()
@@ -83,11 +85,11 @@ namespace ConnectIn.Controllers
                         UserId = currMember.Id,
                         UserName = currMember.UserName,
                         Birthday = currMember.Birthday,
-                        ProfilePicture = userService.GetProfilePicture(currMember.Id).PhotoPath,
-                        Gender = currMember.Gender,
+                        ProfilePicture = "~/Content/Images/profilepic.png/"
+                        /*Gender = currMember.Gender,
                         Work = currMember.Work,
                         School = currMember.School,
-                        Address = currMember.Address
+                        Address = currMember.Address*/
                     });
                 }
                 var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
@@ -95,7 +97,40 @@ namespace ConnectIn.Controllers
 
                 foreach (var userId in postsOfGroup)
                 {
+                    string lPic, dPic;
                     var post = postService.GetPostById(userId);
+                    if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId) == null)
+                    {
+                        lPic = "~/Content/images/smileySMALL.png";
+                        dPic = "~/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Like)
+                    {
+                        lPic = "~/Content/images/smileyGREEN.png";
+                        dPic = "~/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Dislike)
+                    {
+                        lPic = "~/Content/images/smileySMALL.png";
+                        dPic = "~/Content/images/sadfaceRED.png";
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
+                    //If the user hasn't picked a profile pic, set a default one.
+                    var profilePicture = userService.GetProfilePicture(userId.ToString());
+                    string profilePicturePath;
+
+                    if (profilePicture == null)
+                    {
+                        profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                    }
+                    else
+                    {
+                        profilePicturePath = profilePicture.PhotoPath;
+                    }
+
                     myGroup.Posts.Posts.Add(new PostsViewModel()
                     {
                         PostId = post.PostId,
@@ -106,11 +141,7 @@ namespace ConnectIn.Controllers
                             UserId = post.User.Id,
                             UserName = post.User.UserName,
                             Birthday = post.User.Birthday,
-                            ProfilePicture = userService.GetProfilePicture(post.User.Id).PhotoPath,
-                            Gender = post.User.Gender,
-                            Work = post.User.Work,
-                            School = post.User.School,
-                            Address = post.User.Address
+                            ProfilePicture = profilePicturePath
                         },
                         DateInserted = post.Date,
                         Comments = new List<CommentViewModel>(),
@@ -120,7 +151,9 @@ namespace ConnectIn.Controllers
                             Dislikes = postService.GetPostsDislikes(post.PostId),
                             Comments = postService.GetPostsCommentsCount(post.PostId)
                         },
-                        GroupId = post.GroupId
+                        GroupId = post.GroupId,
+                        LikePic = lPic,
+                        DislikePic = dPic
                     });
                 }
 
@@ -145,17 +178,26 @@ namespace ConnectIn.Controllers
                     {
                         var friend = userService.GetUserById(userId);
 
+                        //If the user hasn't picked a profile pic, set a default one.
+                        var profilePicture = userService.GetProfilePicture(userId);
+                        string profilePicturePath;
+
+                        if (profilePicture == null)
+                        {
+                            profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                        }
+                        else
+                        {
+                            profilePicturePath = profilePicture.PhotoPath;
+                        }
+
                         myGroup.FriendsOfUser.Add(new UserViewModel()
                         {
                             Name = friend.Name,
                             UserId = friend.Id,
                             UserName = friend.UserName,
                             Birthday = friend.Birthday,
-                            ProfilePicture = userService.GetProfilePicture(friend.Id).PhotoPath,
-                            Gender = friend.Gender,
-                            Work = friend.Work,
-                            School = friend.School,
-                            Address = friend.Address
+                            ProfilePicture = profilePicturePath
                         });
                     }
                 }
@@ -169,9 +211,66 @@ namespace ConnectIn.Controllers
             return View();
         }
 
-        public ActionResult Edit()
+        public ActionResult Edit(FormCollection collection)
         {
-            return View();
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var userService = new UserService(context);
+
+            var grpId = collection["groupID"];
+            var grp = groupService.GetGroupById(Int32.Parse(grpId));
+            var groupToEdit = new GroupDetailViewModel()
+            {
+                AdminId = grp.AdminID,
+                GroupId = grp.GroupId,
+                Name = grp.Name,
+                Members = new List<UserViewModel>()
+            };
+
+            var membersOfGroup = groupService.GetMembersOfGroup(Int32.Parse(grpId));
+
+            foreach (var Id in membersOfGroup)
+            {
+                var currUser = userService.GetUserById(Id);
+                groupToEdit.Members.Add(new UserViewModel()
+                {
+                    UserId = currUser.Id,
+                    Name = currUser.Name
+                });
+            }
+            
+            return View("EditGroup", groupToEdit);
+        }
+
+        public ActionResult EditGroup(FormCollection collection)
+        {
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var userService = new UserService(context);
+
+            var newName = collection["nameofgroup"];
+            var membersToBeDeleted = collection["toBeDeleted"];
+
+            string[] deleteMembersIds = membersToBeDeleted.Split(',');
+            var grpId = collection["grpId"];
+
+            bool isAdmin = false;
+            foreach (var Id in deleteMembersIds)
+            {
+                var memberToDelete = groupService.GetMemberByUserIdAndGroupId(Int32.Parse(grpId), Id);
+                if (memberToDelete.UserId == User.Identity.GetUserId())
+                {
+                    isAdmin = true;
+                }
+                context.Members.Remove(memberToDelete);
+            }
+            context.SaveChanges();
+
+            if (isAdmin == true)
+            {
+                return RedirectToAction("GroupsList", "Group");
+            }
+            return RedirectToAction("Details", "Group", new {id = grpId});
         }
 
         public ActionResult Post()
