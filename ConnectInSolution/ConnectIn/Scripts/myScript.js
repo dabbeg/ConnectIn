@@ -1,30 +1,4 @@
 ﻿$(document).ready(function () {
-<<<<<<< HEAD
-    /*$("btn-default-like btn-default-dislike").click(function () {
-        if ($(this).val() === "") {
-            return 1;
-        } else if ($(this).val() === "bestFriends") {
-            return 2;
-        } else {
-            return 3;
-        }
-    });*/
-    var likeGreen = document.getElementById("smiley-green");
-    likeGreen.style.display = "none";
-    function hide() {
-        var likeGreen = document.getElementById("smiley-green");
-        var likeBlue = document.getElementById("smiley-blue");
-        if (likeGreen.style.display === "none") {
-            likeGreen.style.display = "block";
-            likeBlue.style.display = "none";
-        }
-        else {
-            likeGreen.style.display = "none";
-            likeBlue.style.display = "block";
-        } 
-    }
-=======
->>>>>>> 6d2628ddc989f77d2f20f3bb983104ec0c675fb0
 
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
@@ -76,5 +50,83 @@
             });
         }
     });
+
+    function smiley(isLiked) {
+        var text = $("#likeBtn").text();
+        var smiles = parseInt(text[0]);
+        $("#likeBtn").empty();
+
+        var img = $("<img id='likedislikeimg'>");
+        if (isLiked) { // liked
+            img.attr("src", "/Content/images/smileyGREEN.png");
+            smiles += 1;
+        } else { // not liked
+            img.attr("src", "/Content/images/smileySMALL.png");
+            smiles -= 1;
+        }
+        img.attr("alt", "Like Picture");
+        $("#likeBtn").append(img);
+        $("#likeBtn").append(smiles + " Smiles");
+    }
+
+    function sadface(isDisliked) {
+        var text = $("#dislikeBtn").text();
+        var sadfaces = parseInt(text[0]);
+        $("#dislikeBtn").empty();
+
+        var img = $("<img id='likedislikeimg'>");
+        if (isDisliked) { // disliked
+            img.attr("src", "/Content/images/sadfaceRED.png");
+            sadfaces += 1;
+        } else { // not disliked
+            img.attr("src", "/Content/images/sadfaceSMALL.png");
+            sadfaces -= 1;
+        }
+        img.attr("alt", "Dislike Picture");
+        $("#dislikeBtn").append(img);
+        $("#dislikeBtn").append(sadfaces + " Sadfaces");
+    }
+
+
+    // Asynchronus like
+    $("#likeBtn").click(function() {
+        var val = $("input[name=postId]").val();
+        var json = {
+            "postId": val
+        };
+        $.post("/Status/Like", json, function (data) {
+            if (data.action == null) {
+                smiley(true);
+            } else if (data.action.Like) {
+                smiley(false);
+            } else if(data.action.Dislike) {
+                smiley(true);
+                sadface(false);
+            }
+        });
+    });
+
+    
+
+    // Asynchronus dislike
+    $("#dislikeBtn").click(function () {
+        var val = $("input[name=postId]").val();
+        var json = {
+            "postId": val
+        };
+        $.post("/Status/Dislike", json, function (data) {
+            if (data.action == null) {
+                sadface(true);
+            } else if (data.action.Dislike) {
+                sadface(false);
+            } else if (data.action.Like) {
+                sadface(true);
+                smiley(false);
+            }
+        });
+    });
+
+    
+    
 });
 
