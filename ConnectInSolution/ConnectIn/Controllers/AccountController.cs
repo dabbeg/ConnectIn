@@ -56,13 +56,13 @@ namespace ConnectIn.Controllers
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-           if (ModelState.IsValid)
-           { 
-           string name = (collection["EditName"]);
-           string gender = (collection["EditGender"]);
-           string work = (collection["EditWork"]);
+           string name = (collection["EditName"] != null && collection["EditName"] != "") ? collection["EditName"] : null;
+           string gender = (collection["EditGender"] != null && collection["EditGender"] != "") ? collection["EditGender"] : null;
+           string work = (collection["EditWork"] );
            string school = (collection["EditSchool"]);
            string address = (collection["EditAddress"]);
+           if (name != null && gender != null)
+           { 
                user.Name = name;
                user.Gender = gender;
                user.Work = work;
@@ -71,10 +71,9 @@ namespace ConnectIn.Controllers
                context.SaveChanges();
                return RedirectToAction("Profile", "Home", new { user.Id });
            }
-           else
-           {
+          
                return View(t);
-           }
+           
                }
         //
         // POST: /Account/Login
