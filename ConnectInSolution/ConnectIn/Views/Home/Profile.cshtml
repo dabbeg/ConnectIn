@@ -17,7 +17,7 @@
             <div id="userNameOnProfile">
                 <div>
                     <h1>
-                        @Html.ActionLink(Model.User.Name, "Profile", new { id = Model.User.UserId })
+                        @string.Format("{0}", Model.User.Name)
                     </h1>
                 </div>
 
@@ -67,8 +67,11 @@
                             @if(Model.User.UserId == User.Identity.GetUserId())
                             {
                             <tr>
-                                <td>
-                                    <span><button id="buttonedit" type="button" class="btn btn-link">@Html.ActionLink("Edit", "Edit", "Account")</button></span>
+                                <td id="hidebutton" class="hideedit">
+                                    <a id="Editpencil" href="@Url.Action("Edit", "Account")" >
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        <span class="sr-only">Edit</span>
+                                        </a>
                                 </td>
                             </tr>
                             }
