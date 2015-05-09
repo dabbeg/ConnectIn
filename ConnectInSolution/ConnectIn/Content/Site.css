@@ -165,7 +165,7 @@ overflow:hidden;
 
 .search-form-control {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 20px;
   font-size: 14px;
   line-height: 1.428571429;
   color: #555;
@@ -765,12 +765,13 @@ background-color: rgba(255,255,255,0.2);
 }
 .searchHover {
     color: #999;
-    margin-top: 27px;
-    margin-bottom: 25px;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 .searchHover:hover {
     color: #fff;
-    margin-bottom:25px;
+    margin-top: 25px;
+    margin-bottom:5px;
 }
 .area {
 float: left;
