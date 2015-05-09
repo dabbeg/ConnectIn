@@ -29,8 +29,8 @@
                     <div id="reactionButtons">
 
                         <input type="hidden" name="postId" value="@item.PostId"/>
-                        <button type="button" id="likeBtn" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.LikePic)" alt="Like Picture" />@item.LikeDislikeComment.Likes Smiles</button>
-                        <button type="button" id="dislikeBtn" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.DislikePic)" alt="Dislike Picture" />@item.LikeDislikeComment.Dislikes Sadfaces</button>
+                        <button type="button" id="likeBtn-@item.PostId" class="btnNew btn-default-clicked likeBtn"><img id="likedislikeimg" src="@Url.Content(item.LikePic)" alt="Like Picture" />@item.LikeDislikeComment.Likes Smiles</button>
+                        <button type="button" id="dislikeBtn-@item.PostId" class="btnNew btn-default-clicked dislikeBtn"><img id="likedislikeimg" src="@Url.Content(item.DislikePic)" alt="Dislike Picture" />@item.LikeDislikeComment.Dislikes Sadfaces</button>
                         
                         @using (Html.BeginForm("Comment", "Status", new {PostId = item.PostId}))
                         {
@@ -39,10 +39,8 @@
                         }
                         @if (item.User.UserId == User.Identity.GetUserId())
                         {
-                            using (Html.BeginForm("RemovePost", "Status", new {postId = item.PostId}))
-                            {
-                                <button type="submit" class="btn btn-danger deletePostButton">Delete Post</button>
-                            }
+                            <button type="button" class="btn btn-danger deletePostButton deletePostBtn">Delete Post</button>
+                            <input type="hidden" name="postId" value="@item.PostId" />
                         }
                     </div>
                 </div>
