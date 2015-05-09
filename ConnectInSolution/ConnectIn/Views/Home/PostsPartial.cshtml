@@ -27,26 +27,11 @@
             <div id="commentsLikesDeleteDiv">
                 <div id="commentsAndLikes">
                     <div id="reactionButtons">
-                        @using (Html.BeginForm("Like", "Status"))
-                        {
-                            var action = ViewContext.RouteData.GetRequiredString("action");
-                            // var action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue;
-                            <input type="hidden" name="location" value="@action"/>
-                            <input type="hidden" name="postId" value="@item.PostId"/>
-                            <input type="hidden" name="id" value="@Model.Id"/>
-                                
-                            <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.LikePic)" alt="Like Picture" />@item.LikeDislikeComment.Likes Smiles</button>
-                        }
-                        @using (Html.BeginForm("Dislike", "Status"))
-                        {
 
-                            var action = ViewContext.RouteData.GetRequiredString("action");
-                            <input type="hidden" name="location" value="@action"/>
-                            <input type="hidden" name="postId" value="@item.PostId"/>
-                            <input type="hidden" name="id" value="@Model.Id"/>
-
-                            <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.DislikePic)" alt="Dislike Picture" />@item.LikeDislikeComment.Dislikes Sadfaces</button>
-                        }
+                        <input type="hidden" name="postId" value="@item.PostId"/>
+                        <button type="button" id="likeBtn" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.LikePic)" alt="Like Picture" />@item.LikeDislikeComment.Likes Smiles</button>
+                        <button type="button" id="dislikeBtn" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(item.DislikePic)" alt="Dislike Picture" />@item.LikeDislikeComment.Dislikes Sadfaces</button>
+                        
                         @using (Html.BeginForm("Comment", "Status", new {PostId = item.PostId}))
                         {
                             <input type="hidden" name="postId" value="@item.PostId"/>
