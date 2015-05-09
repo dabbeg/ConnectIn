@@ -161,7 +161,6 @@ namespace ConnectIn.Controllers
                 }
                 return View("GroupDetails", myGroup);
             }
-            return View();
         }
 
         public ActionResult Delete()

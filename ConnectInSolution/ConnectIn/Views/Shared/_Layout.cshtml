@@ -78,10 +78,10 @@
                             <span class="nav-text">
                                 @using (Html.BeginForm("Search", "Home"))
                                 {
-                                    <div class="form-horizontal">
+                                    <span class="form-horizontal">
                                         <input type="text" placeholder="Search..." class="search-form-control" name="status" />
-                                        <button type="submit" id="submitstatus" class="btn btn-primary" style="display: none;"></button>
-                                    </div>
+                                        <input type="submit" id="submitstatus" class="btn btn-primary" style="display: none;" />
+                                    </span>
                                 }
 
                             </span>

@@ -50,13 +50,13 @@ namespace ConnectIn.Services
             // Get the added friends of the user, and put to a list
             var list1 = (from fc in db.Friends
                        where fc.UserId == userId
-                       && fc.BestFriend == true
+                       && fc.UserConsidersFriendAsBestFriend
                        select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
-                         && fc.BestFriend == true
+                         && fc.UserConsidersFriendAsBestFriend
                          select fc).ToList();
 
             // Append list1 and list2 together
@@ -77,13 +77,13 @@ namespace ConnectIn.Services
             // Get the added friends of the user, and put to a list
             var list1 = (from fc in db.Friends
                          where fc.UserId == userId
-                         && fc.Family == true
+                         && fc.UserConsidersFriendAsFamily == true
                          select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
-                         && fc.Family == true
+                         && fc.UserConsidersFriendAsFamily == true
                          select fc).ToList();
 
             // Append list1 and list2 together

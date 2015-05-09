@@ -757,6 +757,14 @@ background-color: rgba(255,255,255,0.2);
     color: #fff;
     margin-bottom:25px;
 }
+.bffam {
+  top: 2px;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1;
+  margin-left: -13px;
+}
 .area {
 float: left;
 width: 100%;
