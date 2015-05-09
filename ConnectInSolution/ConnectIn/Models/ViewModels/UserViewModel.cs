@@ -20,6 +20,8 @@ namespace ConnectIn.Models.ViewModels
         public string Work { get; set; }
         public string School { get; set; }
         public string Address { get; set; }
+        public string BfStar { get; set; }
+        public string FStar { get; set; }
          
     }
  
