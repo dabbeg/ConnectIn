@@ -19,6 +19,16 @@
     padding-left:40px;
 }
 
+#hidebutton
+{
+    display:none;
+    overflow:auto;
+    padding:0px;
+}
+#aboutUser:hover #hidebutton
+{
+    display : block;
+}
 .editinfos
 {
    max-width:200px;
