@@ -426,9 +426,6 @@ a.navbar-brand
     font-size: 100%;
     
 }
-#profileHeader {
-    
-}
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
@@ -515,8 +512,7 @@ a.navbar-brand
     width: 100px;
 
 }
-.tableItemInfo {
-}
+
 
 .profileNameLink {
     font-size: 25px
@@ -753,14 +749,9 @@ background-color: rgba(255,255,255,0.2);
 
 }
 .searchHover {
-<<<<<<< HEAD
-  color: #999;
-  margin-top: 27px;
-  margin-bottom: 9px;
-=======
-    color:#999;
-    margin-bottom: 25px;
->>>>>>> 6d2628ddc989f77d2f20f3bb983104ec0c675fb0
+    color: #999;
+    margin-top: 27px;
+    margin-bottom: 9px;
 }
 .searchHover:hover {
     color: #fff;
