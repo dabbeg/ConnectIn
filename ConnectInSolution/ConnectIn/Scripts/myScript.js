@@ -43,39 +43,38 @@
         if (currFilter == "Everyone") {
             $.get("/NewsFeed/Everyone", function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    $("#post-" + data[i]).fadeOut();
+                    $("#post-" + data[i]).hide();
                 }
                 for (var i = 0; i < data.length; i++) {
-                    $("#post-" + data[i]).fadeIn(500);
+                    $("#post-" + data[i]).fadeIn(700);
                 }
             });
         }
         if (currFilter == "BestFriends") {
-            $.get("/NewsFeed/Everyone", function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    $("#post-" + data[i]).fadeOut();
-                }
-                $.get("/NewsFeed/BestFriends", function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $("#post-" + data[i]).fadeIn();
+            $.get("/NewsFeed/Everyone", function (everyone) {
+                $.get("/NewsFeed/BestFriends", function (bestFriends) {
+                    for (var i = 0; i < everyone.length; i++) {
+                        $("#post-" + everyone[i]).hide();
+                    }
+                    for (var i = 0; i < bestFriends.length; i++) {
+                        $("#post-" + bestFriends[i]).fadeIn(700);
                     }
                 });
             });
             
         }
         if (currFilter == "Family") {
-            $.get("/NewsFeed/Everyone", function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    $("#post-" + data[i]).fadeOut();
-                }
-                $.get("/NewsFeed/Family", function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $("#post-" + data[i]).fadeIn();
+            $.get("/NewsFeed/Everyone", function (everyone) {
+                $.get("/NewsFeed/Family", function (family) {
+                    for (var i = 0; i < everyone.length; i++) {
+                        $("#post-" + everyone[i]).hide();
+                    }
+                    for (var i = 0; i < family.length; i++) {
+                        $("#post-" + family[i]).fadeIn(700);
                     }
                 });
             });
         }
     });
-
 });
 
