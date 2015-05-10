@@ -223,7 +223,9 @@
     <Content Include="Content\Images\iconHappy.ico" />
     <Content Include="Content\Images\iconSad.png" />
     <Content Include="Content\Images\largeProfilePic.jpg" />
+    <Content Include="Content\Images\Lock.png" />
     <Content Include="Content\Images\profilepic.png" />
+    <Content Include="Content\Images\Unlock.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -289,6 +291,7 @@
     <Content Include="Views\Home\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Group\EditGroup.cshtml" />
+    <Content Include="Views\Account\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

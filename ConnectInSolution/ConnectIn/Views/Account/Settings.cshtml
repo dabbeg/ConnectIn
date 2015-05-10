@@ -1,0 +1,37 @@
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+<h2>Settings</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        @{
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var user = userService.GetUserById(User.Identity.GetUserId());
+            var img = user.Privacy ? "/Content/Images/Lock.png" : "/Content/Images/Unlock.png";
+            var text = user.Privacy 
+                ? "Public. All friends can view your profile and posts." 
+                : "Private. Only your best friends and family can view your profile and posts.";
+        }
+        <input type="hidden" name="userId" value=@user.Id/>
+        <button type="submit" class="btnNew btn-default-clicked privacy"><img id="privacyimg" src=@img alt="Lock"/><span class="glyphicon bffam">@text</span></button>
+    </div>
+    {
+        Html.RenderPartial("Edit");
+        
+        Html.ActionLink("Change password", "Manage", "Account");
+    }
+}
+else
+{
+    <h1 id="loginSignUpMessage">
+        Please log in or sign up to access your Settings.
+    </h1>
+}

@@ -123,10 +123,10 @@
             } else {
                 img.attr("src", "/Content/images/emptystar.png");
             }
-            $(".bestFriend").empty();
-            $(".bestFriend").append(img);
+            $("#bestFriend-" + json.friendId).empty();
+            $("#bestFriend-" + json.friendId).append(img);
             var span = $("<span></span>").addClass("glyphicon bffam").text(" Best Friend");
-            $(".bestFriend").append(span);
+            $("#bestFriend-" + json.friendId).append(span);
         });
     });
 
@@ -142,10 +142,10 @@
             } else {
                 img.attr("src", "/Content/images/emptystar.png");
             }
-            $(".family").empty();
-            $(".family").append(img);
+            $("#family-" + json.friendId).empty();
+            $("#family-" + json.friendId).append(img);
             var span = $("<span></span>").addClass("glyphicon bffam").text(" Family");
-            $(".family").append(span);
+            $("#family-" + json.friendId).append(span);
         });
     });
 
@@ -165,6 +165,23 @@
         });
     });
 
+    // Asynchronous private settings
+    $(".privacy").click(function () {
+        var img = $("<img id='privacyimg'>");
+        var userId = $(this).siblings("input[name=userId]").val();
+        $.post("/Account/Privacy", function(data) {
+            var span;
+            if (data.result === 1) {
+                img.attr("src", "/Content/images/Unlock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Public. All friends can view your profile and posts.");
+            } else {
+                img.attr("src", "/Content/images/Lock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Private. Only your best friends and family can view your profile and posts.");
+            }
+            $(".privacy").empty();
+            $(".privacy").append(img + span);
+        });
+    });
 
     $.get("/Home/BirthdayCounter", function (bdayCounter) {
         var d = new Date();
