@@ -82,6 +82,13 @@ namespace ConnectIn.Controllers
             var commentService = new CommentService(db);
             var postService = new PostService(db);
             var likedislikeService = new LikeDislikeService(db);
+
+            var profilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId);
+
+            string profilePicturePath = profilePicture == null 
+                ? "~/Content/images/largeProfilePic.jpg" 
+                : profilePicture.PhotoPath;
+
             if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
             {
                 lPic = "~/Content/images/smileySMALL.png";
@@ -119,7 +126,7 @@ namespace ConnectIn.Controllers
                     {
                         UserId = postService.GetPostById(postId).UserId,
                         Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
-                        ProfilePicture = "~/Content/Images/profilepic.png"
+                        ProfilePicture = profilePicturePath
                     },
                     LikePic = lPic,
                     DislikePic = dPic
@@ -129,6 +136,10 @@ namespace ConnectIn.Controllers
             foreach (var id in commentIdList)
             {
                 var commentList = commentService.GetCommentById(id);
+                profilePicture = userService.GetProfilePicture(commentList.UserId);
+                profilePicturePath = profilePicture == null
+                ? "~/Content/images/largeProfilePic.jpg"
+                : profilePicture.PhotoPath;
                 comments.Comments.Add(
                     new CommentViewModel()
                     {
@@ -141,7 +152,7 @@ namespace ConnectIn.Controllers
                             UserId = commentList.UserId,
                             Name = userService.GetUserById(commentList.UserId).Name,
                             UserName = userService.GetUserById(commentList.UserId).UserName,
-                            ProfilePicture = "~/Content/Images/profilepic.png"
+                            ProfilePicture = profilePicturePath
                         }
                     });
             }
@@ -149,8 +160,14 @@ namespace ConnectIn.Controllers
             return View(comments);
         }
 
+        [HttpPost]
         public ActionResult AddComment(FormCollection collection)
         {
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var commentService = new CommentService(db);
+
+            var user = userService.GetUserById(User.Identity.GetUserId());
             var comment = new Comment
             {
                 UserId = User.Identity.GetUserId(),
@@ -158,13 +175,42 @@ namespace ConnectIn.Controllers
                 Text = collection["status"],
                 PostId = collection["postId"].AsInt()
             };
-            var db = new ApplicationDbContext();
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
+            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            string profilePicturePath = profilePicture == null
+                ? "~/Content/images/largeProfilePic.jpg"
+                : profilePicture.PhotoPath;
+            var commentList = commentService.GetCommentById(comment.CommentId);
+
+            var jsonComment = new CommentViewModel()
+            {
+                Body = commentList.Text,
+                DateInserted = commentList.Date,
+                User = new UserViewModel()
+                {
+                    UserId = commentList.UserId,
+                    Name = userService.GetUserById(commentList.UserId).Name,
+                    ProfilePicture = profilePicturePath
+                }
+            };
+            var json = new
+            {
+                Body = commentList.Text,
+                DateInserted = commentList.Date,
+                UserId = user.Id,
+                UsersName = user.Name,
+                ProfilePicture = profilePicturePath
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+            // return Json(new {jsonComment, JsonRequestBehavior.AllowGet});
+            // return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
+            // return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
 
+        [HttpPost]
         public ActionResult RemoveComment(int ? commentId)
         {
             if (!commentId.HasValue)
@@ -176,12 +222,10 @@ namespace ConnectIn.Controllers
             var db = new ApplicationDbContext();
             var commentService = new CommentService(db);
             db.Comments.Remove(commentService.GetCommentById(id));
-            int postId = commentService.GetCommentById(id).PostId;
 
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status", new {postId});
-
+            return new EmptyResult();
         }
 
         [HttpPost]

@@ -81,7 +81,6 @@ $(document).ready(function () {
         $(btnId).append(sadfaces + " Sadfaces");
     }
 
-
     // Asynchronus like
     $(".likeBtn").click(function () {
         var btnId = "#" + this.id;
@@ -112,12 +111,57 @@ $(document).ready(function () {
         });
     });
 
+    // Asynchronus Best Friend selection
+    $(".bestFriend").click(function () {
+        var img = $("<img id='bffamimg'>");
+        var json = {
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Home/BestFriend", json, function (data) {
+            if (data.FullStar === 1) {
+                img.attr("src", "/Content/images/fullstar.png");
+            } else {
+                img.attr("src", "/Content/images/emptystar.png");
+            }
+            $(".bestFriend").empty();
+            $(".bestFriend").append(img);
+            var span = $("<span></span>").addClass("glyphicon bffam").text(" Best Friend");
+            $(".bestFriend").append(span);
+        });
+    });
+
+    // Asynchronus Family selection
+    $(".family").click(function () {
+        var img = $("<img id='bffamimg'>");
+        var json = {
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Home/Family", json, function (data) {
+            if (data.FullStar === 1) {
+                img.attr("src", "/Content/images/fullstar.png");
+            } else {
+                img.attr("src", "/Content/images/emptystar.png");
+            }
+            $(".family").empty();
+            $(".family").append(img);
+            var span = $("<span></span>").addClass("glyphicon bffam").text(" Family");
+            $(".family").append(span);
+        });
+    });
+
+    // Asynchronus comment deletion
+    $(".deleteComment").click(function () {
+        var val = $(this).siblings("input[name=commentId]").val();
+        $.post("/Status/RemoveComment", { "commentId": val }, function () {
+            $("#comment-" + val).fadeOut(200);
+        });
+    });
     
     // Asynchronus post deletion
     $(".deletePostBtn").click(function () {
         var val = $(this).siblings("input[name=postId]").val();
         $.post("/Status/RemovePost", { "postId": val }, function () {
-            $("#post-" + val).fadeOut(500);
+            $("#comment-" + val).fadeOut(500);
         });
     });
 

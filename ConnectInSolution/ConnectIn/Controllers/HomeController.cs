@@ -128,12 +128,13 @@ namespace ConnectIn.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult BestFriend(FormCollection collection)
         {
+            var count = 0;
             string friendId = collection["friendId"];
-            string location = collection["location"];
 
-            if (friendId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            if (friendId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
@@ -147,11 +148,13 @@ namespace ConnectIn.Controllers
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
                 friendShip.UserConsidersFriendAsBestFriend = !friendShip.UserConsidersFriendAsBestFriend;
+                if (friendShip.UserConsidersFriendAsBestFriend) count = 1;
             }
             else if (friendShip.FriendUserId == User.Identity.GetUserId())
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
                 friendShip.FriendConsidersUsersAsBestFriend = !friendShip.FriendConsidersUsersAsBestFriend;
+                if (friendShip.FriendConsidersUsersAsBestFriend) count = 1;
             }
             else
             {
@@ -159,15 +162,22 @@ namespace ConnectIn.Controllers
             }
             db.SaveChanges();
 
-            if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new {id = friendId});
-            return RedirectToAction("FriendsList", "Home");
+            var json = new
+            {
+                FullStar = count
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+
+            /*if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new {id = friendId});
+            return RedirectToAction("FriendsList", "Home");*/
         }
         public ActionResult Family(FormCollection collection)
         {
+            var count = 0;
             string friendId = collection["friendId"];
-            string location = collection["location"];
 
-            if (friendId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            if (friendId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
@@ -181,11 +191,13 @@ namespace ConnectIn.Controllers
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
                 friendShip.UserConsidersFriendAsFamily = !friendShip.UserConsidersFriendAsFamily;
+                if (friendShip.UserConsidersFriendAsFamily) count = 1;
             }
             else if (friendShip.FriendUserId == User.Identity.GetUserId())
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
                 friendShip.FriendConsidersUsersAsFamily = !friendShip.FriendConsidersUsersAsFamily;
+                if (friendShip.FriendConsidersUsersAsFamily) count = 1;
             }
             else
             {
@@ -193,8 +205,12 @@ namespace ConnectIn.Controllers
             }
             db.SaveChanges();
 
-            if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new { id = friendId });
-            return RedirectToAction("FriendsList", "Home");
+            var json = new
+            {
+                FullStar = count
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Profile(string id)
         {
