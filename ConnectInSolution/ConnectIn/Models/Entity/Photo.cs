@@ -16,6 +16,7 @@ namespace ConnectIn.Models.Entity
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
         public bool IsProfilePicture { get; set; }
+        public bool IsCoverPhoto { get; set; }
         #endregion
 
         #region ForeignKeys
