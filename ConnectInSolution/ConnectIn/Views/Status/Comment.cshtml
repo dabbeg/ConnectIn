@@ -65,7 +65,7 @@
         <div id="allcomments" class="row">
             @foreach (var item in Model.Comments)
             {
-                <div class="post item span3">
+                <div id="comment-@item.CommentId" class="post item span3">
                     <div class="well" id="FriendsListWell">
                         <div id="postContent">
                             <!--Should display user's profile picture, a cat was used temporarily-->
@@ -88,10 +88,8 @@
                                 <span id="reactionButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())
                                     {
-                                        using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
-                                        {
-                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
-                                        }
+                                        <input type="hidden" name="commentId" value="@item.CommentId"/>
+                                        <button type="submit" class="btn btn-danger deletePostButton deleteComment">Delete Comment</button>
                                     }
                                 </span>
 

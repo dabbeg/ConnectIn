@@ -126,6 +126,14 @@
         });
     });
 
+    // Asynchronus comment deletion
+    $(".deleteComment").click(function () {
+        var val = $(this).siblings("input[name=commentId]").val();
+        $.post("/Status/RemoveComment", { "commentId": val }, function () {
+            $("#post-" + val).fadeOut(500);
+        });
+    });
+
     // Asynchronus review
     $("#submitcomment").click(function () {
         var commentText = $("#commentstatus").val();
