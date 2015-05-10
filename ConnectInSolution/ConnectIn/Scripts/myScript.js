@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
 
-
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
     $(".row a").click(function () {
@@ -50,6 +49,78 @@
                 });
             });
         }
+    });
+
+
+    function smiley(isLiked, smiles, btnId) {
+        $(btnId).empty();
+
+        var img = $("<img id='likedislikeimg'>");
+        if (isLiked) { // liked
+            img.attr("src", "/Content/images/smileyGREEN.png");
+        } else { // not liked
+            img.attr("src", "/Content/images/smileySMALL.png");
+        }
+        img.attr("alt", "Like Picture");
+        $(btnId).append(img);
+        $(btnId).append(smiles + " Smiles");
+    }
+
+
+    function sadface(isDisliked, sadfaces, btnId) {
+        $(btnId).empty();
+
+        var img = $("<img id='likedislikeimg'>");
+        if (isDisliked) { // disliked
+            img.attr("src", "/Content/images/sadfaceRED.png");
+        } else { // not disliked
+            img.attr("src", "/Content/images/sadfaceSMALL.png");
+        }
+        img.attr("alt", "Dislike Picture");
+        $(btnId).append(img);
+        $(btnId).append(sadfaces + " Sadfaces");
+    }
+
+
+    // Asynchronus like
+    $(".likeBtn").click(function () {
+        var btnId = "#" + this.id;
+        $.post("/Status/Like", { "postId": $(this).siblings("input[name=postId]").val() }, function (data) {
+            if (data.action == null) { // User has not liked or disliked
+                smiley(true, data.likes, btnId);
+            } else if (data.action.Like) { // User has liked
+                smiley(false, data.likes, btnId);
+            } else if(data.action.Dislike) { // User has disliked
+                smiley(true, data.likes, btnId);
+                sadface(false, data.dislikes, "#" + $(btnId).siblings(".dislikeBtn").attr("id"));
+            }
+        });
+    });
+
+    
+
+    // Asynchronus dislike
+    $(".dislikeBtn").click(function () {
+        var btnId = "#" + this.id;
+        $.post("/Status/Dislike", { "postId": $(this).siblings("input[name=postId]").val() }, function (data) {
+            if (data.action == null) { // User has not liked or disliked
+                sadface(true, data.dislikes, btnId);
+            } else if (data.action.Dislike) { // User has liked
+                sadface(false, data.dislikes, btnId);
+            } else if (data.action.Like) { // User has disliked
+                sadface(true, data.dislikes, btnId);
+                smiley(false, data.likes, "#" + $(btnId).siblings(".likeBtn").attr("id"));
+            }
+        });
+    });
+
+    
+    // Asynchronus post deletion
+    $(".deletePostBtn").click(function () {
+        var val = $(this).siblings("input[name=postId]").val();
+        $.post("/Status/RemovePost", { "postId": val }, function () {
+            $("#post-" + val).fadeOut(500);
+        });
     });
 });
 

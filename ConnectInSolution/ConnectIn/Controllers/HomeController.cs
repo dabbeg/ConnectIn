@@ -128,6 +128,74 @@ namespace ConnectIn.Controllers
             return View();
         }
 
+        public ActionResult BestFriend(FormCollection collection)
+        {
+            string friendId = collection["friendId"];
+            string location = collection["location"];
+
+            if (friendId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), friendId);
+
+            if (friendShip.UserId == User.Identity.GetUserId())
+            {
+                // if considered as best friend, then disbestfriend, else consider as best friend
+                friendShip.UserConsidersFriendAsBestFriend = !friendShip.UserConsidersFriendAsBestFriend;
+            }
+            else if (friendShip.FriendUserId == User.Identity.GetUserId())
+            {
+                // if considered as best friend, then disbestfriend, else consider as best friend
+                friendShip.FriendConsidersUsersAsBestFriend = !friendShip.FriendConsidersUsersAsBestFriend;
+            }
+            else
+            {
+                return View("Error");
+            }
+            db.SaveChanges();
+
+            if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new {id = friendId});
+            return RedirectToAction("FriendsList", "Home");
+        }
+        public ActionResult Family(FormCollection collection)
+        {
+            string friendId = collection["friendId"];
+            string location = collection["location"];
+
+            if (friendId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+
+            var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), friendId);
+
+            if (friendShip.UserId == User.Identity.GetUserId())
+            {
+                // if considered as best friend, then disbestfriend, else consider as best friend
+                friendShip.UserConsidersFriendAsFamily = !friendShip.UserConsidersFriendAsFamily;
+            }
+            else if (friendShip.FriendUserId == User.Identity.GetUserId())
+            {
+                // if considered as best friend, then disbestfriend, else consider as best friend
+                friendShip.FriendConsidersUsersAsFamily = !friendShip.FriendConsidersUsersAsFamily;
+            }
+            else
+            {
+                return View("Error");
+            }
+            db.SaveChanges();
+
+            if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new { id = friendId });
+            return RedirectToAction("FriendsList", "Home");
+        }
         public ActionResult Profile(string id)
         {
             if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
@@ -145,14 +213,40 @@ namespace ConnectIn.Controllers
             var posts = userService.GetAllPostsFromUser(id);
 
             var profilePicture = userService.GetProfilePicture(id);
-            string profilePicturePath, lPic, dPic;
-            if (profilePicture == null)
+            string profilePicturePath, lPic, dPic, 
+                bfStarPick = "~/Content/images/emptystar.png", fStarPick = "~/Content/images/emptystar.png";
+            profilePicturePath = profilePicture == null 
+                ? "~/Content/images/largeProfilePic.jpg" 
+                : profilePicture.PhotoPath;
+
+            var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
+
+            if (friendShip != null)
             {
-                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-            }
-            else
-            {
-                profilePicturePath = profilePicture.PhotoPath;
+                if (friendShip.UserId == User.Identity.GetUserId())
+                {
+                    // if considered as best friend, then disbestfriend, else consider as best friend
+                    bfStarPick = friendShip.UserConsidersFriendAsBestFriend
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
+                    fStarPick = friendShip.UserConsidersFriendAsFamily
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
+                }
+                else if (friendShip.FriendUserId == User.Identity.GetUserId())
+                {
+                    // if considered as best friend, then disbestfriend, else consider as best friend
+                    bfStarPick = friendShip.FriendConsidersUsersAsBestFriend
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
+                    fStarPick = friendShip.FriendConsidersUsersAsFamily
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
 
             var postsViewModels = new List<PostsViewModel>();
@@ -202,7 +296,9 @@ namespace ConnectIn.Controllers
                          Birthday = user.Birthday,
                          Work = user.Work,
                          School = user.School,
-                         Address = user.Address
+                         Address = user.Address,
+                         BfStar = bfStarPick,
+                         FStar = fStarPick
                      },
                      LikePic = lPic,
                      DislikePic = dPic
@@ -227,7 +323,9 @@ namespace ConnectIn.Controllers
                     Birthday = user.Birthday,
                     Work = user.Work,
                     School = user.School,
-                    Address = user.Address
+                    Address = user.Address,
+                    BfStar = bfStarPick,
+                    FStar = fStarPick
                 }
             };
 
@@ -349,17 +447,36 @@ namespace ConnectIn.Controllers
 
             foreach (var id in friendList)
             {
+                string bfStarPick, fStarPick;
                 var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath;
-                if (profilePicture == null)
+                string profilePicturePath = profilePicture == null 
+                    ? "~/Content/images/largeProfilePic.jpg" 
+                    : profilePicture.PhotoPath;
+                var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
+
+                if (friendShip.UserId == User.Identity.GetUserId())
                 {
-                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                    // if considered as best friend, then disbestfriend, else consider as best friend
+                    bfStarPick = friendShip.UserConsidersFriendAsBestFriend 
+                        ? "~/Content/images/fullstar.png" 
+                        : "~/Content/images/emptystar.png";
+                    fStarPick = friendShip.UserConsidersFriendAsFamily 
+                        ? "~/Content/images/fullstar.png" 
+                        : "~/Content/images/emptystar.png";
+                } else if (friendShip.FriendUserId == User.Identity.GetUserId())
+                {
+                    // if considered as best friend, then disbestfriend, else consider as best friend
+                    bfStarPick = friendShip.FriendConsidersUsersAsBestFriend
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
+                    fStarPick = friendShip.FriendConsidersUsersAsFamily
+                        ? "~/Content/images/fullstar.png"
+                        : "~/Content/images/emptystar.png";
                 }
                 else
                 {
-                    profilePicturePath = profilePicture.PhotoPath;
+                    return View("Error");
                 }
-
                 var user = userService.GetUserById(id);
                 friends.Add(
                     new FriendViewModel()
@@ -374,7 +491,9 @@ namespace ConnectIn.Controllers
                             Birthday = user.Birthday,
                             Work = user.Work,
                             School = user.School,
-                            Address = user.Address
+                            Address = user.Address,
+                            BfStar = bfStarPick,
+                            FStar = fStarPick
                         }
                     });  
             }

@@ -11,110 +11,132 @@
 
     <div class="container">
         <div class="well" id="ProfileWell">
+            <small class="pull-right">
+                @if (Model.User.UserId != User.Identity.GetUserId())
+                {
+                    using (Html.BeginForm("BestFriend", "Home"))
+                    {
+                        var action = ViewContext.RouteData.GetRequiredString("action");
+                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                        <input type="hidden" name="location" value="@action" />
+                        <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                    }
+                    using (Html.BeginForm("Family", "Home"))
+                    {
+                        var action = ViewContext.RouteData.GetRequiredString("action");
+                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                        <input type="hidden" name="location" value="@action" />
+                        <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(@Model.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                    }
+                }
+            </small>
             <div id="userProfilePicture">
-                <a href="/Home/UploadImage"><img class="img-responsiveProfilePic img-rounded " src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
+                <a href="/Home/UploadImage"><img class="img-responsiveProfilePic img-rounded " src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/></a>
             </div>
             <div id="userNameOnProfile">
                 <div>
                     <h1>
-                        @Html.ActionLink(Model.User.Name, "Profile", new { id = Model.User.UserId })
+                        @string.Format("{0}", Model.User.Name)
                     </h1>
                 </div>
 
                 <div class="well" id="aboutUser">
                     <table class="tableFriends">
                         <tbody>
+                        <tr>
+                            <td class="glyphicon glyphicon-user tableItem">
+                                Gender
+                            </td>
+                            <td class="glyphicon profileGender tableItemInfo">
+                                <span>@string.Format("{0}", Model.User.Gender)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-gift tableItem">
+                                Birthday
+                            </td>
+                            <td class="glyphicon profileBirthday tableItemInfo">
+                                <span>@string.Format("{0}.{1}.{2}", Model.User.Birthday.Day, Model.User.Birthday.Month, Model.User.Birthday.Year)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-briefcase tableItem">
+                                Work
+                            </td>
+                            <td class="glyphicon workFriendsList tableItemInfo">
+                                <span>@string.Format("{0}", Model.User.Work)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-pencil tableItem">
+                                School
+                            </td>
+                            <td class="glyphicon schoolFriendsList tableItemInfo">
+                                <span>@string.Format("{0}", Model.User.School)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="glyphicon glyphicon-home tableItem">
+                                Address
+                            </td>
+                            <td class="glyphicon workFriendsList tableItemInfo">
+                                <span>@string.Format("{0}", Model.User.Address)</span>
+                            </td>
+                        </tr>
+                        @if (Model.User.UserId == User.Identity.GetUserId())
+                        {
                             <tr>
-                                <td class="glyphicon glyphicon-user tableItem">
-                                    Gender
-                                </td>
-                                <td class="glyphicon profileGender tableItemInfo">
-                                    <span>@string.Format("{0}", Model.User.Gender)</span>
+                                <td id="hidebutton" class="hideedit">
+                                    <a id="Editpencil" href="@Url.Action("Edit", "Account")">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        <span class="sr-only">Edit</span>
+                                    </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-gift tableItem">
-                                    Birthday
-                                </td>
-                                <td class="glyphicon profileBirthday tableItemInfo">
-                                    <span>@string.Format("{0}.{1}.{2}", Model.User.Birthday.Day, Model.User.Birthday.Month, Model.User.Birthday.Year)</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-briefcase tableItem">
-                                    Work
-                                </td>
-                                <td class="glyphicon workFriendsList tableItemInfo">
-                                    <span>@string.Format("{0}", Model.User.Work)</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-pencil tableItem">
-                                    School
-                                </td>
-                                <td class="glyphicon schoolFriendsList tableItemInfo">
-                                    <span>@string.Format("{0}", Model.User.School)</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="glyphicon glyphicon-home tableItem">
-                                    Address
-                                </td>
-                                <td class="glyphicon workFriendsList tableItemInfo">
-                                    <span>@string.Format("{0}", Model.User.Address)</span>
-                                </td>
-                            </tr>
-                            @if(Model.User.UserId == User.Identity.GetUserId())
-                            {
-                            <tr>
-                                <td>
-                                    <span><button id="buttonedit" type="button" class="btn btn-link">@Html.ActionLink("Edit", "Edit", "Account")</button></span>
-                                </td>
-                            </tr>
-                            }
+                        }
                         </tbody>
                     </table>
                 </div>
 
                 <div id="PhotoButton">
-                    @using (Html.BeginForm("Images", "Home", new { userId = Model.User.UserId }))
+                    @using (Html.BeginForm("Images", "Home", new {userId = Model.User.UserId}))
                     {
                         <button type="submit" class="btn btn-primary">Photos</button>
                     }
                 </div>
 
                 <div id="addFriendButton">
-                @{
-                    if (Model.User.UserId != User.Identity.GetUserId())
-                    {
-                        var context = new ApplicationDbContext();
-                        var userService = new UserService(context);
-                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
-                        if (notification != null)
+                    @{
+                        if (Model.User.UserId != User.Identity.GetUserId())
                         {
-                            <button type="button" class="btn">Pending</button>
-                        }
-                        else if (listOfFriends.Contains(@Model.User.UserId))
-                        {
-                            using (Html.BeginForm("Remove", "Friend"))
+                            var context = new ApplicationDbContext();
+                            var userService = new UserService(context);
+                            var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                            var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
+                            if (notification != null)
                             {
-                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                <input type="hidden" name="friendId" value="@Model.User.UserId"/>
-                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                <button type="button" class="btn">Pending</button>
                             }
-                        }
-                        else
-                        {
-                            using (Html.BeginForm("Add", "Friend"))
+                            else if (listOfFriends.Contains(@Model.User.UserId))
                             {
-                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                <input type="hidden" name="friendId" value="@Model.User.UserId"/>
-                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                                using (Html.BeginForm("Remove", "Friend"))
+                                {
+                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                }
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("Add", "Friend"))
+                                {
+                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                                }
                             }
                         }
                     }
-                }
                 </div>
             </div>
         </div>

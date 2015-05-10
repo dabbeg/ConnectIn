@@ -40,27 +40,36 @@ namespace ConnectIn.Controllers
                 return RedirectToAction("Details", "Group", new {Id = grpId});
                 
             }
-            return View();
+            return View("Error");
 
         }
 
-        public ActionResult RemovePost(int? postId)
+        [HttpPost]
+        public ActionResult RemovePost(FormCollection collection)
         {
-            if (!postId.HasValue)
+            string id = collection["postId"];
+            if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
-            int id = postId.Value;
+            int postId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            context.Posts.Remove(postService.GetPostById(id));
+            context.Posts.Remove(postService.GetPostById(postId));
             context.SaveChanges();
+            
+            var url = ControllerContext.HttpContext.Request.UrlReferrer;
+            if (url != null && url.AbsolutePath.Contains("Comment"))
+            {
+                return RedirectToAction("NewsFeed", "Home");
+            }
 
-            return RedirectToAction("NewsFeed", "Home");
+            // Returns nothing if it is an ajax call
+            return new EmptyResult();
         }
 
-        public ActionResult Comment(int ? PostId)
+        public ActionResult Comment(int? PostId)
         {
             if (PostId == null)
             {
@@ -175,112 +184,114 @@ namespace ConnectIn.Controllers
 
         }
 
+        [HttpPost]
         public ActionResult Like(FormCollection collection)
         {
             string postId = collection["postId"];
-            string location = collection["location"];
-            string profileOrGroupId = collection["id"];
-
-
-            if (postId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace() || profileOrGroupId.IsNullOrWhiteSpace())
+            if (postId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
             var context = new ApplicationDbContext();
-
             var likedislikeService = new LikeDislikeService(context);
-            var id = Int32.Parse(postId);
+            var pid = Int32.Parse(postId);
 
-            var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id);
+            var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
-                if (ld.Dislike)
+                if (ld.Dislike) // Switch from dislike to like
                 {
                     context.LikesDislikes.Remove(ld);
+                    context.LikesDislikes.Add(new LikeDislike()
+                    {
+                        PostId = pid,
+                        UserId = User.Identity.GetUserId(),
+                        Like = true,
+                        Dislike = false
+                    });
                 }
                 else if (ld.Like) // UnLike
                 {
                     context.LikesDislikes.Remove(ld);
-                    context.SaveChanges();
-                    if (location.Equals("Comment"))
-                    {
-                        return RedirectToAction("Comment", "Status", new { postId });
-                    }
-                    return RedirectToAction(location, "Home", new { id = profileOrGroupId });
                 }
             }
-            
-            
-            var model = new LikeDislike()
+            else // Like
             {
-                PostId = id,
-                UserId = User.Identity.GetUserId(),
-                Like = true,
-                Dislike = false
-            };
-            
-            context.LikesDislikes.Add(model);
+                context.LikesDislikes.Add(new LikeDislike()
+                {
+                    PostId = pid,
+                    UserId = User.Identity.GetUserId(),
+                    Like = true,
+                    Dislike = false
+                });
+            }
             context.SaveChanges();
 
-            if (location.Equals("Comment"))
+            var postService = new PostService(context);
+            var json = new
             {
-                return RedirectToAction("Comment", "Status", new { postId });
-            }
-            return RedirectToAction(location, "Home", new { id = profileOrGroupId });
+                likes = postService.GetPostsLikes(pid),
+                dislikes = postService.GetPostsDislikes(pid),
+                action = ld
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult Dislike(FormCollection collection)
         {
             string postId = collection["postId"];
-            string location = collection["location"];
-            string profileOrGroupId = collection["id"];
-
-            if (postId.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace() || profileOrGroupId.IsNullOrWhiteSpace())
+            if (postId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
             var context = new ApplicationDbContext();
-            var likedislikesService = new LikeDislikeService(context);
-
+            var likedislikeService = new LikeDislikeService(context);
             var pid = Int32.Parse(postId);
 
-            var ld = likedislikesService.GetLikeDislike(User.Identity.GetUserId(), pid);
+            var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
-                if (ld.Like)
+                if (ld.Like) // Switch from like to dislike
                 {
                     context.LikesDislikes.Remove(ld);
+                    context.LikesDislikes.Add(new LikeDislike()
+                    {
+                        PostId = pid,
+                        UserId = User.Identity.GetUserId(),
+                        Like = false,
+                        Dislike = true
+                    });
                 }
                 else if (ld.Dislike) // UnDislike
                 {
                     context.LikesDislikes.Remove(ld);
-                    context.SaveChanges();
-                    if (location.Equals("Comment"))
-                    {
-                        return RedirectToAction("Comment", "Status", new { postId });
-                    }
-                    return RedirectToAction(location, "Home", new { id = profileOrGroupId });
                 }
             }
-
-            var model = new LikeDislike()
+            else // Dislike
             {
-                PostId = pid,
-                UserId = User.Identity.GetUserId(),
-                Like = false,
-                Dislike = true
+                context.LikesDislikes.Add(new LikeDislike()
+                {
+                    PostId = pid,
+                    UserId = User.Identity.GetUserId(),
+                    Like = false,
+                    Dislike = true
+                });
+            }
+            context.SaveChanges();
+
+            var postService = new PostService(context);
+            var json = new
+            {
+                likes = postService.GetPostsLikes(pid),
+                dislikes = postService.GetPostsDislikes(pid),
+                action = ld
             };
 
-            context.LikesDislikes.Add(model);
-            context.SaveChanges();
-            if (location.Equals("Comment"))
-            {
-                return RedirectToAction("Comment", "Status", new {postId});
-            }
-            return RedirectToAction(location, "Home", new { id = profileOrGroupId });
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

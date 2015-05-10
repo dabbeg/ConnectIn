@@ -379,8 +379,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "1",
                 FriendUserId = "2",
-                BestFriend = true,
-                Family = true
+                UserConsidersFriendAsBestFriend = true,
+                UserConsidersFriendAsFamily = true
             };
             mockDb.Friends.Add(f1);
 
@@ -388,8 +388,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "2",
                 FriendUserId = "3",
-                BestFriend = false,
-                Family = true
+                UserConsidersFriendAsBestFriend = false,
+                UserConsidersFriendAsFamily = true
             };
             mockDb.Friends.Add(f2);
 
@@ -397,8 +397,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "3",
                 FriendUserId = "1",
-                BestFriend = false,
-                Family = false
+                UserConsidersFriendAsBestFriend = false,
+                UserConsidersFriendAsFamily = false
             };
             mockDb.Friends.Add(f3);
 
@@ -406,8 +406,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "3",
                 FriendUserId = "4",
-                BestFriend = true,
-                Family = false
+                UserConsidersFriendAsBestFriend = true,
+                UserConsidersFriendAsFamily = false
             };
             mockDb.Friends.Add(f4);
 
@@ -415,8 +415,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "1",
                 FriendUserId = "4",
-                BestFriend = false,
-                Family = false
+                UserConsidersFriendAsBestFriend = false,
+                UserConsidersFriendAsFamily = false
             };
             mockDb.Friends.Add(f5);
 
@@ -424,8 +424,8 @@ namespace ConnectIn.Tests.Services
             {
                 UserId = "5",
                 FriendUserId = "2",
-                BestFriend = false,
-                Family = false
+                UserConsidersFriendAsBestFriend = false,
+                UserConsidersFriendAsFamily = false
             };
             mockDb.Friends.Add(f6);
             #endregion

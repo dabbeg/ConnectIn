@@ -16,8 +16,10 @@ namespace ConnectIn.Models.Entity
         [Key]
         [Column(Order = 1)]
         public string FriendUserId { get; set; }
-        public bool BestFriend { get; set; }
-        public bool Family { get; set; }
+        public bool UserConsidersFriendAsBestFriend { get; set; }
+        public bool FriendConsidersUsersAsBestFriend { get; set; }
+        public bool UserConsidersFriendAsFamily { get; set; }
+        public bool FriendConsidersUsersAsFamily { get; set; }
         #endregion
 
         #region ForeignKeys

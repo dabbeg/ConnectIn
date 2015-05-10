@@ -16,19 +16,39 @@
        {
            <div class="post item span3">
                <div class="well" id="FriendsListWell">
+                   <small class="pull-right">
+                       @if (item.User.UserId != User.Identity.GetUserId())
+                       {
+                           using (Html.BeginForm("BestFriend", "Home"))
+                           {
+                               var action = ViewContext.RouteData.GetRequiredString("action");
+                               <input type="hidden" name="friendId" value="@item.User.UserId" />
+                               <input type="hidden" name="location" value="@action" />
+                               <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                           }
+                           using (Html.BeginForm("Family", "Home"))
+                           {
+                               var action = ViewContext.RouteData.GetRequiredString("action");
+                               <input type="hidden" name="friendId" value="@item.User.UserId" />
+                               <input type="hidden" name="location" value="@action" />
+                               <button type="submit" class="btnNew btn-default-clicked"><img id="likedislikeimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                           }
+                       }
+                   </small>
+
                    <div id="postContent">
-                           <!--Should display user's profile picture, a cat was used temporarily-->
+                       <!--Should display user's profile picture, a cat was used temporarily-->
                        <div class="friendsListPhoto">
-                           <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                           <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
                        </div>
                        <!--Should display username instead of item.userID-->
                        <div class="friendsListAbout">
                            <div class="friendsListName">
                                <h2>
-                                   @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })
+                                   @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
                                </h2>
                            </div>
-                           <div id="addFriendButton">
+                           <div id="addFriendButton" style="margin-top: 10.5%; margin-right: -12%;">
                                @{
                                    using (Html.BeginForm("Remove", "Friend"))
                                    {
@@ -40,27 +60,27 @@
                            </div>
                            <table class="tableFriends">
                                <tbody>
-                                   <tr>
-                                       <td class="glyphicon glyphicon-briefcase tableItem">
-                                           Work
-                                       </td>
-                                       <td class="glyphicon workFriendsList tableItemInfo">
-                                           <span>@string.Format("{0}", item.User.Work)</span>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td class="glyphicon glyphicon-pencil tableItem">
-                                           School
-                                       </td>
-                                       <td class="glyphicon schoolFriendsList tableItemInfo">
-                                           <span>@string.Format("{0}", item.User.School)</span>
-                                       </td>
-                                   </tr>
+                               <tr>
+                                   <td class="glyphicon glyphicon-briefcase tableItem">
+                                       Work
+                                   </td>
+                                   <td class="glyphicon workFriendsList tableItemInfo">
+                                       <span>@string.Format("{0}", item.User.Work)</span>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td class="glyphicon glyphicon-pencil tableItem">
+                                       School
+                                   </td>
+                                   <td class="glyphicon schoolFriendsList tableItemInfo">
+                                       <span>@string.Format("{0}", item.User.School)</span>
+                                   </td>
+                               </tr>
                                </tbody>
                            </table>
                        </div>
+                   </div>
                </div>
-            </div>
            </div>
        }
    </div>
