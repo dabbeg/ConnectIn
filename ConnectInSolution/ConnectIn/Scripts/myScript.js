@@ -1,5 +1,5 @@
-﻿$(document).ready(function() {
-
+﻿
+$(document).ready(function () {
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
     $(".row a").click(function() {
@@ -126,16 +126,17 @@
         var d = new Date();
         var time = d.getDate();
         console.log(time);
-        if (bdayCounter > 0 ) {
-            $("#birthdayBubble").show();
-            $("#birthdayBubble").text(bdayCounter);
-        } else {
-            $("#birthdayBubble").hide();
+        if (bdayCounter > 0) {
 
+           $("#birthdayBubble").show();
+           $("#birthdayBubble").text(bdayCounter);
+        } else {
+           $("#birthdayBubble").hide();
         }
-        $("a#birthdayClick").click(function(){
+        $("a#birthdayClick").click(function () {
             $("#birthdayBubble").hide();
         });
+
     });
 
     $.get("/Home/NotificationCounter", function(counter) {
