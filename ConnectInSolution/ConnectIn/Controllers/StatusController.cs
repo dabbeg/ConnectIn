@@ -44,20 +44,29 @@ namespace ConnectIn.Controllers
 
         }
 
-        public ActionResult RemovePost(int? postId)
+        [HttpPost]
+        public ActionResult RemovePost(FormCollection collection)
         {
-            if (!postId.HasValue)
+            string id = collection["postId"];
+            if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
-            int id = postId.Value;
+            int postId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            context.Posts.Remove(postService.GetPostById(id));
+            context.Posts.Remove(postService.GetPostById(postId));
             context.SaveChanges();
+            
+            var url = ControllerContext.HttpContext.Request.UrlReferrer;
+            if (url != null && url.AbsolutePath.Contains("Comment"))
+            {
+                return RedirectToAction("NewsFeed", "Home");
+            }
 
-            return RedirectToAction("NewsFeed", "Home");
+            // Returns nothing if it is an ajax call
+            return new EmptyResult();
         }
 
         public ActionResult Comment(int? PostId)
@@ -254,7 +263,15 @@ namespace ConnectIn.Controllers
             }
             context.SaveChanges();
 
-            return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
+            var postService = new PostService(context);
+            var json = new
+            {
+                likes = postService.GetPostsLikes(pid),
+                dislikes = postService.GetPostsDislikes(pid),
+                action = ld
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -301,7 +318,15 @@ namespace ConnectIn.Controllers
             }
             context.SaveChanges();
 
-            return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
+            var postService = new PostService(context);
+            var json = new
+            {
+                likes = postService.GetPostsLikes(pid),
+                dislikes = postService.GetPostsDislikes(pid),
+                action = ld
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }
