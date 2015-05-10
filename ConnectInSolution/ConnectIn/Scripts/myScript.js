@@ -125,7 +125,7 @@ $(document).ready(function () {
         $("#birthdayBubble").hide();
 
         if (bdayCounter > 0) {
-            if (!readCookie('bdayTest')) {
+            if (!readCookie('bdayTest1')) {
                 $('#birthdayBubble').show();
                 $("#birthdayBubble").text(bdayCounter);
             }
@@ -133,25 +133,25 @@ $(document).ready(function () {
         
         $("a#birthdayClick").click(function () {
             $('#birthdayBubble').hide();
-            createCookie('bdayTest', true, 1);
+            createCookie('bdayTest1', true, 1);
         });
+
         function createCookie(name, value, days) {
             if (days) {
                 var date = new Date();
-                //on midnight, close
-                //date.setTime(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0);
+                var midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
                 //in 24 hours
                 //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 //20 sek cookie
-                Console.log(Date.getTime());
-                date.setTime(date.getTime() + (days * 20 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-               // $.cookie("birthdayBubble", "5", { expires: expirationDate });
+                //date.setTime(date.getTime() + (days * 20 * 1000));
+                var expires = "; expires=" + midnight.toGMTString();
 
+            } else {
+                var expires = "";
             }
-            else var expires = "";
             document.cookie = name + "=" + value + expires + "; path=/";
-        }
+
+    }
 
         function readCookie(name) {
             var nameEQ = name + "=";
