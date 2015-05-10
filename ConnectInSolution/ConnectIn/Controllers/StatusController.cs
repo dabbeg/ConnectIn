@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Ajax.Utilities;
 using ConnectIn.Models.ViewModels;
 using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
+
 
 namespace ConnectIn.Controllers
 {
@@ -15,27 +17,101 @@ namespace ConnectIn.Controllers
     {
         public ActionResult AddPost(FormCollection collection)
         {
-            var post = new Post
+            string amount = collection["amount"];
+            string status = collection["status"];
+            string location = collection["location"];
+            string groupId = collection["idOfGroup"];
+            if(amount.IsNullOrWhiteSpace() || status.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            DateTime now = DateTime.Now;
+            var newPost = new Post
             {
                 UserId = User.Identity.GetUserId(),
-                Date = DateTime.Now,
-                Text = collection["status"]
+                Date = now,
+                Text = status
             };
 
             var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            var userService = new UserService(context);
+            var likeDislikeService = new LikeDislikeService(context);
 
-            if (collection["location"].Equals("newsfeed"))
+            if (location.Equals("newsfeed"))
             {
-                context.Posts.Add(post);
+                context.Posts.Add(newPost);
                 context.SaveChanges();
-                return RedirectToAction("NewsFeed", "Home");
-            }
-            if (collection["location"].Equals("group"))
-            {
-                var grpId = Int32.Parse(collection["idOfGroup"]);
-                post.GroupId = grpId;
 
-                context.Posts.Add(post);
+                var postList = new List<PostsViewModel>();
+                var list = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
+                int nOfCurrentStatuses = Int32.Parse(amount);
+                for (int i = (list.Count - nOfCurrentStatuses) - 1; i >= 0 ; i--)
+                {
+                    var post = postService.GetPostById(list[i]);
+
+                    var profilePicture = userService.GetProfilePicture(post.UserId);
+                    string profilePicturePath;
+                    if (profilePicture == null)
+                    {
+                        profilePicturePath = "/Content/images/largeProfilePic.jpg";
+                    }
+                    else
+                    {
+                        profilePicturePath = profilePicture.PhotoPath;
+                    }
+
+                    var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
+                    string lPic = null, dPic = null;
+                    if (likeDislike == null)
+                    {
+                        lPic = "/Content/images/smileySMALL.png";
+                        dPic = "/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likeDislike.Like)
+                    {
+                        lPic = "/Content/images/smileyGREEN.png";
+                        dPic = "/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likeDislike.Dislike)
+                    {
+                        lPic = "/Content/images/smileySMALL.png";
+                        dPic = "/Content/images/sadfaceRED.png";
+                    }
+                   
+                    postList.Add(
+                        new PostsViewModel()
+                        {
+                            PostId = post.PostId,
+                            Body = post.Text,
+                            User = new UserViewModel()
+                            {
+                                UserId = post.UserId,
+                                Name = userService.GetUserById(post.UserId).Name,
+                                ProfilePicture = profilePicturePath
+                            },
+                            DateInserted = post.Date,
+                            LikeDislikeComment = new LikeDislikeCommentViewModel()
+                            {
+                                Likes = postService.GetPostsLikes(post.PostId),
+                                Dislikes = postService.GetPostsDislikes(post.PostId),
+                                Comments = postService.GetPostsComments(post.PostId).Count
+                            },
+                            LikePic = lPic,
+                            DislikePic = dPic,
+                            isUserPostOwner = (post.UserId == User.Identity.GetUserId()) 
+                        });
+                }
+
+                return Json(postList, JsonRequestBehavior.AllowGet);
+            }
+            if (location.Equals("group"))
+            {
+                var grpId = Int32.Parse(groupId);
+                newPost.GroupId = grpId;
+
+                context.Posts.Add(newPost);
                 context.SaveChanges();
                 return RedirectToAction("Details", "Group", new {Id = grpId});
                 
@@ -56,8 +132,12 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            context.Posts.Remove(postService.GetPostById(postId));
-            context.SaveChanges();
+            var post = postService.GetPostById(postId);
+            if (post != null)
+            {
+                context.Posts.Remove(post);
+                context.SaveChanges();
+            }
             
             var url = ControllerContext.HttpContext.Request.UrlReferrer;
             if (url != null && url.AbsolutePath.Contains("Comment"))

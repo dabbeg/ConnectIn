@@ -148,6 +148,46 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/myScript.js"></script>
+    <script src="~/Scripts/jQuery.tmpl.min.js"></script>
+    
+    <script id="template" type="text/html">
+        <div id="post-${postId}" class="post item span3">
+            <div class="well" id="FriendsListWell">
+                <div id="postContent">
+                    <!--Should display user's profile picture, a cat was used temporarily-->
+                    <div class="PostPartialViewPhoto">
+                        <img class="PartialViewResponsive  img-rounded" src="${profilePicture}" alt="Profile Picture" />
+                    </div>
+                    <!--Should display username instead of item.userID-->
+                    <div class="friendsListName">
+                        <h3>
+                            <a href="/Home/Profile/${userId}">${name}</a><small class="pull-right">${date}</small>
+                            @*@Html.ActionLink(${name}, "Profile", new { id = ${userId} })<small class="pull-right">@Html.DisplayFor(modelItem => ${date})</small>*@
+                        </h3>
+                    </div>
+                    <p id="PartialPostsText">
+                        ${text}
+                    </p>
+                </div>
+
+                <div id="commentsLikesDeleteDiv">
+                    <div id="commentsAndLikes">
+                        <div id="reactionButtons">
+
+                            <input type="hidden" name="postId" value="${postId}" />
+                            <button type="button" id="likeBtn-${postId}" class="btnNew btn-default-clicked likeBtn"><img id="likedislikeimg" src="${likePic}" alt="Like Picture" />${likes} Smiles</button>
+                            <button type="button" id="dislikeBtn-${postId}" class="btnNew btn-default-clicked dislikeBtn"><img id="likedislikeimg" src="${dislikePic}" alt="Dislike Picture" />${dislikes} Sadfaces</button>
+
+                            <form action="/Status/Comment" method="GET">
+                                <input type="hidden" name="postId" value="${postId}" />
+                                <button type="submit" class="btnNew btn-default-comment commentss">&nbsp; &nbsp; ${comments} Comments</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
 
 </body>
 </html>

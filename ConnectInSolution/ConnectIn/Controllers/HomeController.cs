@@ -95,7 +95,6 @@ namespace ConnectIn.Controllers
                         PostId = id,
                         Body = post.Text,
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
                             Likes = postService.GetPostsLikes(post.PostId),
@@ -279,7 +278,6 @@ namespace ConnectIn.Controllers
                      PostId = postId,
                      Body = post.Text,
                      DateInserted = post.Date,
-                     Comments = new List<CommentViewModel>(),
                      LikeDislikeComment = new LikeDislikeCommentViewModel()
                      {
                          Likes = postService.GetPostsLikes(postId),

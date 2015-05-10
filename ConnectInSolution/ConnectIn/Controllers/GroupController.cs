@@ -113,7 +113,6 @@ namespace ConnectIn.Controllers
                             Address = post.User.Address
                         },
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
                             Likes = postService.GetPostsLikes(post.PostId),
