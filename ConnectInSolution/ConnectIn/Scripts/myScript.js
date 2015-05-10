@@ -130,17 +130,32 @@
     $("#submitcomment").click(function () {
         var commentText = $("#commentstatus").val();
         var val = $("input[name=postId]").val();
-        if (commentText != null && commentText != "") {
+        if (commentText != null && commentText !== "") {
             var json = {
-                "postId": val
+                "postId": val,
+                "status": commentText
             };
-            $("#commentstatus").val(''); // Clear the textarea
+            $("#commentstatus").val(""); // Clear the textarea
 
             $.post("/Status/AddComment", json, function (listOfComments) {
+                // make so that not all comments load again...
                 // Display all comments that have been commented
                 for (var i = 0; i < listOfComments.length; i++) {
-                    var p = $("<p></p>").text(/*listOfComments[i].U + " | " +*/ listOfComments[i].Text).fadeIn();
-                    $("#comm").append(p);
+                    var h5 = $("<h5></h5>").text(listOfComments[i].Body).fadeIn();
+                    var date = $("<small></small>").addClass("pull-right").text(listOfComments[i].DateInserted).fadeIn();
+                    var name = $("<a></a>").text(listOfComments[i].User.Name).fadeIn();
+                    var userId = listOfComments[i].User.UserId;
+                    name.href = "@Url.Action(Profile, Home, userId)";
+                    var profilePicture = listOfComments[i].User.ProfilePicture;
+                    var h4 = $("<h4></h4>").text(name + date);
+                    var div1 = $("<div></div>").addClass("friendsListName").text(h4);
+                    var div2 = $("<div></div>").addClass("friendsListPhoto").text(profilePicture);
+                    
+                    // do the removecomment also
+                    
+                    $("#comm").append(div1 + h5);
+                    $("#postContent").append(div2 + "#comm");
+                    $("#allcomments").append(h5);
                 }
             });
         }

@@ -62,7 +62,7 @@
     </div>
     
     <div class="container">
-        <div id="posts" class="row">
+        <div id="allcomments" class="row">
             @foreach (var item in Model.Comments)
             {
                 <div class="post item span3">
@@ -84,16 +84,17 @@
                                 </div>
                                 <h5>
                                     @item.Body
-                                    <span id="reactionButtons">
-                                        @if (Model.Post.User.UserId == User.Identity.GetUserId())
-                                        {
-                                            using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
-                                            {
-                                                <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
-                                            }
-                                        }
-                                    </span>
                                 </h5>
+                                <span id="reactionButtons">
+                                    @if (item.User.UserId == User.Identity.GetUserId())
+                                    {
+                                        using (Html.BeginForm("RemoveComment", "Status", new { commentId = item.CommentId }))
+                                        {
+                                            <button type="submit" class="btn btn-danger deletePostButton">Delete Comment</button>
+                                        }
+                                    }
+                                </span>
+
                             </div>
                         </div>
                     </div>

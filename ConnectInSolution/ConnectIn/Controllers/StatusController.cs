@@ -153,6 +153,11 @@ namespace ConnectIn.Controllers
 
         public ActionResult AddComment(FormCollection collection)
         {
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var commentService = new CommentService(db);
+
+            var user = userService.GetUserById(User.Identity.GetUserId());
             var comment = new Comment
             {
                 UserId = User.Identity.GetUserId(),
@@ -160,11 +165,28 @@ namespace ConnectIn.Controllers
                 Text = collection["status"],
                 PostId = collection["postId"].AsInt()
             };
-            var db = new ApplicationDbContext();
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return Json(new {comment, JsonRequestBehavior.AllowGet});
+            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            string profilePicturePath = profilePicture == null
+                ? "~/Content/images/largeProfilePic.jpg"
+                : profilePicture.PhotoPath;
+            var commentList = commentService.GetCommentById(comment.CommentId);
+
+            var jsonComment = new CommentViewModel()
+            {
+                Body = commentList.Text,
+                DateInserted = commentList.Date,
+                User = new UserViewModel()
+                {
+                    UserId = commentList.UserId,
+                    Name = userService.GetUserById(commentList.UserId).Name,
+                    ProfilePicture = profilePicturePath
+                }
+            };
+
+            return Json(new {jsonComment, JsonRequestBehavior.AllowGet});
             // return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
             // return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
