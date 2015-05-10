@@ -121,22 +121,52 @@ $(document).ready(function () {
         });
     });
 
-
     $.get("/Home/BirthdayCounter", function (bdayCounter) {
-        var d = new Date();
-        var time = d.getDate();
-        console.log(time);
+        $("#birthdayBubble").hide();
+
         if (bdayCounter > 0) {
-
-           $("#birthdayBubble").show();
-           $("#birthdayBubble").text(bdayCounter);
-        } else {
-           $("#birthdayBubble").hide();
-        }
+            if (!readCookie('bdayTest')) {
+                $('#birthdayBubble').show();
+                $("#birthdayBubble").text(bdayCounter);
+            }
+        } 
+        
         $("a#birthdayClick").click(function () {
-            $("#birthdayBubble").hide();
+            $('#birthdayBubble').hide();
+            createCookie('bdayTest', true, 1);
         });
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                //on midnight, close
+                //date.setTime(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0);
+                //in 24 hours
+                //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                //20 sek cookie
+                Console.log(Date.getTime());
+                date.setTime(date.getTime() + (days * 20 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+               // $.cookie("birthdayBubble", "5", { expires: expirationDate });
 
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name, "", -1);
+        }
     });
 
     $.get("/Home/NotificationCounter", function(counter) {
