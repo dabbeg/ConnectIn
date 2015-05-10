@@ -1,4 +1,5 @@
-﻿@model ConnectIn.Models.ViewModels.GroupDetailViewModel
+﻿@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.GroupDetailViewModel
 
 @{
     ViewBag.Title = "GroupDetails";
@@ -73,6 +74,14 @@
 
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
+    @if (User.Identity.GetUserId() == Model.AdminId)
+    {
+        using(Html.BeginForm("Edit", "Group"))
+         {
+            <input type="hidden" name="groupID" value="@Model.GroupId"/>
+            <button type="submit" id="submitgroupId" class="btn btn-warning" style="display: inline;">Edit group</button>
+         }
+        <span>&nbsp;&nbsp; | &nbsp;&nbsp;</span>
+    }
     @Html.ActionLink("Back to List", "GroupsList")
 </p>

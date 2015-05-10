@@ -60,20 +60,20 @@ namespace ConnectIn.Services
                             select s.PostId).Take(20).ToList();
             return statuses;
         }
-        #endregion
 
-        #region Get group by name and Admin ID
-        //Is used when creating a new group, to set the creator as a member of the group.
-
-        public Group GetGroupByNameAndAdminId(string name, string adminId)
+        //Get a certain member by a given Id of user and Id of group
+        public Member GetMemberByUserIdAndGroupId(int groupId, string userId)
         {
-            var gro = (from g in db.Groups
-                where g.Name == name
-                      && g.AdminID == adminId
-                select g).SingleOrDefault();
-            return gro;
+            var member = (from m in db.Members
+                            where m.UserId == userId
+                            && m.GroupId == groupId
+                            select m).SingleOrDefault();
+            return member;
         }
 
         #endregion
+
+
+       
     }
 }
