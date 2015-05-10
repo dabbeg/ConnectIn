@@ -89,8 +89,8 @@
                                 <span id="reactionButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())
                                     {
-                                        <input type="hidden" name="commentId" value="@item.CommentId"/>
                                         <button type="submit" class="btn btn-danger deletePostButton deleteComment">Delete Comment</button>
+                                        <input type="hidden" name="commentId" value="@item.CommentId"/>
                                     }
                                 </span>
 

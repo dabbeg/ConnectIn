@@ -160,6 +160,7 @@ namespace ConnectIn.Controllers
             return View(comments);
         }
 
+        [HttpPost]
         public ActionResult AddComment(FormCollection collection)
         {
             var db = new ApplicationDbContext();
@@ -194,12 +195,22 @@ namespace ConnectIn.Controllers
                     ProfilePicture = profilePicturePath
                 }
             };
+            var json = new
+            {
+                Body = commentList.Text,
+                DateInserted = commentList.Date,
+                UserId = user.Id,
+                UsersName = user.Name,
+                ProfilePicture = profilePicturePath
+            };
 
-            return Json(new {jsonComment, JsonRequestBehavior.AllowGet});
+            return Json(json, JsonRequestBehavior.AllowGet);
+            // return Json(new {jsonComment, JsonRequestBehavior.AllowGet});
             // return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
             // return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
 
+        [HttpPost]
         public ActionResult RemoveComment(int ? commentId)
         {
             if (!commentId.HasValue)
@@ -211,12 +222,10 @@ namespace ConnectIn.Controllers
             var db = new ApplicationDbContext();
             var commentService = new CommentService(db);
             db.Comments.Remove(commentService.GetCommentById(id));
-            int postId = commentService.GetCommentById(id).PostId;
 
             db.SaveChanges();
 
-            return RedirectToAction("Comment", "Status", new {postId});
-
+            return new EmptyResult();
         }
 
         [HttpPost]

@@ -81,7 +81,6 @@
         $(btnId).append(sadfaces + " Sadfaces");
     }
 
-
     // Asynchronus like
     $(".likeBtn").click(function () {
         var btnId = "#" + this.id;
@@ -112,55 +111,57 @@
         });
     });
 
+    // Asynchronus Best Friend selection
+    $(".bestFriend").click(function () {
+        var img = $("<img id='bffamimg'>");
+        var json = {
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Home/BestFriend", json, function (data) {
+            if (data.FullStar === 1) {
+                img.attr("src", "/Content/images/fullstar.png");
+            } else {
+                img.attr("src", "/Content/images/emptystar.png");
+            }
+            $(".bestFriend").empty();
+            $(".bestFriend").append(img);
+            var span = $("<span></span>").addClass("glyphicon bffam").text(" Best Friend");
+            $(".bestFriend").append(span);
+        });
+    });
+
+    // Asynchronus Family selection
+    $(".family").click(function () {
+        var img = $("<img id='bffamimg'>");
+        var json = {
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Home/Family", json, function (data) {
+            if (data.FullStar === 1) {
+                img.attr("src", "/Content/images/fullstar.png");
+            } else {
+                img.attr("src", "/Content/images/emptystar.png");
+            }
+            $(".family").empty();
+            $(".family").append(img);
+            var span = $("<span></span>").addClass("glyphicon bffam").text(" Family");
+            $(".family").append(span);
+        });
+    });
+
     // Asynchronus comment deletion
     $(".deleteComment").click(function () {
         var val = $(this).siblings("input[name=commentId]").val();
         $.post("/Status/RemoveComment", { "commentId": val }, function () {
-            $("#post-" + val).fadeOut(500);
+            $("#comment-" + val).fadeOut(200);
         });
     });
-
-    // Asynchronus review
-    $("#submitcomment").click(function () {
-        var commentText = $("#commentstatus").val();
-        var val = $("input[name=postId]").val();
-        if (commentText != null && commentText !== "") {
-            var json = {
-                "postId": val,
-                "status": commentText
-            };
-            $("#commentstatus").val(""); // Clear the textarea
-
-            $.post("/Status/AddComment", json, function (listOfComments) {
-                // make so that not all comments load again...
-                // Display all comments that have been commented
-                for (var i = 0; i < listOfComments.length; i++) {
-                    var h5 = $("<h5></h5>").text(listOfComments[i].Body).fadeIn();
-                    var date = $("<small></small>").addClass("pull-right").text(listOfComments[i].DateInserted).fadeIn();
-                    var name = $("<a></a>").text(listOfComments[i].User.Name).fadeIn();
-                    var userId = listOfComments[i].User.UserId;
-                    name.href = "@Url.Action(Profile, Home, userId)";
-                    var profilePicture = listOfComments[i].User.ProfilePicture;
-                    var h4 = $("<h4></h4>").text(name + date);
-                    var div1 = $("<div></div>").addClass("friendsListName").text(h4);
-                    var div2 = $("<div></div>").addClass("friendsListPhoto").text(profilePicture);
-                    
-                    // do the removecomment also
-                    
-                    $("#comm").append(div1 + h5);
-                    $("#postContent").append(div2 + "#comm");
-                    $("#allcomments").append(h5);
-                }
-            });
-        }
-    });
-
     
     // Asynchronus post deletion
     $(".deletePostBtn").click(function () {
         var val = $(this).siblings("input[name=postId]").val();
         $.post("/Status/RemovePost", { "postId": val }, function () {
-            $("#post-" + val).fadeOut(500);
+            $("#comment-" + val).fadeOut(500);
         });
     });
 
