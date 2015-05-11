@@ -14,14 +14,63 @@
     color:red;
     margin-left:10px;
 }
+#aboutUser
+{
+    height:100%;
+    width:280px;
+    
+}
 #error2
 {
     padding-left:40px;
+}
+.stars
+{
+    display:inline-block;
+}
+#cover
+{
+    margin-top:50px;
+    height:auto;
+    width:820px;
+    max-height:500px;
+    min-height:500px;
+    max-width:1000px;
+    position:relative;
+  
+    margin-left:0px;
+    display:inline-block;
+}
+
+#panelviewer .row
+{
+    white-space:nowrap;
+}
+.panel1
+{
+    display:inline-block;
+    float:right;
+}
+.well2
+{
+ display:inline-block;
+ float:left;
+}
+
+#userNameOnProfile
+{
+    margin-top:150px;
+    width:auto;
 }
 #ProfileWell
 {
     border:none;
     border-top:none;
+    position:relative;
+    float:left;
+
+    
+    
 }
 .editinfos
 {
@@ -448,17 +497,15 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
+    margin-top:20px;
     margin-bottom: 20px
 }
 
-#userNameOnProfile {
-    display: inline-block;
-    
-}
+
 
 #coverphoto
 {
-    width:200px;
+    width:800px;
     height:200px;
 }
 #userProfilePicture {
@@ -490,6 +537,8 @@ button.btnNew.privacy {
 
 #PhotoButton {
     display: inline-block;
+    width:auto;
+    float:right;
 }
 
 #addFriendButton {
@@ -501,11 +550,11 @@ button.btnNew.privacy {
     font-size: 25px;
 }
 #ProfileWell {
-    overflow: hidden;
-    max-height: 400px;
+  
+    height: 510px;
     min-height: 200px;
-    height: auto;
-    margin: 50px;
+    margin-top: 50px;
+    max-width:250px;
 }
 #FriendsListWell{
     overflow: hidden;
