@@ -3,6 +3,7 @@ using ConnectIn.DAL;
 using ConnectIn.Services;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using ConnectIn.Models.Entity;
@@ -31,16 +32,7 @@ namespace ConnectIn.Controllers
             var likedislikeService = new LikeDislikeService(context);
 
             var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            string profilePicturePath;
-
-            if (profilePicture == null)
-            {
-                profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-            }
-            else
-            {
-                profilePicturePath = profilePicture.PhotoPath;
-            }
+            string profilePicturePath = profilePicture.PhotoPath;
 
             var newsFeed = new NewsFeedViewModel
             {
@@ -60,14 +52,8 @@ namespace ConnectIn.Controllers
                 var post = postService.GetPostById(id);
                 profilePicture = userService.GetProfilePicture(post.UserId);
 
-                if (profilePicture == null)
-                {
-                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                }
-                else
-                {
-                    profilePicturePath = profilePicture.PhotoPath;
-                }
+                profilePicturePath = profilePicture.PhotoPath;
+                
                 // checka ef það er til færsla... fyrir unlike og undislike
                 string lPic, dPic;
                 if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id) == null)
@@ -233,7 +219,18 @@ namespace ConnectIn.Controllers
             profilePicturePath = profilePicture == null 
                 ? "~/Content/images/largeProfilePic.jpg" 
                 : profilePicture.PhotoPath;
+           var coverPhoto = userService.GetCoverPhoto(id);
+            string coverPhotoPath;
+            if (coverPhoto == null)
+            {
+                coverPhotoPath = "~/Content/images/whitebackground.jpg";
 
+                    
+            }
+            else
+            {
+                coverPhotoPath = coverPhoto.PhotoPath;
+            }
             var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
 
             if (friendShip != null)
@@ -306,6 +303,7 @@ namespace ConnectIn.Controllers
                          UserName = user.UserName,
                          Name = user.Name,
                          ProfilePicture = profilePicturePath,
+                         CoverPhoto = coverPhotoPath,
                          Gender = user.Gender,
                          Birthday = user.Birthday,
                          Work = user.Work,
@@ -333,6 +331,7 @@ namespace ConnectIn.Controllers
                     UserName = user.UserName,
                     Name = user.Name,
                     ProfilePicture = profilePicturePath,
+                    CoverPhoto = coverPhotoPath,
                     Gender = user.Gender,
                     Birthday = user.Birthday,
                     Work = user.Work,
@@ -362,17 +361,8 @@ namespace ConnectIn.Controllers
                 var friend = userService.GetUserById(item.UserId);
 
                 var profilePicture = userService.GetProfilePicture(item.UserId);
-                string profilePicturePath;
-                if (profilePicture == null)
-                {
-                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                }
-                else
-                {
-                    profilePicturePath = profilePicture.PhotoPath;
-                }
 
-                
+                string profilePicturePath = profilePicture.PhotoPath;
 
                 var usersNotifications = new NotificationViewModel()
                 {
@@ -441,15 +431,7 @@ namespace ConnectIn.Controllers
             foreach (var id in searchList)
             {
                 var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath;
-                if (profilePicture == null)
-                {
-                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                }
-                else
-                {
-                    profilePicturePath = profilePicture.PhotoPath;
-                }
+                string profilePicturePath = profilePicture.PhotoPath;
 
                 var user = userService.GetUserById(id);
                 searchResult.Add(
@@ -487,9 +469,8 @@ namespace ConnectIn.Controllers
             {
                 string bfStarPick, fStarPick;
                 var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath = profilePicture == null 
-                    ? "~/Content/images/largeProfilePic.jpg" 
-                    : profilePicture.PhotoPath;
+                string profilePicturePath = profilePicture.PhotoPath;
+
                 var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
 
                 if (friendShip.UserId == User.Identity.GetUserId())
@@ -553,15 +534,7 @@ namespace ConnectIn.Controllers
             foreach (var id in birthdayList)
             {
                 var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath;
-                if (profilePicture == null)
-                {
-                    profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                }
-                else
-                {
-                    profilePicturePath = profilePicture.PhotoPath;
-                }
+                string profilePicturePath = profilePicture.PhotoPath;
 
                 var user = userService.GetUserById(id);
                 birthdays.Add(
@@ -630,27 +603,46 @@ namespace ConnectIn.Controllers
         [HttpPost]
         public ActionResult UploadImage(FormCollection collection)
         {
-            var photo = WebImage.GetImageFromRequest("Image");
-            if (photo != null)
+            HttpPostedFileBase file = Request.Files["Image"];
+            Int32 length = file.ContentLength;
+            
+            byte[] tempImage = new byte[length];
+            file.InputStream.Read(tempImage, 0, length);
+
+            var photo = new Photo()
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" +
-                                  Path.GetFileName(photo.FileName);
-                var imagePath = @"Content\UserImages\" + newFileName;
-                photo.Save(@"~\" + imagePath);
-                
-                var context = new ApplicationDbContext();
-                var img = new Photo()
-                {
-                    PhotoPath = "/Content/UserImages/" + newFileName,
-                    UserId = User.Identity.GetUserId(),
-                    Date = DateTime.Now,
-                    IsProfilePicture = false
-                };
-                context.Photos.Add(img);
-                context.SaveChanges();
-            }
+                ContentType = file.ContentType,
+                PhotoBytes = tempImage,
+                UserId = User.Identity.GetUserId(),
+                Date = DateTime.Now,
+                IsProfilePicture = false
+            };
+
+            var context = new ApplicationDbContext();
+            context.Photos.Add(photo);
+            context.SaveChanges();
+
+            photo.PhotoPath = "/Home/ShowPhoto/" + photo.PhotoId.ToString();
+            context.SaveChanges();
 
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+        }
+
+        public ActionResult ShowPhoto(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return View("Error");
+            }
+            int photoId = id.Value;
+
+            var context = new ApplicationDbContext();
+            var photoService = new PhotoService(context);
+
+            Photo image = photoService.GetPhotoById(photoId);
+            ImageResult result = new ImageResult(image.PhotoBytes, image.ContentType);
+
+            return result;
         }
 
         public ActionResult PickProfilePicture(FormCollection collection)
@@ -679,6 +671,36 @@ namespace ConnectIn.Controllers
             }
             var photo = userService.GetPhotoById(photoId);
             photo.IsProfilePicture = true;
+            context.SaveChanges();
+
+            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
+        }
+        public ActionResult PickCoverPhoto(FormCollection collection)
+        {
+            string id = collection["photoId2"];
+
+            if (id == "PUT PHOTO")
+            {
+                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            }
+
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            int Coverid = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var oldCoverPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
+            if (oldCoverPhoto != null)
+            {
+                oldCoverPhoto.IsCoverPhoto = false;
+            }
+            var photo = userService.GetPhotoById(Coverid);
+            photo.IsCoverPhoto = true;
             context.SaveChanges();
 
             return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });

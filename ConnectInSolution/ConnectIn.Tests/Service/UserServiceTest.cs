@@ -157,7 +157,7 @@ namespace ConnectIn.Tests.Services
             #region Photos
             var ph1 = new Photo()
             {
-                PhotoId = 1,
+                PhotoId2 = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1),
@@ -167,7 +167,7 @@ namespace ConnectIn.Tests.Services
 
             var ph2 = new Photo()
             {
-                PhotoId = 2,
+                PhotoId2 = 2,
                 PhotoPath = "bla2",
                 UserId = "1",
                 Date = new DateTime(2001, 1, 1),
@@ -177,7 +177,7 @@ namespace ConnectIn.Tests.Services
 
             var ph3 = new Photo()
             {
-                PhotoId = 3,
+                PhotoId2 = 3,
                 PhotoPath = "bla3",
                 UserId = "2",
                 Date = new DateTime(2002, 1, 1),
@@ -187,7 +187,7 @@ namespace ConnectIn.Tests.Services
 
             var ph4 = new Photo()
             {
-                PhotoId = 4,
+                PhotoId2 = 4,
                 PhotoPath = "bla4",
                 UserId = "4",
                 Date = new DateTime(2003, 1, 1),

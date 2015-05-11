@@ -175,6 +175,7 @@
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Utilities\ImageResult.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="DAL\ConnectInInitializer.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\LikeDislikeService.cs" />
+    <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />

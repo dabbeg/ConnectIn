@@ -34,6 +34,7 @@ namespace ConnectIn.Models.Entity
         public User()
         {
             Birthday = DateTime.Now;
+            Privacy = false;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

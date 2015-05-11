@@ -4,8 +4,9 @@ $(document).ready(function () {
     // So that the id of the photo selected will be in the value attribute.
     $(".row a").click(function() {
         document.getElementById("photoId").value = $(this).attr("id");
+        document.getElementById("photoId2").value = $(this).attr("id");
     });
-
+    
 
     // Everyone, Best friends, and Family filters
     $(".newsFeedFilters input[name=filters]:radio").change(function() {
@@ -132,10 +133,10 @@ $(document).ready(function () {
             } else {
                 img.attr("src", "/Content/images/emptystar.png");
             }
-            $(".bestFriend").empty();
-            $(".bestFriend").append(img);
+            $("#bestFriend-" + json.friendId).empty();
+            $("#bestFriend-" + json.friendId).append(img);
             var span = $("<span></span>").addClass("glyphicon bffam").text(" Best Friend");
-            $(".bestFriend").append(span);
+            $("#bestFriend-" + json.friendId).append(span);
         });
     });
 
@@ -151,10 +152,10 @@ $(document).ready(function () {
             } else {
                 img.attr("src", "/Content/images/emptystar.png");
             }
-            $(".family").empty();
-            $(".family").append(img);
+            $("#family-" + json.friendId).empty();
+            $("#family-" + json.friendId).append(img);
             var span = $("<span></span>").addClass("glyphicon bffam").text(" Family");
-            $(".family").append(span);
+            $("#family-" + json.friendId).append(span);
         });
     });
 
@@ -180,6 +181,33 @@ $(document).ready(function () {
         deletePost(this);
     });
 
+    // Asynchronous private settings
+    $(".privacy").click(function () {
+        var img = $("<img id='privacyimg'>");
+        var userId = $(this).siblings("input[name=userId]").val();
+        var json = {
+            "userId": userId
+        };
+        $.post("/Account/Privacy", json, function(data) {
+            var span;
+            var p;
+            if (data.privacy === 1) {
+                img.attr("src", "/Content/images/Lock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Private");
+                p = $("<span></span>").text("Only your best friends and family can view your profile and posts.");
+            } else {
+                img.attr("src", "/Content/images/Unlock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Public");
+                p = $("<span></span>").text("All friends can view your profile and posts.");
+            }
+            $("#privacyText").empty();
+            $(".privacy").empty();
+            $(".privacy").append(img);
+            $(".privacy").append(span);
+            $("#privacyText").append(p).fadeIn(200);
+        });
+    });
+
     $.get("/Home/BirthdayCounter", function (bdayCounter) {
         $("#birthdayBubble").hide();
 
@@ -197,17 +225,17 @@ $(document).ready(function () {
         });
 
         function createCookie(name, value, days) {
+            var expires;
             if (days) {
                 var date = new Date();
                 var currentDate = new Date();
                 // 1 ms before midnight
                 date.setTime(date.getTime() + (days * (23-currentDate.getHours()) * (59-currentDate.getMinutes()) * (59-currentDate.getSeconds()) * (999-currentDate.getMilliseconds())));
-                var expires = "; expires=" + date.toGMTString();
+                 expires = "; expires=" + date.toGMTString();
             } else {
-                var expires = "";
+                expires = "";
             }
             document.cookie = name + "=" + value + expires + "; path=/";
-
         }
 
         function readCookie(name) {
@@ -241,8 +269,9 @@ $(document).ready(function () {
         var json = {
             "status": $("#newsfeedstatus").val(),
             "location": "newsfeed",
-            "amount": $("#posts > div").length
-        };
+            "amount": $("#posts > div").length,
+            "idOfGroup": $("input[name=idOfGroup]").val()
+    };
 
         if (json.status != "") {
             $("#newsfeedstatus").val("");

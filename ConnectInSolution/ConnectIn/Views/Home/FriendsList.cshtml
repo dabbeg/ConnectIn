@@ -19,9 +19,9 @@
                    <small class="pull-right bforfamily">
                        @if (item.User.UserId != User.Identity.GetUserId())
                        {
-                        <button type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                        <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
                         <input type="hidden" name="friendId" value="@item.User.UserId" />
-                        <button type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                        <button id="family-@item.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
                        }
                    </small>
 

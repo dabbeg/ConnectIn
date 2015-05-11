@@ -18,7 +18,11 @@
 {
     padding-left:40px;
 }
-
+#ProfileWell
+{
+    border:none;
+    border-top:none;
+}
 .editinfos
 {
    max-width:200px;
@@ -385,8 +389,18 @@ a.navbar-brand
 #likedislikeimg {
   width: 28px;
 }
+#privacyimg {
+  padding-left: -13px;
+  height: 40px;
+  padding-bottom: 7px;
+  padding-right: 18px;
+}
+
 #bffamimg {
     width: 28px;
+}
+button.btnNew.privacy {
+  outline: none;
 }
 .commentss {
   margin-left: 20px;
@@ -442,7 +456,11 @@ a.navbar-brand
     
 }
 
-
+#coverphoto
+{
+    width:200px;
+    height:200px;
+}
 #userProfilePicture {
     width: 200px;
     height: auto;
@@ -840,5 +858,44 @@ height: 100%;
 }
 
 .btnProfile {
-    float: right;
+    float: left;
+    
+}
+.btnCover
+{
+    float:left;
+    margin-left:20px;
+}
+
+.text-box.single-line{
+      display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #555555;
+  vertical-align: middle;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+          transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+
+.preReset
+{	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+    display: inline-block;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 100%;
+	font-family: sans-serif;
+	vertical-align: inherit;
+
 }

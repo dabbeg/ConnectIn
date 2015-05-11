@@ -34,6 +34,13 @@
             <button type="submit" class="btn btn-primary">Pick as Profile Picture</button>
         }
     </div>
+    <div class="btnCover">
+        @using (Html.BeginForm("PickCoverPhoto", "Home", FormMethod.Post))
+        {
+            <input type="hidden" id="photoId2" name="photoId2" value="PUT PHOTO" />
+            <button type="submit" class="btn btn-primary">Pick as Cover Picture</button>
+        }
+    </div>
     
 }
 

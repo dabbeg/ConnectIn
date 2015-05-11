@@ -48,14 +48,14 @@ namespace ConnectIn.Controllers
        public ActionResult Edit()
         {
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+           var context = new ApplicationDbContext();
+           var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
             if(user != null)
            {
                UserViewModel t = new UserViewModel();
                t.Name = user.Name;
-               t.Gender = user.Gender;
+                t.Gender = user.Gender ?? "male";
                t.Work = user.Work;
                t.School = user.School;
                t.Address = user.Address;
@@ -83,7 +83,29 @@ namespace ConnectIn.Controllers
            }      
               return View(t);
            
-               }
+        }
+
+        public ActionResult Settings()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Privacy(FormCollection collection)
+        {
+            var db = new ApplicationDbContext();
+            var userService = new UserService(db);
+            var user = userService.GetUserById(User.Identity.GetUserId());
+            user.Privacy = !user.Privacy;
+            db.SaveChanges();
+
+            var json = new
+            {
+                privacy = user.Privacy ? 1 : 0
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]

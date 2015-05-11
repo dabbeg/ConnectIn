@@ -230,7 +230,24 @@ namespace ConnectIn.Services
                       && p.IsProfilePicture == true
                 select p).SingleOrDefault();
 
+            if (pPhoto == null)
+            {
+                var extraPhoto = new Photo()
+                {
+                    PhotoPath = "/Content/Images/largeProfilePic.jpg"
+                };
+                return extraPhoto;
+            }
             return pPhoto;
+        }
+        //Get Cover photo fropm user
+        public Photo GetCoverPhoto(string userId)
+        {
+            var cPhoto = (from c in db.Photos
+                          where c.UserId == userId
+                          && c.IsCoverPhoto == true
+                          select c).SingleOrDefault();
+            return cPhoto;
         }
 
         // Get all the users photos by a given Id of user
