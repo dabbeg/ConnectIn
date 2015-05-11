@@ -386,10 +386,17 @@ a.navbar-brand
   width: 28px;
 }
 #privacyimg {
-    width: 28px;
+  padding-left: -13px;
+  height: 40px;
+  padding-bottom: 7px;
+  padding-right: 18px;
 }
+
 #bffamimg {
     width: 28px;
+}
+button.btnNew.privacy {
+  outline: none;
 }
 .commentss {
   margin-left: 20px;

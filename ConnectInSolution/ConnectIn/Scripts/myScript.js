@@ -169,17 +169,26 @@
     $(".privacy").click(function () {
         var img = $("<img id='privacyimg'>");
         var userId = $(this).siblings("input[name=userId]").val();
-        $.post("/Account/Privacy", function(data) {
+        var json = {
+            "userId": userId
+        };
+        $.post("/Account/Privacy", json, function(data) {
             var span;
-            if (data.result === 1) {
-                img.attr("src", "/Content/images/Unlock.png");
-                span = $("<span></span>").addClass("glyphicon bffam").text(" Public. All friends can view your profile and posts.");
-            } else {
+            var p;
+            if (data.privacy === 1) {
                 img.attr("src", "/Content/images/Lock.png");
-                span = $("<span></span>").addClass("glyphicon bffam").text(" Private. Only your best friends and family can view your profile and posts.");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Private");
+                p = $("<span></span>").text("Only your best friends and family can view your profile and posts.");
+            } else {
+                img.attr("src", "/Content/images/Unlock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Public");
+                p = $("<span></span>").text("All friends can view your profile and posts.");
             }
+            $("#privacyText").empty();
             $(".privacy").empty();
-            $(".privacy").append(img + span);
+            $(".privacy").append(img);
+            $(".privacy").append(span);
+            $("#privacyText").append(p);
         });
     });
 
@@ -202,7 +211,7 @@
     $.get("/Home/NotificationCounter", function(counter) {
         if (counter > 0) {
             $("#notificationBubble").show();
-            $("#notificationBubble").text(counter)
+            $("#notificationBubble").text(counter);
         } else {
             $("#notificationBubble").hide();
         }

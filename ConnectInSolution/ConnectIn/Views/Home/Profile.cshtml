@@ -13,15 +13,15 @@
         <div class="well" id="ProfileWell">
             <small class="pull-right">
                 @{
-    var db = new ApplicationDbContext();
-    var userService = new UserService(db);
-    var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-    if (Model.User.UserId != User.Identity.GetUserId() && listOfFriends.Contains(@Model.User.UserId))
-    {
-        <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                    var db = new ApplicationDbContext();
+                    var userService = new UserService(db);
+                    var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                    if (Model.User.UserId != User.Identity.GetUserId() && listOfFriends.Contains(@Model.User.UserId))
+                    {
+                        <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
                         <input type="hidden" name="friendId" value="@Model.User.UserId"/>
 
-    <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                        <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
                         <input type="hidden" name="friendId" value="@Model.User.UserId"/>
                     }
                 }

@@ -91,7 +91,7 @@ namespace ConnectIn.Controllers
         }
 
         [HttpPost]
-        public ActionResult Privacy()
+        public ActionResult Privacy(FormCollection collection)
         {
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
