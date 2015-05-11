@@ -222,9 +222,9 @@ namespace ConnectIn.Controllers
             string coverPhotoPath;
             if (coverPhoto == null)
             {
-                coverPhotoPath = "~/Content/images/largeProfilePic.jpg";
+                coverPhotoPath = "~/Content/images/whitebackground.jpg";
 
-                    //"~/Content/images/whitebackground.jpg";
+                    
             }
             else
             {
