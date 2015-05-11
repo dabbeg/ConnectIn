@@ -896,4 +896,6 @@ height: 100%;
 	font-style: normal;
 	font-size: 100%;
 	font-family: sans-serif;
-	vertical-align: auto;}
+	vertical-align: inherit;
+
+}

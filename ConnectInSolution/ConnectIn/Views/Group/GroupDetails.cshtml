@@ -55,19 +55,19 @@
 <div>
 
     @using (Html.BeginForm("AddPost", "Status"))
-    {
-        <div class="form-horizontal">
-            <!--Notifies the StatusController that the post comes from a Group:-->
-            <input type="hidden" name="location" value="group" />
-            <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
-            <div class="PostPartialViewPhoto">
-                <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
-            </div>
-            <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
-            <button type="submit" id="submitstatus" class="btn btn-primary" style="margin: 10px;">Submit</button>
+{
+    <div class="form-horizontal">
+        <!--Notifies the StatusController that the post comes from a Group:-->
+        <input type="hidden" name="location" value="group" />
+        <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
+        <div class="PostPartialViewPhoto">
+            <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
         </div>
-        @Html.ValidationSummary(false)
-    }
+        <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
+        <button type="submit" id="submitstatus" class="btn btn-primary">Submit</button>
+    </div>
+    @Html.ValidationSummary(false)
+}
 </div>
 
 <hr />
