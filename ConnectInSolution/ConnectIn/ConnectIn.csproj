@@ -70,8 +70,8 @@
       <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,6 +175,7 @@
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Utilities\ImageResult.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="DAL\ConnectInInitializer.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\GroupService.cs" />
     <Compile Include="Services\LikeDislikeService.cs" />
+    <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
@@ -223,9 +225,7 @@
     <Content Include="Content\Images\iconHappy.ico" />
     <Content Include="Content\Images\iconSad.png" />
     <Content Include="Content\Images\largeProfilePic.jpg" />
-    <Content Include="Content\Images\Lock.png" />
     <Content Include="Content\Images\profilepic.png" />
-    <Content Include="Content\Images\Unlock.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -295,7 +295,6 @@
     <Content Include="Views\Home\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Group\EditGroup.cshtml" />
-    <Content Include="Views\Account\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
