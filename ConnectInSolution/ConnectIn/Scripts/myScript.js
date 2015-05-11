@@ -184,7 +184,7 @@ $(document).ready(function () {
         $("#birthdayBubble").hide();
 
         if (bdayCounter > 0) {
-            if (!readCookie('bdayTest1')) {
+            if (!readCookie('birthdayCookie')) {
                 $('#birthdayBubble').show();
                 $("#birthdayBubble").text(bdayCounter);
             }
@@ -192,39 +192,37 @@ $(document).ready(function () {
         
         $("a#birthdayClick").click(function () {
             $('#birthdayBubble').hide();
-            createCookie('bdayTest1', true, 1);
+            createCookie('birthdayCookie', true, 1);
+
         });
 
         function createCookie(name, value, days) {
             if (days) {
                 var date = new Date();
-                var midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59);
-                //in 24 hours
-                //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                //20 sek cookie
-                //date.setTime(date.getTime() + (days * 20 * 1000));
-                var expires = "; expires=" + midnight.toGMTString();
-
+                var currentDate = new Date();
+                // 1 ms before midnight
+                date.setTime(date.getTime() + (days * (23-currentDate.getHours()) * (59-currentDate.getMinutes()) * (59-currentDate.getSeconds()) * (999-currentDate.getMilliseconds())));
+                var expires = "; expires=" + date.toGMTString();
             } else {
                 var expires = "";
             }
             document.cookie = name + "=" + value + expires + "; path=/";
 
-    }
+        }
 
         function readCookie(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {
                 var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                while (c.charAt(0) == ' ') {
+                     c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) == 0) {
+                     return c.substring(nameEQ.length, c.length);
+                }
             }
             return null;
-        }
-
-        function eraseCookie(name) {
-            createCookie(name, "", -1);
         }
     });
 
