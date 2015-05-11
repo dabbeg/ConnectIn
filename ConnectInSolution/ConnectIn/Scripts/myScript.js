@@ -344,9 +344,7 @@ $(document).ready(function () {
             }
         }
     });
-    $('.dontmove').click(function (e) {
-        e.preventDefault();
-    });
+
 
 });
 
