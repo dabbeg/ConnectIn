@@ -150,7 +150,8 @@ namespace ConnectIn.Services
         public bool UserConsidersFriendClose(string userId, string friendId)
         {
             var friendship = GetFriendShip(userId, friendId);
-            if (userId == friendship.UserId)
+            if (friendship == null) return false;
+            if (userId == friendship.FriendUserId)
             {
                 if (friendship.UserConsidersFriendAsBestFriend || friendship.UserConsidersFriendAsFamily)
                 {
@@ -164,6 +165,7 @@ namespace ConnectIn.Services
                     return true;
                 }
             }
+
             return false;
         }
         #endregion
@@ -199,11 +201,10 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where /*s.User.Privacy 
+                            where s.User.Privacy == 2
                             ? (friends.Contains(s.UserId) || s.UserId == userId) 
-                            : (fri.Contains(s.UserId)
-                            || s.UserId == userId)*/
-                            (friends.Contains(s.UserId) || s.UserId == userId)
+                            : (fri.Contains(s.UserId) || s.UserId == userId)
+                            /*(friends.Contains(s.UserId) || s.UserId == userId)*/
                             && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
