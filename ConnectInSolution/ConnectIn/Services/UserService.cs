@@ -230,6 +230,14 @@ namespace ConnectIn.Services
                       && p.IsProfilePicture == true
                 select p).SingleOrDefault();
 
+            if (pPhoto == null)
+            {
+                var extraPhoto = new Photo()
+                {
+                    PhotoPath = "/Content/Images/largeProfilePic.jpg"
+                };
+                return extraPhoto;
+            }
             return pPhoto;
         }
         //Get Cover photo fropm user

@@ -29,7 +29,6 @@ namespace ConnectIn.Models.Entity
         public Photo()
         {
             Date = DateTime.Now;
-            PhotoPath = "/Content/Images/LargeProfilePic";
         }
         #endregion
     }
