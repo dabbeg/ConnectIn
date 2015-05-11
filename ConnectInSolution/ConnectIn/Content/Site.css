@@ -887,13 +887,20 @@ height: 100%;
 
 
 .preReset
-{border: 0;
+{
+    border: 0;
     display: inline-block;
 	font-weight: normal;
 	font-style: normal;
 	font-size: 100%;
 	font-family: sans-serif;
-	vertical-align: inherit;
     text-align:left;
-
+    height: auto;
+    width: 500px;
+}
+a.less {
+    display: none;
+}
+div.ellipsis-text {
+    max-height: 50px;
 }
