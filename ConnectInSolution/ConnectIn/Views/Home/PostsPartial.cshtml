@@ -40,7 +40,6 @@
                         @if (item.User.UserId == User.Identity.GetUserId())
                         {
                             <button type="button" class="btn btn-danger deletePostButton deletePostBtn">Delete Post</button>
-                            <input type="hidden" name="postId" value="@item.PostId" />
                         }
                     </div>
                 </div>
