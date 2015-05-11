@@ -9,5 +9,6 @@ namespace ConnectIn.Models.ViewModels
     {
         public string ImagePath { get; set; }
         public int PhotoId { get; set; }
+        public int PhotoId2 { get; set; }
     }
 }

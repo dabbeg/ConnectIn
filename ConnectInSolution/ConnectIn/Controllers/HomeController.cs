@@ -233,7 +233,18 @@ namespace ConnectIn.Controllers
             profilePicturePath = profilePicture == null 
                 ? "~/Content/images/largeProfilePic.jpg" 
                 : profilePicture.PhotoPath;
+           var coverPhoto = userService.GetCoverPhoto(id);
+            string coverPhotoPath;
+            if (coverPhoto == null)
+            {
+                coverPhotoPath = "~/Content/images/largeProfilePic.jpg";
 
+                    //"~/Content/images/whitebackground.jpg";
+            }
+            else
+            {
+                coverPhotoPath = coverPhoto.PhotoPath;
+            }
             var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
 
             if (friendShip != null)
@@ -306,6 +317,7 @@ namespace ConnectIn.Controllers
                          UserName = user.UserName,
                          Name = user.Name,
                          ProfilePicture = profilePicturePath,
+                         CoverPhoto = coverPhotoPath,
                          Gender = user.Gender,
                          Birthday = user.Birthday,
                          Work = user.Work,
@@ -333,6 +345,7 @@ namespace ConnectIn.Controllers
                     UserName = user.UserName,
                     Name = user.Name,
                     ProfilePicture = profilePicturePath,
+                    CoverPhoto = coverPhotoPath,
                     Gender = user.Gender,
                     Birthday = user.Birthday,
                     Work = user.Work,
@@ -666,6 +679,36 @@ namespace ConnectIn.Controllers
             }
             var photo = userService.GetPhotoById(photoId);
             photo.IsProfilePicture = true;
+            context.SaveChanges();
+
+            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
+        }
+        public ActionResult PickCoverPhoto(FormCollection collection)
+        {
+            string id = collection["photoId2"];
+
+            if (id == "PUT PHOTO")
+            {
+                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            }
+
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            int Coverid = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var oldCoverPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
+            if (oldCoverPhoto != null)
+            {
+                oldCoverPhoto.IsCoverPhoto = false;
+            }
+            var photo = userService.GetPhotoById(Coverid);
+            photo.IsCoverPhoto = true;
             context.SaveChanges();
 
             return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });

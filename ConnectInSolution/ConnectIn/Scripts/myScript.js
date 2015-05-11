@@ -4,8 +4,9 @@ $(document).ready(function () {
     // So that the id of the photo selected will be in the value attribute.
     $(".row a").click(function() {
         document.getElementById("photoId").value = $(this).attr("id");
+        document.getElementById("photoId2").value = $(this).attr("id");
     });
-
+    
 
     // Everyone, Best friends, and Family filters
     $(".newsFeedFilters input[name=filters]:radio").change(function() {
