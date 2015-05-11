@@ -6,12 +6,14 @@
 
 <h2>Your groups</h2>
 
-<p id="createNewGroup">
-    <span class="glyphicon glyphicon-plus"></span>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<span style="float: right">
+    @using (Html.BeginForm("Create", "Group"))
+    {
+        <button type="submit" class="btn btn-success" style="position: relative; bottom: 37px;"><span class="glyphicon glyphicon-plus-sign" style="position: relative; top: 2px;">&nbsp;</span>Create a group</button>
+    }
+</span>
 
-    
+
 @foreach (var item in Model) {
 
     <div class="well">
