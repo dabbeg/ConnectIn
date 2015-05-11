@@ -13,6 +13,8 @@ namespace ConnectIn.Models.Entity
         [Key]
         public int PhotoId { get; set; }
         public string PhotoPath { get; set; }
+        public string ContentType { get; set; }
+        public byte[] PhotoBytes { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
         public bool IsProfilePicture { get; set; }

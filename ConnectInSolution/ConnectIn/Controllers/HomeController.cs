@@ -3,6 +3,7 @@ using ConnectIn.DAL;
 using ConnectIn.Services;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using ConnectIn.Models.Entity;
@@ -617,27 +618,46 @@ namespace ConnectIn.Controllers
         [HttpPost]
         public ActionResult UploadImage(FormCollection collection)
         {
-            var photo = WebImage.GetImageFromRequest("Image");
-            if (photo != null)
+            HttpPostedFileBase file = Request.Files["Image"];
+            Int32 length = file.ContentLength;
+            
+            byte[] tempImage = new byte[length];
+            file.InputStream.Read(tempImage, 0, length);
+
+            var photo = new Photo()
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" +
-                                  Path.GetFileName(photo.FileName);
-                var imagePath = @"Content\UserImages\" + newFileName;
-                photo.Save(@"~\" + imagePath);
-                
-                var context = new ApplicationDbContext();
-                var img = new Photo()
-                {
-                    PhotoPath = "/Content/UserImages/" + newFileName,
-                    UserId = User.Identity.GetUserId(),
-                    Date = DateTime.Now,
-                    IsProfilePicture = false
-                };
-                context.Photos.Add(img);
-                context.SaveChanges();
-            }
+                ContentType = file.ContentType,
+                PhotoBytes = tempImage,
+                UserId = User.Identity.GetUserId(),
+                Date = DateTime.Now,
+                IsProfilePicture = false
+            };
+
+            var context = new ApplicationDbContext();
+            context.Photos.Add(photo);
+            context.SaveChanges();
+
+            photo.PhotoPath = "/Home/ShowPhoto/" + photo.PhotoId.ToString();
+            context.SaveChanges();
 
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+        }
+
+        public ActionResult ShowPhoto(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return View("Error");
+            }
+            int photoId = id.Value;
+
+            var context = new ApplicationDbContext();
+            var photoService = new PhotoService(context);
+
+            Photo image = photoService.GetPhotoById(photoId);
+            ImageResult result = new ImageResult(image.PhotoBytes, image.ContentType);
+
+            return result;
         }
 
         public ActionResult PickProfilePicture(FormCollection collection)
