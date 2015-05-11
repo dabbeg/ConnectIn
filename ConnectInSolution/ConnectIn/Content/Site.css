@@ -614,6 +614,9 @@ a.navbar-brand
     margin-bottom: 20px;
 }
 
+#submitNewsFeedStatus {
+    margin: 10px;
+}
 
 #submitstatus {
     margin: 10px;
