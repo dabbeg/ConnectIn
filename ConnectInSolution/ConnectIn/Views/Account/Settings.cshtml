@@ -8,102 +8,109 @@
 
 <h2>Settings</h2>
 
+<p>You're logged in as <strong>@User.Identity.GetUserName()</strong>.</p>
+
+<p><br /></p>
+
 @if (User.Identity.IsAuthenticated)
 {
-    <div>
-        @{
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-            var user = userService.GetUserById(User.Identity.GetUserId());
-            var img = "";
-            var text = "";
-            var detail = "";
-            if (user.Privacy)
-            {
-                img = "/Content/Images/Lock.png";
-                text = "Private";
-                detail = "Only your best friends and family can view your profile and posts.";
-            }
-            else
-            {
-                img = "/Content/Images/Unlock.png";
-                text = "Public";
-                detail = "All friends can view your profile and posts.";
-            }
-        }
-        <input type="hidden" name="userId" value=@user.Id/>
-        <span class="h4">Privacy Settings: </span>
-        <button type="submit" class="btnNew privacy"><img id="privacyimg" src=@img alt="Lock"/><span class="glyphicon bffam">@text</span></button>
-        <span id="privacyText">@detail</span>
-    </div>
-    <div>
-        <h4>About yourself: </h4>
-        @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-
+    <div class="row">
+        <div class="col-md-10">
+            <div>
+                @{
+                    var db = new ApplicationDbContext();
+                    var userService = new UserService(db);
+                    var user = userService.GetUserById(User.Identity.GetUserId());
+                    var img = "";
+                    var text = "";
+                    var detail = "";
+                    if (user.Privacy)
+                    {
+                        img = "/Content/Images/Lock.png";
+                        text = "Private";
+                        detail = "Only your best friends and family can view your profile and posts.";
+                    }
+                    else
+                    {
+                        img = "/Content/Images/Unlock.png";
+                        text = "Public";
+                        detail = "All friends can view your profile and posts.";
+                    }
+                }
+                <input type="hidden" name="userId" value=@user.Id />
+                <h4>Privacy Settings</h4>
                 <hr />
-                @Html.ValidationSummary(true)
-
-                @Html.HiddenFor(model => @user.Id)
-                <div class="form-group">
-                    @Html.LabelFor(model => @user.Name, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => @user.Name)
-                        @Html.ValidationMessageFor(model => @user.Name)
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => @user.Gender, new { @class = "control-label col-md-2" })
-                    <div id="forerror" class="btn-group col-md-10" data-toggle="buttons">
-                        <label class="btn btn-primary active">
-                            <span>Male</span>
-                            @Html.RadioButtonFor(model => @user.Gender, "Male", true)
-                            &nbsp;
-                        </label>
-                        <label class="btn btn-primary">
-                            <span>Female</span>
-                            @Html.RadioButtonFor(model => @user.Gender, "Female", false)
-                        </label>
-                        <span id="error2">@Html.ValidationMessageFor(model => @user.Gender)</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => @user.Work, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => @user.Work)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => @user.School, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => @user.School)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => @user.Address, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => @user.Address)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
+                <button type="submit" class="btnNew privacy"><img id="privacyimg" src=@img alt="Lock" /><span class="glyphicon bffam">@text</span></button>
+                <span id="privacyText">@detail</span>
             </div>
-        }
+            <p><br /></p>
+            <h4>Personal Information</h4>
+            @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
 
-        @Html.ActionLink("Edit", "Edit", "Account");
+                    <hr />
+                    @Html.ValidationSummary(true)
 
-        @Html.ActionLink("Change password", "Manage", "Account");
-        
-        <span class="h4">Change Password: </span>
+                    @Html.HiddenFor(model => @user.Id)
+                    <div class="form-group">
+                        @Html.LabelFor(model => @user.Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => @user.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => @user.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => @user.Gender, new { @class = "control-label col-md-2" })
+                        <div id="forerror" class="btn-group col-md-10" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                                <span>Male</span>
+                                @Html.RadioButtonFor(model => @user.Gender, "Male", true)
+                                &nbsp;
+                            </label>
+                            <label class="btn btn-primary">
+                                <span>Female</span>
+                                @Html.RadioButtonFor(model => @user.Gender, "Female", false)
+                            </label>
+                            <span id="error2">@Html.ValidationMessageFor(model => @user.Gender)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => @user.Work, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => @user.Work, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => @user.School, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => @user.School, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => @user.Address, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => @user.Address, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+
+            }
+        </div>
+        <p><br /></p>
+        <div class="row">
+            <div class="col-md-10">
+                @Html.Partial("_ChangePasswordPartial")
+            </div>
+        </div>
+
     </div>
 
 }

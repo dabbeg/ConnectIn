@@ -204,7 +204,7 @@ $(document).ready(function () {
             $(".privacy").empty();
             $(".privacy").append(img);
             $(".privacy").append(span);
-            $("#privacyText").append(p);
+            $("#privacyText").append(p).fadeIn(200);
         });
     });
 
