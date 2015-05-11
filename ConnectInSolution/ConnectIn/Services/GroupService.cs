@@ -71,6 +71,16 @@ namespace ConnectIn.Services
             return member;
         }
 
+        public bool isMemberOfGroup(int groupId, string userId)
+        {
+            var member = (from m in db.Members
+                      where m.UserId == userId
+                      && m.GroupId == groupId
+                      select m).SingleOrDefault();
+
+            return member != null;
+        }
+
         #endregion
 
 

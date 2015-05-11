@@ -31,6 +31,7 @@ namespace ConnectIn.Controllers
                 {
                     UserId = userId,
                     FriendUserId = friendId,
+                    GroupId = "-1",
                     Date = DateTime.Now
                 };
 
@@ -93,6 +94,27 @@ namespace ConnectIn.Controllers
         public ActionResult DeclineFriendRequest(FormCollection collection)
         {
             string id = collection["notificationId"];
+            if (id.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+
+            int notificationId = Int32.Parse(id);
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            var notification = userService.GetNotificationById(notificationId);
+            context.Notifications.Remove(notification);
+            context.SaveChanges();
+
+            return RedirectToAction("Notifications", "Home");
+        }
+
+        public ActionResult HideGroupNotification(FormCollection collection)
+        {
+            string id = collection["groupNotificationId"];
+
             if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
