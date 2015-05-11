@@ -62,9 +62,22 @@ namespace ConnectIn.Controllers
                 int grpId = id.Value;
                 var memberList = groupService.GetMembersOfGroup(grpId);
                 var group = groupService.GetGroupById(grpId);
+                
+                var profilePicture = userService.GetProfilePicture(User.Identity.ToString());
+                    string profilePicturePath;
+
+                    if (profilePicture == null)
+                    {
+                        profilePicturePath = "~/Content/images/largeProfilePic.jpg";
+                    }
+                    else
+                    {
+                        profilePicturePath = profilePicture.PhotoPath;
+                    }
 
                 var myGroup = new GroupDetailViewModel()
                 {
+
                     Name = group.Name,
                     AdminId = group.AdminID,
                     GroupId = grpId,
@@ -73,6 +86,10 @@ namespace ConnectIn.Controllers
                     {
                         Posts = new List<PostsViewModel>(),
                         Id = grpId.ToString()
+                    },
+                    User = new UserViewModel()
+                    {
+                        ProfilePicture = profilePicturePath
                     },
                     FriendsOfUser = new List<UserViewModel>()
                 };
@@ -120,8 +137,8 @@ namespace ConnectIn.Controllers
                         return View("Error");
                     }
                     //If the user hasn't picked a profile pic, set a default one.
-                    var profilePicture = userService.GetProfilePicture(userId.ToString());
-                    string profilePicturePath;
+                    profilePicture = userService.GetProfilePicture(userId.ToString());
+                    
 
                     if (profilePicture == null)
                     {
@@ -179,8 +196,8 @@ namespace ConnectIn.Controllers
                         var friend = userService.GetUserById(userId);
 
                         //If the user hasn't picked a profile pic, set a default one.
-                        var profilePicture = userService.GetProfilePicture(userId);
-                        string profilePicturePath;
+                        profilePicture = userService.GetProfilePicture(userId);
+                        
 
                         if (profilePicture == null)
                         {

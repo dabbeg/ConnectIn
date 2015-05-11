@@ -53,11 +53,13 @@
 </span>
 
 <div>
-
     <div class="form-horizontal">
-        <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
-        <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-        <button type="button" id="submitNewsFeedStatus" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+        <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
+        <div class="PostPartialViewPhoto">
+            <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
+        </div>
+        <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
+        <button type="submit" id="submitNewsFeedStatus" class="btn btn-primary" style="margin: 10px;">Submit</button>
     </div>
 </div>
 
