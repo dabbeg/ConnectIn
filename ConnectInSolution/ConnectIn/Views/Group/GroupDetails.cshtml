@@ -10,9 +10,9 @@
 <div class="well" id="membersDiv" style="display: inline-block; OVERFLOW-Y: scroll; WIDTH: 72%; HEIGHT: 262px;">
     <table class="table table-striped">
         <thead>
-            <caption style="float: left; font-weight: bold;">
+            <div style="float: left; font-weight: bold;">
                 <h2>Members:</h2>
-            </caption>
+            </div>
             <tr>
                 <th>Name</th>
                 <th>Birthday:</th>
@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
-                    <td>@member.Birthday</td>
+                    <td>@member.Birthday.ToString().Substring(0, 8)</td>
                     <td>@member.UserName</td>
                 </tr>
             }
@@ -41,9 +41,9 @@
         
             @foreach (var id in Model.FriendsOfUser)
             {
-                <div class="checkbox">
+                <span class="checkbox">
                     <label><input type="checkbox" value="@id.UserId" name="newFriendsInGroup">@id.Name</label>
-                 </div>
+                 </span>
             }
         
         </div>

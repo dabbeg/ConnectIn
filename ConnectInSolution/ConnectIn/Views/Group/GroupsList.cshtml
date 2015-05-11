@@ -20,10 +20,5 @@
         <span>
             <h2>@Html.ActionLink(item.Name, "Details", new { id = item.GroupId })</h2>
         </span>
-        
-        <span id="groupWell">
-            @Html.ActionLink("Edit", "Edit", new { id = item.GroupId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.GroupId })
-        </span>
     </div>
 }
