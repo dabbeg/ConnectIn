@@ -197,14 +197,15 @@ $(document).ready(function () {
         });
 
         function createCookie(name, value, days) {
+            var expires;
             if (days) {
                 var date = new Date();
                 var currentDate = new Date();
                 // 1 ms before midnight
                 date.setTime(date.getTime() + (days * (23-currentDate.getHours()) * (59-currentDate.getMinutes()) * (59-currentDate.getSeconds()) * (999-currentDate.getMilliseconds())));
-                var expires = "; expires=" + date.toGMTString();
+                 expires = "; expires=" + date.toGMTString();
             } else {
-                var expires = "";
+                expires = "";
             }
             document.cookie = name + "=" + value + expires + "; path=/";
 
