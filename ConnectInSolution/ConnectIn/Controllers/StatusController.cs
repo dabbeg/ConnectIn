@@ -21,7 +21,7 @@ namespace ConnectIn.Controllers
             string status = collection["status"];
             string location = collection["location"];
             string groupId = collection["idOfGroup"];
-            if(amount.IsNullOrWhiteSpace() || status.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            if(status.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }

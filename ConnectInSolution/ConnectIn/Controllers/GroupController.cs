@@ -51,6 +51,7 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
             var groupService = new GroupService(context);
             var postService = new PostService(context);
+            var likeDislikeService = new LikeDislikeService(context);
 
             if (!id.HasValue)
             {
@@ -92,10 +93,28 @@ namespace ConnectIn.Controllers
                 }
                 var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
                 int myId = id.Value;
-
+               
+                
                 foreach (var userId in postsOfGroup)
                 {
                     var post = postService.GetPostById(userId);
+                    var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
+                    string lPic = null, dPic = null;
+                    if (likeDislike == null)
+                    {
+                        lPic = "/Content/images/smileySMALL.png";
+                        dPic = "/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likeDislike.Like)
+                    {
+                        lPic = "/Content/images/smileyGREEN.png";
+                        dPic = "/Content/images/sadfaceSMALL.png";
+                    }
+                    else if (likeDislike.Dislike)
+                    {
+                        lPic = "/Content/images/smileySMALL.png";
+                        dPic = "/Content/images/sadfaceRED.png";
+                    }
                     myGroup.Posts.Posts.Add(new PostsViewModel()
                     {
                         PostId = post.PostId,
@@ -119,7 +138,9 @@ namespace ConnectIn.Controllers
                             Dislikes = postService.GetPostsDislikes(post.PostId),
                             Comments = postService.GetPostsCommentsCount(post.PostId)
                         },
-                        GroupId = post.GroupId
+                        GroupId = post.GroupId,
+                        LikePic = lPic,
+                        DislikePic = dPic
                     });
                 }
 
