@@ -175,7 +175,7 @@
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImageResult.cs" />
+    <Compile Include="Utilities\ImageResult.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="DAL\ConnectInInitializer.cs" />
@@ -247,6 +247,7 @@
     <Content Include="Scripts\myScript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\test.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
