@@ -18,6 +18,7 @@
 {
     height:100%;
     width:280px;
+  
     
 }
 #error2
@@ -27,6 +28,7 @@
 .stars
 {
     display:inline-block;
+    float:left;
 }
 #cover
 {
@@ -497,7 +499,7 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-top:20px;
+    margin-top:40px;
     margin-bottom: 20px
 }
 
