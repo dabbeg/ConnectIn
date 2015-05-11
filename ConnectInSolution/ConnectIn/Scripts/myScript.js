@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
 
 
-    // Everyone, Best friends, and Family
+    // Everyone, Best friends, and Family filters
     $(".newsFeedFilters input[name=filters]:radio").change(function() {
 
         // Get current filter
@@ -81,25 +81,23 @@ $(document).ready(function () {
         $(btnId).append(sadfaces + " Sadfaces");
     }
 
-    // Asynchronus like
-    $(".likeBtn").click(function () {
-        var btnId = "#" + this.id;
-        $.post("/Status/Like", { "postId": $(this).siblings("input[name=postId]").val() }, function (data) {
+    function like(object) {
+        var btnId = "#" + object.id;
+        $.post("/Status/Like", { "postId": $(object).siblings("input[name=postId]").val() }, function (data) {
             if (data.action == null) { // User has not liked or disliked
                 smiley(true, data.likes, btnId);
             } else if (data.action.Like) { // User has liked
                 smiley(false, data.likes, btnId);
-            } else if(data.action.Dislike) { // User has disliked
+            } else if (data.action.Dislike) { // User has disliked
                 smiley(true, data.likes, btnId);
                 sadface(false, data.dislikes, "#" + $(btnId).siblings(".dislikeBtn").attr("id"));
             }
         });
-    });
+    }
 
-    // Asynchronus dislike
-    $(".dislikeBtn").click(function () {
-        var btnId = "#" + this.id;
-        $.post("/Status/Dislike", { "postId": $(this).siblings("input[name=postId]").val() }, function (data) {
+    function dislike(object) {
+        var btnId = "#" + object.id;
+        $.post("/Status/Dislike", { "postId": $(object).siblings("input[name=postId]").val() }, function (data) {
             if (data.action == null) { // User has not liked or disliked
                 sadface(true, data.dislikes, btnId);
             } else if (data.action.Dislike) { // User has liked
@@ -109,7 +107,18 @@ $(document).ready(function () {
                 smiley(false, data.likes, "#" + $(btnId).siblings(".likeBtn").attr("id"));
             }
         });
+    }
+
+    // Asynchronus like
+    $(".likeBtn").click(function () {
+        like(this);
     });
+
+    // Asynchronus dislike
+    $(".dislikeBtn").click(function () {
+        dislike(this);
+    });
+
 
     // Asynchronus Best Friend selection
     $(".bestFriend").click(function () {
@@ -156,13 +165,19 @@ $(document).ready(function () {
             $("#comment-" + val).fadeOut(200);
         });
     });
+
+    function deletePost(object) {
+        var val = $(object).siblings("input[name=postId]").val();
+        $.post("/Status/RemovePost", { "postId": val }, function () {
+            $("#post-" + val).fadeOut(500, function () {
+                $("#post-" + val).remove();
+            });
+        });
+    }
     
     // Asynchronus post deletion
     $(".deletePostBtn").click(function () {
-        var val = $(this).siblings("input[name=postId]").val();
-        $.post("/Status/RemovePost", { "postId": val }, function () {
-            $("#comment-" + val).fadeOut(500);
-        });
+        deletePost(this);
     });
 
     $.get("/Home/BirthdayCounter", function (bdayCounter) {
@@ -216,11 +231,63 @@ $(document).ready(function () {
     $.get("/Home/NotificationCounter", function(counter) {
         if (counter > 0) {
             $("#notificationBubble").show();
-            $("#notificationBubble").text(counter)
+            $("#notificationBubble").text(counter);
         } else {
             $("#notificationBubble").hide();
         }
+    });
 
+
+    // Asynchronus Posts
+    $("#submitNewsFeedStatus").click(function () {
+        var json = {
+            "status": $("#newsfeedstatus").val(),
+            "location": "newsfeed",
+            "amount": $("#posts > div").length
+        };
+
+        if (json.status != "") {
+            $("#newsfeedstatus").val("");
+            $.post("/Status/AddPost", json, function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var newDate = new Date();
+                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
+                    newDate.setTime(parsed);
+                    var model = {
+                        "name": data[i].User.Name,
+                        "userId": data[i].User.UserId,
+                        "profilePicture": data[i].User.ProfilePicture,
+                        "postId": data[i].PostId,
+                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a"),
+                        "text": data[i].Body,
+                        "likes": data[i].LikeDislikeComment.Likes,
+                        "dislikes": data[i].LikeDislikeComment.Dislikes,
+                        "comments": data[i].LikeDislikeComment.Comments,
+                        "likePic": data[i].LikePic,
+                        "dislikePic": data[i].DislikePic
+                    };
+
+                    //var template = $.tmpl(templateFile, model);
+                    var template = $("#template").tmpl(model);
+                    template.on("click", ".likeBtn", function () {
+                        like(this);
+                    });
+
+                    template.on("click", ".dislikeBtn", function () {
+                        dislike(this);
+                    });
+
+                    template.on("click", ".deletePostBtn", function () {
+                        deletePost(this);
+                    });
+
+                    $(template).hide().prependTo("#posts").fadeIn(500);
+                    if (data[i].isUserPostOwner) {
+                        $("#reactionButtons").append("<button type='button' class='btn btn-danger deletePostButton deletePostBtn'>Delete Post</button>");
+                    }
+                }
+            });
+        }
     });
 });
 
