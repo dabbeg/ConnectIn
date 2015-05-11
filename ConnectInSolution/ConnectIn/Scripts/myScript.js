@@ -173,18 +173,21 @@
             $("#newsfeedstatus").val("");
             $.post("/Status/AddPost", json, function (data) {
                 for (var i = 0; i < data.length; i++) {
+                    var newDate = new Date();
+                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
+                    newDate.setTime(parsed);
                     var model = {
                         "name": data[i].User.Name,
                         "userId": data[i].User.UserId,
                         "profilePicture": data[i].User.ProfilePicture,
                         "postId": data[i].PostId,
-                        "date": data[i].DateInserted,
+                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a"),
                         "text": data[i].Body,
                         "likes": data[i].LikeDislikeComment.Likes,
                         "dislikes": data[i].LikeDislikeComment.Dislikes,
                         "comments": data[i].LikeDislikeComment.Comments,
                         "likePic": data[i].LikePic,
-                        "dislikePic": data[i].DislikePic,
+                        "dislikePic": data[i].DislikePic
                     };
 
                     //var template = $.tmpl(templateFile, model);
