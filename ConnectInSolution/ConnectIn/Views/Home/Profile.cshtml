@@ -97,36 +97,34 @@
                 </div>
 
                 <div id="addFriendButton">
-                    @{
-    if (Model.User.UserId != User.Identity.GetUserId())
-    {
-        var context = new ApplicationDbContext();
-        var userService = new UserService(context);
-        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
-        if (notification != null)
-        {
-            <button type="button" class="btn">Pending</button>
-        }
-        else if (listOfFriends.Contains(@Model.User.UserId))
-        {
-            using (Html.BeginForm("Remove", "Friend"))
-            {
-                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
-                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
-            }
-        }
-        else
-        {
-            using (Html.BeginForm("Add", "Friend"))
-            {
-                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
-                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-            }
-        }
-    }
+                    @if (Model.User.UserId != User.Identity.GetUserId())
+                    {
+                        var context = new ApplicationDbContext();
+                        var userService = new UserService(context);
+                        var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
+                        if (notification != null)
+                        {
+                            <button type="button" class="btn">Pending</button>
+                        }
+                        else if (listOfFriends.Contains(@Model.User.UserId))
+                        {
+                            using (Html.BeginForm("Remove", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("Add", "Friend"))
+                            {
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                        <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                                        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                            }
+                        }
                     }
                 </div>
             </div>
@@ -141,9 +139,15 @@
         <div id="profileborder"></div>
     </div>
 
-
     {
-        Html.RenderPartial("PostsPartial", Model.NewsFeed);
+        var db = new ApplicationDbContext();
+        var userService = new UserService(db);
+        var user = userService.GetUserById(Model.User.UserId);
+        var friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
+        if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
+        {
+            Html.RenderPartial("PostsPartial", Model.NewsFeed);
+        }
     }
 }
 else
