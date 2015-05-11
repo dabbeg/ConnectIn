@@ -19,12 +19,17 @@ namespace ConnectIn.Controllers
         {
             string amount = collection["amount"];
             string status = collection["status"];
-            string location = collection["location"];
             string groupId = collection["idOfGroup"];
-            if(status.IsNullOrWhiteSpace() || location.IsNullOrWhiteSpace())
+            if(status.IsNullOrWhiteSpace() || amount.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
+
+            var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            var userService = new UserService(context);
+            var likeDislikeService = new LikeDislikeService(context);
+            var groupService = new GroupService(context);
 
             DateTime now = DateTime.Now;
             var newPost = new Post
@@ -34,91 +39,86 @@ namespace ConnectIn.Controllers
                 Text = status
             };
 
-            var context = new ApplicationDbContext();
-            var postService = new PostService(context);
-            var userService = new UserService(context);
-            var likeDislikeService = new LikeDislikeService(context);
-
-            if (location.Equals("newsfeed"))
+            if (!groupId.IsNullOrWhiteSpace())
             {
-                context.Posts.Add(newPost);
-                context.SaveChanges();
+                newPost.GroupId = Int32.Parse(groupId);
+            }
 
-                var postList = new List<PostsViewModel>();
-                var list = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
-                int nOfCurrentStatuses = Int32.Parse(amount);
-                for (int i = (list.Count - nOfCurrentStatuses) - 1; i >= 0 ; i--)
+            context.Posts.Add(newPost);
+            context.SaveChanges();
+
+            var list = new List<int>();
+            if (groupId.IsNullOrWhiteSpace())
+            {
+                list = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
+            }
+            else
+            {
+                list = groupService.GetAllPostsOfGroup(Int32.Parse(groupId));
+            }
+            
+            var postList = new List<PostsViewModel>();
+            int nOfCurrentStatuses = Int32.Parse(amount);
+            for (int i = (list.Count - nOfCurrentStatuses) - 1; i >= 0 ; i--)
+            {
+                var post = postService.GetPostById(list[i]);
+
+                var profilePicture = userService.GetProfilePicture(post.UserId);
+                string profilePicturePath;
+                if (profilePicture == null)
                 {
-                    var post = postService.GetPostById(list[i]);
-
-                    var profilePicture = userService.GetProfilePicture(post.UserId);
-                    string profilePicturePath;
-                    if (profilePicture == null)
-                    {
-                        profilePicturePath = "/Content/images/largeProfilePic.jpg";
-                    }
-                    else
-                    {
-                        profilePicturePath = profilePicture.PhotoPath;
-                    }
-
-                    var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
-                    string lPic = null, dPic = null;
-                    if (likeDislike == null)
-                    {
-                        lPic = "/Content/images/smileySMALL.png";
-                        dPic = "/Content/images/sadfaceSMALL.png";
-                    }
-                    else if (likeDislike.Like)
-                    {
-                        lPic = "/Content/images/smileyGREEN.png";
-                        dPic = "/Content/images/sadfaceSMALL.png";
-                    }
-                    else if (likeDislike.Dislike)
-                    {
-                        lPic = "/Content/images/smileySMALL.png";
-                        dPic = "/Content/images/sadfaceRED.png";
-                    }
-                   
-                    postList.Add(
-                        new PostsViewModel()
-                        {
-                            PostId = post.PostId,
-                            Body = post.Text,
-                            User = new UserViewModel()
-                            {
-                                UserId = post.UserId,
-                                Name = userService.GetUserById(post.UserId).Name,
-                                ProfilePicture = profilePicturePath
-                            },
-                            DateInserted = post.Date,
-                            LikeDislikeComment = new LikeDislikeCommentViewModel()
-                            {
-                                Likes = postService.GetPostsLikes(post.PostId),
-                                Dislikes = postService.GetPostsDislikes(post.PostId),
-                                Comments = postService.GetPostsComments(post.PostId).Count
-                            },
-                            LikePic = lPic,
-                            DislikePic = dPic,
-                            isUserPostOwner = (post.UserId == User.Identity.GetUserId()) 
-                        });
+                    profilePicturePath = "/Content/images/largeProfilePic.jpg";
+                }
+                else
+                {
+                    profilePicturePath = profilePicture.PhotoPath;
                 }
 
-                return Json(postList, JsonRequestBehavior.AllowGet);
+                var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
+                string lPic = null, dPic = null;
+                if (likeDislike == null)
+                {
+                    lPic = "/Content/images/smileySMALL.png";
+                    dPic = "/Content/images/sadfaceSMALL.png";
+                }
+                else if (likeDislike.Like)
+                {
+                    lPic = "/Content/images/smileyGREEN.png";
+                    dPic = "/Content/images/sadfaceSMALL.png";
+                }
+                else if (likeDislike.Dislike)
+                {
+                    lPic = "/Content/images/smileySMALL.png";
+                    dPic = "/Content/images/sadfaceRED.png";
+                }
+                   
+                postList.Add(
+                    new PostsViewModel()
+                    {
+                        PostId = post.PostId,
+                        Body = post.Text,
+                        User = new UserViewModel()
+                        {
+                            UserId = post.UserId,
+                            Name = userService.GetUserById(post.UserId).Name,
+                            ProfilePicture = profilePicturePath
+                        },
+                        DateInserted = post.Date,
+                        LikeDislikeComment = new LikeDislikeCommentViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsComments(post.PostId).Count
+                        },
+                        LikePic = lPic,
+                        DislikePic = dPic,
+                        isUserPostOwner = (post.UserId == User.Identity.GetUserId()) 
+                    });
             }
-            if (location.Equals("group"))
-            {
-                var grpId = Int32.Parse(groupId);
-                newPost.GroupId = grpId;
 
-                context.Posts.Add(newPost);
-                context.SaveChanges();
-                return RedirectToAction("Details", "Group", new {Id = grpId});
-                
-            }
-            return View("Error");
-
+            return Json(postList, JsonRequestBehavior.AllowGet);        
         }
+
 
         [HttpPost]
         public ActionResult RemovePost(FormCollection collection)
