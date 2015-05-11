@@ -186,6 +186,7 @@ namespace ConnectIn.Controllers
                             Birthday = friend.Birthday,
                             ProfilePicture = profilePicturePath
                         });
+                        
                     }
                 }
                 return View("GroupDetails", myGroup);
@@ -284,6 +285,13 @@ namespace ConnectIn.Controllers
                     GroupId = Int32.Parse(groupId),
                     User = user,
                     UserId = user.Id
+                });
+                context.Notifications.Add(new Notification()
+                {
+                    FriendUserId = user.Id,
+                    Date = DateTime.Now,
+                    GroupId = groupId,
+                    UserId = User.Identity.GetUserId(),
                 });
             }
             context.SaveChanges();

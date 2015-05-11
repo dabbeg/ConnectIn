@@ -351,6 +351,7 @@ namespace ConnectIn.Controllers
             if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
+            var groupService = new GroupService(context);
             var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
 
             var model = new List<NotificationViewModel>();
@@ -370,30 +371,42 @@ namespace ConnectIn.Controllers
                 {
                     profilePicturePath = profilePicture.PhotoPath;
                 }
+
                 
 
-                model.Add(
-                    new NotificationViewModel()
+                var usersNotifications = new NotificationViewModel()
+                {
+                    User = new UserViewModel()
                     {
-                        User = new UserViewModel()
-                        {
-                            UserId = user.Id,
-                            Name = user.Name,
-                            Work = user.Work,
-                            School = user.School
-                        },
-                        Friend = new UserViewModel()
-                        {
-                            UserId = friend.Id,
-                            Name = friend.Name,
-                            Work = friend.Work,
-                            School = friend.School,
-                            ProfilePicture = profilePicturePath
-                        },
-                        NotificationId = item.NotificationId,
-                        Date = item.Date
-                    }
-                );
+                        UserId = user.Id,
+                        Name = user.Name,
+                        Work = user.Work,
+                        School = user.School
+                    },
+                    Friend = new UserViewModel()
+                    {
+                        UserId = friend.Id,
+                        Name = friend.Name,
+                        Work = friend.Work,
+                        School = friend.School,
+                        ProfilePicture = profilePicturePath
+                    },
+                    NotificationId = item.NotificationId,
+                    Date = item.Date,
+                    GroupId = item.GroupId
+                };
+
+                if (item.GroupId != "-1")
+                {
+                    var myGroup = groupService.GetGroupById(Int32.Parse(item.GroupId));
+                    usersNotifications.Group = new GroupDetailViewModel()
+                    {
+                        Name = myGroup.Name
+                    };
+                }
+                
+                model.Add(usersNotifications);
+               
 
             }
 
