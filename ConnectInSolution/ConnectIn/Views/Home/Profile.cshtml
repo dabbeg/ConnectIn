@@ -12,13 +12,18 @@
         <div class="container">
         <div class="well" id="ProfileWell"   style="width:100%; height:100%; background-image: url(@Url.Content(Model.User.CoverPhoto))" >
             <small class="pull-right">
-                @if (Model.User.UserId != User.Identity.GetUserId())
+                @{
+                    var db = new ApplicationDbContext();
+                    var userService = new UserService(db);
+                    var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
+                }
+                @if (Model.User.UserId != User.Identity.GetUserId() && friendShip != null)
                 {
-                        <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
-                        <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                    <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star"/><span class="glyphicon bffam">Best Friend</span></button>
+                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
 
-                        <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
-                        <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                    <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star"/><span class="glyphicon bffam">Family</span></button>
+                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
                 }
             </small>
             <div id="userProfilePicture">
@@ -99,8 +104,6 @@
                 <div id="addFriendButton">
                     @if (Model.User.UserId != User.Identity.GetUserId())
                     {
-                        var context = new ApplicationDbContext();
-                        var userService = new UserService(context);
                         var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
                         var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
                         if (notification != null)
@@ -140,10 +143,8 @@
     </div>
 
     {
-        var db = new ApplicationDbContext();
-        var userService = new UserService(db);
         var user = userService.GetUserById(Model.User.UserId);
-        var friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
+        friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
         if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
         {
             Html.RenderPartial("PostsPartial", Model.NewsFeed);

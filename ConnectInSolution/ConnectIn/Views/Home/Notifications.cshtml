@@ -16,7 +16,7 @@
     {
         if (item.GroupId.Equals("-1"))
         {
-            <div class="post item span3" style="position: relative">
+            <div id="friendsacre" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
                         <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
@@ -52,19 +52,13 @@
                 </div>
 
                 <span class="bottomRightButtonRight">
-            @using (Html.BeginForm("DeclineFriendRequest", "Friend"))
-            {
-                <input type="hidden" name="notificationId" value="@item.NotificationId" />
-                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
-            }
-            </span>
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
+                </span>
                 <span class="bottomRightButtonLeft">
-            @using (Html.BeginForm("AcceptFriendRequest", "Friend"))
-            {
-                <input type="hidden" name="notificationId" value="@item.NotificationId" />
-                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
-            }
-            </span>
+                    <input type="hidden" name="notificationId" value="@item.NotificationId" />
+                    <button type="submit" class="btn btn-success acceptFriend"><span class="glyphicon glyphicon-ok"></span>&nbsp;Accept</button>
+                </span>
             
             </div>
         }

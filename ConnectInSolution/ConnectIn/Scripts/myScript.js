@@ -228,6 +228,39 @@ $(document).ready(function () {
 
         });
 
+        function notCounter() {
+            $.get("/Home/NotificationCounter", function (counter) {
+                if (counter > 0) {
+                    $("#notificationBubble").show();
+                    $("#notificationBubble").text(counter);
+                } else {
+                    $("#notificationBubble").hide();
+                }
+            });
+        };
+
+        // Asynchronous accept friend
+        $(".acceptFriend").click(function() {
+            var json = {
+                "notificationId" : $(this).siblings("input[name=notificationId]").val()
+            };
+            $.post("/Friend/AcceptFriendRequest", json, function() {
+                $("#friendsacre").fadeOut(700);
+                notCounter();
+            });
+        });
+
+        // Asynchronous reject user
+        $(".rejectFriend").click(function () {
+            var json = {
+                "notificationId": $(this).siblings("input[name=notificationId]").val()
+            };
+            $.post("/Friend/DeclineFriendRequest", json, function () {
+                $("#friendsacre").fadeOut(700);
+                notCounter();
+            });
+        });
+
         function createCookie(name, value, days) {
             var expires;
             if (days) {

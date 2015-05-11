@@ -87,8 +87,8 @@ namespace ConnectIn.Controllers
             context.Notifications.Remove(notification);
             context.Friends.Add(friends);
             context.SaveChanges();
-
-            return RedirectToAction("Notifications", "Home");
+            
+            return new EmptyResult();
         }
 
         public ActionResult DeclineFriendRequest(FormCollection collection)
@@ -108,7 +108,7 @@ namespace ConnectIn.Controllers
             context.Notifications.Remove(notification);
             context.SaveChanges();
 
-            return RedirectToAction("Notifications", "Home");
+            return new EmptyResult();
         }
 
         public ActionResult HideGroupNotification(FormCollection collection)

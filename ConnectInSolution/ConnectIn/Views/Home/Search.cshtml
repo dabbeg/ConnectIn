@@ -12,9 +12,20 @@
         <div id="posts" class="row">
             @foreach (var item in Model)
             {
+                var db = new ApplicationDbContext();
+                var userService = new UserService(db);
+                var friendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
                 <div class="post item span3">
 
                     <div class="well" id="FriendsListWell">
+                        <small class="pull-right bforfamily">
+                            @if (item.User.UserId != User.Identity.GetUserId() && friendList != null && friendList.Contains(item.User.UserId))
+                            {
+                                <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                                <input type="hidden" name="friendId" value="@item.User.UserId" />
+                                <button id="family-@item.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                            }
+                        </small>
                         <div id="postContent">
                             <!--Should display user's profile picture, a cat was used temporarily-->
                             <div class="friendsListPhoto">
@@ -31,20 +42,17 @@
                                     @{
                                         if (item.User.UserId != User.Identity.GetUserId())
                                         {
-                                            var context = new ApplicationDbContext();
-                                            var userService = new UserService(context);
-                                            var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
                                             var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), item.User.UserId);
                                             if (notification != null)
                                             {
                                                 <button type="button" class="btn">Pending</button>
                                             }
-                                            else if (listOfFriends.Contains(@item.User.UserId))
+                                            else if (friendList.Contains(@item.User.UserId))
                                             {
                                                 using (Html.BeginForm("Remove", "Friend"))
                                                 {
-                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                                                    <input type="hidden" name="friendId" value="@item.User.UserId" />
+                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                                    <input type="hidden" name="friendId" value="@item.User.UserId"/>
                                                     <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
                                                 }
                                             }
@@ -52,8 +60,8 @@
                                             {
                                                 using (Html.BeginForm("Add", "Friend"))
                                                 {
-                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
-                                                    <input type="hidden" name="friendId" value="@item.User.UserId" />
+                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
+                                                    <input type="hidden" name="friendId" value="@item.User.UserId"/>
                                                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
                                                 }
                                             }

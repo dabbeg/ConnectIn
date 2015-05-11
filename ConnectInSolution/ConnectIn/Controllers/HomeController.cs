@@ -153,9 +153,6 @@ namespace ConnectIn.Controllers
             };
 
             return Json(json, JsonRequestBehavior.AllowGet);
-
-            /*if (location.Equals("Profile")) return RedirectToAction("Profile", "Home", new {id = friendId});
-            return RedirectToAction("FriendsList", "Home");*/
         }
         public ActionResult Family(FormCollection collection)
         {
@@ -430,8 +427,39 @@ namespace ConnectIn.Controllers
 
             foreach (var id in searchList)
             {
+                string bfStarPick = "", fStarPick = "";
                 var profilePicture = userService.GetProfilePicture(id);
                 string profilePicturePath = profilePicture.PhotoPath;
+
+                var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
+
+                if (friendShip != null)
+                {
+                    if (friendShip.UserId == User.Identity.GetUserId())
+                    {
+                        // if considered as best friend, then disbestfriend, else consider as best friend
+                        bfStarPick = friendShip.UserConsidersFriendAsBestFriend
+                            ? "~/Content/images/fullstar.png"
+                            : "~/Content/images/emptystar.png";
+                        fStarPick = friendShip.UserConsidersFriendAsFamily
+                            ? "~/Content/images/fullstar.png"
+                            : "~/Content/images/emptystar.png";
+                    }
+                    else if (friendShip.FriendUserId == User.Identity.GetUserId())
+                    {
+                        // if considered as best friend, then disbestfriend, else consider as best friend
+                        bfStarPick = friendShip.FriendConsidersUsersAsBestFriend
+                            ? "~/Content/images/fullstar.png"
+                            : "~/Content/images/emptystar.png";
+                        fStarPick = friendShip.FriendConsidersUsersAsFamily
+                            ? "~/Content/images/fullstar.png"
+                            : "~/Content/images/emptystar.png";
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
+                }
 
                 var user = userService.GetUserById(id);
                 searchResult.Add(
@@ -447,7 +475,9 @@ namespace ConnectIn.Controllers
                             Birthday = user.Birthday,
                             Work = user.Work,
                             School = user.School,
-                            Address = user.Address
+                            Address = user.Address,
+                            FStar = fStarPick,
+                            BfStar = bfStarPick
                         }
                     });
             }
