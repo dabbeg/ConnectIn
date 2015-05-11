@@ -18,7 +18,7 @@ namespace ConnectIn.Models.Entity
         public string School { get; set; }
         public string Gender { get; set; }
         public string Address { get; set; }
-        public bool Privacy { get; set; }
+        public int Privacy { get; set; }
         #endregion
 
         #region ForeignKeys
@@ -34,7 +34,7 @@ namespace ConnectIn.Models.Entity
         public User()
         {
             Birthday = DateTime.Now;
-            Privacy = false;
+            Privacy = 0;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

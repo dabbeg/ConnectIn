@@ -58,10 +58,7 @@
     width:200px;
     height:auto; 
 }
-.row
-{
-    padding-left:12px;
-}
+
 .caption
 {
     width:600px;
@@ -364,7 +361,7 @@ a.navbar-brand
 
 #commentsLikesDeleteDiv {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-top: 60px;
+    margin-top: 20px;
 }
 
 #reactionButtons {
@@ -510,6 +507,7 @@ button.btnNew.privacy {
 #FriendsListWell{
     overflow: hidden;
     height: auto;
+    margin-top: 15px;
 
 }
 
@@ -578,7 +576,9 @@ button.btnNew.privacy {
     bottom: 12px;
 
 }
-
+.form-horizontal {
+    margin-left: 5%
+}
 .PartialViewResponsive {
     display: inline-block;
     height: auto;
@@ -624,7 +624,7 @@ button.btnNew.privacy {
 }
 
 #newsfeedstatus {
-    max-width: 75%;
+    max-width: 65%;
     display: inline-block;
 }
 
@@ -633,7 +633,7 @@ button.btnNew.privacy {
 }
 
 #submitNewsFeedStatus {
-    margin: 10px;
+    margin: 16px;
 }
 
 #submitstatus {
@@ -887,15 +887,13 @@ height: 100%;
 
 
 .preReset
-{	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
+{border: 0;
     display: inline-block;
 	font-weight: normal;
 	font-style: normal;
 	font-size: 100%;
 	font-family: sans-serif;
 	vertical-align: inherit;
+    text-align:left;
 
 }

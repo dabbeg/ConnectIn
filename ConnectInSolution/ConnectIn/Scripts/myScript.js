@@ -193,14 +193,18 @@ $(document).ready(function () {
         $.post("/Account/Privacy", json, function(data) {
             var span;
             var p;
-            if (data.privacy === 1) {
-                img.attr("src", "/Content/images/Lock.png");
-                span = $("<span></span>").addClass("glyphicon bffam").text(" Private");
-                p = $("<span></span>").text("Only your best friends and family can view your profile and posts.");
-            } else {
+            if (data.privacy === 0) {
                 img.attr("src", "/Content/images/Unlock.png");
                 span = $("<span></span>").addClass("glyphicon bffam").text(" Public");
-                p = $("<span></span>").text("All friends can view your profile and posts.");
+                p = $("<span></span>").text("Everyone can view your profile and posts");
+            } else if (data.privacy === 1) {
+                img.attr("src", "/Content/images/Lock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Private");
+                p = $("<span></span>").text("Only your friends can view your profile and posts.");
+            } else {
+                img.attr("src", "/Content/images/ExtremeLock.png");
+                span = $("<span></span>").addClass("glyphicon bffam").text(" Extreme Privacy");
+                p = $("<span></span>").text("Only your best friends and family can view your profile and posts.");
             }
             $("#privacyText").empty();
             $(".privacy").empty();

@@ -146,6 +146,28 @@ namespace ConnectIn.Services
 
             return fs;
         }
+
+        public bool UserConsidersFriendClose(string userId, string friendId)
+        {
+            var friendship = GetFriendShip(userId, friendId);
+            if (friendship == null) return false;
+            if (userId == friendship.FriendUserId)
+            {
+                if (friendship.UserConsidersFriendAsBestFriend || friendship.UserConsidersFriendAsFamily)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (friendship.FriendConsidersUsersAsBestFriend || friendship.FriendConsidersUsersAsFamily)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         #endregion
 
         #region queries regarding posts
@@ -166,12 +188,23 @@ namespace ConnectIn.Services
         public List<int> GetEveryNewsFeedPostsForUser(string userId)
         {
             // Get the users friends
-            var friends = GetFriendsFromUser(userId);
+            var fri = GetFriendsFromUser(userId);
+            var friends = new List<String>();
+
+            foreach (var item in fri)
+            {
+                if (UserConsidersFriendClose(userId, item))
+                {
+                    friends.Add(item);
+                }
+            }
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where (friends.Contains(s.UserId)
-                            || s.UserId == userId)
+                            where s.User.Privacy == 2
+                            ? (friends.Contains(s.UserId) || s.UserId == userId) 
+                            : (fri.Contains(s.UserId) || s.UserId == userId)
+                            /*(friends.Contains(s.UserId) || s.UserId == userId)*/
                             && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
