@@ -242,8 +242,9 @@ $(document).ready(function () {
         var json = {
             "status": $("#newsfeedstatus").val(),
             "location": "newsfeed",
-            "amount": $("#posts > div").length
-        };
+            "amount": $("#posts > div").length,
+            "idOfGroup": $("input[name=idOfGroup]").val()
+    };
 
         if (json.status != "") {
             $("#newsfeedstatus").val("");
