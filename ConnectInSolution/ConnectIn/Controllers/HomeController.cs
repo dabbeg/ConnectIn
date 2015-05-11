@@ -350,6 +350,7 @@ namespace ConnectIn.Controllers
             if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
+            var groupService = new GroupService(context);
             var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
 
             var model = new List<NotificationViewModel>();
@@ -360,30 +361,42 @@ namespace ConnectIn.Controllers
                 var friend = userService.GetUserById(item.UserId);
 
                 var profilePicture = userService.GetProfilePicture(item.UserId);
+
                 string profilePicturePath = profilePicture.PhotoPath;
 
-                model.Add(
-                    new NotificationViewModel()
+                var usersNotifications = new NotificationViewModel()
+                {
+                    User = new UserViewModel()
                     {
-                        User = new UserViewModel()
-                        {
-                            UserId = user.Id,
-                            Name = user.Name,
-                            Work = user.Work,
-                            School = user.School
-                        },
-                        Friend = new UserViewModel()
-                        {
-                            UserId = friend.Id,
-                            Name = friend.Name,
-                            Work = friend.Work,
-                            School = friend.School,
-                            ProfilePicture = profilePicturePath
-                        },
-                        NotificationId = item.NotificationId,
-                        Date = item.Date
-                    }
-                );
+                        UserId = user.Id,
+                        Name = user.Name,
+                        Work = user.Work,
+                        School = user.School
+                    },
+                    Friend = new UserViewModel()
+                    {
+                        UserId = friend.Id,
+                        Name = friend.Name,
+                        Work = friend.Work,
+                        School = friend.School,
+                        ProfilePicture = profilePicturePath
+                    },
+                    NotificationId = item.NotificationId,
+                    Date = item.Date,
+                    GroupId = item.GroupId
+                };
+
+                if (item.GroupId != "-1")
+                {
+                    var myGroup = groupService.GetGroupById(Int32.Parse(item.GroupId));
+                    usersNotifications.Group = new GroupDetailViewModel()
+                    {
+                        Name = myGroup.Name
+                    };
+                }
+                
+                model.Add(usersNotifications);
+               
 
             }
 
@@ -552,145 +565,6 @@ namespace ConnectIn.Controllers
             var userService = new UserService(db);
             var birthdays = userService.GetAllFriendsBirthdays(User.Identity.GetUserId()).Count;
             return Json(birthdays, JsonRequestBehavior.AllowGet);
-        }
-        
-        public ActionResult Images(string userId)
-        {
-            if (userId.IsNullOrWhiteSpace())
-            {
-                return View("Error");
-            }
-
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-
-            var photos = userService.GetAllPhotosFromUser(userId);
-            var model = new PhotoAlbumViewModel();
-            model.Images = new List<ImageViewModel>();
-            model.UserId = userId;
-
-            foreach (var item in photos)
-            {
-                model.Images.Add(new ImageViewModel()
-                {
-                    ImagePath = item.PhotoPath,
-                    PhotoId = item.PhotoId
-                });
-            }
-            
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult UploadImage()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult UploadImage(FormCollection collection)
-        {
-            HttpPostedFileBase file = Request.Files["Image"];
-            Int32 length = file.ContentLength;
-            
-            byte[] tempImage = new byte[length];
-            file.InputStream.Read(tempImage, 0, length);
-
-            var photo = new Photo()
-            {
-                ContentType = file.ContentType,
-                PhotoBytes = tempImage,
-                UserId = User.Identity.GetUserId(),
-                Date = DateTime.Now,
-                IsProfilePicture = false
-            };
-
-            var context = new ApplicationDbContext();
-            context.Photos.Add(photo);
-            context.SaveChanges();
-
-            photo.PhotoPath = "/Home/ShowPhoto/" + photo.PhotoId.ToString();
-            context.SaveChanges();
-
-            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
-        }
-
-        public ActionResult ShowPhoto(int? id)
-        {
-            if (!id.HasValue)
-            {
-                return View("Error");
-            }
-            int photoId = id.Value;
-
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
-            Photo image = photoService.GetPhotoById(photoId);
-            ImageResult result = new ImageResult(image.PhotoBytes, image.ContentType);
-
-            return result;
-        }
-
-        public ActionResult PickProfilePicture(FormCollection collection)
-        {
-            string id = collection["photoId"];
-
-            if (id == "PUT PHOTOID")
-            {
-                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
-            }
-
-            if (id.IsNullOrWhiteSpace())
-            {
-                return View("Error");
-            }
-
-            int photoId = Int32.Parse(id);
-
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-
-            var oldProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            if (oldProfilePicture != null)
-            {
-                oldProfilePicture.IsProfilePicture = false;
-            }
-            var photo = userService.GetPhotoById(photoId);
-            photo.IsProfilePicture = true;
-            context.SaveChanges();
-
-            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
-        }
-        public ActionResult PickCoverPhoto(FormCollection collection)
-        {
-            string id = collection["photoId2"];
-
-            if (id == "PUT PHOTO")
-            {
-                return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
-            }
-
-            if (id.IsNullOrWhiteSpace())
-            {
-                return View("Error");
-            }
-
-            int Coverid = Int32.Parse(id);
-
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-
-            var oldCoverPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
-            if (oldCoverPhoto != null)
-            {
-                oldCoverPhoto.IsCoverPhoto = false;
-            }
-            var photo = userService.GetPhotoById(Coverid);
-            photo.IsCoverPhoto = true;
-            context.SaveChanges();
-
-            return RedirectToAction("Profile", new { id = User.Identity.GetUserId() });
         }
     }
 
