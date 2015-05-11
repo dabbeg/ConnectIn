@@ -624,7 +624,7 @@ button.btnNew.privacy {
 }
 
 #newsfeedstatus {
-    max-width: 75%;
+    max-width: 65%;
     display: inline-block;
 }
 
@@ -633,7 +633,7 @@ button.btnNew.privacy {
 }
 
 #submitNewsFeedStatus {
-    margin: 10px;
+    margin: 16px;
 }
 
 #submitstatus {

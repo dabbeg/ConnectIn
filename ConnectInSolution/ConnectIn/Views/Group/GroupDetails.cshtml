@@ -59,7 +59,7 @@
             <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
         </div>
         <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
-        <button type="submit" id="submitNewsFeedStatus" class="btn btn-primary">Submit</button>
+        <button type="submit" id="submitNewsFeedStatus" class="btn btn-primary">Share</button>
     </div>
 </div>
 <br/>
@@ -72,20 +72,21 @@
 }
 
 
-<p>
+<span style="float: left; position: relative; left: 10px;">
     @if (User.Identity.GetUserId() == Model.AdminId)
     {
-        using(Html.BeginForm("Edit", "Group"))
-         {
+        using (Html.BeginForm("Edit", "Group"))
+        {
             <input type="hidden" name="groupID" value="@Model.GroupId"/>
             <button type="submit" id="submitgroupId" class="btn btn-warning" style="display: inline;">Edit group</button>
-         }
-        <span>&nbsp;&nbsp; | &nbsp;&nbsp;</span>
-    }
-    <span style="display: inline-block;">
-        @using (Html.BeginForm("GroupsList", "Group"))
-        {
-            <button type="submit" class="btn btn-default">Back to list</button>
         }
-    </span>
-</p>
+    }
+</span>
+<span style="float: left">
+    @using (Html.BeginForm("GroupsList", "Group"))
+    {
+        <button type="submit" class="btn btn-default" style="position: relative; left: 21px;">Back to list</button>
+    }
+</span>
+<br/>
+<br/>
