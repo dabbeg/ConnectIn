@@ -158,23 +158,10 @@ namespace ConnectIn.Controllers
                 }
 
                 var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
-
-                bool isGroupMemberAlready = false;
                 
                 foreach (var userId in userFriendList)
                 {
-                    var usersFriend = userService.GetUserById(userId);
-
-                    foreach (var Id in memberList)
-                    {
-                        var member = userService.GetUserById(Id);
-                        if (member.Id == usersFriend.Id)
-                        {
-                            isGroupMemberAlready = true;
-                        }
-                        
-                    }
-                    if (isGroupMemberAlready == false)
+                    if (!groupService.isMemberOfGroup(grpId, userId))
                     {
                         var friend = userService.GetUserById(userId);
 
