@@ -7,7 +7,6 @@ $(document).ready(function () {
         document.getElementById("photoId2").value = $(this).attr("id");
     });
     
-
     // Everyone, Best friends, and Family filters
     $(".newsFeedFilters input[name=filters]:radio").change(function() {
 
@@ -52,7 +51,6 @@ $(document).ready(function () {
         }
     });
 
-
     function smiley(isLiked, smiles, btnId) {
         $(btnId).empty();
 
@@ -66,7 +64,6 @@ $(document).ready(function () {
         $(btnId).append(img);
         $(btnId).append(smiles + " Smiles");
     }
-
 
     function sadface(isDisliked, sadfaces, btnId) {
         $(btnId).empty();
@@ -120,7 +117,6 @@ $(document).ready(function () {
         dislike(this);
     });
 
-
     // Asynchronus Best Friend selection
     $(".bestFriend").click(function () {
         var img = $("<img id='bffamimg'>");
@@ -159,12 +155,18 @@ $(document).ready(function () {
         });
     });
 
+    function deleteComment(object) {
+        var val = $(object).siblings("input[name=commentId]").val();
+        $.post("/Status/RemoveComment", { "commentId": val }, function () {
+            $("#comment-" + val).fadeOut(500, function() {
+                $("#comment-" + val).remove();
+            });
+        });
+    }
+
     // Asynchronus comment deletion
     $(".deleteComment").click(function () {
-        var val = $(this).siblings("input[name=commentId]").val();
-        $.post("/Status/RemoveComment", { "commentId": val }, function () {
-            $("#comment-" + val).fadeOut(200);
-        });
+        deleteComment(this);
     });
 
     function deletePost(object) {
@@ -263,15 +265,13 @@ $(document).ready(function () {
         }
     });
 
-
     // Asynchronus Posts
     $("#submitNewsFeedStatus").click(function () {
         var json = {
             "status": $("#newsfeedstatus").val(),
-            "location": "newsfeed",
             "amount": $("#posts > div").length,
             "idOfGroup": $("input[name=idOfGroup]").val()
-    };
+        };
 
         if (json.status != "") {
             $("#newsfeedstatus").val("");
@@ -294,8 +294,7 @@ $(document).ready(function () {
                         "dislikePic": data[i].DislikePic
                     };
 
-                    //var template = $.tmpl(templateFile, model);
-                    var template = $("#template").tmpl(model);
+                    var template = $("#postTemplate").tmpl(model);
                     template.on("click", ".likeBtn", function () {
                         like(this);
                     });
@@ -311,6 +310,46 @@ $(document).ready(function () {
                     $(template).hide().prependTo("#posts").fadeIn(500);
                     if (data[i].isUserPostOwner) {
                         $("#reactionButtons").append("<button type='button' class='btn btn-danger deletePostButton deletePostBtn'>Delete Post</button>");
+                    }
+                }
+            });
+        }
+    });
+
+    // Asynchronus Comments
+    $("#submitcomment").click(function() {
+        var json = {        
+            "status": $("#commentstatus").val(),
+            "amount": $("#allcomments > div").length,
+            "postId": $("#reactionButtons input[name=postId]").val()
+        };
+
+        if (json.status != "") {
+            $("#commentstatus").val("");
+            $.post("/Status/AddComment", json, function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    var newDate = new Date();
+                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
+                    newDate.setTime(parsed);
+                    var model = {
+                        "userId": data[i].User.UserId,
+                        "name": data[i].User.Name,
+                        "profilePicture": data[i].User.ProfilePicture,
+                        "commentId": data[i].CommentId,
+                        "text": data[i].Body,
+                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a")
+                    };
+
+                    var template = $("#commentTemplate").tmpl(model);
+
+                    template.on("click", ".deleteComment", function () {
+                        deleteComment(this);
+                    });
+                
+                    $(template).hide().prependTo("#allcomments").fadeIn(500);
+                    if (data[i].IsUserCommentOwner) {
+                        $("#reactionCommentButtons").append("<button type='button' class='btn btn-danger deletePostButton deleteComment'>Delete Comment</button>");
+                        $("#reactionCommentButtons").append("<input type='hidden' name='commentId' value='" + data[i].CommentId.toString() + "'/>");
                     }
                 }
             });
