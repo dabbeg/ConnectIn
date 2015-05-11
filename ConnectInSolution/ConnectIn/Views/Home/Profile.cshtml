@@ -90,7 +90,7 @@
                 </div>
 
                 <div id="PhotoButton">
-                    @using (Html.BeginForm("Images", "Home", new { userId = Model.User.UserId }))
+                    @using (Html.BeginForm("Images", "Photo", new { userId = Model.User.UserId }))
                     {
                         <button type="submit" class="btn btn-primary">Photos</button>
                     }
