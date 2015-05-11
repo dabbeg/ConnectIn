@@ -19,9 +19,11 @@
                         @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                     </h3>
                 </div>
-                <p id="PartialPostsText">
+                <div class='ellipsis-text preReset'>
                     <pre class="preReset">@item.Body</pre>
-                </p>
+                    <a class='more dontmove' href='#'>More</a>
+                    <a class='less dontmove' href='#'>Less</a>
+                </div>
             </div>
 
             <div id="commentsLikesDeleteDiv">
