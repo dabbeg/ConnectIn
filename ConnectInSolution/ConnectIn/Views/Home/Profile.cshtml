@@ -8,8 +8,9 @@
 }
 @if (Request.IsAuthenticated)
 {
+
         <div class="container">
-        <div class="well" id="ProfileWell" style="background-image: url(@Url.Content(Model.User.CoverPhoto))">
+        <div class="well" id="ProfileWell"   style="background-image: url(@Url.Content(Model.User.CoverPhoto))">
             <small class="pull-right">
                 @if (Model.User.UserId != User.Identity.GetUserId())
                 {

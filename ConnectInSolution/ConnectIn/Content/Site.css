@@ -18,7 +18,11 @@
 {
     padding-left:40px;
 }
-
+#ProfileWell
+{
+    border:none;
+    border-top:none;
+}
 .editinfos
 {
    max-width:200px;
@@ -439,7 +443,11 @@ a.navbar-brand
     
 }
 
-
+#coverphoto
+{
+    width:200px;
+    height:200px;
+}
 #userProfilePicture {
     width: 200px;
     height: auto;
@@ -834,5 +842,11 @@ height: 100%;
 }
 
 .btnProfile {
-    float: right;
+    float: left;
+    
+}
+.btnCover
+{
+    float:left;
+    margin-left:20px;
 }

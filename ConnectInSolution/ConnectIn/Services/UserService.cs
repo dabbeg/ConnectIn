@@ -237,7 +237,7 @@ namespace ConnectIn.Services
         {
             var cPhoto = (from c in db.Photos
                           where c.UserId == userId
-                               && c.IsCoverPhoto == true
+                          && c.IsCoverPhoto == true
                           select c).SingleOrDefault();
             return cPhoto;
         }

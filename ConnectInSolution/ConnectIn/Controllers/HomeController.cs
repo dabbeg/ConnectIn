@@ -218,11 +218,13 @@ namespace ConnectIn.Controllers
             profilePicturePath = profilePicture == null 
                 ? "~/Content/images/largeProfilePic.jpg" 
                 : profilePicture.PhotoPath;
-            var coverPhoto = userService.GetCoverPhoto(id);
+           var coverPhoto = userService.GetCoverPhoto(id);
             string coverPhotoPath;
             if (coverPhoto == null)
             {
-                coverPhotoPath = "~/Content/images/whitebackground.jpg";
+                coverPhotoPath = "~/Content/images/largeProfilePic.jpg";
+
+                    //"~/Content/images/whitebackground.jpg";
             }
             else
             {
@@ -671,7 +673,7 @@ namespace ConnectIn.Controllers
         {
             string id = collection["photoId2"];
 
-            if (id == "PUT PHOTOID2")
+            if (id == "PUT PHOTO")
             {
                 return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
             }
@@ -681,7 +683,7 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
-            int photoId2 = Int32.Parse(id);
+            int Coverid = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
@@ -691,7 +693,7 @@ namespace ConnectIn.Controllers
             {
                 oldCoverPhoto.IsCoverPhoto = false;
             }
-            var photo = userService.GetPhotoById(photoId2);
+            var photo = userService.GetPhotoById(Coverid);
             photo.IsCoverPhoto = true;
             context.SaveChanges();
 
