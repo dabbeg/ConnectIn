@@ -151,8 +151,8 @@
     <script src="~/Scripts/jquery.cookie.js"></script>
     <script src="~/Scripts/jQuery.tmpl.min.js"></script>
     <script src="~/Scripts/jquery-dateFormat.min.js"></script>
-    
-    <script id="template" type="text/html">
+
+    <script id="postTemplate" type="text/html">
         <div id="post-${postId}" class="post item span3">
             <div class="well" id="FriendsListWell">
                 <div id="postContent">
@@ -185,6 +185,29 @@
                                 <button type="submit" class="btnNew btn-default-comment commentss">&nbsp; &nbsp; ${comments} Comments</button>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="commentTemplate" type="text/html">
+        <div id="comment-${commentId}" class="post item span3">
+            <div class="well" id="FriendsListWell">
+                <div id="postContent">
+                    <div class="friendsListPhoto" style="margin-right: -115px;">
+                        <img class="PartialViewResponsive img-rounded pull-left" src="${profilePicture}" alt="Profile Picture"/>
+                    </div>
+                    <div id="comm" style="margin-left: 100px">
+                        <div class="friendsListName">
+                            <h4>
+                                <a href="/Home/Profile/${userId}">${name}</a>
+                                <small class="pull-right">${date}</small>
+                            </h4>
+                        </div>
+                        <h5>
+                            ${text}
+                        </h5>
+                        <span id="reactionCommentButtons"></span>
                     </div>
                 </div>
             </div>

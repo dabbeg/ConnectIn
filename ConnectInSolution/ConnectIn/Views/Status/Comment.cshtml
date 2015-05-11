@@ -86,10 +86,10 @@
                                 <h5>
                                     @item.Body
                                 </h5>
-                                <span id="reactionButtons">
+                                <span id="reactionCommentButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())
                                     {
-                                        <button type="submit" class="btn btn-danger deletePostButton deleteComment">Delete Comment</button>
+                                        <button type="button" class="btn btn-danger deletePostButton deleteComment">Delete Comment</button>
                                         <input type="hidden" name="commentId" value="@item.CommentId"/>
                                     }
                                 </span>

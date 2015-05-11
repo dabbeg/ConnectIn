@@ -231,53 +231,58 @@ namespace ConnectIn.Controllers
         [HttpPost]
         public ActionResult AddComment(FormCollection collection)
         {
+            string status = collection["status"];
+            string postId = collection["postId"];
+            string amount = collection["amount"];
+            if (status.IsNullOrWhiteSpace() || postId.IsNullOrWhiteSpace() || amount.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int nOfCurrentComments = Int32.Parse(amount);
+
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
+            var postService = new PostService(db);
             var commentService = new CommentService(db);
 
-            var user = userService.GetUserById(User.Identity.GetUserId());
-            var comment = new Comment
+            var newComment = new Comment
             {
                 UserId = User.Identity.GetUserId(),
                 Date = DateTime.Now,
-                Text = collection["status"],
-                PostId = collection["postId"].AsInt()
+                Text = status,
+                PostId = Int32.Parse(postId)
             };
-            db.Comments.Add(comment);
+            db.Comments.Add(newComment);
             db.SaveChanges();
 
-            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            string profilePicturePath = profilePicture.PhotoPath;
-            var commentList = commentService.GetCommentById(comment.CommentId);
+            var commentList = postService.GetPostsComments(newComment.PostId);
+            var json = new List<CommentViewModel>();
 
-            var jsonComment = new CommentViewModel()
+            for (var i = (commentList.Count - nOfCurrentComments)-1; i >= 0; i--)
             {
-                Body = commentList.Text,
-                DateInserted = commentList.Date,
-                User = new UserViewModel()
-                {
-                    UserId = commentList.UserId,
-                    Name = userService.GetUserById(commentList.UserId).Name,
-                    ProfilePicture = profilePicturePath
-                }
-            };
-            var json = new
-            {
-                Body = commentList.Text,
-                DateInserted = commentList.Date,
-                UserId = user.Id,
-                UsersName = user.Name,
-                ProfilePicture = profilePicturePath
-            };
+                var comment = commentService.GetCommentById(commentList[i]);
+
+                json.Add(
+                    new CommentViewModel()
+                    {
+                        CommentId = comment.CommentId,
+                        Body = comment.Text,
+                        DateInserted = comment.Date,
+                        IsUserCommentOwner = comment.UserId == User.Identity.GetUserId(),
+                        User = new UserViewModel()
+                        {
+                            UserId = comment.UserId,
+                            Name = userService.GetUserById(comment.UserId).Name,
+                            ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
+                        }
+                    });
+            }
 
             return Json(json, JsonRequestBehavior.AllowGet);
-            // return Json(new {jsonComment, JsonRequestBehavior.AllowGet});
-            // return Json(new { action = ld }, JsonRequestBehavior.AllowGet);
-            // return RedirectToAction("Comment", "Status", new {postId = collection["postId"].AsInt()});
         }
 
         [HttpPost]
-        public ActionResult RemoveComment(int ? commentId)
+        public ActionResult RemoveComment(int? commentId)
         {
             if (!commentId.HasValue)
             {
@@ -287,10 +292,14 @@ namespace ConnectIn.Controllers
 
             var db = new ApplicationDbContext();
             var commentService = new CommentService(db);
-            db.Comments.Remove(commentService.GetCommentById(id));
 
-            db.SaveChanges();
-
+            var comment = commentService.GetCommentById(id);
+            if (comment != null)
+            {
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+            }
+            
             return new EmptyResult();
         }
 

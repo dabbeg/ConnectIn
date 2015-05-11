@@ -13,6 +13,7 @@ namespace ConnectIn.Models.ViewModels
         public UserViewModel User { get; set; }
         public string Body { get; set; }
         public DateTime DateInserted { get; set; }
+        public bool IsUserCommentOwner { get; set; }
 
     }
 }
