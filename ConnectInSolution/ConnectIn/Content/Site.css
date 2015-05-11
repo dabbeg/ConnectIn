@@ -18,7 +18,11 @@
 {
     padding-left:40px;
 }
-
+#ProfileWell
+{
+    border:none;
+    border-top:none;
+}
 .editinfos
 {
    max-width:200px;
@@ -452,7 +456,11 @@ button.btnNew.privacy {
     
 }
 
-
+#coverphoto
+{
+    width:200px;
+    height:200px;
+}
 #userProfilePicture {
     width: 200px;
     height: auto;
@@ -624,6 +632,9 @@ button.btnNew.privacy {
     margin-bottom: 20px;
 }
 
+#submitNewsFeedStatus {
+    margin: 10px;
+}
 
 #submitstatus {
     margin: 10px;
@@ -654,7 +665,7 @@ button.btnNew.privacy {
     padding-right: 22px;
     padding-left: 14px;
     width:100%;
-overflow:visible;
+    overflow:visible;
     
 }
 
@@ -847,5 +858,11 @@ height: 100%;
 }
 
 .btnProfile {
-    float: right;
+    float: left;
+    
+}
+.btnCover
+{
+    float:left;
+    margin-left:20px;
 }

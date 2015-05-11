@@ -5,6 +5,7 @@
 { 
     <h2>News Feed</h2>
 
+    <!--Filters for the news feed-->
     <div class="nav nav-justified newsFeedFilters" style="margin-bottom: 25px; margin-top: 25px; ">
         <div class="pull-right">
             <div class="btn-group btn-group-justified movie-views" data-toggle="buttons">
@@ -22,20 +23,14 @@
     </div>
 
     <div class="NewsFeedContainer">
-        @using (Html.BeginForm("AddPost", "Status"))
-        {
-            <div class="form-horizontal">
-                <!--Notifies the StatusController that the post comes from NewsFeed:-->
-                <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
+        <div class="form-horizontal">
 
-                <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive  img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
-                </div>
-                <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status"></textarea>
-                    <button type="submit" id="submitstatus" class="btn btn-primary">Submit</button>
+            <div class="PostPartialViewPhoto">
+                <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
             </div>
-            @Html.ValidationSummary(false)
-        }
+            <textarea placeholder="Share your thoughts" class="form-control" rows="5" id="newsfeedstatus" name="status"></textarea>
+            <button type="button" id="submitNewsFeedStatus" class="btn btn-primary">Submit</button>
+        </div>
     </div>
     
     { 

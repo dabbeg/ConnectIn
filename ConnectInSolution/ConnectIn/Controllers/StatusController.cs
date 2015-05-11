@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Ajax.Utilities;
 using ConnectIn.Models.ViewModels;
 using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
+
 
 namespace ConnectIn.Controllers
 {
@@ -15,34 +17,100 @@ namespace ConnectIn.Controllers
     {
         public ActionResult AddPost(FormCollection collection)
         {
-            var post = new Post
+            string amount = collection["amount"];
+            string status = collection["status"];
+            string groupId = collection["idOfGroup"];
+            if(status.IsNullOrWhiteSpace() || amount.IsNullOrWhiteSpace())
             {
-                UserId = User.Identity.GetUserId(),
-                Date = DateTime.Now,
-                Text = collection["status"]
-            };
+                return View("Error");
+            }
 
             var context = new ApplicationDbContext();
+            var postService = new PostService(context);
+            var userService = new UserService(context);
+            var likeDislikeService = new LikeDislikeService(context);
+            var groupService = new GroupService(context);
 
-            if (collection["location"].Equals("newsfeed"))
+            DateTime now = DateTime.Now;
+            var newPost = new Post
             {
-                context.Posts.Add(post);
-                context.SaveChanges();
-                return RedirectToAction("NewsFeed", "Home");
-            }
-            if (collection["location"].Equals("group"))
+                UserId = User.Identity.GetUserId(),
+                Date = now,
+                Text = status
+            };
+
+            if (!groupId.IsNullOrWhiteSpace())
             {
-                var grpId = Int32.Parse(collection["idOfGroup"]);
-                post.GroupId = grpId;
-
-                context.Posts.Add(post);
-                context.SaveChanges();
-                return RedirectToAction("Details", "Group", new {Id = grpId});
-                
+                newPost.GroupId = Int32.Parse(groupId);
             }
-            return View("Error");
 
+            context.Posts.Add(newPost);
+            context.SaveChanges();
+
+            var list = new List<int>();
+            if (groupId.IsNullOrWhiteSpace())
+            {
+                list = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
+            }
+            else
+            {
+                list = groupService.GetAllPostsOfGroup(Int32.Parse(groupId));
+            }
+            
+            var postList = new List<PostsViewModel>();
+            int nOfCurrentStatuses = Int32.Parse(amount);
+            for (int i = (list.Count - nOfCurrentStatuses) - 1; i >= 0 ; i--)
+            {
+                var post = postService.GetPostById(list[i]);
+
+                var profilePicture = userService.GetProfilePicture(post.UserId);
+                string profilePicturePath = profilePicture.PhotoPath;
+
+                var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
+                string lPic = null, dPic = null;
+                if (likeDislike == null)
+                {
+                    lPic = "/Content/images/smileySMALL.png";
+                    dPic = "/Content/images/sadfaceSMALL.png";
+                }
+                else if (likeDislike.Like)
+                {
+                    lPic = "/Content/images/smileyGREEN.png";
+                    dPic = "/Content/images/sadfaceSMALL.png";
+                }
+                else if (likeDislike.Dislike)
+                {
+                    lPic = "/Content/images/smileySMALL.png";
+                    dPic = "/Content/images/sadfaceRED.png";
+                }
+                   
+                postList.Add(
+                    new PostsViewModel()
+                    {
+                        PostId = post.PostId,
+                        Body = post.Text,
+                        User = new UserViewModel()
+                        {
+                            UserId = post.UserId,
+                            Name = userService.GetUserById(post.UserId).Name,
+                            ProfilePicture = profilePicturePath
+                        },
+                        DateInserted = post.Date,
+                        LikeDislikeComment = new LikeDislikeCommentViewModel()
+                        {
+                            Likes = postService.GetPostsLikes(post.PostId),
+                            Dislikes = postService.GetPostsDislikes(post.PostId),
+                            Comments = postService.GetPostsComments(post.PostId).Count
+                        },
+                        LikePic = lPic,
+                        DislikePic = dPic,
+                        isUserPostOwner = (post.UserId == User.Identity.GetUserId()) 
+                    });
+            }
+
+            return Json(postList, JsonRequestBehavior.AllowGet);        
         }
+
 
         [HttpPost]
         public ActionResult RemovePost(FormCollection collection)
@@ -56,8 +124,12 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
-            context.Posts.Remove(postService.GetPostById(postId));
-            context.SaveChanges();
+            var post = postService.GetPostById(postId);
+            if (post != null)
+            {
+                context.Posts.Remove(post);
+                context.SaveChanges();
+            }
             
             var url = ControllerContext.HttpContext.Request.UrlReferrer;
             if (url != null && url.AbsolutePath.Contains("Comment"))
@@ -85,9 +157,7 @@ namespace ConnectIn.Controllers
 
             var profilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId);
 
-            string profilePicturePath = profilePicture == null 
-                ? "~/Content/images/largeProfilePic.jpg" 
-                : profilePicture.PhotoPath;
+            string profilePicturePath = profilePicture.PhotoPath;
 
             if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
             {
@@ -137,9 +207,7 @@ namespace ConnectIn.Controllers
             {
                 var commentList = commentService.GetCommentById(id);
                 profilePicture = userService.GetProfilePicture(commentList.UserId);
-                profilePicturePath = profilePicture == null
-                ? "~/Content/images/largeProfilePic.jpg"
-                : profilePicture.PhotoPath;
+                profilePicturePath = profilePicture.PhotoPath;
                 comments.Comments.Add(
                     new CommentViewModel()
                     {
@@ -179,9 +247,7 @@ namespace ConnectIn.Controllers
             db.SaveChanges();
 
             var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            string profilePicturePath = profilePicture == null
-                ? "~/Content/images/largeProfilePic.jpg"
-                : profilePicture.PhotoPath;
+            string profilePicturePath = profilePicture.PhotoPath;
             var commentList = commentService.GetCommentById(comment.CommentId);
 
             var jsonComment = new CommentViewModel()

@@ -94,7 +94,8 @@ namespace ConnectIn.Controllers
                 }
                 var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
                 int myId = id.Value;
-
+               
+                
                 foreach (var userId in postsOfGroup)
                 {
                     string lPic, dPic;
@@ -144,7 +145,6 @@ namespace ConnectIn.Controllers
                             ProfilePicture = profilePicturePath
                         },
                         DateInserted = post.Date,
-                        Comments = new List<CommentViewModel>(),
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
                         {
                             Likes = postService.GetPostsLikes(post.PostId),

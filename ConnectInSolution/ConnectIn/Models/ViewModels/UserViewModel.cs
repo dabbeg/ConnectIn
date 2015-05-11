@@ -15,6 +15,7 @@ namespace ConnectIn.Models.ViewModels
         public string UserName { get; set; }
         public DateTime Birthday { get; set; }
         public string ProfilePicture { get; set; }
+        public string CoverPhoto { get; set; }
         [Required(ErrorMessage = "Gender required")]
         public string Gender { get; set; }        
         public string Work { get; set; }
