@@ -235,7 +235,6 @@ $(document).ready(function () {
                 var expires = "";
             }
             document.cookie = name + "=" + value + expires + "; path=/";
-
         }
 
         function readCookie(name) {

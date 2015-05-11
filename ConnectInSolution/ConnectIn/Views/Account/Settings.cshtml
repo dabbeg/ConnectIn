@@ -16,7 +16,6 @@
 {
     <div class="row">
         <div class="col-md-10">
-            <div>
                 @{
                     var db = new ApplicationDbContext();
                     var userService = new UserService(db);
@@ -37,11 +36,14 @@
                         detail = "All friends can view your profile and posts.";
                     }
                 }
+
                 <input type="hidden" name="userId" value=@user.Id />
-                <h4>Privacy Settings</h4>
-                <hr />
+            <h4>Privacy Settings</h4>
+
+            <hr/>
+            <div class="PrivacyDiv">
                 <button type="submit" class="btnNew privacy"><img id="privacyimg" src=@img alt="Lock" /><span class="glyphicon bffam">@text</span></button>
-                <span id="privacyText">@detail</span>
+                <div id="privacyText" class="bffam" style="margin-left: 10px">@detail</div>
             </div>
             <p><br /></p>
             <h4>Personal Information</h4>
