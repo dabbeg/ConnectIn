@@ -14,10 +14,13 @@
 
        @foreach (var item in Model)
        {
+           var db = new ApplicationDbContext();
+           var userService = new UserService(db);
+           var friendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
            <div class="post item span3">
                <div class="well" id="FriendsListWell">
                    <small class="pull-right bforfamily">
-                       @if (item.User.UserId != User.Identity.GetUserId())
+                       @if (item.User.UserId != User.Identity.GetUserId() && friendList.Contains(item.User.UserId))
                        {
                         <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
                         <input type="hidden" name="friendId" value="@item.User.UserId" />

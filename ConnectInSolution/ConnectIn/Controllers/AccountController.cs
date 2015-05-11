@@ -96,12 +96,15 @@ namespace ConnectIn.Controllers
             var db = new ApplicationDbContext();
             var userService = new UserService(db);
             var user = userService.GetUserById(User.Identity.GetUserId());
-            user.Privacy = !user.Privacy;
+            if (user.Privacy == 0) user.Privacy = 1;
+            else if (user.Privacy == 1) user.Privacy = 2;
+            else user.Privacy = 0;
+
             db.SaveChanges();
 
             var json = new
             {
-                privacy = user.Privacy ? 1 : 0
+                privacy = user.Privacy
             };
             return Json(json, JsonRequestBehavior.AllowGet);
         }

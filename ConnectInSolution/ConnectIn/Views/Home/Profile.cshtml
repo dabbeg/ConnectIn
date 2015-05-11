@@ -143,7 +143,8 @@
         var db = new ApplicationDbContext();
         var userService = new UserService(db);
         var user = userService.GetUserById(Model.User.UserId);
-        if (user.Id == User.Identity.GetUserId() || (!user.Privacy || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
+        var friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
+        if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
         {
             Html.RenderPartial("PostsPartial", Model.NewsFeed);
         }

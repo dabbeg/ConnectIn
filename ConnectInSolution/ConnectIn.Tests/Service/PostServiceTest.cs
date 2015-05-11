@@ -27,7 +27,7 @@ namespace ConnectIn.Tests.Service
                 School = "HR",
                 Gender = "Male",
                 Address = "add1",
-                Privacy = false
+                Privacy = 1
             };
             mockDb.Users.Add(u1);
 
@@ -41,7 +41,7 @@ namespace ConnectIn.Tests.Service
                 School = "HI",
                 Gender = "Male",
                 Address = "add2",
-                Privacy = false
+                Privacy = 1
             };
             mockDb.Users.Add(u2);
 
@@ -55,7 +55,7 @@ namespace ConnectIn.Tests.Service
                 School = "HA",
                 Gender = "Female",
                 Address = "add3",
-                Privacy = false
+                Privacy = 1
             };
             mockDb.Users.Add(u3);
 
@@ -69,7 +69,7 @@ namespace ConnectIn.Tests.Service
                 School = "FG",
                 Gender = "Female",
                 Address = "add4",
-                Privacy = true
+                Privacy = 1
             };
             mockDb.Users.Add(u4);
             #endregion

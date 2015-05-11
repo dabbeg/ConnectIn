@@ -23,17 +23,23 @@
                     var img = "";
                     var text = "";
                     var detail = "";
-                    if (user.Privacy)
+                    if (user.Privacy == 0)
+                    {
+                        img = "/Content/Images/UnLock.png";
+                        text = "Public";
+                        detail = "Everyone can view your profile and posts";
+                    }
+                    else if (user.Privacy == 1)
                     {
                         img = "/Content/Images/Lock.png";
                         text = "Private";
-                        detail = "Only your best friends and family can view your profile and posts.";
+                        detail = "All friends can view your profile and posts.";
                     }
                     else
                     {
-                        img = "/Content/Images/Unlock.png";
-                        text = "Public";
-                        detail = "All friends can view your profile and posts.";
+                        img = "/Content/Images/ExtremeLock.png";
+                        text = "Extreme Privacy";
+                        detail = "Only your best friends and family can view your profile and posts.";
                     }
                 }
 
