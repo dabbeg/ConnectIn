@@ -329,19 +329,12 @@ $(document).ready(function () {
             if ($(this).text() == "More") {
                 var div = $(this).closest('div.ellipsis-text');
                 div.trigger('destroy').find('a.more').hide();
-                div.css('max-height', '100%');
+                div.css('max-height', '');
                 $("a.less", div).show();
             }
-            else if (($(this).text() == "Less")) {
-                var div = $(this).closest('div.ellipsis-text');
-                div.trigger('destroy').find('a.less').hide();
-                div.css('max-height', '100px');
-                $("a.more", div).show();
-            }
-            else
-            {
+            else {
                 $(this).hide();
-                $(this).closest('div.ellipsis-text').css("max-height", "100px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
+                $(this).closest('div.ellipsis-text').css("max-height", "50px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
             }
         });
 
@@ -350,6 +343,9 @@ $(document).ready(function () {
                 $("a", this).remove();
             }
         }
+    });
+    $('.dontmove').click(function (e) {
+        e.preventDefault();
     });
 
 });

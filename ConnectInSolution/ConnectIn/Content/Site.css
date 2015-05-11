@@ -899,7 +899,7 @@ height: 100%;
     width: 500px;
 }
 a.less {
-    display: none;
+    display:none;
 }
 div.ellipsis-text {
     max-height: 50px;
