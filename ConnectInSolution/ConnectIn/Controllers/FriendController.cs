@@ -116,6 +116,7 @@ namespace ConnectIn.Controllers
             return new EmptyResult();
         }
 
+        [HttpPost]
         public ActionResult HideGroupNotification(FormCollection collection)
         {
             string id = collection["groupNotificationId"];
@@ -134,7 +135,7 @@ namespace ConnectIn.Controllers
             context.Notifications.Remove(notification);
             context.SaveChanges();
 
-            return RedirectToAction("Notifications", "Home");
+            return new EmptyResult();
         }
     }
 }
