@@ -503,6 +503,9 @@ button.btnNew.privacy {
     min-height: 200px;
     height: auto;
     margin: 50px;
+    background:no-repeat;
+    background-size:100%;
+    background-position:center
 }
 #FriendsListWell{
     overflow: hidden;

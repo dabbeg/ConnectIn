@@ -10,7 +10,7 @@
 {
 
         <div class="container">
-        <div class="well" id="ProfileWell"   style="width:100%; height:100%; background-image: url(@Url.Content(Model.User.CoverPhoto))" >
+        <div class="well" id="ProfileWell"   style="background-image: url(@Url.Content(Model.User.CoverPhoto))" >
             <small class="pull-right">
                 @{
                     var db = new ApplicationDbContext();
