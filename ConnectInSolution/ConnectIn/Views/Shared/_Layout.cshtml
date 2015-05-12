@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="@Url.Content("~/icon.ico")"/>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
     <title>Connectin</title>
     @Styles.Render("~/Content/css")
@@ -147,34 +147,35 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
     <script src="~/Scripts/myScript.js"></script>
     <script src="~/Scripts/jquery.cookie.js"></script>
     <script src="~/Scripts/jQuery.tmpl.min.js"></script>
-<script src="~/Scripts/jquery-dateFormat.min.js"></script>
+    <script src="~/Scripts/jquery-dateFormat.min.js"></script>
+    <link href="~/JsLibraries/Jcrop-v0.9.12/css/jquery.Jcrop.min.css" rel="stylesheet" />
+    <script src="~/JsLibraries/Jcrop-v0.9.12/js/jquery.Jcrop.min.js"></script>
     <script src="~/Scripts/jquery.dotdotdot.min.js" type="text/javascript"></script>
+    @RenderSection("scripts", required: false)
 
-<script id="template" type="text/html">
-    <div id="post-${postId}" class="post item span3">
-        <div class="well" id="FriendsListWell">
-            <div id="postContent">
-                <!--Should display user's profile picture, a cat was used temporarily-->
-                <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive  img-rounded" src="${profilePicture}" alt="Profile Picture"/>
-                </div>
-                <!--Should display username instead of item.userID-->
-                <div class="friendsListName">
-                    <h3>
-                        <a href="/Home/Profile/${userId}">${name}</a><small class="pull-right">${date}</small>
-                        @*@Html.ActionLink(${name}, "Profile", new { id = ${userId} })<small class="pull-right">@Html.DisplayFor(modelItem => ${date})</small>*@
-                    </h3>
-                </div>
-                <div class="ellipsis-text preReset">
-                    <pre class="preReset">${text}</pre>
-                    <a class="more dontmove" href="#">See more</a>
-                    <a class="less dontmove" href="#">See less</a>
-                </div>
 
+    <script id="postTemplate" type="text/html">
+        <div id="post-${postId}" class="post item span3">
+            <div class="well" id="FriendsListWell">
+                <div id="postContent">
+                    <!--Should display user's profile picture, a cat was used temporarily-->
+                    <div class="PostPartialViewPhoto">
+                        <img class="PartialViewResponsive  img-rounded" src="${profilePicture}" alt="Profile Picture"/>
+                    </div>
+                    <!--Should display username instead of item.userID-->
+                    <div class="friendsListName">
+                        <h3>
+                            <a href="/Home/Profile/${userId}">${name}</a><small class="pull-right">${date}</small>
+                            @*@Html.ActionLink(${name}, "Profile", new { id = ${userId} })<small class="pull-right">@Html.DisplayFor(modelItem => ${date})</small>*@
+                        </h3>
+                    </div>
+                    <div class="preReset">
+                        <pre class="preReset">${text}</pre>
+                    </div>
                 </div>
 
                 <div id="commentsLikesDeleteDiv">
@@ -195,6 +196,7 @@
             </div>
         </div>
     </script>
+
     <script id="commentTemplate" type="text/html">
         <div id="comment-${commentId}" class="post item span3">
             <div class="well" id="FriendsListWell">
@@ -209,15 +211,18 @@
                                 <small class="pull-right">${date}</small>
                             </h4>
                         </div>
-                        <h5>
-                            ${text}
-                        </h5>
+                        
+                            <div class="preReset">
+                                <pre class="preReset">${text}</pre>
+                            </div>
+                        
                         <span id="reactionCommentButtons"></span>
-                    </div>
+
                 </div>
             </div>
         </div>
-    </script>
+    </div>
+</script>
 
 </body>
 </html>

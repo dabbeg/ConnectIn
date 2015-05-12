@@ -214,7 +214,7 @@ $(document).ready(function () {
         });
     });
 
-    $.get("/Home/BirthdayCounter", function (bdayCounter) {
+    $.get("/Home/BirthdayCounter", function(bdayCounter) {
         $("#birthdayBubble").hide();
 
         if (bdayCounter > 0) {
@@ -222,16 +222,16 @@ $(document).ready(function () {
                 $('#birthdayBubble').show();
                 $("#birthdayBubble").text(bdayCounter);
             }
-        } 
-        
-        $("a#birthdayClick").click(function () {
+        }
+
+        $("a#birthdayClick").click(function() {
             $('#birthdayBubble').hide();
             createCookie('birthdayCookie', true, 1);
 
         });
 
         function notCounter() {
-            $.get("/Home/NotificationCounter", function (counter) {
+            $.get("/Home/NotificationCounter", function(counter) {
                 if (counter > 0) {
                     $("#notificationBubble").show();
                     $("#notificationBubble").text(counter);
@@ -244,11 +244,45 @@ $(document).ready(function () {
         // Asynchronous remove friend
         $(".removeFriend").click(function() {
             var json = {
-                "userId" : $(this).siblings("input[name=userId]").val(),
-                "friendId" : $(this).siblings("input[name=friendId]").val()
+                "userId": $(this).siblings("input[name=userId]").val(),
+                "friendId": $(this).siblings("input[name=friendId]").val()
             };
             $.post("/Friend/Remove", json, function() {
                 $("#removeFriend-" + json.friendId).fadeOut(700);
+            });
+        });
+
+        // Asynchonous remove searched friend
+        $(".removeFriendSearch").click(function() {
+            var json = {
+                "userId": $(this).siblings("input[name=userId]").val(),
+                "friendId": $(this).siblings("input[name=friendId]").val()
+            };
+
+            $.post("/Friend/Remove", json, function() {
+                $("#removeFriend-" + json.friendId).empty();
+                $("#removeFriend-" + json.friendId).append("<div id=\"addFriend-@item.User.UserId\"><input type=\"hidden\" name=\"userId\" value=\"@User.Identity.GetUserId()\"/><input type=\"hidden\" name=\"friendId\" value=\"@item.User.UserId\"/><button type=\"submit\" class=\"btn btn-success addFriend\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add friend</button></div>");
+                $(".bforfamily").hide();
+                $("#removeFriend-" + json.friendId).on("click", ".addFriend", function () {
+                    var button = $("<button></button>").addClass("btn").text("Pending");
+                    $.post("/Friend/Add", json, function () {
+                        $("#removeFriend-" + json.friendId).empty();
+                        $("#removeFriend-" + json.friendId).append(button);
+                    });
+                });
+            });
+        });
+
+        // Asynchronous add friend
+        $(".addFriend").click(function () {
+            var button = $("<button></button>").addClass("btn").text("Pending");
+            var json = {
+                "userId": $(this).siblings("input[name=userId]").val(),
+                "friendId": $(this).siblings("input[name=friendId]").val()
+            };
+            $.post("/Friend/Add", json, function () {
+                $("#addFriend-" + json.friendId).empty();
+                $("#addFriend-" + json.friendId).append(button);
             });
         });
 
