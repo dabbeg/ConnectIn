@@ -927,12 +927,18 @@ nav ul,nav li {
     height: auto;
     width: 500px;
 }
-a.more {
-    display: none;
+span.more {
+    
 }
-a.less {
+span.less {
     display:none;
 }
 div.ellipsis-text {
     max-height: 100px;
+}
+
+.fakeLink {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }
