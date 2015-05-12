@@ -157,6 +157,7 @@
     <script src="~/Scripts/jquery.dotdotdot.min.js" type="text/javascript"></script>
     @RenderSection("scripts", required: false)
 
+
     <script id="postTemplate" type="text/html">
         <div id="post-${postId}" class="post item span3">
             <div class="well" id="FriendsListWell">
@@ -172,10 +173,8 @@
                             @*@Html.ActionLink(${name}, "Profile", new { id = ${userId} })<small class="pull-right">@Html.DisplayFor(modelItem => ${date})</small>*@
                         </h3>
                     </div>
-                    <div class="ellipsis-text preReset">
+                    <div class="preReset">
                         <pre class="preReset">${text}</pre>
-                        <a class="more dontmove" href="#">See more</a>
-                        <a class="less dontmove" href="#">See less</a>
                     </div>
                 </div>
 
@@ -211,9 +210,11 @@
                                 <small class="pull-right">${date}</small>
                             </h4>
                         </div>
-                        <h5>
-                            ${text}
-                        </h5>
+                        
+                            <div class="preReset">
+                                <pre class="preReset">${text}</pre>
+                            </div>
+                        
                         <span id="reactionCommentButtons"></span>
                     </div>
                 </div>
