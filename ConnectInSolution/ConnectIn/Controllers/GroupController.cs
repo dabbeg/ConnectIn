@@ -238,11 +238,14 @@ namespace ConnectIn.Controllers
             foreach (var Id in membersOfGroup)
             {
                 var currUser = userService.GetUserById(Id);
-                groupToEdit.Members.Add(new UserViewModel()
+                if (currUser.Id != User.Identity.GetUserId())
                 {
-                    UserId = currUser.Id,
-                    Name = currUser.Name
-                });
+                    groupToEdit.Members.Add(new UserViewModel()
+                    {
+                        UserId = currUser.Id,
+                        Name = currUser.Name
+                    });
+                }
             }
             
             return View("EditGroup", groupToEdit);
