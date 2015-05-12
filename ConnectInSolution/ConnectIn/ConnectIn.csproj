@@ -176,6 +176,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Utilities\ImageHelper.cs" />
     <Compile Include="Utilities\ImageResult.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
@@ -231,13 +232,39 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\css\Jcrop.gif" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\css\jquery.Jcrop.css" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\css\jquery.Jcrop.min.css" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\demos.css" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\main.css" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\pool.jpg" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\sago.jpg" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\sagomod.jpg" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\demo_files\sagomod.png" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\non-image.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\styling.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\tutorial1.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\tutorial2.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\tutorial3.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\tutorial4.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\tutorial5.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\index.html" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\js\jquery.color.js" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\js\jquery.Jcrop.js" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\js\jquery.Jcrop.min.js" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\js\jquery.min.js" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\MIT-LICENSE.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\demos\crop.php" />
+    <Content Include="JsLibraries\Jcrop-v0.9.12\README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-dateFormat.min.js" />
+    <Content Include="Scripts\jquery.dotdotdot.min.js" />
     <Content Include="Scripts\jQuery.tmpl.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -297,9 +324,12 @@
     <Content Include="Views\Photo\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Group\EditGroup.cshtml" />
+    <Content Include="Views\Photo\PickProfilePicture.cshtml" />
+    <Content Include="Views\Photo\PickCoverPhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\Friend\" />
   </ItemGroup>
   <ItemGroup>
