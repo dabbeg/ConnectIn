@@ -10,7 +10,7 @@
 {
 
         <div class="container">
-        <div class="well" id="ProfileWell"   style="width:100%; height:100%; background-image: url(@Url.Content(Model.User.CoverPhoto))" >
+        <div class="well" id="ProfileWell"   style="background-image: url(@Url.Content(Model.User.CoverPhoto))" >
             <small class="pull-right">
                 @{
                     var db = new ApplicationDbContext();
@@ -64,7 +64,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="glyphicon glyphicon-pencil tableItem">
+                                <td class="glyphicon glyphicon-book tableItem">
                                     School
                                 </td>
                                 <td class="glyphicon schoolFriendsList tableItemInfo">
@@ -84,7 +84,7 @@
                                 <tr>
                                     <td id="hidebutton" class="hideedit">
                                         <a id="Editpencil" href="@Url.Action("Edit", "Account")">
-                                            <i class="glyphicon glyphicon-pencil"></i>
+                                            <i class="glyphicon glyphicon-pencil">Edit</i>
                                             <span class="sr-only">Edit</span>
                                         </a>
                                     </td>
@@ -121,12 +121,11 @@
                         }
                         else
                         {
-                            using (Html.BeginForm("Add", "Friend"))
-                            {
+                            <div id="addFriend-@Model.User.UserId">
                                 <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
                                 <input type="hidden" name="friendId" value="@Model.User.UserId" />
                                 <button type="submit" class="btn btn-success addFriend"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-                            }
+                            </div>
                         }
                     }
                 </div>

@@ -5,7 +5,14 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Comments</h2>
+    <h2>Comments
+        <span style="float: right;">
+            <button type="button" class="btn btn-warning"onclick="javascript:history.go(-1);">Go back</button>
+        </span>
+    </h2>
+
+    
+    
     <div class="container">
         <div id="posts" class="row">
             <div class="post item span3">
@@ -21,10 +28,7 @@
                                     @Html.ActionLink(Model.Post.User.Name, "Profile", "Home", new {id = Model.Post.User.UserId}, null) <small class="pull-right">@Html.DisplayFor(modelItem => Model.Post.DateInserted)</small>
                                 </h3>
                             </div>
-
-                            <p id="PartialPostsText">
-                                @Model.Post.Body
-                            </p>
+                            <pre class="preReset">@Model.Post.Body</pre>
                         </div>
 
                         <div id="commentsLikesDeleteDiv">
@@ -50,29 +54,30 @@
         </div>
     </div>
     <div>
-
-            <div class="form-horizontal">
-                <!--Notifies the StatusController that the post comes from NewsFeed:-->
-                <input type="hidden" name="postId" value="@Model.Post.PostId"/>
-                <input type="hidden" name="location" value="newsfeed" id="statusFromNewsFeed"/>
-                <textarea placeholder="Comment..." class="form-control" rows="5" id="commentstatus" name="status" style="max-width: 100%; display: inline"></textarea>
-                <button type="submit" id="submitcomment" class="btn btn-primary" style="float: right; margin-top: 10px;">Submit</button>
+        <div class="NewsFeedContainer" >
+            <div class="form-horizontal" style="margin-top: 10px; margin-bottom: 20px;">
+                <input type="hidden" name="postId" value="@Model.Post.PostId" />
+                <div class="PostPartialViewPhoto">
+                    <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
+                </div>
+                <textarea placeholder="Comment..." class="commentform-control" rows="5" id="commentstatus" name="status"></textarea>
+                <button type="button" id="submitcomment" class="btn btn-primary">Submit</button>
             </div>
-          
-        
+            <hr />
+        </div>
 
-    </div>
+
+
+        </div>
     
     <div class="container">
-        <div id="allcomments" class="row">
+        <div id="allcomments" class="row  ">
             @foreach (var item in Model.Comments)
             {
-                <div id="comment-@item.CommentId" class="post item span3">
-                    <div class="well" id="FriendsListWell">
+                <div id="comment-@item.CommentId " class="post item span3">
+                    <div class="well commentwell" id="FriendsListWell">
                         <div id="postContent">
-                            <!--Should display user's profile picture, a cat was used temporarily-->
-
-                            <div class="friendsListPhoto" style="margin-right: -115px;">
+                            <div class="PostPartialViewPhoto">
                                 <img class="PartialViewResponsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
                             </div>
                             <!--Should display username instead of item.userID-->
@@ -84,18 +89,16 @@
                                     </h4>
 
                                 </div>
-                                <h5>
-                                    <div class="ellipsis-text preReset">
-                                        <pre class="preReset">@item.Body</pre>
-                                        <a class="more dontmove" href="#">See more</a>
-                                        <a class="less dontmove" href="#">See less</a>
-                                    </div>
-                                </h5>
+                                <div class="ellipsis-text preReset">
+                                    <pre class="preReset">@item.Body</pre>
+                                    <a class="more dontmove" href="#">See more</a>
+                                    <a class="less dontmove" href="#">See less</a>
+                                </div>
                                 <span id="reactionCommentButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())
                                     {
                                         <button type="button" class="btn btn-danger deletePostButton deleteComment">Delete Comment</button>
-                                        <input type="hidden" name="commentId" value="@item.CommentId"/>
+                                        <input type="hidden" name="commentId" value="@item.CommentId" />
                                     }
                                 </span>
 

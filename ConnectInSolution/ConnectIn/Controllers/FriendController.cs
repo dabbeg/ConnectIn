@@ -38,7 +38,8 @@ namespace ConnectIn.Controllers
                 context.SaveChanges();
             }
 
-            return RedirectToAction("Profile", "Home", new { id = friendId });
+            return new EmptyResult();
+            // return RedirectToAction("Profile", "Home", new { id = friendId });
         }
 
         public ActionResult Remove(FormCollection collection)

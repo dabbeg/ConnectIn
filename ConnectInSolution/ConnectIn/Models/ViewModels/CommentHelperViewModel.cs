@@ -10,5 +10,7 @@ namespace ConnectIn.Models.ViewModels
     {
         public List<CommentViewModel> Comments { get; set; }
         public PostsViewModel Post { get; set; }
+
+        public UserViewModel User { get; set; }
     }
 }

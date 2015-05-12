@@ -38,7 +38,7 @@
                                         @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
                                     </h2>
                                 </div>
-                                <div id="addFriendButton">
+                                <div id="addFriendButton" style="margin-top: 10.5%;">
                                     @{
                                         if (item.User.UserId != User.Identity.GetUserId())
                                         {
@@ -47,23 +47,21 @@
                                             {
                                                 <button type="button" class="btn">Pending</button>
                                             }
-                                            else if (friendList.Contains(@item.User.UserId))
+                                            else if (friendList != null && friendList.Contains(@item.User.UserId))
                                             {
-                                                using (Html.BeginForm("Remove", "Friend"))
-                                                {
+                                                <div id="removeFriend-@item.User.UserId">
                                                     <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
                                                     <input type="hidden" name="friendId" value="@item.User.UserId"/>
-                                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
-                                                }
+                                                    <button type="submit" class="btn btn-danger removeFriendSearch"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+                                                </div>
                                             }
                                             else
                                             {
-                                                using (Html.BeginForm("Add", "Friend"))
-                                                {
+                                                <div id="addFriend-@item.User.UserId">
                                                     <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
                                                     <input type="hidden" name="friendId" value="@item.User.UserId"/>
-                                                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-                                                }
+                                                    <button type="submit" class="btn btn-success addFriend"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+                                                </div>
                                             }
                                         }
                                     }
