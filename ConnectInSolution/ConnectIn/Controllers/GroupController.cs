@@ -347,5 +347,30 @@ namespace ConnectIn.Controllers
             }
             return View(groupList);
         }
+
+        public ActionResult LeaveGroup(FormCollection collection)
+        {
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var userService = new UserService(context);
+
+            var grpId = Int32.Parse(collection["groupID"]);
+            var userId = collection["userID"];
+
+            var memberToDelete = groupService.GetMemberByUserIdAndGroupId(grpId, userId);
+            context.Members.Remove(memberToDelete);
+
+            var notifications = userService.GetAllNotificationsForUser(userId);
+            foreach (var ntf in notifications)
+            {
+                var notification = userService.GetNotificationById(ntf.NotificationId);
+                if (notification.GroupId == grpId.ToString())
+                {
+                    context.Notifications.Remove(notification);
+                }
+            }
+            context.SaveChanges();
+            return RedirectToAction("GroupsList");
+        }
     }
 }
