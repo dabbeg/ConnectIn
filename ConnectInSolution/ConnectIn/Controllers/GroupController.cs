@@ -5,7 +5,9 @@ using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using ConnectIn.Services;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using Member = ConnectIn.Models.Entity.Member;
 
 namespace ConnectIn.Controllers
 {
@@ -285,34 +287,36 @@ namespace ConnectIn.Controllers
         public ActionResult AddFriend(FormCollection collection)
         {
             string listOfNewMembers = collection["newFriendsInGroup"];
-            string[] userIdArray = listOfNewMembers.Split(',');
-
-            string groupId = collection["idOfGroup"];
-            var context = new ApplicationDbContext();
-            GroupService groupService = new GroupService(context);
-            UserService userService = new UserService(context);
-            var currentGroup = groupService.GetGroupById(Int32.Parse(groupId));
-
-            foreach (var id in userIdArray)
+            int groupId = Int32.Parse(collection["idOfGroup"]);
+            if (!listOfNewMembers.IsNullOrWhiteSpace())
             {
-                var user = userService.GetUserById(id);
-                context.Members.Add(new Member()
-                {
-                    Group = currentGroup,
-                    GroupId = Int32.Parse(groupId),
-                    User = user,
-                    UserId = user.Id
-                });
-                context.Notifications.Add(new Notification()
-                {
-                    FriendUserId = user.Id,
-                    Date = DateTime.Now,
-                    GroupId = groupId,
-                    UserId = User.Identity.GetUserId(),
-                });
-            }
-            context.SaveChanges();
+                string[] userIdArray = listOfNewMembers.Split(',');
 
+                var context = new ApplicationDbContext();
+                GroupService groupService = new GroupService(context);
+                UserService userService = new UserService(context);
+                var currentGroup = groupService.GetGroupById(groupId);
+
+                foreach (var id in userIdArray)
+                {
+                    var user = userService.GetUserById(id);
+                    context.Members.Add(new Member()
+                    {
+                        Group = currentGroup,
+                        GroupId = groupId,
+                        User = user,
+                        UserId = user.Id
+                    });
+                    context.Notifications.Add(new Notification()
+                    {
+                        FriendUserId = user.Id,
+                        Date = DateTime.Now,
+                        GroupId = groupId,
+                        UserId = User.Identity.GetUserId(),
+                    });
+                }
+                context.SaveChanges();
+            }
             return RedirectToAction("Details", "Group", new { id = groupId });
         }
 
@@ -367,7 +371,7 @@ namespace ConnectIn.Controllers
             foreach (var ntf in notifications)
             {
                 var notification = userService.GetNotificationById(ntf.NotificationId);
-                if (notification.GroupId == grpId.ToString())
+                if (notification.GroupId == grpId)
                 {
                     context.Notifications.Remove(notification);
                 }
