@@ -379,5 +379,29 @@ namespace ConnectIn.Controllers
             context.SaveChanges();
             return RedirectToAction("GroupsList");
         }
+
+        public ActionResult DeleteGroup(FormCollection collection)
+        {
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var userService = new UserService(context);
+
+            var grpId = Int32.Parse(collection["groupID"]);
+            var userId = collection["userId"];
+
+            var groupToDelete = groupService.GetGroupById(grpId);
+            context.Groups.Remove(groupToDelete);
+
+            var notifications = groupService.GetNotificatonsForGroup(grpId);
+
+            foreach (var n in notifications)
+            {
+                context.Notifications.Remove(n);
+            }
+
+            context.SaveChanges();
+
+            return RedirectToAction("GroupsList");
+        }
     }
 }
