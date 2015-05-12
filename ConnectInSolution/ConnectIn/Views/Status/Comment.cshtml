@@ -5,7 +5,14 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Comments</h2>
+    <h2>Comments
+        <span style="float: right;">
+            <button type="button" class="btn btn-warning"onclick="javascript:history.go(-1);">Go back</button>
+        </span>
+    </h2>
+
+    
+    
     <div class="container">
         <div id="posts" class="row">
             <div class="post item span3">

@@ -428,5 +428,13 @@ $(document).ready(function () {
             }
         }
     });
+
+    function goBack() {
+        history.go(-1);
+        $(document).ready(function () {
+            location.reload();
+        });
+
+    } 
 });
 
