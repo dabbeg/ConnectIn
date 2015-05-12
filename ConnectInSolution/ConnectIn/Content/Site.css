@@ -935,9 +935,14 @@ nav ul,nav li {
     width: 500px;
 }
 
-span.less {
-    display:none;
+span.more {
+    display: none;
 }
+
+span.less {
+    display: none;
+}
+
 div.ellipsis-text {
     max-height: 100px;
 }

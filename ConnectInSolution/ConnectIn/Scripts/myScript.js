@@ -450,11 +450,18 @@ $(document).ready(function () {
     });
 
 
+    // Show more or show less
+    $("div .ellipsis-text pre").each(function () {
+        var bla = $(this).height();
+        if ($(this).height() > 52) {
+            $(this).siblings(".more").show();
+        }
+    });
+
     $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden");
 
     $("div .ellipsis-text").on("click", "span", function () {
-        var parent = $(this).siblings("pre");
-        var height = parent[0].scrollHeight;
+        var height = $(this).siblings("pre")[0].scrollHeight;
         if ($(this).hasClass("more")) {
             $(this).siblings("pre").animate({ height: height }, { duration: 1000 });
             $(this).hide();
@@ -467,6 +474,7 @@ $(document).ready(function () {
     });
 
 
+    // Go back by one in history
     function goBack() {
         history.go(-1);
     } 
