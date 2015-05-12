@@ -19,10 +19,10 @@
                         @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                     </h3>
                 </div>
-                <div class='ellipsis-text preReset'>
+                <div class="ellipsis-text preReset">
                     <pre class="preReset">@item.Body</pre>
-                    <a class='more dontmove' href='#'>More</a>
-                    <a class='less dontmove' href='#'>Less</a>
+                    <a class="more dontmove" href="#">See more</a>
+                    <a class="less dontmove" href="#">See less</a>
                 </div>
             </div>
 

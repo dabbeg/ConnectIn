@@ -395,19 +395,19 @@ $(document).ready(function () {
 
     $(function () {
         $("div.ellipsis-text").dotdotdot({
-            after: 'a.more',
+            after: "a.more",
             callback: dotdotdotCallback
         });
-        $("div.ellipsis-text").on('click', 'a', function () {
-            if ($(this).text() == "More") {
-                var div = $(this).closest('div.ellipsis-text');
-                div.trigger('destroy').find('a.more').hide();
-                div.css('max-height', '');
+        $("div.ellipsis-text").on("click", "a", function () {
+            if ($(this).text() == "See more") {
+                var div = $(this).closest("div.ellipsis-text");
+                div.trigger("destroy").find("a.more").hide();
+                div.css("max-height", "");
                 $("a.less", div).show();
             }
             else {
                 $(this).hide();
-                $(this).closest('div.ellipsis-text').css("max-height", "50px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
+                $(this).closest("div.ellipsis-text").css("max-height", "150px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
             }
         });
 
