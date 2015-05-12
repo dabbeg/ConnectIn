@@ -89,14 +89,28 @@
         <button type="submit" class="btn btn-default" style="position: relative; left: 21px;">Back to list</button>
     }
 </span>
-<span style="float: right;">
-    @using (Html.BeginForm("LeaveGroup", "Group"))
-    {
-        <input type="hidden" value="@User.Identity.GetUserId()" name="userID" />
-        <input type="hidden" value="@Model.GroupId" name="groupID" />
-        
-        <button type="submit" class="btn btn-danger">Leave group</button>
-    }
-</span>
+@if (User.Identity.GetUserId() != Model.AdminId)
+{
+    <span style="float: right;">
+        @using (Html.BeginForm("LeaveGroup", "Group"))
+        {
+            <input type="hidden" value="@User.Identity.GetUserId()" name="userID" />
+            <input type="hidden" value="@Model.GroupId" name="groupID" />
+
+            <button type="submit" class="btn btn-danger">Leave group</button>
+        }
+    </span>
+}
+else {
+    <span style="float: right;">
+        @using (Html.BeginForm("DeleteGroup", "Group"))
+        {
+            <input type="hidden" value="@User.Identity.GetUserId()" name="userID" />
+            <input type="hidden" value="@Model.GroupId" name="groupID" />
+
+            <button type="submit" class="btn btn-danger">Delete group</button>
+        }
+    </span>
+}
 <br/>
 <br/>

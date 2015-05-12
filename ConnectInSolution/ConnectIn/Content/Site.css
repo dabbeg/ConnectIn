@@ -526,14 +526,17 @@ button.btnNew.privacy {
     font-size: 25px;
 }
 #ProfileWell {
-    overflow: hidden;
-    max-height: 400px;
-    min-height: 200px;
-    height: auto;
+    overflow: visible;
+    height: 100%;
+    width:100%;
     margin: 50px;
     background:no-repeat;
     background-size:100%;
-    background-position:center
+    background-position: center;
+          border: 0;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
+          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
 }
 #FriendsListWell{
     overflow: hidden;
@@ -931,12 +934,21 @@ nav ul,nav li {
     height: auto;
     width: 500px;
 }
-a.more {
+
+span.more {
     display: none;
 }
-a.less {
-    display:none;
+
+span.less {
+    display: none;
 }
+
 div.ellipsis-text {
     max-height: 100px;
+}
+
+.fakeLink {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }

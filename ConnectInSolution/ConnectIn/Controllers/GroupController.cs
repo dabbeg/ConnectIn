@@ -238,11 +238,14 @@ namespace ConnectIn.Controllers
             foreach (var Id in membersOfGroup)
             {
                 var currUser = userService.GetUserById(Id);
-                groupToEdit.Members.Add(new UserViewModel()
+                if (currUser.Id != User.Identity.GetUserId())
                 {
-                    UserId = currUser.Id,
-                    Name = currUser.Name
-                });
+                    groupToEdit.Members.Add(new UserViewModel()
+                    {
+                        UserId = currUser.Id,
+                        Name = currUser.Name
+                    });
+                }
             }
             
             return View("EditGroup", groupToEdit);
@@ -395,6 +398,30 @@ namespace ConnectIn.Controllers
                 }
             }
             context.SaveChanges();
+            return RedirectToAction("GroupsList");
+        }
+
+        public ActionResult DeleteGroup(FormCollection collection)
+        {
+            var context = new ApplicationDbContext();
+            var groupService = new GroupService(context);
+            var userService = new UserService(context);
+
+            var grpId = Int32.Parse(collection["groupID"]);
+            var userId = collection["userId"];
+
+            var groupToDelete = groupService.GetGroupById(grpId);
+            context.Groups.Remove(groupToDelete);
+
+            var notifications = groupService.GetNotificatonsForGroup(grpId);
+
+            foreach (var n in notifications)
+            {
+                context.Notifications.Remove(n);
+            }
+
+            context.SaveChanges();
+
             return RedirectToAction("GroupsList");
         }
     }

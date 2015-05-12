@@ -83,7 +83,18 @@ namespace ConnectIn.Services
 
         #endregion
 
+        #region Regarding group notifications
 
-       
+        public ICollection<Notification> GetNotificatonsForGroup(int groupId)
+        {
+            var not = (from n in db.Notifications
+                    where n.GroupId == groupId
+                    select n).ToList();
+            return not;
+        }
+
+
+        #endregion
+
     }
 }
