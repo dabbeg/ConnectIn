@@ -360,6 +360,9 @@ namespace ConnectIn.Controllers
             var memberToDelete = groupService.GetMemberByUserIdAndGroupId(grpId, userId);
             context.Members.Remove(memberToDelete);
 
+            // If the user has a notification about the group he is about to leave, the notification is removed.
+            // Otherwise, he could still visit the group after he has left it.
+
             var notifications = userService.GetAllNotificationsForUser(userId);
             foreach (var ntf in notifications)
             {
