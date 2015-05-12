@@ -14,9 +14,9 @@
     <div id="posts" class="row">
     @foreach (var item in Model)
     {
-        if (item.GroupId.Equals("-1"))
+        if (item.GroupId == -1)
         {
-            <div id="friendsacre" class="post item span3" style="position: relative">
+            <div id="friendsacre-@item.NotificationId" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
                         <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
@@ -65,7 +65,7 @@
 
         else
         {
-            <div class="post item span3" style="position: relative">
+            <div id="groupNotification-@item.NotificationId" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
                         <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
@@ -79,11 +79,8 @@
                         </div>
                     </div>
                     <span class="bottomRightButtonRight">
-                        @using (Html.BeginForm("HideGroupNotification", "Friend"))
-                        {
-                            <input type="hidden" name="groupNotificationId" value="@item.NotificationId" />
-                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check"></span>&nbsp;OK</button>
-                        }
+                        <input type="hidden" name="groupNotificationId" value="@item.NotificationId" />
+                        <button type="submit" class="btn btn-success groupNotification"><span class="glyphicon glyphicon-check"></span>&nbsp;OK</button>
                     </span>
                 </div>
             </div>
