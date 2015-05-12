@@ -509,7 +509,10 @@ button.btnNew.privacy {
     color: red;
     background-color: red;
 }
-
+.form-horizontal
+{
+    margin-left:0px;
+}
 #PhotoButton {
     display: inline-block;
 }
