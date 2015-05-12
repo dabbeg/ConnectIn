@@ -26,12 +26,11 @@ namespace ConnectIn.Controllers
             var friendship = userService.GetFriendShip(userId, friendId);
             if (friendship == null)
             {
-
                 var notification = new Notification()
                 {
                     UserId = userId,
                     FriendUserId = friendId,
-                    GroupId = "-1",
+                    GroupId = -1,
                     Date = DateTime.Now
                 };
 

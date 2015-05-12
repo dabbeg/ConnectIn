@@ -383,9 +383,9 @@ namespace ConnectIn.Controllers
                     GroupId = item.GroupId
                 };
 
-                if (item.GroupId != "-1")
+                if (item.GroupId != -1)
                 {
-                    var myGroup = groupService.GetGroupById(Int32.Parse(item.GroupId));
+                    var myGroup = groupService.GetGroupById(item.GroupId);
                     usersNotifications.Group = new GroupDetailViewModel()
                     {
                         Name = myGroup.Name
