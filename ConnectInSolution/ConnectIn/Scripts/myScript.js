@@ -449,31 +449,32 @@ $(document).ready(function () {
         }
     });
 
-    $(function () {
-        $("div.ellipsis-text").dotdotdot({
-            after: "a.more",
-            callback: dotdotdotCallback
-        });
-        $("div.ellipsis-text").on("click", "a", function () {
-            if ($(this).text() == "See more") {
-                var div = $(this).closest("div.ellipsis-text");
-                div.trigger("destroy").find("a.more").hide();
-                div.css("max-height", "");
-                $("a.less", div).show();
-            }
-            else {
-                $(this).hide();
-                $(this).closest("div.ellipsis-text").css("max-height", "100px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
-            }
-        });
 
-        function dotdotdotCallback(isTruncated, originalContent) {
-            if (!isTruncated) {
-                $("a", this).remove();
-            }
+    // Show more or show less
+    $("div .ellipsis-text pre").each(function () {
+        var bla = $(this).height();
+        if ($(this).height() > 52) {
+            $(this).siblings(".more").show();
         }
     });
 
+    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden");
+
+    $("div .ellipsis-text").on("click", "span", function () {
+        var height = $(this).siblings("pre")[0].scrollHeight;
+        if ($(this).hasClass("more")) {
+            $(this).siblings("pre").animate({ height: height }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".less").show();
+        } else {
+            $(this).siblings("pre").animate({ height: "70px" }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".more").show();
+        }
+    });
+
+
+    // Go back by one in history
     function goBack() {
         history.go(-1);
     } 

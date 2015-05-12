@@ -941,21 +941,26 @@ nav ul,nav li {
     height: auto;
     width: 500px;
 }
-a.more {
+
+span.more {
     display: none;
 }
-a.less {
-    display:none;
+
+span.less {
+    display: none;
 }
+
 div.ellipsis-text {
     max-height: 100px;
 }
 
-#cropPhoto {
-
-}
 #aboutUser {
     position: relative;
     display: inline-block;
     margin-right: -20%;
+
+.fakeLink {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }
