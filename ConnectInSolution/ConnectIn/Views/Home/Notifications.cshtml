@@ -14,7 +14,7 @@
     <div id="posts" class="row">
     @foreach (var item in Model)
     {
-        if (item.GroupId.Equals("-1"))
+        if (item.GroupId == -1)
         {
             <div id="friendsacre" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">

@@ -9,25 +9,25 @@
 @if (Request.IsAuthenticated)
 {
 
-        <div class="container">
-        <div class="well" id="ProfileWell"   style="background-image: url(@Url.Content(Model.User.CoverPhoto))" >
+    <div class="container" style="background: no-repeat; background-size: 100%; background-position: center; background-image: url(@Url.Content(Model.User.CoverPhoto));">
+        <div class="well" id="ProfileWell">
             <small class="pull-right">
                 @{
-                    var db = new ApplicationDbContext();
-                    var userService = new UserService(db);
-                    var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
+    var db = new ApplicationDbContext();
+    var userService = new UserService(db);
+    var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
                 }
                 @if (Model.User.UserId != User.Identity.GetUserId() && friendShip != null)
                 {
-                    <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star"/><span class="glyphicon bffam">Best Friend</span></button>
-                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                    <button id="bestFriend-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                    <input type="hidden" name="friendId" value="@Model.User.UserId" />
 
-                    <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star"/><span class="glyphicon bffam">Family</span></button>
-                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                    <button id="family-@Model.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@Model.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+                    <input type="hidden" name="friendId" value="@Model.User.UserId" />
                 }
             </small>
             <div id="userProfilePicture">
-                <a href="/Home/UploadImage"><img class="img-responsiveProfilePic img-thumbnail " src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
+                <img class="img-responsiveProfilePic img-thumbnail " src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
             </div>
             <div id="userNameOnProfile">
                 <div>
@@ -114,8 +114,8 @@
                         {
                             using (Html.BeginForm("Remove", "Friend"))
                             {
-                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                <input type="hidden" name="friendId" value="@Model.User.UserId"/>
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
                                 <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
                             }
                         }
@@ -131,24 +131,17 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-        <div id="profileborder"></div>
     </div>
+            <div id="profileborder" style="margin-top: 20px;"></div>
 
-    {
-        var user = userService.GetUserById(Model.User.UserId);
-        friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
-        if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
-        {
-            Html.RenderPartial("PostsPartial", Model.NewsFeed);
-        }
-    }
+                    {
+                        var user = userService.GetUserById(Model.User.UserId);
+                        friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
+                        if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
+                        {
+                            Html.RenderPartial("PostsPartial", Model.NewsFeed);
+                        }
+                    }
 }
 else
 {
