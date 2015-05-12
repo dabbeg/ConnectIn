@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ConnectIn.DAL;
@@ -9,6 +8,8 @@ using ConnectIn.Models.ViewModels;
 using ConnectIn.Services;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using ConnectIn.Utilities;
+using System.Globalization;
 
 namespace ConnectIn.Controllers
 {
@@ -111,17 +112,9 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
-            var oldProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            if (oldProfilePicture != null)
-            {
-                oldProfilePicture.IsProfilePicture = false;
-            }
-            var photo = userService.GetPhotoById(photoId);
-            photo.IsProfilePicture = true;
-            context.SaveChanges();
-
-            return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
+            return View(userService.GetPhotoById(photoId));
         }
+
         public ActionResult PickCoverPhoto(FormCollection collection)
         {
             string id = collection["photoId2"];
@@ -136,18 +129,85 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
-            int Coverid = Int32.Parse(id);
+            int photoId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
 
-            var oldCoverPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
-            if (oldCoverPhoto != null)
+            return View(userService.GetPhotoById(photoId));
+        }
+
+        [HttpPost]
+        public virtual ActionResult CropImage(FormCollection collection)
+        {
+            string location = collection["location"];
+            string sphotoId = collection["photoId"];
+            string scropPointX = collection["cropPointX"];
+            string scropPointY = collection["cropPointY"];
+            string simageCropWidth = collection["imageCropWidth"];
+            string simageCropHeight = collection["imageCropHeight"];
+            if (location.IsNullOrWhiteSpace() || sphotoId.IsNullOrWhiteSpace() || scropPointX.IsNullOrWhiteSpace()
+                || scropPointY.IsNullOrWhiteSpace() || simageCropWidth.IsNullOrWhiteSpace() || simageCropHeight.IsNullOrWhiteSpace())
             {
-                oldCoverPhoto.IsCoverPhoto = false;
+                if (location == "profile")
+                {
+                    return RedirectToAction("PickProfilePicture", new {photoId = Int32.Parse(sphotoId)});
+                }
+                else if(location == "cover")
+                {
+                    return RedirectToAction("PickCoverPhoto", new { photoId = Int32.Parse(sphotoId) });
+                }
             }
-            var photo = userService.GetPhotoById(Coverid);
-            photo.IsCoverPhoto = true;
+
+            int cropPointX = Int32.Parse(scropPointX);
+            int cropPointY = Int32.Parse(scropPointY);
+            int imageCropWidth = Convert.ToInt32(double.Parse(simageCropWidth, CultureInfo.InvariantCulture));
+            int imageCropHeight = Convert.ToInt32(double.Parse(simageCropHeight, CultureInfo.InvariantCulture));
+
+            var context = new ApplicationDbContext();
+            var photoService = new PhotoService(context);
+            var userService = new UserService(context);
+
+            // Crop photo according to the parameters
+            var photo = photoService.GetPhotoById(Int32.Parse(sphotoId));
+            byte[] imageBytes = photo.PhotoBytes;
+            byte[] croppedImage = ImageHelper.CropImage(imageBytes, cropPointX, cropPointY, imageCropWidth, imageCropHeight);
+
+            // Create a photo instance for the new cropped photo
+            var croppedPhoto = new Photo()
+            {
+                UserId = photo.UserId,
+                Date = DateTime.Now,
+                PhotoBytes = croppedImage,
+                ContentType = photo.ContentType
+            };
+
+            // Profilepicture or coverPicture
+            if (location == "profile")
+            {
+                var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+                if (profilePicture.PhotoBytes != null)
+                {
+                    context.Photos.Remove(profilePicture);
+                }
+                croppedPhoto.IsProfilePicture = true;
+                croppedPhoto.IsCoverPhoto = false;
+            }
+            else if (location == "cover")
+            {
+                var coverPicture = userService.GetCoverPhoto(User.Identity.GetUserId());
+                if (coverPicture != null)
+                {
+                    context.Photos.Remove(coverPicture);
+                }
+                croppedPhoto.IsProfilePicture = false;
+                croppedPhoto.IsCoverPhoto = true;
+            }
+
+            context.Photos.Add(croppedPhoto);
+            context.SaveChanges();
+
+            croppedPhoto.PhotoPath = "/Photo/ShowPhoto/" + croppedPhoto.PhotoId.ToString();
             context.SaveChanges();
 
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
