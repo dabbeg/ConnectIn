@@ -934,5 +934,5 @@ a.less {
     display:none;
 }
 div.ellipsis-text {
-    max-height: 125px;
+    max-height: 100px;
 }
