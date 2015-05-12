@@ -47,15 +47,16 @@
         </div>
     </div>
     <div>
-        <div class="NewsFeedContainer" style="margin-top: 10px; margin-bottom: 20px;">
-            <div class="form-horizontal">
-                <input type="hidden" name="postId" value="@Model.Post.PostId"/>
+        <div class="NewsFeedContainer" >
+            <div class="form-horizontal" style="margin-top: 10px; margin-bottom: 20px;">
+                <input type="hidden" name="postId" value="@Model.Post.PostId" />
                 <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
+                    <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
                 </div>
                 <textarea placeholder="Comment..." class="commentform-control" rows="5" id="commentstatus" name="status"></textarea>
                 <button type="button" id="submitcomment" class="btn btn-primary">Submit</button>
             </div>
+            <hr />
         </div>
 
 
