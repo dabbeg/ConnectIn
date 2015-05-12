@@ -18,8 +18,6 @@
 {
     height:100%;
     width:280px;
-  
-    
 }
 #error2
 {
@@ -39,7 +37,6 @@
     min-height:500px;
     max-width:1000px;
     position:relative;
-  
     margin-left:0px;
     display:inline-block;
 }
@@ -69,10 +66,7 @@
     border:none;
     border-top:none;
     position:relative;
-    float:left;
-
-    
-    
+    float:left;  
 }
 .editinfos
 {
@@ -123,7 +117,7 @@
 }
 #headliner
 {
-        background-image: url("/Content/Images/background.jpg");
+   background-image: url("/Content/Images/background.jpg");
 }
 #headliner > p
 {
@@ -145,21 +139,18 @@
 .thumbnail.right-caption > .caption {
     padding: 4px;
 }
-
-
 /*Homepage*/
 #Indextext
 {
-    text-align:center;
-    
+    text-align:center;  
 }
 .carousel
 {
   z-index:-99;
   overflow:hidden;
 }
-.carousel .item{
-
+.carousel .item
+{
 position:fixed;
 width:100%;
 height:100%;
@@ -220,7 +211,6 @@ overflow:hidden;
     visibility: ;
 }
 
-
 #huge {
   float: right!important;
   font-size: 52px;
@@ -239,10 +229,7 @@ width:40%;
     width:1140px;
     outline:none;
     resize:none;
-    overflow:auto;
- 
-  
-   
+    overflow:auto; 
 }
 
 /*!
