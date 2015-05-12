@@ -27,10 +27,7 @@
 {
    max-width:200px;
 }
-#backgroundimg
-{
-     background-image: url("/Content/Images/background.jpg");
-}
+
 .navbar-nav>li>.dropdown-menu {
   margin-top: 51px;
   border-top-right-radius: 0;
@@ -97,7 +94,13 @@
 /*Homepage*/
 #Indextext
 {
-    text-align:center;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
+    background-color: rgba(255,255,255,0.6);
+    border-style: none;
+
     
 }
 .carousel
@@ -941,3 +944,4 @@ a.less {
 div.ellipsis-text {
     max-height: 100px;
 }
+
