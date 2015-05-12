@@ -289,6 +289,8 @@ namespace ConnectIn.Services
             // Create a list of all photos from the user
             var list = (from up in db.Photos
                         where up.UserId == userId
+                        && up.IsProfilePicture == false
+                        && up.IsCoverPhoto == false
                         orderby up.Date descending
                         select up).ToList();
 

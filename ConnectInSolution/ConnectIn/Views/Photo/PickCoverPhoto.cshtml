@@ -1,18 +1,18 @@
 ﻿@model ConnectIn.Models.Entity.Photo
 
 @{
-    ViewBag.Title = "PickProfilePicture";
+    ViewBag.Title = "PickCoverPhoto";
 }
 
-<h2>PickProfilePicture</h2>
+<h2>PickCoverPhoto</h2>
 
 <p>
-    <img id="cropPhoto" src="@Model.PhotoPath"/>
+    <img id="cropPhoto" src="@Model.PhotoPath" />
 </p>
 
 @using (Html.BeginForm("CropImage", "Photo", FormMethod.Post))
 {
-    <input type="hidden" id="location" name="location" value="profile" />
+    <input type="hidden" id="location" name="location" value="cover"/>
     <input type="hidden" id="photoId" name="photoId" value="@Model.PhotoId" />
     <input type="hidden" id="imageCropWidth" name="imageCropWidth" value="">
     <input type="hidden" id="imageCropHeight" name="imageCropHeight" value="">
@@ -37,7 +37,7 @@
         function initCrop() {
             $("#cropPhoto").Jcrop({
                 onChange: setCoordsAndImgSize,
-                aspectRatio: 1
+                aspectRatio: 5/3
             });
         }
 
