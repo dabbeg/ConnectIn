@@ -12,14 +12,15 @@
     @Html.AntiForgeryToken()
   
     <div class="form-horizontal">
-
+        
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.UserId)
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name)
+                
+                @Html.EditorFor(model => model.Name, new  {maxLength = 30 })
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
         </div>

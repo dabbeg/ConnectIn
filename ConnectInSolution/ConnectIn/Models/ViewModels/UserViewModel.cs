@@ -9,7 +9,8 @@ namespace ConnectIn.Models.ViewModels
 {
     public class UserViewModel
     {
-        [Required(ErrorMessage = "Name required")]   
+        
+        [Required(ErrorMessage = "Name required")]  
         public string Name { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
