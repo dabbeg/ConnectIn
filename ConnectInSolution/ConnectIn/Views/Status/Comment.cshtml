@@ -18,9 +18,10 @@
                             <!--Should display username instead of item.userID-->
                             <div class="friendsListName">
                                 <h3>
-                                    @Html.ActionLink(Model.Post.User.Name, "Profile", "Home", new { id = Model.Post.User.UserId }, null) <small class="pull-right">@Html.DisplayFor(modelItem => Model.Post.DateInserted)</small>
+                                    @Html.ActionLink(Model.Post.User.Name, "Profile", "Home", new {id = Model.Post.User.UserId}, null) <small class="pull-right">@Html.DisplayFor(modelItem => Model.Post.DateInserted)</small>
                                 </h3>
                             </div>
+
                             <p id="PartialPostsText">
                                 @Model.Post.Body
                             </p>
@@ -84,7 +85,11 @@
 
                                 </div>
                                 <h5>
-                                    @item.Body
+                                    <div class="ellipsis-text preReset">
+                                        <pre class="preReset">@item.Body</pre>
+                                        <a class="more dontmove" href="#">See more</a>
+                                        <a class="less dontmove" href="#">See less</a>
+                                    </div>
                                 </h5>
                                 <span id="reactionCommentButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())
