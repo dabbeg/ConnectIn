@@ -60,7 +60,13 @@ namespace ConnectIn.Controllers
             context.Friends.Remove(friendShip);
             context.SaveChanges();
 
-            return RedirectToAction("Profile", "Home", new { id = friendId });
+            var url = ControllerContext.HttpContext.Request.UrlReferrer;
+            if (url != null && url.AbsolutePath.Contains("Profile"))
+            {
+                return RedirectToAction("NewsFeed", "Home");
+            }
+
+            return new EmptyResult();
         }
 
         public ActionResult AcceptFriendRequest(FormCollection collection)

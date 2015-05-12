@@ -241,6 +241,17 @@ $(document).ready(function () {
             });
         };
 
+        // Asynchronous remove friend
+        $(".removeFriend").click(function() {
+            var json = {
+                "userId" : $(this).siblings("input[name=userId]").val(),
+                "friendId" : $(this).siblings("input[name=friendId]").val()
+            };
+            $.post("/Friend/Remove", json, function() {
+                $("#removeFriend-" + json.friendId).fadeOut(700);
+            });
+        });
+
         // Asynchronous accept friend
         $(".acceptFriend").click(function() {
             var json = {
