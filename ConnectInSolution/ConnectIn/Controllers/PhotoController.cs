@@ -13,6 +13,7 @@ using System.Net;
 using ConnectIn.Utilities;
 using System.Configuration;
 using System.IO;
+using System.Globalization;
 
 namespace ConnectIn.Controllers
 {
@@ -116,15 +117,13 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
 
             var oldProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            if (oldProfilePicture != null)
+            if (oldProfilePicture.PhotoBytes != null)
             {
-                oldProfilePicture.IsProfilePicture = false;
+                context.Photos.Remove(oldProfilePicture);
             }
-            var photo = userService.GetPhotoById(photoId);
-            photo.IsProfilePicture = true;
             context.SaveChanges();
 
-            return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
+            return View(userService.GetPhotoById(photoId));
         }
         public ActionResult PickCoverPhoto(FormCollection collection)
         {
@@ -157,38 +156,47 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
         }
 
-        [HttpGet]
-        public ActionResult test()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public virtual ActionResult CropImage(string imagePath, int? cropPointX, int? cropPointY, int? imageCropWidth, int? imageCropHeight)
+        public virtual ActionResult CropImage(FormCollection collection)
         {
-            if (string.IsNullOrEmpty(imagePath) || !cropPointX.HasValue || !cropPointY.HasValue || !imageCropWidth.HasValue || !imageCropHeight.HasValue)
+            string sphotoId = collection["photoId"];
+            string scropPointX = collection["cropPointX"];
+            string scropPointY = collection["cropPointY"];
+            string simageCropWidth = collection["imageCropWidth"];
+            string simageCropHeight = collection["imageCropHeight"];
+            if (sphotoId.IsNullOrWhiteSpace() || scropPointX.IsNullOrWhiteSpace() || scropPointY.IsNullOrWhiteSpace() || simageCropWidth.IsNullOrWhiteSpace() || simageCropHeight.IsNullOrWhiteSpace())
             {
-                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
+                return RedirectToAction("test", new { photoId = Int32.Parse(sphotoId) });
             }
 
-            byte[] imageBytes = System.IO.File.ReadAllBytes(Server.MapPath(imagePath));
-            byte[] croppedImage = ImageHelper.CropImage(imageBytes, cropPointX.Value, cropPointY.Value, imageCropWidth.Value, imageCropHeight.Value);
+            int cropPointX = Int32.Parse(scropPointX);
+            int cropPointY = Int32.Parse(scropPointY);
+            int imageCropWidth = Convert.ToInt32(double.Parse(simageCropWidth, CultureInfo.InvariantCulture));
+            int imageCropHeight = Convert.ToInt32(double.Parse(simageCropHeight, CultureInfo.InvariantCulture));
 
-            string tempFolderName = Server.MapPath("~/" + ConfigurationManager.AppSettings["Image.TempFolderName"]);
-            string fileName = Path.GetFileName(imagePath);
+            var context = new ApplicationDbContext();
+            var photoService = new PhotoService(context);
 
-            try
+            var photo = photoService.GetPhotoById(Int32.Parse(sphotoId));
+            byte[] imageBytes = photo.PhotoBytes;
+            byte[] croppedImage = ImageHelper.CropImage(imageBytes, cropPointX, cropPointY, imageCropWidth, imageCropHeight);
+
+            var croppedPhoto = new Photo()
             {
-                FileHelper.SaveFile(croppedImage, Path.Combine(tempFolderName, fileName));
-            }
-            catch (Exception ex)
-            {
-                //Log an error     
-                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
-            }
+                UserId = photo.UserId,
+                Date = DateTime.Now,
+                PhotoBytes = croppedImage,
+                ContentType = photo.ContentType,
+                IsProfilePicture = true,
+                IsCoverPhoto = false
+            };
+            context.Photos.Add(croppedPhoto);
+            context.SaveChanges();
 
-            string photoPath = string.Concat("/", ConfigurationManager.AppSettings["Image.TempFolderName"], "/", fileName);
-            return Json(new { photoPath = photoPath }, JsonRequestBehavior.AllowGet);
+            croppedPhoto.PhotoPath = "/Photo/ShowPhoto/" + croppedPhoto.PhotoId.ToString();
+            context.SaveChanges();
+
+            return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
         }
     }
 }

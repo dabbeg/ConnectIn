@@ -1,0 +1,52 @@
+﻿@model ConnectIn.Models.Entity.Photo
+
+
+<form action="/Photo/CropImage/" method="post">
+    <input type="hidden" id="photoId"  name="photoId" value="@Model.PhotoId" />
+    <input type="hidden" id="imageCropWidth" name="imageCropWidth" value="">
+    <input type="hidden" id="imageCropHeight" name="imageCropHeight" value="">
+    <input type="hidden" id="cropPointX" name="cropPointX" value="">
+    <input type="hidden" id="cropPointY" name="cropPointY" value="">
+    <button type="submit" >Submit</button>
+</form>
+
+<p>
+    <img id="cropPhoto" src="@Model.PhotoPath" />
+</p>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        var imageCropWidth = 0;
+        var imageCropHeight = 0;
+        var cropPointX = 0;
+        var cropPointY = 0;
+
+        $(document).ready(function () {
+            initCrop();
+        });
+
+        function initCrop() {
+            $("#cropPhoto").Jcrop({
+                onChange: setCoordsAndImgSize,
+                aspectRatio: 1
+            });
+        }
+
+        function setCoordsAndImgSize(e) {
+
+            imageCropWidth = e.w;
+            imageCropHeight = e.h;
+
+            cropPointX = e.x;
+            cropPointY = e.y;
+
+            document.getElementById("imageCropWidth").value = imageCropWidth;
+            document.getElementById("imageCropHeight").value = imageCropHeight;
+            document.getElementById("cropPointX").value = cropPointX;
+            document.getElementById("cropPointY").value = cropPointY;
+        }
+
+    </script>
+}
