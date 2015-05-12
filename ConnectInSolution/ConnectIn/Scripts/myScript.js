@@ -319,6 +319,24 @@ $(document).ready(function () {
             });
         });
 
+        $(".addMembersToGroup").click(function () {
+            var members = $("input[name=newFriendsInGroup]:checked").map(
+                function () { return this.value; }).get().join(",");
+            var json = {
+                "newFriendsInGroup": members,
+                "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
+            };
+            $.post("/Group/AddFriend/", json, function (data) {
+                var list = members.split(",");
+                for (var i = 0; i < list.length; i++) {
+                    var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
+                    $("#groupCheck-" + list[i]).hide();
+                    var table = "<tr><td>" + a + "</td><td>" + data[i].Work +"</td><td>" + data[i].UserName + "</td></tr>";
+                    $("#membersinGroup").append(table);
+                }
+            });
+        });
+
         function createCookie(name, value, days) {
             var expires;
             if (days) {

@@ -288,6 +288,7 @@ namespace ConnectIn.Controllers
         {
             string listOfNewMembers = collection["newFriendsInGroup"];
             int groupId = Int32.Parse(collection["idOfGroup"]);
+            var usersinfo = new List<UserViewModel>();
             if (!listOfNewMembers.IsNullOrWhiteSpace())
             {
                 string[] userIdArray = listOfNewMembers.Split(',');
@@ -296,7 +297,8 @@ namespace ConnectIn.Controllers
                 GroupService groupService = new GroupService(context);
                 UserService userService = new UserService(context);
                 var currentGroup = groupService.GetGroupById(groupId);
-
+                /*var json = "[";
+                var i = 0;*/
                 foreach (var id in userIdArray)
                 {
                     var user = userService.GetUserById(id);
@@ -314,10 +316,26 @@ namespace ConnectIn.Controllers
                         GroupId = groupId,
                         UserId = User.Identity.GetUserId(),
                     });
+                    var birth = user.Birthday.Date;
+                    var date = birth.Day + "." + birth.Month + "." + birth.Year;
+                    usersinfo.Add(
+                        new UserViewModel()
+                        {
+                            Name = user.Name,
+                            UserName = user.UserName,
+                            Work = date
+                        });
                 }
                 context.SaveChanges();
+
+                return Json(usersinfo, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Details", "Group", new { id = groupId });
+            else
+            {
+                return View("Error");
+            }
+            
+            // return new EmptyResult();
         }
 
         public ActionResult RemoveFriend()
