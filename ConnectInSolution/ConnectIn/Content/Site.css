@@ -544,6 +544,13 @@ button.btnNew.privacy {
     margin-top: 15px;
 
 }
+#ProfilePostWell {
+        overflow: hidden;
+    height: auto;
+    margin-top: 15px;
+    margin-left: 25%;
+}
+
 
 .friendsListPhoto {
     display: inline-block;
@@ -945,4 +952,10 @@ div.ellipsis-text {
 }
 
 #cropPhoto {
+
+}
+#aboutUser {
+    position: relative;
+    display: inline-block;
+    margin-right: -20%;
 }
