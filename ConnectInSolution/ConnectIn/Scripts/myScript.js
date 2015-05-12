@@ -418,7 +418,7 @@ $(document).ready(function () {
             }
             else {
                 $(this).hide();
-                $(this).closest("div.ellipsis-text").css("max-height", "150px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
+                $(this).closest("div.ellipsis-text").css("max-height", "125px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
             }
         });
 
