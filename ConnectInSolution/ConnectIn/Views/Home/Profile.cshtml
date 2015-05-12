@@ -121,12 +121,11 @@
                         }
                         else
                         {
-                            using (Html.BeginForm("Add", "Friend"))
-                            {
+                            <div id="addFriend-@Model.User.UserId">
                                 <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
                                 <input type="hidden" name="friendId" value="@Model.User.UserId" />
                                 <button type="submit" class="btn btn-success addFriend"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-                            }
+                            </div>
                         }
                     }
                 </div>

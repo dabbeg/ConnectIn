@@ -35,12 +35,12 @@ namespace ConnectIn.Controllers
                     Date = DateTime.Now
                 };
 
-
                 context.Notifications.Add(notification);
                 context.SaveChanges();
             }
 
-            return RedirectToAction("Profile", "Home", new { id = friendId });
+            return new EmptyResult();
+            // return RedirectToAction("Profile", "Home", new { id = friendId });
         }
 
         public ActionResult Remove(FormCollection collection)
