@@ -15,7 +15,7 @@ namespace ConnectIn.Models.Entity
         public int NotificationId { get; set; }
         public string FriendUserId { get; set; }
         public string UserId { get; set; }
-        public string GroupId { get; set; }
+        public int GroupId { get; set; }
         public System.DateTime Date { get; set; }
         #endregion
 

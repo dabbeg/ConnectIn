@@ -180,6 +180,13 @@ namespace ConnectIn.Controllers
             }
             var comments = new CommentHelperViewModel
             {
+                User = new UserViewModel()
+                {
+                    UserId = postService.GetPostById(postId).UserId,
+                    Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
+                    ProfilePicture = profilePicturePath
+
+                },
                 Comments = new List<CommentViewModel>(),
                 Post = new PostsViewModel()
                 {
@@ -245,12 +252,15 @@ namespace ConnectIn.Controllers
             var postService = new PostService(db);
             var commentService = new CommentService(db);
 
+
+
             var newComment = new Comment
             {
                 UserId = User.Identity.GetUserId(),
                 Date = DateTime.Now,
                 Text = status,
-                PostId = Int32.Parse(postId)
+                PostId = Int32.Parse(postId),
+
             };
             db.Comments.Add(newComment);
             db.SaveChanges();

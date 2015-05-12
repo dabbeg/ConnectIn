@@ -181,14 +181,40 @@ width:40%;
 /* Set width on the form input elements since they're 100% wide by default */
 #newsfeedstatus
 {
-    height:83px;
-    width:1140px;
+    height:100px;
+    width:75%;
     outline:none;
     resize:none;
     overflow:auto;
- 
-  
-   
+}
+#commentstatus {
+    height:100px;
+    width: 75%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+.commentform-control {
+    display: inline;
+    width: 75%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.commentwell {
+    width: 75%;
+    margin-left: 12.5%;
+
 }
 
 /*!
@@ -466,11 +492,10 @@ button.btnNew.privacy {
     margin-right: 15px;
 }
 .img-responsiveProfilePic {
-    width: 100%;
-    max-width: 300px;
-    max-height: 300px;
-    width: 100%;
-    height: auto;
+    max-width: 200px;
+    max-height: 200px;
+    height: 200px;
+    width: 200px;
 }
 
 .personalInfoGlyphs {
@@ -517,8 +542,7 @@ button.btnNew.privacy {
 .friendsListPhoto {
     display: inline-block;
     width: 200px;
-    height: auto;
-    max-height: 200px;
+    height: 200px;
     float: left;
     margin-right: 15px;
 }
@@ -580,7 +604,7 @@ button.btnNew.privacy {
 
 }
 .form-horizontal {
-    margin-left: 5%
+    margin-left: 12.5%;
 }
 .PartialViewResponsive {
     display: inline-block;
@@ -591,7 +615,7 @@ button.btnNew.privacy {
 .PostPartialViewPhoto {
     display: inline-block;
     width: 100px;
-    height: auto;
+    height: 100px;
     max-height: 100px;
     float:left;
     margin-right: 15px;
@@ -636,6 +660,9 @@ button.btnNew.privacy {
 }
 
 #submitNewsFeedStatus {
+    margin: 16px;
+}
+#submitcomment {
     margin: 16px;
 }
 
@@ -775,21 +802,21 @@ text-decoration:none;
 }
 
 nav {
--webkit-user-select:none;
--moz-user-select:none;
--ms-user-select:none;
--o-user-select:none;
-user-select:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
 }
 
 nav ul,nav li {
-outline:0;
-margin:0;
-padding:0;
+    outline:0;
+    margin:0;
+    padding:0;
 }
 .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
-color:#fff;
-background-color: rgba(255,255,255,0.2);
+    color:#fff;
+    background-color: rgba(255,255,255,0.2);
 
 }
 .searchHover {
@@ -800,33 +827,33 @@ background-color: rgba(255,255,255,0.2);
 
 .searchHover:hover {
     color: #fff;
-       margin-top: 25px;
+    margin-top: 25px;
     margin-bottom:5px;
 }
 .main-menu ul a:visited {
     color: #999;
 }
 .bffam {
-  top: 2px;
-  -webkit-font-smoothing: antialiased;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 1;
-  margin-left: -13px;
+    top: 2px;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1;
+    margin-left: -13px;
 }
 .main-menu ul a:hover {
     color: #fff;
 }
 .area {
-float: left;
-width: 100%;
-height: 100%;
+    float: left;
+    width: 100%;
+    height: 100%;
 }
 @font-face {
-  font-family: 'Titillium Web';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
 
 /*-------------------------------TEST MENU------------------------------*/
@@ -871,23 +898,22 @@ height: 100%;
 }
 
 .text-box.single-line{
-      display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.428571429;
-  color: #555555;
-  vertical-align: middle;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-          transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
-
 
 .preReset
 {
@@ -901,9 +927,12 @@ height: 100%;
     height: auto;
     width: 500px;
 }
+a.more {
+    display: none;
+}
 a.less {
     display:none;
 }
 div.ellipsis-text {
-    max-height: 150px;
+    max-height: 100px;
 }
