@@ -292,7 +292,7 @@ $(document).ready(function () {
                 "notificationId" : $(this).siblings("input[name=notificationId]").val()
             };
             $.post("/Friend/AcceptFriendRequest", json, function() {
-                $("#friendsacre").fadeOut(700);
+                $("#friendsacre-" + json.notificationId).fadeOut(700);
                 notCounter();
             });
         });
@@ -303,7 +303,18 @@ $(document).ready(function () {
                 "notificationId": $(this).siblings("input[name=notificationId]").val()
             };
             $.post("/Friend/DeclineFriendRequest", json, function () {
-                $("#friendsacre").fadeOut(700);
+                $("#friendsacre-" + json.notificationId).fadeOut(700);
+                notCounter();
+            });
+        });
+
+        // Asynchronous remove group notification
+        $(".groupNotification").click(function () {
+            var json = {
+                "groupNotificationId": $(this).siblings("input[name=groupNotificationId]").val()
+            };
+            $.post("/Friend/HideGroupNotification", json, function () {
+                $("#groupNotification-" + json.groupNotificationId).fadeOut(700);
                 notCounter();
             });
         });
@@ -458,10 +469,6 @@ $(document).ready(function () {
 
     function goBack() {
         history.go(-1);
-        $(document).ready(function () {
-            location.reload();
-        });
-
     } 
 });
 
