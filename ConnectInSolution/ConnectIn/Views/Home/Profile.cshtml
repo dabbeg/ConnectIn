@@ -131,10 +131,9 @@
                         @if (Model.User.UserId == User.Identity.GetUserId())
                         {
                             <tr>
-                                <td id="hidebutton" class="hideedit">
-                                    <a id="Editpencil" href="@Url.Action("Edit", "Account")">
-                                        <i class="glyphicon glyphicon-pencil">Edit</i>
-                                        <span class="sr-only">Edit</span>
+                                <td id="hidebutton" class="glyphicon  tableItem">
+                                    <a id="Editpencil" href="@Url.Action("Edit", "Account")" class="glyphicon-pencil">
+                                        Edit
                                     </a>
                                 </td>
                             </tr>
