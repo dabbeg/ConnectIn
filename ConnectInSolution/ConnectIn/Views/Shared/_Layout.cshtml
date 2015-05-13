@@ -1,4 +1,6 @@
-﻿@using Microsoft.Ajax.Utilities
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.Ajax.Utilities
 @using Microsoft.AspNet.Identity
 
 
@@ -30,7 +32,18 @@
             <li>@Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
             @if (Request.IsAuthenticated)
             {
-                <li>@Html.ActionLink(@String.Format("Hello, {0}", User.Identity.GetUserName().Substring(0, (User.Identity.GetUserName().IndexOf('@') == -1 ? User.Identity.GetUserName().Length : User.Identity.GetUserName().IndexOf('@')))), "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
+                var db = new ApplicationDbContext();
+                var userService = new UserService(db);
+                var user = userService.GetUserById(User.Identity.GetUserId());
+                var nameA = user.Name.Split(' ');
+                var name = "";
+                for (int i = 0; i < nameA.Length; i++)
+                {
+                    name += nameA[i];
+                    if (i == nameA.Length - 2) {break;}
+                    name += " ";
+                }
+                <li>@Html.ActionLink("Hello, " + name, "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
             }
         </ul>
     </div>
