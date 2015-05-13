@@ -14,6 +14,12 @@
     color:red;
     margin-left:10px;
 }
+.Editform
+{
+    margin-left:0px;
+    position:relative;
+    fit-position:left;
+}
 #error2
 {
     padding-left:40px;
