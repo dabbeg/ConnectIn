@@ -471,12 +471,17 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
 #userNameOnProfile {
     display: inline-block;
-    
+    margin-top: 30px;
+}
+#userNameH1 {
+    color: white; 
+    float: left;
+    margin-left: 10px;
 }
 
 #coverphoto
@@ -485,11 +490,16 @@ button.btnNew.privacy {
     height:100%;
 }
 #userProfilePicture {
-    width: 200px;
-    height: auto;
-    max-height: 200px;
-    float: left;
-    margin-right: 15px;
+    width: 200px; 
+    height: 200px; 
+    padding-top: 10px; 
+    padding-left: 10px;
+}
+
+.coverPhotoGradient {
+    width: 100%;
+    background: url(/Content/Images/blackGradient.png) bottom left repeat-x; 
+    /*border-bottom-color: rgba(0,0,0,.4);*/
 }
 .img-responsiveProfilePic {
     max-width: 200px;
@@ -505,21 +515,36 @@ button.btnNew.privacy {
     
 }
 
-.redBell {
-    color: red;
-    background-color: red;
-}
 .form-horizontal
 {
     margin-left:0px;
 }
-#PhotoButton {
-    display: inline-block;
+.profileStars {
+    margin-top: 200px;
+    margin-right: 15px;
 }
 
+#PhotoButton {
+    display: inline;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.btn.fa.fa-camera.btn-primary {
+        padding: 3px 4px;
+
+}
+
+.dangerFix {
+    margin-left: 85px;
+}
 #addFriendButton {
-    display: inline-block;
-    float: right;
+    margin-left: 25px;
+    margin-top: 25px;
+    margin-right: 25px;
 }
 .friendsListName {
     display: block;
@@ -547,8 +572,17 @@ button.btnNew.privacy {
 #ProfilePostWell {
         overflow: hidden;
     height: auto;
+    width: 68%;
+    float: right;
+    margin-left: 15px;
+}
+#aboutUser {
+    width: 30%;
+    float: left;
     margin-top: 15px;
-    margin-left: 25%;
+}
+p.clear {
+    clear: both;
 }
 
 
@@ -954,13 +988,12 @@ div.ellipsis-text {
     max-height: 100px;
 }
 
-#aboutUser {
-    position: relative;
-    display: inline-block;
-    margin-right: -20%;
 
 .fakeLink {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+}
+
+div#posts.row {
 }
