@@ -346,6 +346,10 @@ width:40%;
 }
 /* ENDOF Simple Sidebar Template*/
 
+.searchHover {
+    cursor: default;
+}
+
 .sidebarGlyphs {
     color: white;
     float: left;
