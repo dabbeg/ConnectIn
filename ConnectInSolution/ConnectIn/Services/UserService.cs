@@ -168,6 +168,27 @@ namespace ConnectIn.Services
 
             return false;
         }
+        public bool FriendConsidersUserClose(string userId, string friendId)
+        {
+            var friendship = GetFriendShip(userId, friendId);
+            if (friendship == null) return false;
+            if (userId == friendship.UserId)
+            {
+                if (friendship.UserConsidersFriendAsBestFriend || friendship.UserConsidersFriendAsFamily)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (friendship.FriendConsidersUsersAsBestFriend || friendship.FriendConsidersUsersAsFamily)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         #endregion
 
         #region queries regarding posts
@@ -260,7 +281,7 @@ namespace ConnectIn.Services
         {
             var pPhoto = (from p in db.Photos
                 where p.UserId == userId
-                      && p.IsCurrentProfilePhoto == true
+                      && p.IsCurrentProfilePhoto
                 select p).SingleOrDefault();
 
             if (pPhoto == null)

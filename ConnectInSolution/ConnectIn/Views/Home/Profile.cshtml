@@ -148,14 +148,13 @@
     {
         var user = userService.GetUserById(Model.User.UserId);
         friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
-        if (user.Id == User.Identity.GetUserId() || ((user.Privacy == 0 || user.Privacy == 1 && friendShip != null) || userService.UserConsidersFriendClose(user.Id, User.Identity.GetUserId())))
+        if (user.Id == User.Identity.GetUserId() || user.Privacy == 0 || (user.Privacy == 1 && friendShip != null) || (user.Privacy == 2 && userService.FriendConsidersUserClose(user.Id, User.Identity.GetUserId())))
         {
             <div id="ProfilePostWell">
                 @{
                     Html.RenderPartial("PostsPartial", Model.NewsFeed);
                 }
-                </div>
-
+            </div>
         }
     }
 }
