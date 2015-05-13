@@ -2,7 +2,7 @@
 $(document).ready(function () {
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
-    $(".row a").click(function() {
+    $(".row span").click(function() {
         document.getElementById("photoId").value = $(this).attr("id");
         document.getElementById("photoId2").value = $(this).attr("id");
     });
@@ -492,9 +492,60 @@ $(document).ready(function () {
     });
 
 
+    // Inject a div to divide the photos
+    $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
+
+    if ($("#profilePhotoContainer > div").length == 0) {
+        $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+    }
+
+    if ($("#coverPhotoContainer > div").length == 0) {
+        $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+    }
+
+    $("#pickCoverPhoto").attr("disabled", true);
+    $("#pickProfilePhoto").attr("disabled", true);
+
+    $("span.thumbnail").click(function () {
+        $("span.thumbnail").css("border-color", "#ddd");
+        $(this).css("border-color", "#428bca");
+
+        var photoId = $(this).attr("id");
+        $.post("/Photo/IsProfilePhoto", { "photoId": photoId }, function (data) {
+            if (data) {
+                $("#pickCoverPhoto").attr("disabled", true);
+                $("#pickProfilePhoto").attr("disabled", false);
+            } else {
+                $("#pickCoverPhoto").attr("disabled", false);
+                $("#pickProfilePhoto").attr("disabled", true);
+            }
+        });
+    });
+
     // Go back by one in history
     function goBack() {
         history.go(-1);
-    } 
+    }
+
+
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+        console.log(numFiles);
+        console.log(label);
+        $("input[type=text]").val(label);
+    });
+
+    $(".btn-upload").attr("disabled", true);
+    $("input[name=Image]").change(function () {
+        if ($(this).val() != "") {
+            $(".btn-upload").attr("disabled", false);
+        }
+    });
 });
 

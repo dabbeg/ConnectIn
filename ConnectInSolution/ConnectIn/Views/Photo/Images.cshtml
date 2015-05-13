@@ -7,43 +7,69 @@
 
 <h2>Images</h2>
 
-<div class="container">
-
-    <div class="row">
-        @foreach (var item in Model.Images)
+<div class="photoContainer">
+    <h3>Profile Photos</h3>
+    <div class="container profileCoverDivider">
+        <div class="row" id="profilePhotoContainer">
+            @foreach (var item in Model.ProfilePhotos)
+            {
+                <div class="col-xs-6 col-sm-4 col-md-3 profilePhotoThumbnails">
+                    <span id="@item.PhotoId" class="thumbnail fakeLink">
+                        <img src="@item.PhotoPath" class="profilePhotos" alt="userPhoto"/>
+                    </span>
+                </div>
+            }
+        </div>
+        @if (Model.UserId == User.Identity.GetUserId())
         {
-            <div class="col-xs-6 col-md-3">
-                <a href="#" id="@item.PhotoId" class="thumbnail">
-                    <img src="@item.ImagePath" alt="userPhoto" />
-                </a>
+            <div class="btnUpload">
+                @using (Html.BeginForm("UploadProfilePhoto", "Photo", FormMethod.Get))
+                {
+                    <button type="submit" class="btn btn-primary">Upload Profile Photo</button>
+                }
+            </div>
+
+            <div class="btnProfile">
+                @using (Html.BeginForm("PickProfilePicture", "Photo", FormMethod.Post))
+                {
+                    <input type="hidden" id="photoId" name="photoId" value="PUT PHOTOID"/>
+                    <button type="submit" id="pickProfilePhoto" class="btn btn-primary">Pick as Profile Photo</button>
+                }
             </div>
         }
     </div>
 
-    @if (Model.UserId == User.Identity.GetUserId())
-    {
-        <div class="btnUpload">
-            @using (Html.BeginForm("UploadImage", "Photo", FormMethod.Get))
+    <h3>Cover Photos</h3>
+    <div class="container">
+        <div class="row" id="coverPhotoContainer">
+            @foreach (var item in Model.CoverPhotos)
             {
-                <button type="submit" class="btn btn-primary">Upload Photo</button>
+                <div class="col-xs-6 col-sm-4 col-md-3 coverPhotoThumbnails">
+                    <span id="@item.PhotoId" class="thumbnail fakeLink">
+                        <img src="@item.PhotoPath" class="coverPhotos" alt="userPhoto" />
+                    </span>
+                </div>
             }
         </div>
 
-        <div class="btnProfile">
-            @using (Html.BeginForm("PickProfilePicture", "Photo", FormMethod.Post))
-            {
-                <input type="hidden" id="photoId" name="photoId" value="PUT PHOTOID" />
-                <button type="submit" class="btn btn-primary">Pick as Profile Picture</button>
-            }
-        </div>
-        <div class="btnCover">
-            @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
-            {
-                <input type="hidden" id="photoId2" name="photoId2" value="PUT PHOTO" />
-                <button type="submit" class="btn btn-primary">Pick as Cover Picture</button>
-            }
-        </div>
 
-    }
+        @if (Model.UserId == User.Identity.GetUserId())
+        {
+            <div class="btnUpload">
+                @using (Html.BeginForm("UploadCoverPhoto", "Photo", FormMethod.Get))
+                {
+                    <button type="submit" class="btn btn-primary">Upload Cover Photo</button>
+                }
+            </div>
+            <div class="btnCover">
+                @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
+                {
+                    <input type="hidden" id="photoId2" name="photoId2" value="PUT PHOTO" />
+                    <button type="submit" id="pickCoverPhoto" class="btn btn-primary">Pick as Cover Photo</button>
+                }
+            </div>
+
+        }
+    </div>
 
 </div>

@@ -2,7 +2,7 @@
 @model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 
-<div class="container">
+<div class="container postPartialContainer">
     <div id="posts" class="row">
         @foreach (var item in Model.Posts)
 {
@@ -22,7 +22,6 @@
                 <!--<button type="button" class="david"> dabs</button>-->
                 <div class="ellipsis-text preReset">
                     <pre class="preReset">@item.Body</pre>
-                    
                     <span class="more dontmove fakeLink">See more</span>
                     <span class="less dontmove fakeLink">See less</span>
                 </div>

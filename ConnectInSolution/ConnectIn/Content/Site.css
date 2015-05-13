@@ -14,10 +14,13 @@
     color:red;
     margin-left:10px;
 }
+
+
 #error2
 {
     padding-left:40px;
 }
+/* Profile*/
 #ProfileWell
 {
     border:none;
@@ -27,10 +30,7 @@
 {
    max-width:200px;
 }
-#backgroundimg
-{
-     background-image: url("/Content/Images/background.jpg");
-}
+
 .navbar-nav>li>.dropdown-menu {
   margin-top: 51px;
   border-top-right-radius: 0;
@@ -475,12 +475,17 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
 #userNameOnProfile {
     display: inline-block;
-    
+    margin-top: 30px;
+}
+#userNameH1 {
+    color: white; 
+    float: left;
+    margin-left: 10px;
 }
 
 #coverphoto
@@ -489,11 +494,16 @@ button.btnNew.privacy {
     height:100%;
 }
 #userProfilePicture {
-    width: 200px;
-    height: auto;
-    max-height: 200px;
-    float: left;
-    margin-right: 15px;
+    width: 200px; 
+    height: 200px; 
+    padding-top: 10px; 
+    padding-left: 10px;
+}
+
+.coverPhotoGradient {
+    width: 100%;
+    background: url(/Content/Images/blackGradient.png) bottom left repeat-x; 
+    /*border-bottom-color: rgba(0,0,0,.4);*/
 }
 .img-responsiveProfilePic {
     max-width: 200px;
@@ -509,21 +519,36 @@ button.btnNew.privacy {
     
 }
 
-.redBell {
-    color: red;
-    background-color: red;
-}
 .form-horizontal
 {
     margin-left:0px;
 }
-#PhotoButton {
-    display: inline-block;
+.profileStars {
+    margin-top: 200px;
+    margin-right: 15px;
 }
 
+#PhotoButton {
+    display: inline;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.btn.fa.fa-camera.btn-primary {
+        padding: 3px 4px;
+
+}
+
+.dangerFix {
+    margin-left: 85px;
+}
 #addFriendButton {
-    display: inline-block;
-    float: right;
+    margin-left: 25px;
+    margin-top: 25px;
+    margin-right: 25px;
 }
 .friendsListName {
     display: block;
@@ -548,6 +573,22 @@ button.btnNew.privacy {
     margin-top: 15px;
 
 }
+#ProfilePostWell {
+        overflow: hidden;
+    height: auto;
+    width: 68%;
+    float: right;
+    margin-left: 15px;
+}
+#aboutUser {
+    width: 30%;
+    float: left;
+    margin-top: 15px;
+}
+p.clear {
+    clear: both;
+}
+
 
 .friendsListPhoto {
     display: inline-block;
@@ -893,19 +934,18 @@ nav ul,nav li {
     border-radius:30px;
     display: none;
 }
-
+/*Images*/
 .btnUpload {
     float: right;
 }
 
 .btnProfile {
-    float: left;
+    
     
 }
 .btnCover
 {
-    float:left;
-    margin-left:20px;
+    
 }
 
 .text-box.single-line{
@@ -937,6 +977,7 @@ nav ul,nav li {
     text-align:left;
     height: auto;
     width: 500px;
+    margin: 0;
 }
 
 span.more {
@@ -951,8 +992,87 @@ div.ellipsis-text {
     max-height: 100px;
 }
 
+
 .fakeLink {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+}
+
+div#posts.row {
+}
+
+.profilePhotoThumbnails {
+    width: 225px;
+    height: 225px;
+}
+
+.coverPhotoThumbnails {
+    width: 570px;
+    height: 180px;
+}
+
+.profilePhotos {
+    width: 175px;
+    height: 175px;
+}
+
+.coverPhotos {
+    width: 684px;
+    height: 183px;
+}
+
+.photoContainer {
+    padding-bottom: 10px;
+}
+
+.profileCoverDivider {
+    padding-bottom: 20px;
+}
+
+#profilePhotoContainer {
+    min-height: 50px;
+}
+
+#coverPhotoContainer {
+    min-height: 50px;
+}
+
+span.thumbnail:hover,
+span.thumbnail:focus {
+  border-color: #428bca;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+.btn-crop {
+    float: right;
+}
+
+.cropContainer {
+    padding-bottom: 40px;
+}
+
+.cropBtnContainer {
+    padding-top: 50px;
 }
