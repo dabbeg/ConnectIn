@@ -325,7 +325,6 @@
     <Content Include="Views\Photo\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Group\EditGroup.cshtml" />
-    <Content Include="Views\Photo\PickProfilePicture.cshtml" />
     <Content Include="Views\Photo\CropProfilePhoto.cshtml" />
     <Content Include="Views\Photo\CropCoverPhoto.cshtml" />
     <Content Include="Views\Photo\UploadCoverPhoto.cshtml" />
