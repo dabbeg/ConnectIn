@@ -22,9 +22,11 @@
         <tbody id="membersinGroup">
             @foreach (var member in Model.Members)
             {
+                var birth = member.Birthday;
+                var date = birth.Day + "." + birth.Month + "." + birth.Year;
                 <tr>
                     <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
-                    <td>@member.Birthday.ToString().Substring(0, 10)</td>
+                    <td>@date</td>
                     <td>@member.UserName</td>
                 </tr>
             }
