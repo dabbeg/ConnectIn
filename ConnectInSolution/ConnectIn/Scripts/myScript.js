@@ -474,6 +474,9 @@ $(document).ready(function () {
     });
 
 
+    // Inject a div to divide the photos
+    $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
+
     // Go back by one in history
     function goBack() {
         history.go(-1);

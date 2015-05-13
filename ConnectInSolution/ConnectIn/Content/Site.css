@@ -952,3 +952,14 @@ div.ellipsis-text {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.photoThumbnails {
+    /**/width: 225px;
+    height: 225px;
+}
+
+.profilePhotos {
+    width:1750px;
+    height: 175px;
+
+}

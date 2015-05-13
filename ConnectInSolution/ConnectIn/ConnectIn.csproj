@@ -325,6 +325,7 @@
     <Content Include="Views\Group\EditGroup.cshtml" />
     <Content Include="Views\Photo\PickProfilePicture.cshtml" />
     <Content Include="Views\Photo\PickCoverPhoto.cshtml" />
+    <Content Include="Views\Photo\CropProfilePicture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

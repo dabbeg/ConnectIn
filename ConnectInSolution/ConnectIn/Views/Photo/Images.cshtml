@@ -9,12 +9,12 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row" id="photoContainer">
         @foreach (var item in Model.Images)
         {
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-sm-4 col-md-3 photoThumbnails">
                 <a href="#" id="@item.PhotoId" class="thumbnail">
-                    <img src="@item.ImagePath" alt="userPhoto" />
+                    <img src="@item.ImagePath" class="profilePhotos" alt="userPhoto" />
                 </a>
             </div>
         }

@@ -73,7 +73,7 @@ namespace ConnectIn.Controllers
             photo.PhotoPath = "/Photo/ShowPhoto/" + photo.PhotoId.ToString();
             context.SaveChanges();
 
-            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
+            return RedirectToAction("CropProfilePicture", new { photoId = photo.PhotoId });
         }
 
         public ActionResult ShowPhoto(int? id)
@@ -108,11 +108,18 @@ namespace ConnectIn.Controllers
             }
 
             int photoId = Int32.Parse(id);
-
+            
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
+            var oldPhoto = userService.GetProfilePicture(User.Identity.GetUserId());
+            if(oldPhoto != null)
+            {
+                oldPhoto.IsProfilePicture = false;
+            }
+            userService.GetPhotoById(photoId).IsProfilePicture = true;
+            context.SaveChanges();
 
-            return View(userService.GetPhotoById(photoId));
+            return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
         }
 
         public ActionResult PickCoverPhoto(FormCollection collection)
@@ -135,6 +142,20 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
 
             return View(userService.GetPhotoById(photoId));
+        }
+
+        
+        public ActionResult CropProfilePicture(int? photoId)
+        {
+            if (!photoId.HasValue)
+            {
+                return View("Error");
+            }
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            return View(userService.GetPhotoById(photoId.Value));
         }
 
         [HttpPost]
@@ -179,21 +200,13 @@ namespace ConnectIn.Controllers
                 UserId = photo.UserId,
                 Date = DateTime.Now,
                 PhotoBytes = croppedImage,
-                ContentType = photo.ContentType
+                ContentType = photo.ContentType,
+                IsProfilePicture = false,
+                IsCoverPhoto = false
             };
 
-            // Profilepicture or coverPicture
-            if (location == "profile")
-            {
-                var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-                if (profilePicture.PhotoBytes != null)
-                {
-                    context.Photos.Remove(profilePicture);
-                }
-                croppedPhoto.IsProfilePicture = true;
-                croppedPhoto.IsCoverPhoto = false;
-            }
-            else if (location == "cover")
+            
+            if (location == "cover")
             {
                 var coverPicture = userService.GetCoverPhoto(User.Identity.GetUserId());
                 if (coverPicture != null)
@@ -204,13 +217,14 @@ namespace ConnectIn.Controllers
                 croppedPhoto.IsCoverPhoto = true;
             }
 
+            context.Photos.Remove(photo);
             context.Photos.Add(croppedPhoto);
             context.SaveChanges();
 
             croppedPhoto.PhotoPath = "/Photo/ShowPhoto/" + croppedPhoto.PhotoId.ToString();
             context.SaveChanges();
 
-            return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
+            return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
     }
 }
