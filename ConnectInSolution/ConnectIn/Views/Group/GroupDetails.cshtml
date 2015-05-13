@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
-                    <td>@member.Birthday.ToString().Substring(0, 8)</td>
+                    <td>@member.Birthday.ToString().Substring(0, 10)</td>
                     <td>@member.UserName</td>
                 </tr>
             }
