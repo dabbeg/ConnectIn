@@ -973,6 +973,7 @@ nav ul,nav li {
     text-align:left;
     height: auto;
     width: 500px;
+    margin: 0;
 }
 
 span.more {
@@ -1021,7 +1022,7 @@ div#posts.row {
     padding-bottom: 10px;
 }
 
-.divider {
+.profileCoverDivider {
     padding-bottom: 20px;
 }
 

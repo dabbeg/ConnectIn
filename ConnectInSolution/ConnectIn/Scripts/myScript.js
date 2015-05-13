@@ -540,5 +540,12 @@ $(document).ready(function () {
         console.log(label);
         $("input[type=text]").val(label);
     });
+
+    $(".btn-upload").attr("disabled", true);
+    $("input[name=Image]").change(function () {
+        if ($(this).val() != "") {
+            $(".btn-upload").attr("disabled", false);
+        }
+    });
 });
 
