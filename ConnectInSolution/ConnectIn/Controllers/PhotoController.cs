@@ -128,6 +128,23 @@ namespace ConnectIn.Controllers
             return RedirectToAction("CropCoverPhoto", new { photoId = photo.PhotoId });
         }
 
+        [HttpPost]
+        public ActionResult DeletePhoto(int? photoId)
+        {
+            if (!photoId.HasValue)
+            {
+                return View("Error");
+            }
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+
+            context.Photos.Remove(userService.GetPhotoById(photoId.Value));
+            context.SaveChanges();
+
+            return new EmptyResult();
+        }
+
         [HttpGet]
         public ActionResult ShowPhoto(int? id)
         {
@@ -179,7 +196,7 @@ namespace ConnectIn.Controllers
         [HttpPost]
         public ActionResult PickCoverPhoto(FormCollection collection)
         {
-            string id = collection["photoId2"];
+            string id = collection["photoId"];
 
             if (id == "PUT PHOTO")
             {
