@@ -7,7 +7,8 @@ namespace ConnectIn.Models.ViewModels
 {
     public class PhotoAlbumViewModel
     {
-        public List<ImageViewModel> Images { get; set; }
+        public List<PhotoViewModel> ProfilePhotos { get; set; }
+        public List<PhotoViewModel> CoverPhotos { get; set; }
         public string UserId { get; set; }
     }
 }

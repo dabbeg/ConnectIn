@@ -5,10 +5,9 @@ using System.Web;
 
 namespace ConnectIn.Models.ViewModels
 {
-    public class ImageViewModel
+    public class PhotoViewModel
     {
-        public string ImagePath { get; set; }
+        public string PhotoPath { get; set; }
         public int PhotoId { get; set; }
-        public int PhotoId2 { get; set; }
     }
 }

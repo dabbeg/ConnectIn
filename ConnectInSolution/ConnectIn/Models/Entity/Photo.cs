@@ -12,14 +12,15 @@ namespace ConnectIn.Models.Entity
         #region Columns
         [Key]
         public int PhotoId { get; set; }
-        public int PhotoId2 { get; set; }
         public string PhotoPath { get; set; }
         public string ContentType { get; set; }
         public byte[] PhotoBytes { get; set; }
         public string UserId { get; set; }
         public System.DateTime Date { get; set; }
-        public bool IsProfilePicture { get; set; }
+        public bool IsProfilePhoto { get; set; }
+        public bool IsCurrentProfilePhoto { get; set; }
         public bool IsCoverPhoto { get; set; }
+        public bool IsCurrentCoverPhoto { get; set; }
         #endregion
 
         #region ForeignKeys
