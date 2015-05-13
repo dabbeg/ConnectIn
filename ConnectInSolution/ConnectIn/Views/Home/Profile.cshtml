@@ -9,13 +9,13 @@
 @if (Request.IsAuthenticated)
 {
 
-    <div class="container" style="height: 305px; width: 1140px; padding: 0 0;clear: both; margin-left: 0; margin-right: 0;background: no-repeat; background-size: 100%; background-image: url(@Url.Content(Model.User.CoverPhoto));">
-        <div class="coverPhotoGradient">
+    <div class="coverPhotoProfile" style="background-image: url(@Url.Content(Model.User.CoverPhoto));">
+        <div class="coverPhotoGradient" >
             <div class="pull-right">
                 @{
-                var db = new ApplicationDbContext();
-                var userService = new UserService(db);
-                var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
+    var db = new ApplicationDbContext();
+    var userService = new UserService(db);
+    var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
                 }
                 <div id="addFriendButton">
                     @if (Model.User.UserId != User.Identity.GetUserId())
@@ -31,11 +31,11 @@
                             using (Html.BeginForm("Remove", "Friend"))
                             {
 
-                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                    <input type="hidden" name="friendId" value="@Model.User.UserId"/>
-                                    <button type="submit" class="btn btn-danger dangerFix">
-                                        <i class=" glyphicon glyphicon-minus"></i>&nbsp;Remove friend
-                                    </button>                        
+                                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                                <input type="hidden" name="friendId" value="@Model.User.UserId" />
+                                <button type="submit" class="btn btn-danger dangerFix">
+                                    <i class=" glyphicon glyphicon-minus"></i>&nbsp;Remove friend
+                                </button>
                             }
                         }
                         else
@@ -49,7 +49,7 @@
                     }
                 </div>
                 <div class="profileStars">
-                    
+
                     @if (Model.User.UserId != User.Identity.GetUserId() && friendShip != null)
                     {
                         <button id="bestFriend-@Model.User.UserId" style="color: white;" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@Model.User.BfStar)" alt="Star" /><span class="glyphicon bffam starColor">Best Friend</span></button>
@@ -65,20 +65,20 @@
             </div>
             <div id="userNameOnProfile">
 
-                    <h1 id="userNameH1">
-                        @string.Format("{0}", Model.User.Name)
-                    </h1>
+                <h1 id="userNameH1">
+                    @string.Format("{0}", Model.User.Name)
+                </h1>
 
 
-                    <div id="PhotoButton">
-                        @using (Html.BeginForm("Images", "Photo", new { userId = Model.User.UserId }))
-                        {
-                            <button type="submit" class="btn fa fa-camera btn-primary"></button>
-                        }
-                    </div>
+                <div id="PhotoButton">
+                    @using (Html.BeginForm("Images", "Photo", new { userId = Model.User.UserId }))
+                    {
+                        <button type="submit" class="btn fa fa-camera btn-primary"></button>
+                    }
+                </div>
 
 
-                
+
             </div>
 
         </div>

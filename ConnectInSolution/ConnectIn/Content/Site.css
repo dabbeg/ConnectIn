@@ -512,9 +512,17 @@ button.btnNew.privacy {
     display: block;
     margin-right: 0;
 }
-
+.coverPhotoProfile {
+    height: 305px; 
+    width: 1140px; 
+    padding: 0 0;
+    clear: both; 
+    margin-left: 0; 
+    margin-right: 0;
+    background: no-repeat; 
+    background-size: 100%; 
+}
 .coverPhotoGradient {
-    width: 100%;
     background: url(/Content/Images/blackGradient.png) bottom left repeat-x; 
     /*border-bottom-color: rgba(0,0,0,.4);*/
 }
