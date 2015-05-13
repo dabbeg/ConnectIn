@@ -11,86 +11,84 @@
         <h2>Search</h2>
         <div id="posts" class="row">
             @foreach (var item in Model)
-            {
-                var db = new ApplicationDbContext();
-                var userService = new UserService(db);
-                var friendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                <div class="post item span3">
-
-                    <div class="well" id="FriendsListWell">
-                        <small class="pull-right bforfamily">
-                            @if (item.User.UserId != User.Identity.GetUserId() && friendList != null && friendList.Contains(item.User.UserId))
-                            {
-                                <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
-                                <input type="hidden" name="friendId" value="@item.User.UserId" />
-                                <button id="family-@item.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
-                            }
-                        </small>
-                        <div id="postContent">
-                            <!--Should display user's profile picture, a cat was used temporarily-->
-                            <div class="friendsListPhoto">
-                                <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
-                            </div>
-                            <!--Should display username instead of item.userID-->
-                            <div class="friendsListAbout">
-                                <div class="friendsListName">
-                                    <h2>
-                                        @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
-                                    </h2>
-                                </div>
-                                <div id="addFriendButton" style="margin-top: 10.5%;">
-                                    @{
-                                        if (item.User.UserId != User.Identity.GetUserId())
-                                        {
-                                            var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), item.User.UserId);
-                                            if (notification != null)
-                                            {
-                                                <button type="button" class="btn">Pending</button>
-                                            }
-                                            else if (friendList != null && friendList.Contains(@item.User.UserId))
-                                            {
-                                                <div id="removeFriend-@item.User.UserId">
-                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                                    <input type="hidden" name="friendId" value="@item.User.UserId"/>
-                                                    <button type="submit" class="btn btn-danger removeFriendSearch"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div id="addFriend-@item.User.UserId">
-                                                    <input type="hidden" name="userId" value="@User.Identity.GetUserId()"/>
-                                                    <input type="hidden" name="friendId" value="@item.User.UserId"/>
-                                                    <button type="submit" class="btn btn-success addFriend"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
-                                                </div>
-                                            }
-                                        }
-                                    }
-                                </div>
-                                <table class="tableFriends">
-                                    <tbody>
-                                    <tr>
-                                        <td class="glyphicon glyphicon-briefcase tableItem">
-                                            Work
-                                        </td>
-                                        <td class="glyphicon workFriendsList tableItemInfo">
-                                            <span>@string.Format("{0}", item.User.Work)</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="glyphicon glyphicon-pencil tableItem">
-                                            School
-                                        </td>
-                                        <td class="glyphicon schoolFriendsList tableItemInfo">
-                                            <span>@string.Format("{0}", item.User.School)</span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+{
+    var db = new ApplicationDbContext();
+    var userService = new UserService(db);
+    var friendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
+    <div class="post item span3" style="position:relative">
+        <div class="well" id="FriendsListWell">
+            <div class="friendsListPhoto">
+                <img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture"/>
+            </div>
+            <div class="friendsListAbout">
+                <div class="friendsListName">
+                    <h2 class="friendsListName">
+                        @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})
+                    </h2>
                 </div>
+
+                <table class="tableFriends">
+                    <tbody>
+                    <tr>
+                        <td class="glyphicon glyphicon-briefcase tableItem">
+                            Work
+                        </td>
+                        <td class="glyphicon workFriendsList tableItemInfo">
+                            <span>@string.Format("{0}", item.User.Work)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="glyphicon glyphicon-pencil tableItem">
+                            School
+                        </td>
+                        <td class="glyphicon schoolFriendsList tableItemInfo">
+                            <span>@string.Format("{0}", item.User.School)</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="removeFriendButtonFriendsListAbsolute">
+            @{
+    if (item.User.UserId != User.Identity.GetUserId())
+    {
+        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), item.User.UserId);
+        if (notification != null)
+        {
+            <button type="button" class="btn">Pending</button>
+        }
+        else if (friendList != null && friendList.Contains(@item.User.UserId))
+        {
+            <div id="removeFriend-@item.User.UserId">
+                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                <input type="hidden" name="friendId" value="@item.User.UserId" />
+                <button type="submit" class="btn btn-danger removeFriendSearch"><span class="glyphicon glyphicon-minus"></span>&nbsp;Remove friend</button>
+            </div>
+        }
+        else
+        {
+            <div id="addFriend-@item.User.UserId">
+                <input type="hidden" name="userId" value="@User.Identity.GetUserId()" />
+                <input type="hidden" name="friendId" value="@item.User.UserId" />
+                <button type="submit" class="btn btn-success addFriend"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add friend</button>
+            </div>
+        }
+    }
             }
+        </div>
+
+        <div id="bfOrFamilyFriendsListAbsolute">
+            @if (item.User.UserId != User.Identity.GetUserId() && friendList != null && friendList.Contains(item.User.UserId))
+            {
+                <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>
+                <input type="hidden" name="friendId" value="@item.User.UserId" />
+                <button id="family-@item.User.UserId" type="submit" class="btnNew btn-default-clicked family"><img id="bffamimg" src="@Url.Content(@item.User.FStar)" alt="Star" /><span class="glyphicon bffam">Family</span></button>
+            }
+        </div>
+    </div>
+}
         </div>
     </div>
 }

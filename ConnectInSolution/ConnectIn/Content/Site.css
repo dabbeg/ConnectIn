@@ -168,11 +168,17 @@ overflow:hidden;
 
 
 #huge {
-  float: right!important;
-  font-size: 52px;
-  margin-right: 25px;
+    font-size: 52px;
+    margin-right: 25px;
 }
-
+#birthdayMarginAge {
+    margin-top: 35px;
+}
+#birthdayMarginAgeAbsolute {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
 .container .carouselphotos
 {
 max-height:455px;
@@ -546,9 +552,34 @@ button.btnNew.privacy {
     margin-top: 25px;
     margin-right: 25px;
 }
+
+#removeFriendButtonFriendsListAbsolute {
+    position: absolute;
+    bottom: 85px;
+    right: 20px;
+
+}
+
+#bfOrFamilyFriendsListAbsolute {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+#removeFriendButtonFriendsList {
+    margin-left: 200px;
+}
+
+#bfOrFamilyFriendsList {
+    height: 35px;
+    width: 250px;
+    margin-left: 85px;
+    margin-top: 30px;
+}
+
+
 .friendsListName {
-    display: block;
-    font-size: 25px;
+    margin-top: 0px;
 }
 #ProfileWell {
     overflow: visible;
@@ -566,7 +597,7 @@ button.btnNew.privacy {
 #FriendsListWell{
     overflow: hidden;
     height: auto;
-    margin-top: 15px;
+    margin-top: 20px;
 
 }
 #ProfilePostWell {
@@ -588,8 +619,8 @@ p.clear {
 
 .friendsListPhoto {
     display: inline-block;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     float: left;
     margin-right: 15px;
 }
@@ -1013,6 +1044,10 @@ div#posts.row {
     height: 175px;
 }
 
+.smallPhoto {
+    width: 100px;
+    height: 100px;
+}
 .coverPhotos {
     width: 684px;
     height: 183px;
