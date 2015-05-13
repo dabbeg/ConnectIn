@@ -9,7 +9,7 @@
 @if (Request.IsAuthenticated)
 {
 
-    <div class="container" style="width: 100%; padding: 0 0;clear: both;background: no-repeat; background-size: 100%; background-position: center; background-image: url(@Url.Content(Model.User.CoverPhoto));">
+    <div class="container" style="height: 305px; width: 1140px; padding: 0 0;clear: both; margin-left: 0; margin-right: 0;background: no-repeat; background-size: 100%; background-image: url(@Url.Content(Model.User.CoverPhoto));">
         <div class="coverPhotoGradient">
             <div class="pull-right">
                 @{
@@ -83,9 +83,9 @@
 
         </div>
     </div>
-            <div id="profileborder" style="margin-top: 35px;"></div>
-    <div class="well " id="aboutUser">
-                    
+    <div id="profileborder"></div>
+    
+    <div class="well" id="aboutUser">
                     <table class="tableFriends">
                         <tbody>
                         <tr>

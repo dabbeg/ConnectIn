@@ -485,7 +485,8 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
+    margin-top: 35px;
 }
 
 #userNameOnProfile {
@@ -508,6 +509,8 @@ button.btnNew.privacy {
     height: 200px; 
     padding-top: 10px; 
     padding-left: 10px;
+    display: block;
+    margin-right: 0;
 }
 
 .coverPhotoGradient {
@@ -605,20 +608,20 @@ button.btnNew.privacy {
 #FriendsListWell{
     overflow: hidden;
     height: auto;
-    margin-top: 20px;
+    margin-bottom: 20px;
 
 }
 #ProfilePostWell {
-        overflow: hidden;
+    overflow: hidden;
     height: auto;
-    width: 68%;
+    width: 775px;
     float: right;
-    margin-left: 15px;
+    margin-left: 25px;
 }
 #aboutUser {
-    width: 30%;
+    width: 325px;
     float: left;
-    margin-top: 15px;
+    margin-top: 0;
 }
 p.clear {
     clear: both;
