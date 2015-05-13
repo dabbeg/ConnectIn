@@ -79,6 +79,7 @@ namespace ConnectIn.Models.ViewModels
         [Display(Name = "Birthday")]
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
+        
     }
 
     public class ResetPasswordViewModel

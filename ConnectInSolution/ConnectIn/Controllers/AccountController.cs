@@ -8,9 +8,13 @@ using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using ConnectIn.DAL;
 using ConnectIn.Services;
+using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace ConnectIn.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {
@@ -35,7 +39,7 @@ namespace ConnectIn.Controllers
                 _userManager = value;
             }
         }
-
+        
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -47,7 +51,7 @@ namespace ConnectIn.Controllers
        
        public ActionResult Edit()
         {
-
+          
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
@@ -149,12 +153,21 @@ namespace ConnectIn.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
+                
                 var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
+                if(user.Birthday.Year >= DateTime.Today.Year)
+                {
+                    ModelState.AddModelError("", "Date not acceptable");
+                   return View(model);
+                }
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                 
                 if (result.Succeeded)
                 {
+                    
                     await SignInAsync(user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
