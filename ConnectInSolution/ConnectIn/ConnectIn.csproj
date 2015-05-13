@@ -220,8 +220,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blackGradient.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\blackGradient.png" />
     <Content Include="Content\Images\emptystar.png" />
     <Content Include="Content\Images\ExtremeLock.png" />
     <Content Include="Content\Images\fullstar.png" />
