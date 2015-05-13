@@ -260,7 +260,7 @@ namespace ConnectIn.Services
         {
             var pPhoto = (from p in db.Photos
                 where p.UserId == userId
-                      && p.IsProfilePicture == true
+                      && p.IsCurrentProfilePhoto == true
                 select p).SingleOrDefault();
 
             if (pPhoto == null)
@@ -278,17 +278,31 @@ namespace ConnectIn.Services
         {
             var cPhoto = (from c in db.Photos
                           where c.UserId == userId
-                          && c.IsCoverPhoto == true
+                          && c.IsCurrentCoverPhoto == true
                           select c).SingleOrDefault();
             return cPhoto;
         }
 
-        // Get all the users photos by a given Id of user
-        public List<Photo> GetAllPhotosFromUser(string userId)
+        // Get all the users profile photos by a given Id of user
+        public List<Photo> GetAllProfilePhotosFromUser(string userId)
         {
             // Create a list of all photos from the user
             var list = (from up in db.Photos
                         where up.UserId == userId
+                        && up.IsProfilePhoto == true
+                        orderby up.Date descending
+                        select up).ToList();
+
+            return list;
+        }
+
+        // Get all the users cover photos by a given Id of user
+        public List<Photo> GetAllCoverPhotosFromUser(string userId)
+        {
+            // Create a list of all photos from the user
+            var list = (from up in db.Photos
+                        where up.UserId == userId
+                        && up.IsCoverPhoto == true
                         orderby up.Date descending
                         select up).ToList();
 

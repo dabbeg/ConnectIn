@@ -895,13 +895,12 @@ nav ul,nav li {
 }
 
 .btnProfile {
-    float: left;
+    
     
 }
 .btnCover
 {
-    float:left;
-    margin-left:20px;
+    
 }
 
 .text-box.single-line{
@@ -953,13 +952,83 @@ div.ellipsis-text {
     cursor: pointer;
 }
 
-.photoThumbnails {
-    /**/width: 225px;
+.profilePhotoThumbnails {
+    width: 225px;
     height: 225px;
 }
 
-.profilePhotos {
-    width:1750px;
-    height: 175px;
+.coverPhotoThumbnails {
+    width: 570px;
+    height: 180px;
+}
 
+.profilePhotos {
+    width: 175px;
+    height: 175px;
+}
+
+.coverPhotos {
+    width: 684px;
+    height: 183px;
+}
+
+.photoContainer {
+    padding-bottom: 10px;
+}
+
+.divider {
+    padding-bottom: 20px;
+}
+
+#profilePhotoContainer {
+    min-height: 50px;
+}
+
+#coverPhotoContainer {
+    min-height: 50px;
+}
+
+span.thumbnail:hover,
+span.thumbnail:focus {
+  border-color: #428bca;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#cropPhoto {
+    /*height: auto;
+    width: auto;
+    max-height: 370px;
+    max-width: 1000px;*/
+}
+
+.btn-crop {
+    float: right;
+}
+
+.cropContainer {
+    padding-bottom: 40px;
+}
+
+.cropBtnContainer {
+    padding-top: 50px;
 }

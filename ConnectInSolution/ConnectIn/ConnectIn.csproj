@@ -176,6 +176,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Models\ViewModels\PhotoViewModel.cs" />
     <Compile Include="Utilities\ImageHelper.cs" />
     <Compile Include="Utilities\ImageResult.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="Models\ViewModels\FriendViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupListViewModel.cs" />
-    <Compile Include="Models\ViewModels\ImageViewModel.cs" />
     <Compile Include="Models\ViewModels\NewsFeedViewModel.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="Models\ViewModels\LikeDislikeCommentViewModel.cs" />
@@ -319,13 +319,14 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Group\GroupDetails.cshtml" />
     <Content Include="Views\Home\Notifications.cshtml" />
-    <Content Include="Views\Photo\UploadImage.cshtml" />
+    <Content Include="Views\Photo\UploadProfilePhoto.cshtml" />
     <Content Include="Views\Photo\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Group\EditGroup.cshtml" />
     <Content Include="Views\Photo\PickProfilePicture.cshtml" />
-    <Content Include="Views\Photo\PickCoverPhoto.cshtml" />
-    <Content Include="Views\Photo\CropProfilePicture.cshtml" />
+    <Content Include="Views\Photo\CropProfilePhoto.cshtml" />
+    <Content Include="Views\Photo\CropCoverPhoto.cshtml" />
+    <Content Include="Views\Photo\UploadCoverPhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
