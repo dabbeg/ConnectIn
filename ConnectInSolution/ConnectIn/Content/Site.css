@@ -721,34 +721,18 @@ p.clear {
     margin: 10px;
 }
 
-.LogoutSideBar:hover {
-    color:#fff;
-    background-color: rgba(255,255,255,0.2);
-    padding-right: 141px;
-
-}
-
-.LogoutSideBar {
-    color:#999;
-    border-color: #101010;
-    background-color: #222;
-    position: absolute;
-    font-size: 14px;
-    padding-top: 7px;
-    padding-bottom: 8px;
-    padding-left: 7px;
-    margin-top: 25px;
-    font-family: 'Titillium Web', sans-serif;
-
-}
 .fa.fa-power-off.fa-2.faLogOut {
     display: inline;
     padding-right: 22px;
     padding-left: 14px;
     width:100%;
     overflow:visible;
-    
 }
+
+.nav-logout {
+    margin-top: 50px;
+}
+
 
 /*-------------------------------TEST MENU------------------------------*/
 
