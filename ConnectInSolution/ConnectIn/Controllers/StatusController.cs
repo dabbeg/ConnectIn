@@ -184,7 +184,7 @@ namespace ConnectIn.Controllers
                 {
                     UserId = postService.GetPostById(postId).UserId,
                     Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
-                    ProfilePicture = profilePicturePath
+                    ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
 
                 },
                 Comments = new List<CommentViewModel>(),
@@ -203,7 +203,7 @@ namespace ConnectIn.Controllers
                     {
                         UserId = postService.GetPostById(postId).UserId,
                         Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
-                        ProfilePicture = profilePicturePath
+                        ProfilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId).PhotoPath
                     },
                     LikePic = lPic,
                     DislikePic = dPic
