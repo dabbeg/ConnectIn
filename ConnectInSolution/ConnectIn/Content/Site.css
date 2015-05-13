@@ -14,10 +14,13 @@
     color:red;
     margin-left:10px;
 }
+
+
 #error2
 {
     padding-left:40px;
 }
+/* Profile*/
 #ProfileWell
 {
     border:none;
@@ -27,10 +30,7 @@
 {
    max-width:200px;
 }
-#backgroundimg
-{
-     background-image: url("/Content/Images/background.jpg");
-}
+
 .navbar-nav>li>.dropdown-menu {
   margin-top: 51px;
   border-top-right-radius: 0;
@@ -889,7 +889,7 @@ nav ul,nav li {
     border-radius:30px;
     display: none;
 }
-
+/*Images*/
 .btnUpload {
     float: right;
 }
