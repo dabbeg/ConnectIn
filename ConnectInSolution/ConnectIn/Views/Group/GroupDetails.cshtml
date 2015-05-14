@@ -19,12 +19,14 @@
                 <th>Email:</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="membersinGroup">
             @foreach (var member in Model.Members)
             {
+                var birth = member.Birthday;
+                var date = birth.Day + "." + birth.Month + "." + birth.Year;
                 <tr>
                     <td>@Html.ActionLink(member.Name, "GetUser", new {Id = member.UserId})</td>
-                    <td>@member.Birthday.ToString().Substring(0, 8)</td>
+                    <td>@date</td>
                     <td>@member.UserName</td>
                 </tr>
             }
@@ -33,24 +35,25 @@
 </div>
 
 
-<span class="well" style="display: inline-block; float: right; width: 25%">
+<div class="well" style="display: inline-block; float: right; width: 25%">
     <h4>Add friends to group</h4>
-    @using (Html.BeginForm("AddFriend", "Group"))
-    {
-        <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px;">
-        
-            @foreach (var id in Model.FriendsOfUser)
-            {
+    <div style="OVERFLOW-Y: scroll; WIDTH: 100%; HEIGHT: 150px;">
+
+        @foreach (var id in Model.FriendsOfUser)
+        {
+            <div id="groupCheck-@id.UserId">
                 <span class="checkbox">
-                    <label><input type="checkbox" value="@id.UserId" name="newFriendsInGroup">@id.Name</label>
-                 </span>
-            }
-        
-        </div>
+                    <label><input class="groupcheck" type="checkbox" value="@id.UserId" name="newFriendsInGroup">@id.Name</label>
+                </span>
+            </div>
+        }
+
+    </div>
+
         <input type="hidden" name="idOfGroup" value="@Model.GroupId"/>
-        <button type="submit" id="addfriendstogroup" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign" style="position: relative; top: 2px"></span>&nbsp;Add to group</button>
-    }
-</span>
+        <button type="submit" id="addfriendstogroup" class="btn btn-success addMembersToGroup"><span class="glyphicon glyphicon-plus-sign" style="position: relative; top: 2px"></span>&nbsp;Add to group</button>
+    
+</div>
 
 <div>
     <div class="form-horizontal">

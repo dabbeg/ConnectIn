@@ -7,7 +7,7 @@
 {
     <h2>Comments
         <span style="float: right;">
-            <button type="button" class="btn btn-warning"onclick="javascript:history.go(-1);">Go back</button>
+            <button type="button" class="btn btn-warning" onclick="location.href = document.referrer;">Go back</button>
         </span>
     </h2>
 
@@ -74,7 +74,7 @@
         <div id="allcomments" class="row  ">
             @foreach (var item in Model.Comments)
             {
-                <div id="comment-@item.CommentId " class="post item span3">
+                <div id="comment-@item.CommentId" class="post item span3">
                     <div class="well commentwell" id="FriendsListWell">
                         <div id="postContent">
                             <div class="PostPartialViewPhoto">
@@ -91,8 +91,8 @@
                                 </div>
                                 <div class="ellipsis-text preReset">
                                     <pre class="preReset">@item.Body</pre>
-                                    <a class="more dontmove" href="#">See more</a>
-                                    <a class="less dontmove" href="#">See less</a>
+                                    <span class="more dontmove fakeLink">See more</span>
+                                    <span class="less dontmove fakeLink">See less</span>
                                 </div>
                                 <span id="reactionCommentButtons">
                                     @if (item.User.UserId == User.Identity.GetUserId())

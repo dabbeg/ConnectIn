@@ -62,7 +62,7 @@ namespace ConnectIn.Controllers
             var url = ControllerContext.HttpContext.Request.UrlReferrer;
             if (url != null && url.AbsolutePath.Contains("Profile"))
             {
-                return RedirectToAction("NewsFeed", "Home");
+                return RedirectToAction("Profile", "Home", new { id = friendId });
             }
 
             return new EmptyResult();

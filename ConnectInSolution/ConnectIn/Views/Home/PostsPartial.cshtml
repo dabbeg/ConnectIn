@@ -2,7 +2,7 @@
 @model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 
-<div class="container">
+<div class="container postPartialContainer">
     <div id="posts" class="row">
         @foreach (var item in Model.Posts)
 {
@@ -16,13 +16,14 @@
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">
                     <h3>
-                        @Html.ActionLink(item.User.Name, "Profile", new { id = item.User.UserId })<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                        @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                     </h3>
                 </div>
+                <!--<button type="button" class="david"> dabs</button>-->
                 <div class="ellipsis-text preReset">
                     <pre class="preReset">@item.Body</pre>
-                    <a class="more dontmove" href="#">See more</a>
-                    <a class="less dontmove" href="#">See less</a>
+                    <span class="more dontmove fakeLink">See more</span>
+                    <span class="less dontmove fakeLink">See less</span>
                 </div>
             </div>
 

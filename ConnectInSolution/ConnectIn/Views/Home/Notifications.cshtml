@@ -19,14 +19,14 @@
             <div id="friendsacre-@item.NotificationId" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
-                        <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
+                        <img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.Friend.ProfilePicture)">
                     </div>
 
                     <div class="friendsListAbout">
                         <div class="friendsListName">
-                            <h4>
-                                @Html.ActionLink(item.Friend.Name, "Profile", new {id = item.Friend.UserId})
-                            </h4>
+                            <h2 class="friendsListName">
+                                @Html.ActionLink(item.Friend.Name, "Profile", new { id = item.Friend.UserId })
+                            </h2>
                         </div>
                         <table class="tableFriends">
                             <tbody>
@@ -53,7 +53,7 @@
 
                 <span class="bottomRightButtonRight">
                     <input type="hidden" name="notificationId" value="@item.NotificationId" />
-                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
+                    <button type="submit" class="btn btn-danger rejectFriend"><span class="glyphicon glyphicon-remove"></span>&nbsp;Decline</button>
                 </span>
                 <span class="bottomRightButtonLeft">
                     <input type="hidden" name="notificationId" value="@item.NotificationId" />

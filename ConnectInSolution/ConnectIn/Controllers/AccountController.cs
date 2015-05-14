@@ -8,9 +8,13 @@ using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using ConnectIn.DAL;
 using ConnectIn.Services;
+using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace ConnectIn.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {
@@ -35,7 +39,7 @@ namespace ConnectIn.Controllers
                 _userManager = value;
             }
         }
-
+        
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -47,15 +51,14 @@ namespace ConnectIn.Controllers
        
        public ActionResult Edit()
         {
-
            var context = new ApplicationDbContext();
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-            if(user != null)
+           if(user != null)
            {
                UserViewModel t = new UserViewModel();
                t.Name = user.Name;
-                t.Gender = user.Gender ?? "male";
+               t.Gender = user.Gender ?? "male";
                t.Work = user.Work;
                t.School = user.School;
                t.Address = user.Address;
@@ -64,14 +67,14 @@ namespace ConnectIn.Controllers
             return View("Error");
         }
        [HttpPost]
-       public ActionResult Edit(FormCollection collection, UserViewModel t)
+       public ActionResult Edit(UserViewModel t)
        {
         
            var context = new ApplicationDbContext();
            
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-          if(ModelState.IsValid)
+           // if (ModelState.IsValid)
            { 
                user.Name = t.Name;
                user.Gender = t.Gender;
@@ -79,10 +82,14 @@ namespace ConnectIn.Controllers
                user.School = t.School;
                user.Address = t.Address;
                context.SaveChanges();
+               var url = ControllerContext.HttpContext.Request.UrlReferrer;
+               if (url != null && url.LocalPath.Contains("Settings"))
+               {
+                   return RedirectToAction("Settings", "Account", new { user.Id });
+               }
                return RedirectToAction("Profile", "Home", new { user.Id });
            }      
-              return View(t);
-           
+              return View("Error");
         }
 
         public ActionResult Settings()
@@ -149,12 +156,22 @@ namespace ConnectIn.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
+                
                 var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
+                if(user.Birthday.Year >= DateTime.Today.Year || user.Birthday.Year < 1850)
+                {
+                    ModelState.AddModelError("", "Date not acceptable");
+                   return View(model);
+                }
+                
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                 
                 if (result.Succeeded)
                 {
+                    
                     await SignInAsync(user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -271,7 +288,7 @@ namespace ConnectIn.Controllers
                 IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ResetPasswordConfirmation", "Account");
+                    return RedirectToAction("Settings", "Account", new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 else
                 {
@@ -324,7 +341,7 @@ namespace ConnectIn.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
             ViewBag.HasLocalPassword = HasPassword();
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            ViewBag.ReturnUrl = Url.Action("Settings");
             return View();
         }
 
@@ -336,7 +353,7 @@ namespace ConnectIn.Controllers
         {
             bool hasPassword = HasPassword();
             ViewBag.HasLocalPassword = hasPassword;
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            ViewBag.ReturnUrl = Url.Action("Settings");
             if (hasPassword)
             {
                 if (ModelState.IsValid)
@@ -346,7 +363,7 @@ namespace ConnectIn.Controllers
                     {
                         var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return RedirectToAction("Settings", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
                     else
                     {
@@ -368,7 +385,7 @@ namespace ConnectIn.Controllers
                     IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                        return RedirectToAction("Settings", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     else
                     {

@@ -14,10 +14,13 @@
     color:red;
     margin-left:10px;
 }
+
+
 #error2
 {
     padding-left:40px;
 }
+/* Profile*/
 #ProfileWell
 {
     border:none;
@@ -172,11 +175,17 @@ overflow:hidden;
 
 
 #huge {
-  float: right!important;
-  font-size: 52px;
-  margin-right: 25px;
+    font-size: 52px;
+    margin-right: 25px;
 }
-
+#birthdayMarginAge {
+    margin-top: 35px;
+}
+#birthdayMarginAgeAbsolute {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
 .container .carouselphotos
 {
 max-height:455px;
@@ -350,6 +359,10 @@ width:40%;
 }
 /* ENDOF Simple Sidebar Template*/
 
+.searchHover {
+    cursor: default;
+}
+
 .sidebarGlyphs {
     color: white;
     float: left;
@@ -400,6 +413,10 @@ a.navbar-brand
 
 .deletePostButton {
     float: right;
+}
+
+.settingsform {
+    margin-left: -7.5%;
 }
 
 .btn-default-like {
@@ -475,12 +492,18 @@ button.btnNew.privacy {
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
-    margin-bottom: 20px
+    margin-bottom: 35px;
+    margin-top: 35px;
 }
 
 #userNameOnProfile {
     display: inline-block;
-    
+    margin-top: 30px;
+}
+#userNameH1 {
+    color: white; 
+    float: left;
+    margin-left: 10px;
 }
 
 #coverphoto
@@ -489,11 +512,26 @@ button.btnNew.privacy {
     height:100%;
 }
 #userProfilePicture {
-    width: 200px;
-    height: auto;
-    max-height: 200px;
-    float: left;
-    margin-right: 15px;
+    width: 200px; 
+    height: 200px; 
+    padding-top: 10px; 
+    padding-left: 10px;
+    display: block;
+    margin-right: 0;
+}
+.coverPhotoProfile {
+    height: 305px; 
+    width: 1140px; 
+    padding: 0 0;
+    clear: both; 
+    margin-left: 0; 
+    margin-right: 0;
+    background: no-repeat; 
+    background-size: 100%; 
+}
+.coverPhotoGradient {
+    background: url(/Content/Images/blackGradient.png) bottom left repeat-x; 
+    /*border-bottom-color: rgba(0,0,0,.4);*/
 }
 .img-responsiveProfilePic {
     max-width: 200px;
@@ -509,47 +547,106 @@ button.btnNew.privacy {
     
 }
 
-.redBell {
-    color: red;
-    background-color: red;
-}
 .form-horizontal
 {
     margin-left:0px;
 }
-#PhotoButton {
-    display: inline-block;
+.profileStars {
+    margin-top: 200px;
+    margin-right: 15px;
 }
 
-#addFriendButton {
-    display: inline-block;
-    float: right;
+#PhotoButton {
+    display: inline;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    float: left;
 }
+
+.btn.fa.fa-camera.btn-primary {
+        padding: 3px 4px;
+
+}
+
+.dangerFix {
+    margin-left: 85px;
+}
+#addFriendButton {
+    margin-left: 25px;
+    margin-top: 25px;
+    margin-right: 25px;
+}
+
+#removeFriendButtonFriendsListAbsolute {
+    position: absolute;
+    bottom: 85px;
+    right: 20px;
+
+}
+
+#bfOrFamilyFriendsListAbsolute {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+#removeFriendButtonFriendsList {
+    margin-left: 200px;
+}
+
+#bfOrFamilyFriendsList {
+    height: 35px;
+    width: 250px;
+    margin-left: 85px;
+    margin-top: 30px;
+}
+
+
 .friendsListName {
-    display: block;
-    font-size: 25px;
+    margin-top: 0px;
 }
 #ProfileWell {
-    overflow: hidden;
-    max-height: 400px;
-    min-height: 200px;
-    height: auto;
+    overflow: visible;
+    height: 100%;
+    width:100%;
     margin: 50px;
     background:no-repeat;
     background-size:100%;
-    background-position:center
+    background-position: center;
+          border: 0;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
+          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
 }
 #FriendsListWell{
     overflow: hidden;
     height: auto;
-    margin-top: 15px;
+    margin-bottom: 20px;
 
 }
+#ProfilePostWell {
+    overflow: hidden;
+    height: auto;
+    width: 775px;
+    float: right;
+    margin-left: 25px;
+}
+#aboutUser {
+    width: 325px;
+    float: left;
+    margin-top: 0;
+}
+p.clear {
+    clear: both;
+}
+
 
 .friendsListPhoto {
     display: inline-block;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     float: left;
     margin-right: 15px;
 }
@@ -677,34 +774,18 @@ button.btnNew.privacy {
     margin: 10px;
 }
 
-.LogoutSideBar:hover {
-    color:#fff;
-    background-color: rgba(255,255,255,0.2);
-    padding-right: 141px;
-
-}
-
-.LogoutSideBar {
-    color:#999;
-    border-color: #101010;
-    background-color: #222;
-    position: absolute;
-    font-size: 14px;
-    padding-top: 7px;
-    padding-bottom: 8px;
-    padding-left: 7px;
-    margin-top: 25px;
-    font-family: 'Titillium Web', sans-serif;
-
-}
 .fa.fa-power-off.fa-2.faLogOut {
     display: inline;
     padding-right: 22px;
     padding-left: 14px;
     width:100%;
     overflow:visible;
-    
 }
+
+.nav-logout {
+    margin-top: 50px;
+}
+
 
 /*-------------------------------TEST MENU------------------------------*/
 
@@ -890,19 +971,23 @@ nav ul,nav li {
     border-radius:30px;
     display: none;
 }
-
+/*Images*/
 .btnUpload {
     float: right;
 }
 
 .btnProfile {
     float: left;
-    
 }
+
 .btnCover
 {
+    float: left;   
+}
+
+.btnDelete {
     float:left;
-    margin-left:20px;
+    margin-left: 20px;
 }
 
 .text-box.single-line{
@@ -934,14 +1019,111 @@ nav ul,nav li {
     text-align:left;
     height: auto;
     width: 500px;
+    margin: 0;
 }
-a.more {
+
+span.more {
     display: none;
 }
-a.less {
-    display:none;
+
+span.less {
+    display: none;
 }
+
 div.ellipsis-text {
     max-height: 100px;
 }
 
+
+
+.fakeLink {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+div#posts.row {
+}
+
+.profilePhotoThumbnails {
+    width: 225px;
+    height: 225px;
+}
+
+.coverPhotoThumbnails {
+    width: 570px;
+    height: 180px;
+}
+
+.profilePhotos {
+    width: 175px;
+    height: 175px;
+}
+
+.smallPhoto {
+    width: 100px;
+    height: 100px;
+}
+.coverPhotos {
+    width: 684px;
+    height: 183px;
+}
+
+.photoContainer {
+    padding-bottom: 10px;
+}
+
+.profileCoverDivider {
+    padding-bottom: 20px;
+}
+
+#profilePhotoContainer {
+    min-height: 50px;
+}
+
+#coverPhotoContainer {
+    min-height: 50px;
+}
+
+span.thumbnail:hover,
+span.thumbnail:focus {
+  border-color: #428bca;
+}
+
+.selected {
+    border-color: #428bca;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+.btn-crop {
+    float: right;
+}
+
+.cropContainer {
+    padding-bottom: 40px;
+}
+
+.cropBtnContainer {
+    padding-top: 50px;
+}

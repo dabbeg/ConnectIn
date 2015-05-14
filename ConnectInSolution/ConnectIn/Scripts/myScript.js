@@ -2,9 +2,8 @@
 $(document).ready(function () {
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
-    $(".row a").click(function() {
-        document.getElementById("photoId").value = $(this).attr("id");
-        document.getElementById("photoId2").value = $(this).attr("id");
+    $(".row span").click(function() {
+        $("input[name=photoId]").val($(this).attr("id"));
     });
     
     // Everyone, Best friends, and Family filters
@@ -319,6 +318,24 @@ $(document).ready(function () {
             });
         });
 
+        $(".addMembersToGroup").click(function () {
+            var members = $("input[name=newFriendsInGroup]:checked").map(
+                function () { return this.value; }).get().join(",");
+            var json = {
+                "newFriendsInGroup": members,
+                "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
+            };
+            $.post("/Group/AddFriend/", json, function (data) {
+                var list = members.split(",");
+                for (var i = 0; i < list.length; i++) {
+                    var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
+                    $("#groupCheck-" + list[i]).hide();
+                    var table = "<tr><td>" + a + "</td><td>" + data[i].Work +"</td><td>" + data[i].UserName + "</td></tr>";
+                    $("#membersinGroup").append(table);
+                }
+            });
+        });
+
         function createCookie(name, value, days) {
             var expires;
             if (days) {
@@ -449,33 +466,117 @@ $(document).ready(function () {
         }
     });
 
-    $(function () {
-        $("div.ellipsis-text").dotdotdot({
-            after: "a.more",
-            callback: dotdotdotCallback
-        });
-        $("div.ellipsis-text").on("click", "a", function () {
-            if ($(this).text() == "See more") {
-                var div = $(this).closest("div.ellipsis-text");
-                div.trigger("destroy").find("a.more").hide();
-                div.css("max-height", "");
-                $("a.less", div).show();
-            }
-            else {
-                $(this).hide();
-                $(this).closest("div.ellipsis-text").css("max-height", "100px").dotdotdot({ after: "a.more", callback: dotdotdotCallback });
-            }
-        });
 
-        function dotdotdotCallback(isTruncated, originalContent) {
-            if (!isTruncated) {
-                $("a", this).remove();
-            }
+    // Show more or show less
+    $("div .ellipsis-text pre").each(function () {
+        var bla = $(this).height();
+        if ($(this).height() > 52) {
+            $(this).siblings(".more").show();
         }
     });
 
+    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden");
+
+    $("div .ellipsis-text").on("click", "span", function () {
+        var height = $(this).siblings("pre")[0].scrollHeight;
+        if ($(this).hasClass("more")) {
+            $(this).siblings("pre").animate({ height: height }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".less").show();
+        } else {
+            $(this).siblings("pre").animate({ height: "70px" }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".more").show();
+        }
+    });
+
+
+    // Inject a div to divide the photos
+    $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
+
+    if ($("#profilePhotoContainer > div").length == 0) {
+        $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+    }
+
+    if ($("#coverPhotoContainer > div").length == 0) {
+        $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+    }
+
+    $("#pickCoverPhoto").attr("disabled", true);
+    $("#pickProfilePhoto").attr("disabled", true);
+    $("#deleteCoverPhoto").attr("disabled", true);
+    $("#deleteProfilePhoto").attr("disabled", true);
+
+
+    $("span.thumbnail").click(function () {
+        $("span.thumbnail").removeClass("selected");
+        $(this).addClass("selected");
+
+        var photoId = $(this).attr("id");
+        $.post("/Photo/IsProfilePhoto", { "photoId": photoId }, function (data) {
+            if (data) {
+                $("#pickCoverPhoto").attr("disabled", true);
+                $("#pickProfilePhoto").attr("disabled", false);
+                $("#deleteCoverPhoto").attr("disabled", true);
+                $("#deleteProfilePhoto").attr("disabled", false);
+            } else {
+                $("#pickCoverPhoto").attr("disabled", false);
+                $("#pickProfilePhoto").attr("disabled", true);
+                $("#deleteCoverPhoto").attr("disabled", false);
+                $("#deleteProfilePhoto").attr("disabled", true);
+            }
+        });
+    });
+
+    function deletePhoto(photoId) {
+        $.post("/Photo/DeletePhoto", { "photoId": photoId }, function () {
+            $(".row div span").each(function () {
+                if ($(this).attr("id") == photoId) {
+                    $(this).parent().remove();
+                }
+            });
+           
+        });
+    }
+
+    $("#deleteProfilePhoto").click(function () {
+        $("#deleteProfilePhoto").attr("disabled", true);
+        $("#pickProfilePhoto").attr("disabled", true);
+        var photoId = $(this).siblings("input[name=photoId]").val();
+        deletePhoto(photoId);
+    });
+
+    $("#deleteCoverPhoto").click(function () {
+        $("#deleteCoverPhoto").attr("disabled", true);
+        $("#pickCoverPhoto").attr("disabled", true);
+        var photoId = $(this).siblings("input[name=photoId]").val();
+        deletePhoto(photoId);
+    });
+
+    // Go back by one in history
     function goBack() {
         history.go(-1);
-    } 
+    }
+
+
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+        console.log(numFiles);
+        console.log(label);
+        $("input[type=text]").val(label);
+    });
+
+    $(".btn-upload").attr("disabled", true);
+    $("input[name=Image]").change(function () {
+        if ($(this).val() != "") {
+            $(".btn-upload").attr("disabled", false);
+        }
+    });
 });
 

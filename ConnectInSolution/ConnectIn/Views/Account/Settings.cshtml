@@ -1,4 +1,5 @@
-﻿@using ConnectIn.DAL
+﻿@model ConnectIn.Models.ViewModels.ManageUserViewModel
+@using ConnectIn.DAL
 @using ConnectIn.Services
 @using Microsoft.AspNet.Identity
 
@@ -52,70 +53,39 @@
                 <div id="privacyText" class="bffam" style="margin-left: 10px">@detail</div>
             </div>
             <p><br /></p>
-            <h4>Personal Information</h4>
-            @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
+            <div class="col-md-10">
+                <h4>Change Password</h4>
+                <hr />
+                @using (Html.BeginForm("Manage", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "margin-left:-1%" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                    <hr />
-                    @Html.ValidationSummary(true)
-
-                    @Html.HiddenFor(model => @user.Id)
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
                     <div class="form-group">
-                        @Html.LabelFor(model => @user.Name, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 control-label" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => @user.Name, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => @user.Name)
+                            @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => @user.Gender, new { @class = "control-label col-md-2" })
-                        <div id="forerror" class="btn-group col-md-10" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-                                <span>Male</span>
-                                @Html.RadioButtonFor(model => @user.Gender, "Male", true)
-                                &nbsp;
-                            </label>
-                            <label class="btn btn-primary">
-                                <span>Female</span>
-                                @Html.RadioButtonFor(model => @user.Gender, "Female", false)
-                            </label>
-                            <span id="error2">@Html.ValidationMessageFor(model => @user.Gender)</span>
+                        @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => @user.Work, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => @user.Work, new { @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => @user.School, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => @user.School, new { @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => @user.Address, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => @user.Address, new { @class = "form-control" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
+                            <input type="submit" value="Change password" class="btn btn-default" />
                         </div>
                     </div>
-
-            }
-        </div>
-        <p><br /></p>
-        <div class="row">
-            <div class="col-md-10">
-                @Html.Partial("_ChangePasswordPartial")
+                }
             </div>
         </div>
 
