@@ -21,9 +21,9 @@ namespace ConnectIn.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult NewsFeed()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var userId = User.Identity.GetUserId();
             
             var context = new ApplicationDbContext();

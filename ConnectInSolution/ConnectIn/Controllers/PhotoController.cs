@@ -15,18 +15,17 @@ namespace ConnectIn.Controllers
 {
     public class PhotoController : Controller
     {
-        [HttpGet]
+        public ApplicationDbContext DbContext = new ApplicationDbContext();
+
+        [HttpGet, Authorize]
         public ActionResult Images(string userId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (userId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-
+            var userService = new UserService(DbContext);
             var profilePhotos = userService.GetAllProfilePhotosFromUser(userId);
             var coverPhotos = userService.GetAllCoverPhotosFromUser(userId);
 
@@ -59,18 +58,15 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult UploadProfilePhoto()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult UploadProfilePhoto(FormCollection collection)
-        {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            
+        {            
             // Getting file from input and converting it into byte array
             HttpPostedFileBase file = Request.Files["Image"];
             Int32 length = file.ContentLength;
@@ -91,29 +87,25 @@ namespace ConnectIn.Controllers
             };
 
             // Saving it into the database
-            var context = new ApplicationDbContext();
-            context.Photos.Add(photo);
-            context.SaveChanges();
+            DbContext.Photos.Add(photo);
+            DbContext.SaveChanges();
 
             // Getting the new photoId that the database assigns to the photo for the photo path
             photo.PhotoPath = "/Photo/ShowPhoto?photoId=" + photo.PhotoId;
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("CropProfilePhoto", new { photoId = photo.PhotoId });
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult UploadCoverPhoto()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult UploadCoverPhoto(FormCollection collection)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-
             // Getting file from input and converting it into byte array
             HttpPostedFileBase file = Request.Files["Image"];
             Int32 length = file.ContentLength;
@@ -134,60 +126,51 @@ namespace ConnectIn.Controllers
             };
 
             // Saving it into the database
-            var context = new ApplicationDbContext();
-            context.Photos.Add(photo);
-            context.SaveChanges();
+            DbContext.Photos.Add(photo);
+            DbContext.SaveChanges();
 
             // Getting the new photoId that the database assigns to the photo for the photo path
             photo.PhotoPath = "/Photo/ShowPhoto?photoId=" + photo.PhotoId;
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("CropCoverPhoto", new { photoId = photo.PhotoId });
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult DeletePhoto(int? photoId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (!photoId.HasValue)
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
             // Removing the photo that has photoId
-            context.Photos.Remove(photoService.GetPhotoById(photoId.Value));
-            context.SaveChanges();
+            var photoService = new PhotoService(DbContext);
+            DbContext.Photos.Remove(photoService.GetPhotoById(photoId.Value));
+            DbContext.SaveChanges();
 
             return new EmptyResult();
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult ShowPhoto(int? photoId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (!photoId.HasValue)
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
             // Converting the byte array to an instance of ImageResult that can be represented as an image
+            var photoService = new PhotoService(DbContext);
             Photo image = photoService.GetPhotoById(photoId.Value);
             ImageResult result = new ImageResult(image.PhotoBytes, image.ContentType);
 
             return result;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult PickProfilePicture(FormCollection collection)
-        {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            
+        {            
             string id = collection["photoId"];
             if (id.IsNullOrWhiteSpace())
             {
@@ -195,27 +178,24 @@ namespace ConnectIn.Controllers
             }
             int photoId = Int32.Parse(id);
             
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var photoService = new PhotoService(context);
-
             // Switching profile pictures
+            var userService = new UserService(DbContext);
             var oldPhoto = userService.GetProfilePicture(User.Identity.GetUserId());
             if(oldPhoto != null)
             {
                 oldPhoto.IsCurrentProfilePhoto = false;
             }
+
+            var photoService = new PhotoService(DbContext);
             photoService.GetPhotoById(photoId).IsCurrentProfilePhoto = true;
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult PickCoverPhoto(FormCollection collection)
-        {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            
+        {            
             string id = collection["photoId"];
             if (id.IsNullOrWhiteSpace())
             {
@@ -223,34 +203,31 @@ namespace ConnectIn.Controllers
             }
             int photoId = Int32.Parse(id);
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var photoService = new PhotoService(context);
-
             // Switching cover photos
+            var userService = new UserService(DbContext);
             var oldPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
             if (oldPhoto != null)
             {
                 oldPhoto.IsCurrentCoverPhoto = false;
             }
+
+            var photoService = new PhotoService(DbContext);
             photoService.GetPhotoById(photoId).IsCurrentCoverPhoto = true;
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult CropProfilePhoto(int? photoId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (!photoId.HasValue)
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
+            // Get the photo and fill in the view model
+            var photoService = new PhotoService(DbContext);
             var photo = photoService.GetPhotoById(photoId.Value);
             var model = new PhotoViewModel()
             {
@@ -261,18 +238,16 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult CropCoverPhoto(int? photoId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (!photoId.HasValue)
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
+            // Get the photo and fill in the view model
+            var photoService = new PhotoService(DbContext);
             var photo = photoService.GetPhotoById(photoId.Value);
             var model = new PhotoViewModel()
             {
@@ -283,10 +258,9 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public virtual ActionResult CropImage(FormCollection collection)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             string location = collection["location"];
             string sphotoId = collection["photoId"];
             string scropPointX = collection["cropPointX"];
@@ -305,10 +279,8 @@ namespace ConnectIn.Controllers
             int imageCropWidth = Convert.ToInt32(double.Parse(simageCropWidth, CultureInfo.InvariantCulture));
             int imageCropHeight = Convert.ToInt32(double.Parse(simageCropHeight, CultureInfo.InvariantCulture));
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
             // Crop photo according to the parameters
+            var photoService = new PhotoService(DbContext);
             var photo = photoService.GetPhotoById(Int32.Parse(sphotoId));
             byte[] imageBytes = photo.PhotoBytes;
             byte[] croppedImage = ImageHelper.CropImage(imageBytes, cropPointX, cropPointY, imageCropWidth, imageCropHeight);
@@ -336,29 +308,26 @@ namespace ConnectIn.Controllers
             }
 
             // Remove uncropped photo and add cropped photo
-            context.Photos.Remove(photo);
-            context.Photos.Add(croppedPhoto);
-            context.SaveChanges();
+            DbContext.Photos.Remove(photo);
+            DbContext.Photos.Add(croppedPhoto);
+            DbContext.SaveChanges();
 
             // Getting the new photoId that the database assigns to the photo for the photo path
             croppedPhoto.PhotoPath = "/Photo/ShowPhoto?photoId=" + croppedPhoto.PhotoId;
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("Images", new { userId = User.Identity.GetUserId() });
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult IsProfilePhoto(int? photoId)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (!photoId.HasValue)
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var photoService = new PhotoService(context);
-
+            var photoService = new PhotoService(DbContext);
             return Json(photoService.GetPhotoById(photoId.Value).IsProfilePhoto, JsonRequestBehavior.AllowGet);
         }
     }
