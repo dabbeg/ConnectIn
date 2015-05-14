@@ -137,41 +137,37 @@ namespace ConnectIn.Tests.Service
             #region Photos
             var ph1 = new Photo()
             {
-                PhotoId2 = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1),
-                IsProfilePicture = true
+                IsProfilePhoto = true
             };
             mockDb.Photos.Add(ph1);
 
             var ph2 = new Photo()
             {
-                PhotoId2 = 2,
                 PhotoPath = "bla2",
                 UserId = "1",
                 Date = new DateTime(2001, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph2);
 
             var ph3 = new Photo()
             {
-                PhotoId2 = 3,
                 PhotoPath = "bla3",
                 UserId = "2",
                 Date = new DateTime(2002, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph3);
 
             var ph4 = new Photo()
             {
-                PhotoId2 = 4,
                 PhotoPath = "bla4",
                 UserId = "4",
                 Date = new DateTime(2003, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph4);
             #endregion

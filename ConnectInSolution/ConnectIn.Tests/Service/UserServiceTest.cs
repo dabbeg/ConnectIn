@@ -104,7 +104,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 1,
                 Text = "someText 1",
                 UserId = "1",
-                Date = new DateTime(2000, 1, 1)
+                Date = new DateTime(2000, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p1);
 
@@ -113,7 +114,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 2,
                 Text = "someText 2",
                 UserId = "2",
-                Date = new DateTime(2001, 1, 1)
+                Date = new DateTime(2001, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p2);
 
@@ -122,7 +124,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 3,
                 Text = "someText 3",
                 UserId = "4",
-                Date = new DateTime(2002, 1, 1)
+                Date = new DateTime(2002, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p3);
 
@@ -131,7 +134,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 4,
                 Text = "someText 4",
                 UserId = "1",
-                Date = new DateTime(2003, 1, 1)
+                Date = new DateTime(2003, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p4);
 
@@ -140,7 +144,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 5,
                 Text = "someText 5",
                 UserId = "3",
-                Date = new DateTime(2004, 1, 1)
+                Date = new DateTime(2004, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p5);
 
@@ -149,7 +154,8 @@ namespace ConnectIn.Tests.Services
                 PostId = 6,
                 Text = "someText 6",
                 UserId = "2",
-                Date = new DateTime(2005, 1, 1)
+                Date = new DateTime(2005, 1, 1),
+                GroupId = null
             };
             mockDb.Posts.Add(p6);
             #endregion
@@ -157,41 +163,37 @@ namespace ConnectIn.Tests.Services
             #region Photos
             var ph1 = new Photo()
             {
-                PhotoId2 = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1),
-                IsProfilePicture = true
+                IsProfilePhoto = true
             };
             mockDb.Photos.Add(ph1);
 
             var ph2 = new Photo()
             {
-                PhotoId2 = 2,
                 PhotoPath = "bla2",
                 UserId = "1",
                 Date = new DateTime(2001, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph2);
 
             var ph3 = new Photo()
             {
-                PhotoId2 = 3,
                 PhotoPath = "bla3",
                 UserId = "2",
                 Date = new DateTime(2002, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph3);
 
             var ph4 = new Photo()
             {
-                PhotoId2 = 4,
                 PhotoPath = "bla4",
                 UserId = "4",
                 Date = new DateTime(2003, 1, 1),
-                IsProfilePicture = false
+                IsProfilePhoto = false
             };
             mockDb.Photos.Add(ph4);
             #endregion
@@ -380,7 +382,9 @@ namespace ConnectIn.Tests.Services
                 UserId = "1",
                 FriendUserId = "2",
                 UserConsidersFriendAsBestFriend = true,
-                UserConsidersFriendAsFamily = true
+                UserConsidersFriendAsFamily = true,
+                FriendConsidersUsersAsBestFriend = true,
+                FriendConsidersUsersAsFamily = true
             };
             mockDb.Friends.Add(f1);
 
@@ -425,7 +429,9 @@ namespace ConnectIn.Tests.Services
                 UserId = "5",
                 FriendUserId = "2",
                 UserConsidersFriendAsBestFriend = false,
-                UserConsidersFriendAsFamily = false
+                UserConsidersFriendAsFamily = false,
+                FriendConsidersUsersAsBestFriend = false,
+                FriendConsidersUsersAsFamily = false
             };
             mockDb.Friends.Add(f6);
             #endregion
@@ -514,32 +520,8 @@ namespace ConnectIn.Tests.Services
 
             service = new UserService(mockDb);
         }
-        [TestMethod]
-        public void TestGetFriendsFromUser()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-            
-            // Act
-            var result1 = service.GetFriendsFromUser(user1);
-            var result2 = service.GetFriendsFromUser(user2);
 
-            // Assert
-            string[] list1 = { "4", "2", "3" };
-            string[] list2 = { "1", "5" , "3" };
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-
-            foreach (var item in result1)
-            {
-                Assert.AreNotEqual(item, user1);
-            }
-
-            Assert.AreEqual(3, result1.Count);
-            Assert.AreEqual(3, result2.Count);
-        }
-
+        #region get the user by id and name
         [TestMethod]
         public void TestGetUserById()
         {
@@ -556,7 +538,7 @@ namespace ConnectIn.Tests.Services
             u1.Id = "1";
             u1.Email = "user1@m.com";
             u1.UserName = "user1";
-            u1.Birthday = new DateTime(2000,1,1);
+            u1.Birthday = new DateTime(2000, 1, 1);
             u1.Work = "HR";
             u1.School = "HR";
             u1.Gender = "Male";
@@ -581,6 +563,55 @@ namespace ConnectIn.Tests.Services
             Assert.AreEqual(u2.Email, result2.Email);
             Assert.AreEqual(u2.UserName, result2.UserName);
             Assert.AreEqual(u2.Address, result2.Address);
+        }
+
+        [TestMethod]
+        public void TestGetPossibleUsersByName()
+        {
+            // Arrange
+            const string search1 = "a";
+            const string search2 = "r";
+
+            // Act
+            var result1 = service.GetPossibleUsersByName(search1);
+            var result2 = service.GetPossibleUsersByName(search2);
+
+            // Assert
+            string[] list1 = { "1", "4", "2" };
+            string[] list2 = { "1", "5" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(2, result2.Count);
+        }
+        #endregion
+
+        #region queries regarding friends of the user
+        [TestMethod]
+        public void TestGetFriendsFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+            
+            // Act
+            var result1 = service.GetFriendsFromUser(user1);
+            var result2 = service.GetFriendsFromUser(user2);
+
+            // Assert
+            string[] list1 = { "4", "2", "3" };
+            string[] list2 = { "1", "5" , "3" };
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+
+            foreach (var item in result1)
+            {
+                Assert.AreNotEqual(item, user1);
+            }
+
+            Assert.AreEqual(3, result1.Count);
+            Assert.AreEqual(3, result2.Count);
         }
 
         [TestMethod]
@@ -620,6 +651,90 @@ namespace ConnectIn.Tests.Services
         }
 
         [TestMethod]
+        public void TestGetAllFriendsBirthdays()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+
+            // Act
+            var result1 = service.GetAllFriendsBirthdays(user1);
+            var result2 = service.GetAllFriendsBirthdays(user2);
+
+            // Assert
+            string[] list1 = { "2" };
+            string[] list2 = { "2", "5" };
+
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
+            Assert.AreEqual(1, result1.Count);
+            Assert.AreEqual(2, result2.Count);
+        }
+
+        [TestMethod]
+        public void TestGetFriendShip()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+            const string user5 = "5";
+
+            // Act
+            var result1 = service.GetFriendShip(user1, user2);
+            var result2 = service.GetFriendShip(user1, user5);
+            var result3 = service.GetFriendShip(user5, user2);
+
+            // Assert
+            Assert.AreEqual("1", result1.UserId);
+            Assert.AreEqual("2", result1.FriendUserId);
+            Assert.AreEqual(true, result1.UserConsidersFriendAsBestFriend);
+            Assert.AreEqual(true, result1.UserConsidersFriendAsFamily);
+            Assert.AreEqual(null, result2);
+            Assert.AreEqual("5", result3.UserId);
+            Assert.AreEqual("2", result3.FriendUserId);
+        }
+
+        [TestMethod]
+        public void TestUserConsidersFriendClose()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+            const string user5 = "5";
+
+            // Act
+            var result1 = service.UserConsidersFriendClose(user1, user2);
+            var result2 = service.UserConsidersFriendClose(user1, user5);
+            var result3 = service.UserConsidersFriendClose(user5, user2);
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(false, result2);
+            Assert.AreEqual(false, result3);
+        }
+
+        [TestMethod]
+        public void TestFriendConsidersUserClose()
+        {
+            // Arrange
+            const string user1 = "1";
+            const string user2 = "2";
+            const string user5 = "5";
+
+            // Act
+            var result1 = service.UserConsidersFriendClose(user1, user2);
+            var result2 = service.UserConsidersFriendClose(user1, user5);
+            var result3 = service.UserConsidersFriendClose(user5, user2);
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(false, result2);
+            Assert.AreEqual(false, result3);
+        }
+        #endregion
+
+        #region queries regarding posts
+        [TestMethod]
         public void TestGetAllPostsFromUser()
         {
             // Arrange
@@ -642,7 +757,7 @@ namespace ConnectIn.Tests.Services
             CollectionAssert.AreEqual(list3, result3);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void TestGetEveryNewsfeedPostsForUser()
         {
             // Arrange
@@ -657,10 +772,10 @@ namespace ConnectIn.Tests.Services
             int[] list1 = { 6, 5, 4, 3, 2, 1 };
             int[] list2 = { 6, 5, 4, 2, 1 };
 
-            // CollectionAssert.AreEqual(list1, result1);
-            // CollectionAssert.AreEqual(list2, result2);
+            CollectionAssert.AreEqual(list1, result1);
+            CollectionAssert.AreEqual(list2, result2);
             Assert.AreEqual(5, result2.Count);
-        }*/
+        }
 
         [TestMethod]
         public void TestGetBestFriendsPostsForUser()
@@ -697,27 +812,7 @@ namespace ConnectIn.Tests.Services
             CollectionAssert.AreEqual(list1, result1);
             CollectionAssert.AreEqual(list2, result2);
         }
-
-        [TestMethod]
-        public void TestGetAllFriendsBirthdays()
-        {
-            // Arrange
-            const string user1 = "1";
-            const string user2 = "2";
-
-            // Act
-            var result1 = service.GetAllFriendsBirthdays(user1);
-            var result2 = service.GetAllFriendsBirthdays(user2);
-
-            // Assert
-            string[] list1 = { "2" };
-            string[] list2 = { "2", "5" };
-            
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-            Assert.AreEqual(1, result1.Count);
-            Assert.AreEqual(2, result2.Count);
-        }
+        #endregion
 
         [TestMethod]
         public void TestGetAllGroupsOfUser()
@@ -731,24 +826,5 @@ namespace ConnectIn.Tests.Services
             CollectionAssert.AreEqual(list, result);
         }
 
-        public void TestGetPossibleUsersByName()
-        {
-            // Arrange
-            const string user1 = "a";
-            const string user2 = "r";
-
-            // Act
-            var result1 = service.GetPossibleUsersByName(user1);
-            var result2 = service.GetPossibleUsersByName(user2);
-
-            // Assert
-            string[] list1 = { "1", "4", "2" };
-            string[] list2 = { "2", "5" };
-
-            CollectionAssert.AreEqual(list1, result1);
-            CollectionAssert.AreEqual(list2, result2);
-            Assert.AreEqual(3, result1.Count);
-            Assert.AreEqual(2, result2.Count);
-        }
     }
 }
