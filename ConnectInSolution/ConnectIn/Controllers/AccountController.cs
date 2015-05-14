@@ -161,12 +161,12 @@ namespace ConnectIn.Controllers
             {
                 
                 var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
-                if(user.Birthday.Day > DateTime.Today.Day && user.Birthday.Year > DateTime.Today.Year || user.Birthday.Year < 1900 )
+                var testDate = new DateTime(1900,1,1);
+                if (user.Birthday.Date > DateTime.Today.Date || user.Birthday.Date < testDate )
                 {
                     ModelState.AddModelError("", "Date not acceptable");
-                   return View(model);
+                    return View(model);
                 }
-                
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                  
                 if (result.Succeeded)
