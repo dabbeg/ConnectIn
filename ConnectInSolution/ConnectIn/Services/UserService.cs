@@ -44,6 +44,31 @@ namespace ConnectIn.Services
         #endregion
 
         #region queries regarding friends of the user
+        // Get the Id of all the users friends by a given Id of user
+        public List<string> GetFriendsFromUser(string userId)
+        {
+            // Get the added friends of the user, and put to a list
+            var list1 = (from fc in db.Friends
+                         where fc.UserId == userId
+                         select fc).ToList();
+
+            // Get the friends that added the user, and put to a list
+            var list2 = (from fc in db.Friends
+                         where fc.FriendUserId == userId
+                         select fc).ToList();
+
+            // Append list1 and list2 together
+            list1.AddRange(list2);
+
+            // Sort by name
+            var list3 = (from fc in list1
+                         orderby fc.UserId == userId ? GetUserById(fc.FriendUserId).Name : GetUserById(fc.UserId).Name
+                         select fc.UserId == userId ? fc.FriendUserId : fc.UserId).ToList();
+
+
+            return list3;
+        }
+
         // Get the Id of all the users best friends by a given Id of user
         public List<string> GetBestFriendsFromUser(string userId)
         {
@@ -98,31 +123,6 @@ namespace ConnectIn.Services
             return list3;
         }
 
-        // Get the Id of all the users friends by a given Id of user
-        public List<string> GetFriendsFromUser(string userId)
-        {
-            // Get the added friends of the user, and put to a list
-            var list1 = (from fc in db.Friends
-                         where fc.UserId == userId
-                         select fc).ToList();
-
-            // Get the friends that added the user, and put to a list
-            var list2 = (from fc in db.Friends
-                         where fc.FriendUserId == userId
-                         select fc).ToList();
-
-            // Append list1 and list2 together
-            list1.AddRange(list2);
-
-            // Sort by name
-            var list3 = (from fc in list1
-                         orderby fc.UserId == userId ? GetUserById(fc.FriendUserId).Name : GetUserById(fc.UserId).Name
-                         select fc.UserId == userId ? fc.FriendUserId : fc.UserId).ToList();
-
-
-            return list3;
-        }
-
         // Get the Id of all the users birthdays by a given Id of the user
         public List<string> GetAllFriendsBirthdays(string userId)
         {
@@ -147,6 +147,7 @@ namespace ConnectIn.Services
             return fs;
         }
 
+        // boolean if the user considers his friend close
         public bool UserConsidersFriendClose(string userId, string friendId)
         {
             var friendship = GetFriendShip(userId, friendId);
@@ -168,6 +169,8 @@ namespace ConnectIn.Services
 
             return false;
         }
+
+        // boolean if the friend considers user close
         public bool FriendConsidersUserClose(string userId, string friendId)
         {
             var friendship = GetFriendShip(userId, friendId);
@@ -210,22 +213,26 @@ namespace ConnectIn.Services
         {
             // Get the users friends
             var fri = GetFriendsFromUser(userId);
-            var friends = new List<String>();
 
-            foreach (var item in fri)
+            var friends = fri.Where(item => UserConsidersFriendClose(userId, item)).ToList();
+
+            /*var posts = new List<Post>();
+
+            foreach (var item in db.Posts)
             {
-                if (UserConsidersFriendClose(userId, item))
+                if (item.User.Privacy == 2)
                 {
-                    friends.Add(item);
+                    if ((friends.Contains(item.UserId) || item.UserId == userId) && item.GroupId == null)
+                    {
+                        posts.Add(item);
+                    }
                 }
-            }
-
+            }*/
             // Get all the posts from friends
             var statuses = (from s in db.Posts
                             where s.User.Privacy == 2
                             ? (friends.Contains(s.UserId) || s.UserId == userId) 
                             : (fri.Contains(s.UserId) || s.UserId == userId)
-                            /*(friends.Contains(s.UserId) || s.UserId == userId)*/
                             && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();

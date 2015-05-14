@@ -34,19 +34,24 @@
                         var db = new ApplicationDbContext();
                         var userService = new UserService(db);
                         var user = userService.GetUserById(User.Identity.GetUserId());
-                        var nameA = user.Name.Split(' ');
-                        var name = "";
-                        for (int i = 0; i < nameA.Length; i++)
+                        if (user.Name != null)
                         {
-                            name += nameA[i];
-                            if (i == nameA.Length - 2) { break; }
-                            name += " ";
+                            var nameA = user.Name.Split(' ');
+                            var name = "";
+                            for (int i = 0; i < nameA.Length; i++)
+                            {
+                                name += nameA[i];
+                                if (i == nameA.Length - 2) { break; }
+                                name += " ";
+                            }
+                            @:<li>@Html.ActionLink("Hello, " + name, "Profile", "Home", new { id = @User.Identity.GetUserId() }, null)
                         }
-                        <li>@Html.ActionLink("Hello, " + name, "Profile", "Home", new { id = @User.Identity.GetUserId() }, null)</li>
+                        @:</li>
                     }
                 </ul>
             </div>
 
+>>>>>>> f1890e7d2c92de0f11bd7c67e2ec46d17c179eac
         </div>
         <div class="navbar-collapse collapse">
 
