@@ -161,7 +161,7 @@ namespace ConnectIn.Controllers
             {
                 
                 var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
-                if(user.Birthday.Year >= DateTime.Today.Year || user.Birthday.Year < 1850)
+                if(user.Birthday.Day > DateTime.Today.Day || user.Birthday.Year < 1900 || user.Birthday.Year > DateTime.Today.Year)
                 {
                     ModelState.AddModelError("", "Date not acceptable");
                    return View(model);
