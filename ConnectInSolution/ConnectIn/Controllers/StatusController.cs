@@ -257,8 +257,7 @@ namespace ConnectIn.Controllers
             var postService = new PostService(db);
             var commentService = new CommentService(db);
 
-
-
+            // Add the new comment into the database
             var newComment = new Comment
             {
                 UserId = User.Identity.GetUserId(),
@@ -270,6 +269,7 @@ namespace ConnectIn.Controllers
             db.Comments.Add(newComment);
             db.SaveChanges();
 
+            // Fill in the viewmodel
             var commentList = postService.GetPostsComments(newComment.PostId);
             var json = new List<CommentViewModel>();
 
@@ -305,14 +305,15 @@ namespace ConnectIn.Controllers
             }
             int id = commentId.Value;
 
-            var db = new ApplicationDbContext();
-            var commentService = new CommentService(db);
+            var context = new ApplicationDbContext();
+            var commentService = new CommentService(context);
 
+            // Remove the comment out of the database
             var comment = commentService.GetCommentById(id);
             if (comment != null)
             {
-                db.Comments.Remove(comment);
-                db.SaveChanges();
+                context.Comments.Remove(comment);
+                context.SaveChanges();
             }
             
             return new EmptyResult();
@@ -329,8 +330,9 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var likedislikeService = new LikeDislikeService(context);
-            var pid = Int32.Parse(postId);
 
+            // Find out if user has disliked, liked or done nothing and like the status according to that
+            var pid = Int32.Parse(postId);
             var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
@@ -362,6 +364,7 @@ namespace ConnectIn.Controllers
             }
             context.SaveChanges();
 
+            // Fill in the json
             var postService = new PostService(context);
             var json = new
             {
@@ -384,8 +387,9 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var likedislikeService = new LikeDislikeService(context);
-            var pid = Int32.Parse(postId);
 
+            // Find out if user has disliked, liked or done nothing and like the status according to that
+            var pid = Int32.Parse(postId);
             var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
@@ -417,6 +421,7 @@ namespace ConnectIn.Controllers
             }
             context.SaveChanges();
 
+            // Fill in the json
             var postService = new PostService(context);
             var json = new
             {
