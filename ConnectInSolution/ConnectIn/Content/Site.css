@@ -1082,8 +1082,12 @@ span.thumbnail:focus {
   border-color: #428bca;
 }
 
-.selected {
-    border-color: #428bca;
+span.thumbnail-photo {
+    border: 4px solid #ddd;
+}
+
+.selected-photo {
+    border: 4px solid #428bca;
 }
 
 

@@ -69,18 +69,14 @@
                     @string.Format("{0}", Model.User.Name)
                 </h1>
 
-
                 <div id="PhotoButton">
-                    @using (Html.BeginForm("Images", "Photo", new { userId = Model.User.UserId }))
+                    @using (Html.BeginForm("Images", "Photo", FormMethod.Get))
                     {
+                        <input type="hidden" name="userId" value="@Model.User.UserId"/>
                         <button type="submit" class="btn fa fa-camera btn-primary"></button>
                     }
                 </div>
-
-
-
             </div>
-
         </div>
     </div>
     <div id="profileborder"></div>
