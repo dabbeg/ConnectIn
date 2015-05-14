@@ -39,6 +39,7 @@ namespace ConnectIn.Services
                                       && n.FriendUserId == friendId)
                                       || (n.UserId == friendId
                                       && n.FriendUserId == userId)
+                                      && n.GroupId == -1
                                 select n).SingleOrDefault();
 
             return notification;
