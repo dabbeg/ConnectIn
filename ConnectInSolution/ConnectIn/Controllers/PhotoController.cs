@@ -228,7 +228,8 @@ namespace ConnectIn.Controllers
             var photoService = new PhotoService(context);
 
             // Switching cover photos
-            var oldPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
+            var oldPhotoId = userService.GetCoverPhoto(User.Identity.GetUserId());
+            var oldPhoto = photoService.GetPhotoById(oldPhotoId);
             if (oldPhoto != null)
             {
                 oldPhoto.IsCurrentCoverPhoto = false;

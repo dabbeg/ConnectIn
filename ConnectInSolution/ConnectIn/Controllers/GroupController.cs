@@ -330,6 +330,7 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var groupService = new GroupService(context);
             var userService = new UserService(context);
+            var notificationService = new NotificationService(context);
 
             var grpId = Int32.Parse(collection["groupID"]);
             var userId = collection["userID"];
@@ -343,7 +344,7 @@ namespace ConnectIn.Controllers
             var notifications = userService.GetAllNotificationsForUser(userId);
             foreach (var ntf in notifications)
             {
-                var notification = userService.GetNotificationById(ntf.NotificationId);
+                var notification = notificationService.GetNotificationById(ntf.NotificationId);
                 if (notification.GroupId == grpId)
                 {
                     context.Notifications.Remove(notification);

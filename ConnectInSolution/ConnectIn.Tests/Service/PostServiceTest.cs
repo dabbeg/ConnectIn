@@ -482,6 +482,8 @@ namespace ConnectIn.Tests.Service
 
             service = new PostService(mockDb);
         }
+
+        #region get post by id
         [TestMethod]
         public void TestGetPostById()
         {
@@ -518,7 +520,9 @@ namespace ConnectIn.Tests.Service
             Assert.AreEqual(p2.Date, result2.Date);
             Assert.AreEqual(p2.PostId, result2.PostId);
         }
+        #endregion
 
+        #region comments, likes and dislikes
         [TestMethod]
         public void TestGetPostsComments()
         {
@@ -572,5 +576,6 @@ namespace ConnectIn.Tests.Service
             // Assert
             Assert.AreEqual(1, result4);
         }
+        #endregion
     }
 }

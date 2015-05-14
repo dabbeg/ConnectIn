@@ -15,13 +15,14 @@
                 @{
     var db = new ApplicationDbContext();
     var userService = new UserService(db);
+                    var notificationService = new NotificationService(db);
     var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), Model.User.UserId);
                 }
                 <div id="addFriendButton">
                     @if (Model.User.UserId != User.Identity.GetUserId())
                     {
                         var listOfFriends = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                        var notification = userService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
+                        var notification = notificationService.GetIfFriendRequestIsPending(User.Identity.GetUserId(), Model.User.UserId);
                         if (notification != null)
                         {
                             <button type="button" class="btn">Pending</button>

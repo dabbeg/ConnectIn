@@ -1,11 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ConnectIn.Services;
-using ConnectIn.Tests;
 using ConnectIn.Models.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
-using System.IO.Ports;
 
 namespace ConnectIn.Tests.Services
 {
@@ -163,37 +159,46 @@ namespace ConnectIn.Tests.Services
             #region Photos
             var ph1 = new Photo()
             {
+                PhotoId = 1,
                 PhotoPath = "bla1",
                 UserId = "1",
                 Date = new DateTime(2000, 1, 1),
-                IsProfilePhoto = true
+                IsProfilePhoto = true,
+                IsCurrentProfilePhoto = true,
             };
             mockDb.Photos.Add(ph1);
 
             var ph2 = new Photo()
             {
+                PhotoId = 2,
                 PhotoPath = "bla2",
                 UserId = "1",
                 Date = new DateTime(2001, 1, 1),
-                IsProfilePhoto = false
+                IsProfilePhoto = true,
+                IsCurrentProfilePhoto = false
             };
             mockDb.Photos.Add(ph2);
 
             var ph3 = new Photo()
             {
+                PhotoId = 3,
                 PhotoPath = "bla3",
                 UserId = "2",
                 Date = new DateTime(2002, 1, 1),
-                IsProfilePhoto = false
+                IsProfilePhoto = false,
+                IsCoverPhoto = true,
+                IsCurrentCoverPhoto = true
             };
             mockDb.Photos.Add(ph3);
 
             var ph4 = new Photo()
             {
+                PhotoId = 4,
                 PhotoPath = "bla4",
                 UserId = "4",
                 Date = new DateTime(2003, 1, 1),
-                IsProfilePhoto = false
+                IsProfilePhoto = false,
+                IsCoverPhoto = true
             };
             mockDb.Photos.Add(ph4);
             #endregion
@@ -800,6 +805,77 @@ namespace ConnectIn.Tests.Services
         }
         #endregion
 
+        #region queries regarding the users photos
+
+        [TestMethod]
+        public void TestGetProfilePicture()
+        {
+            // Arrange
+            const string user1 = "1";
+
+            // Act
+            var result1 = service.GetProfilePicture(user1);
+
+            // Assert
+            Assert.AreEqual(1, result1.PhotoId);
+        }
+
+        [TestMethod]
+        public void TestGetCoverPhoto()
+        {
+            // Arrange
+            const string user1 = "2";
+            const string user2 = "4";
+
+            // Act
+            var result1 = service.GetCoverPhoto(user1);
+
+            // Assert
+            Assert.AreEqual(3, result1);
+        }
+
+        [TestMethod]
+        public void TestGetAllProfilePhotosFromUser()
+        {
+            // Arrange
+            const string user1 = "1";
+
+            // Act
+            var result1 = service.GetAllProfilePhotosFromUser(user1);
+
+            // Assert
+            int i = 0;
+            int [] l1 = {2, 1};
+            foreach (var item in result1)
+            {
+                Assert.AreEqual(l1[i], item.PhotoId);
+                i++;
+            }
+            Assert.AreEqual(2, result1.Count);
+        }
+
+        [TestMethod]
+        public void TestGetAllCoverPhotosFromUser()
+        {
+            // Arrange
+            const string user1 = "2";
+
+            // Act
+            var result1 = service.GetAllCoverPhotosFromUser(user1);
+
+            // Assert
+            int i = 0;
+            int[] l1 = { 3 };
+            foreach (var item in result1)
+            {
+                Assert.AreEqual(l1[i], item.PhotoId);
+                i++;
+            }
+        }
+
+        #endregion
+
+        #region queries regarding the user's groups
         [TestMethod]
         public void TestGetAllGroupsOfUser()
         {
@@ -807,10 +883,33 @@ namespace ConnectIn.Tests.Services
 
             var result = service.GetAllGroupsOfUser(user1);
 
-            int[] list = {1, 2, 3};
+            int[] list = { 1, 2, 3 };
 
             CollectionAssert.AreEqual(list, result);
         }
+        #endregion
+
+        #region queries regarding users notification
+        [TestMethod]
+        public void TestGetAllNotificationsForUser()
+        {
+            // Arrange
+            const string user1 = "1";
+
+            // Act
+            var result1 = service.GetAllNotificationsForUser(user1);
+
+            // Assert
+            int i = 0;
+            int[] l1 = { 2, 1 };
+            foreach (var item in result1)
+            {
+                Assert.AreEqual(l1[i], item.NotificationId);
+                i++;
+            }
+        }
+        #endregion
+
 
     }
 }

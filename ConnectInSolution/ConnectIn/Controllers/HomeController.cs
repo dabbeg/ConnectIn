@@ -202,6 +202,7 @@ namespace ConnectIn.Controllers
             var userService = new UserService(context);
             var postService = new PostService(context);
             var likedislikeService = new LikeDislikeService(context);
+            var photoService = new PhotoService(context);
 
             var user = userService.GetUserById(id);
             var posts = userService.GetAllPostsFromUser(id);
@@ -212,7 +213,8 @@ namespace ConnectIn.Controllers
             profilePicturePath = profilePicture == null 
                 ? "~/Content/images/largeProfilePic.jpg" 
                 : profilePicture.PhotoPath;
-           var coverPhoto = userService.GetCoverPhoto(id);
+            var coverPhotoId = userService.GetCoverPhoto(id);
+            var coverPhoto = photoService.GetPhotoById(coverPhotoId);
             string coverPhotoPath;
             if (coverPhoto == null)
             {
