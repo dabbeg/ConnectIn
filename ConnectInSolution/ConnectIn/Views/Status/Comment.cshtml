@@ -20,7 +20,7 @@
                         <div id="postContent">
                             <!--Should display user's profile picture, a cat was used temporarily-->
                             <div class="PostPartialViewPhoto">
-                                <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" />
+                                <a href="/Home/Profile/@Model.Post.User.UserId"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" /></a>
                             </div>
                             <!--Should display username instead of item.userID-->
                             <div class="friendsListName">
@@ -58,7 +58,7 @@
             <div class="form-horizontal" style="margin-top: 10px; margin-bottom: 20px;">
                 <input type="hidden" name="postId" value="@Model.Post.PostId" />
                 <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
+                    <a href="/Home/Profile/@User.Identity.GetUserId()"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
                 </div>
                 <textarea placeholder="Comment..." class="commentform-control" rows="5" id="commentstatus" name="status"></textarea>
                 <button type="button" id="submitcomment" class="btn btn-primary">Submit</button>
@@ -78,7 +78,7 @@
                     <div class="well commentwell" id="FriendsListWell">
                         <div id="postContent">
                             <div class="PostPartialViewPhoto">
-                                <img class="PartialViewResponsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                                <a href="/Home/Profile/@item.User.UserId"><img class="PartialViewResponsive img-rounded pull-left" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" /></a>
                             </div>
                             <!--Should display username instead of item.userID-->
                             <div id="comm" style="margin-left:100px">

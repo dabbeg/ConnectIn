@@ -11,7 +11,7 @@
             <div id="postContent">
                 <!--Should display user's profile picture, a cat was used temporarily-->
                 <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                    <a href="/Home/Profile/@item.User.UserId"><img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" /></a>
                 </div>
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">
