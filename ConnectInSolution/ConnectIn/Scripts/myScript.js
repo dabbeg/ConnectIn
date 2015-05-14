@@ -509,11 +509,12 @@ $(document).ready(function () {
 
 
     $("span.thumbnail").click(function () {
-        $("span.thumbnail").removeClass("selected");
-        $(this).addClass("selected");
+        $("span.thumbnail").removeClass("selected-photo").addClass("thumbnail-photo");
+        $(this).removeClass("thumbnail-photo").addClass("selected-photo");
 
         var photoId = $(this).attr("id");
-        $.post("/Photo/IsProfilePhoto", { "photoId": photoId }, function (data) {
+        var url = "/Photo/IsProfilePhoto?photoId=" + photoId;
+        $.get(url, function (data) {
             if (data) {
                 $("#pickCoverPhoto").attr("disabled", true);
                 $("#pickProfilePhoto").attr("disabled", false);
@@ -551,6 +552,10 @@ $(document).ready(function () {
         $("#pickCoverPhoto").attr("disabled", true);
         var photoId = $(this).siblings("input[name=photoId]").val();
         deletePhoto(photoId);
+    });
+
+    $("#cropForm").submit(function () {
+        $(this).find(".btn-crop").attr("disabled", true);
     });
 
     // Go back by one in history

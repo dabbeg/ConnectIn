@@ -1,4 +1,4 @@
-﻿@model ConnectIn.Models.Entity.Photo
+﻿@model ConnectIn.Models.ViewModels.PhotoViewModel
 
 @{
     ViewBag.Title = "CropCoverPhoto";
@@ -11,7 +11,7 @@
         <img id="cropPhoto" src="@Model.PhotoPath" />
     </div>
     <div class="cropBtnContainer">
-        @using (Html.BeginForm("CropImage", "Photo", FormMethod.Post))
+        @using (Html.BeginForm("CropImage", "Photo", FormMethod.Post, new { id = "cropForm" }))
         {
             <input type="hidden" id="location" name="location" value="cover" />
             <input type="hidden" id="photoId" name="photoId" value="@Model.PhotoId" />
