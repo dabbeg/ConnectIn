@@ -79,9 +79,9 @@ namespace ConnectIn.Controllers
             int notificationId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var notificationService = new NotificationService(context);
 
-            var notification = userService.GetNotificationById(notificationId);
+            var notification = notificationService.GetNotificationById(notificationId);
 
             var friends = new Friend
             {
@@ -107,9 +107,9 @@ namespace ConnectIn.Controllers
             int notificationId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var notificationService = new NotificationService(context);
 
-            var notification = userService.GetNotificationById(notificationId);
+            var notification = notificationService.GetNotificationById(notificationId);
             context.Notifications.Remove(notification);
             context.SaveChanges();
 
@@ -129,9 +129,9 @@ namespace ConnectIn.Controllers
             int notificationId = Int32.Parse(id);
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var notificationService = new NotificationService(context);
 
-            var notification = userService.GetNotificationById(notificationId);
+            var notification = notificationService.GetNotificationById(notificationId);
             context.Notifications.Remove(notification);
             context.SaveChanges();
 

@@ -211,6 +211,7 @@ namespace ConnectIn.Services
         // Get the id of all posts of all the users news feeds posts by a given Id of user
         public List<int> GetEveryNewsFeedPostsForUser(string userId)
         {
+            var user = GetUserById(userId);
             // Get the users friends
             var fri = GetFriendsFromUser(userId);
 
@@ -218,9 +219,9 @@ namespace ConnectIn.Services
 
             // Get all the posts from friends
             var statuses = (from s in db.Posts
-                            where s.User.Privacy == 2
+                            where (s.User.Privacy == 2
                             ? (friends.Contains(s.UserId) || s.UserId == userId) 
-                            : (fri.Contains(s.UserId) || s.UserId == userId)
+                            : (fri.Contains(s.UserId) || s.UserId == userId))
                             && s.GroupId == null
                             orderby s.Date descending
                             select s.PostId).Take(20).ToList();
@@ -280,12 +281,12 @@ namespace ConnectIn.Services
             return pPhoto;
         }
         //Get Cover photo fropm user
-        public Photo GetCoverPhoto(string userId)
+        public int GetCoverPhoto(string userId)
         {
             var cPhoto = (from c in db.Photos
                           where c.UserId == userId
-                          && c.IsCurrentCoverPhoto == true
-                          select c).SingleOrDefault();
+                          && c.IsCurrentCoverPhoto
+                          select c.PhotoId).SingleOrDefault();
             return cPhoto;
         }
 
@@ -295,7 +296,7 @@ namespace ConnectIn.Services
             // Create a list of all photos from the user
             var list = (from up in db.Photos
                         where up.UserId == userId
-                        && up.IsProfilePhoto == true
+                        && up.IsProfilePhoto
                         orderby up.Date descending
                         select up).ToList();
 
@@ -328,36 +329,15 @@ namespace ConnectIn.Services
         #endregion
 
         #region queries regarding users notification
-        //Get a notification by notification Id
-        public Notification GetNotificationById(int notificationId)
-        {
-            var notification = (from n in db.Notifications
-                where n.NotificationId == notificationId
-                select n).SingleOrDefault();
-
-            return notification;
-        }
-
         //Get a list of all notifications for the user with userId 
         public List<Notification> GetAllNotificationsForUser(string userId)
         {
             var notifications = (from n in db.Notifications
                 where n.FriendUserId == userId
+                orderby n.Date descending 
                 select n).ToList();
 
             return notifications;
-        }
-
-        public Notification GetIfFriendRequestIsPending(string userId, string friendId)
-        {
-            var notification = (from n in db.Notifications
-                where (n.UserId == userId
-                      && n.FriendUserId == friendId)
-                      || (n.UserId == friendId
-                      && n.FriendUserId == userId)
-                select n).SingleOrDefault();
-
-            return notification;
         }
         #endregion
     }

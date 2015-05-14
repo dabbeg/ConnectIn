@@ -104,6 +104,8 @@
     <Compile Include="Service\PostServiceTest.cs" />
     <Compile Include="Service\GroupServiceTest.cs" />
     <Compile Include="Service\CommentServiceTest.cs" />
+    <Compile Include="Service\PhotoServiceTest.cs" />
+    <Compile Include="Service\NotificationServiceTest.cs" />
     <Compile Include="Service\UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
