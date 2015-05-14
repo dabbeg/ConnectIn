@@ -71,7 +71,7 @@ namespace ConnectIn.Services
             return member;
         }
 
-        public bool isMemberOfGroup(int groupId, string userId)
+        public bool IsMemberOfGroup(int groupId, string userId)
         {
             var member = (from m in db.Members
                       where m.UserId == userId
