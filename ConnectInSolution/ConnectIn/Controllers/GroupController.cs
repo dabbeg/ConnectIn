@@ -180,7 +180,7 @@ namespace ConnectIn.Controllers
                 
                 foreach (var userId in userFriendList)
                 {
-                    if (!groupService.isMemberOfGroup(grpId, userId))
+                    if (!groupService.IsMemberOfGroup(grpId, userId))
                     {
                         var friend = userService.GetUserById(userId);
 
