@@ -1,12 +1,7 @@
-﻿using System;
-using ConnectIn.DAL;
+﻿using ConnectIn.DAL;
 using ConnectIn.Services;
 using System.Collections.Generic;
-using System.IO;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using ConnectIn.Models.Entity;
 using ConnectIn.Models.ViewModels;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -15,15 +10,16 @@ namespace ConnectIn.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated) return RedirectToAction("NewsFeed", "Home");
             return View();
         }
 
+        [HttpGet, Authorize]
         public ActionResult NewsFeed()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             var userId = User.Identity.GetUserId();
             
             var context = new ApplicationDbContext();

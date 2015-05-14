@@ -16,7 +16,7 @@
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">
                     <h3>
-                        @Html.ActionLink(item.User.Name, "Profile", new {id = item.User.UserId})<small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
+                        <a href="/Home/Profile/@item.User.UserId">@item.User.Name</a>
                     </h3>
                 </div>
                 <!--<button type="button" class="david"> dabs</button>-->
