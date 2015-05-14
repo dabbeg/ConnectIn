@@ -261,16 +261,6 @@ namespace ConnectIn.Services
         #endregion
 
         #region queries regarding the users photos
-        // Get photo by Id
-        public Photo GetPhotoById(int photoId)
-        {
-            var photo = (from p in db.Photos
-                where p.PhotoId == photoId
-                select p).SingleOrDefault();
-            
-            return photo;
-        }
-
         // Get profile picture from user
         public Photo GetProfilePicture(string userId)
         {

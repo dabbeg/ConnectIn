@@ -155,10 +155,10 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
             // Removing the photo that has photoId
-            context.Photos.Remove(userService.GetPhotoById(photoId.Value));
+            context.Photos.Remove(photoService.GetPhotoById(photoId.Value));
             context.SaveChanges();
 
             return new EmptyResult();
@@ -197,6 +197,7 @@ namespace ConnectIn.Controllers
             
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
             // Switching profile pictures
             var oldPhoto = userService.GetProfilePicture(User.Identity.GetUserId());
@@ -204,7 +205,7 @@ namespace ConnectIn.Controllers
             {
                 oldPhoto.IsCurrentProfilePhoto = false;
             }
-            userService.GetPhotoById(photoId).IsCurrentProfilePhoto = true;
+            photoService.GetPhotoById(photoId).IsCurrentProfilePhoto = true;
             context.SaveChanges();
 
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
@@ -224,6 +225,7 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
             // Switching cover photos
             var oldPhoto = userService.GetCoverPhoto(User.Identity.GetUserId());
@@ -231,7 +233,7 @@ namespace ConnectIn.Controllers
             {
                 oldPhoto.IsCurrentCoverPhoto = false;
             }
-            userService.GetPhotoById(photoId).IsCurrentCoverPhoto = true;
+            photoService.GetPhotoById(photoId).IsCurrentCoverPhoto = true;
             context.SaveChanges();
 
             return RedirectToAction("Profile", "Home", new { id = User.Identity.GetUserId() });
@@ -247,9 +249,9 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
-            var photo = userService.GetPhotoById(photoId.Value);
+            var photo = photoService.GetPhotoById(photoId.Value);
             var model = new PhotoViewModel()
             {
                 PhotoId = photo.PhotoId,
@@ -269,9 +271,9 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
-            var photo = userService.GetPhotoById(photoId.Value);
+            var photo = photoService.GetPhotoById(photoId.Value);
             var model = new PhotoViewModel()
             {
                 PhotoId = photo.PhotoId,
@@ -304,10 +306,10 @@ namespace ConnectIn.Controllers
             int imageCropHeight = Convert.ToInt32(double.Parse(simageCropHeight, CultureInfo.InvariantCulture));
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
             // Crop photo according to the parameters
-            var photo = userService.GetPhotoById(Int32.Parse(sphotoId));
+            var photo = photoService.GetPhotoById(Int32.Parse(sphotoId));
             byte[] imageBytes = photo.PhotoBytes;
             byte[] croppedImage = ImageHelper.CropImage(imageBytes, cropPointX, cropPointY, imageCropWidth, imageCropHeight);
 
@@ -355,9 +357,9 @@ namespace ConnectIn.Controllers
             }
 
             var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var photoService = new PhotoService(context);
 
-            return Json(userService.GetPhotoById(photoId.Value).IsProfilePhoto, JsonRequestBehavior.AllowGet);
+            return Json(photoService.GetPhotoById(photoId.Value).IsProfilePhoto, JsonRequestBehavior.AllowGet);
         }
     }
 }
