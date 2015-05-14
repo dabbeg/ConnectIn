@@ -625,6 +625,14 @@ button.btnNew.privacy {
 }
 #ProfilePostWell {
     overflow: hidden;
+    min-height:60px;
+    height: auto;
+    width: auto;
+    min-width: 575px;
+}
+#CommentPostWell {
+    overflow: auto;
+    min-height:100px;
     height: auto;
     width: auto;
     min-width: 575px;

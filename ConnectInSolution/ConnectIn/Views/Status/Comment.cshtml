@@ -17,14 +17,14 @@
         <div id="posts" class="row">
             <div class="post item span3">
                     <div class="well" id="FriendsListWell">
-                        <div id="postContent">
+                        <div id="CommentPostWell">
                             <!--Should display user's profile picture, a cat was used temporarily-->
                             <div class="PostPartialViewPhoto">
                                 <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.Post.User.ProfilePicture)" alt="Profile Picture" />
                             </div>
                             <!--Should display username instead of item.userID-->
                             <div class="friendsListName">
-                                <h3>
+                                <h3 class="friendsListName">
                                     @Html.ActionLink(Model.Post.User.Name, "Profile", "Home", new {id = Model.Post.User.UserId}, null) <small class="pull-right">@Html.DisplayFor(modelItem => Model.Post.DateInserted)</small>
                                 </h3>
                             </div>
