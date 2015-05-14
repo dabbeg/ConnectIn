@@ -477,6 +477,8 @@ namespace ConnectIn.Tests.Service
 
             service = new CommentService(mockDb);
         }
+
+        #region comments of a given post id
         [TestMethod]
         public void TestGetCommentById()
         {
@@ -513,5 +515,6 @@ namespace ConnectIn.Tests.Service
             Assert.AreEqual(c2.Text, result2.Text);
             Assert.AreEqual(c2.PostId, result2.PostId);
         }
+        #endregion
     }
 }
