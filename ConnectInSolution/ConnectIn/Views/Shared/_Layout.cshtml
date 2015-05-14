@@ -26,8 +26,8 @@
             </button>
 
 
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+            <div class="navbar-collapse collapse" >
+                <ul class="nav navbar-nav" >
                     <li>@Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
                     @if (Request.IsAuthenticated)
                     {
@@ -53,17 +53,18 @@
         </div>
         <div class="navbar-collapse collapse">
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" >
                 @if (Request.IsAuthenticated)
                 {
                     <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
                     <li>@Html.ActionLink("Profile", "Profile", "Home", new { id = @User.Identity.GetUserId() }, null)</li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ><span class="caret"></span></a>
                         <ul class="dropdown-menu nav sidebar-nav" role="menu">
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li class="notLogOut"><a href="/Home/About/" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">About</a></li>
+                            <li class="notLogOut"><a href="/Home/Contact/" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">Contact</a></li>
                             <li class="divider"></li>
-                            <li>@Html.ActionLink("Settings", "Settings", "Account")</li>
+                            <li class="notLogOut"><a href="/Account/Settings" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">Settings</a></li>
                             <li>@Html.Partial("_LoginPartial")</li>
                         </ul>
                     </li>

@@ -10,11 +10,11 @@ using ConnectIn.Models.ViewModels;
 using System.Collections.Generic;
 using Microsoft.Ajax.Utilities;
 
-
 namespace ConnectIn.Controllers
 {
     public class StatusController : Controller
     {
+        [HttpPost]
         public ActionResult AddPost(FormCollection collection)
         {
             string amount = collection["amount"];
@@ -31,6 +31,7 @@ namespace ConnectIn.Controllers
             var likeDislikeService = new LikeDislikeService(context);
             var groupService = new GroupService(context);
 
+            // Create the new post and add it into the database
             DateTime now = DateTime.Now;
             var newPost = new Post
             {
@@ -47,6 +48,7 @@ namespace ConnectIn.Controllers
             context.Posts.Add(newPost);
             context.SaveChanges();
 
+            // Fill the viewmodel and return it as a json string to the jquery call
             var list = new List<int>();
             if (groupId.IsNullOrWhiteSpace())
             {
@@ -124,6 +126,8 @@ namespace ConnectIn.Controllers
 
             var context = new ApplicationDbContext();
             var postService = new PostService(context);
+
+            // Remove the post
             var post = postService.GetPostById(postId);
             if (post != null)
             {
@@ -131,45 +135,45 @@ namespace ConnectIn.Controllers
                 context.SaveChanges();
             }
             
+            // If we are deleting from the comment view the action is redirected to newsfeed
             var url = ControllerContext.HttpContext.Request.UrlReferrer;
             if (url != null && url.AbsolutePath.Contains("Comment"))
             {
                 return RedirectToAction("NewsFeed", "Home");
             }
 
-            // Returns nothing if it is an ajax call
+            // If we are in the newsfeed we delete and return nothing to the ajax call
             return new EmptyResult();
         }
 
-        public ActionResult Comment(int? PostId)
+        [HttpGet]
+        public ActionResult Comment(int? postId)
         {
-            if (PostId == null)
+            if (!postId.HasValue)
             {
                 return RedirectToAction("NewsFeed", "Home");
             }
-            int postId = (int) PostId;
+
+            var context = new ApplicationDbContext();
+            var userService = new UserService(context);
+            var commentService = new CommentService(context);
+            var postService = new PostService(context);
+            var likedislikeService = new LikeDislikeService(context);
+
+            // Assign a smiley according to if this user has liked or dislike or not done either
+            int pid = postId.Value;
             string lPic, dPic;
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-            var commentService = new CommentService(db);
-            var postService = new PostService(db);
-            var likedislikeService = new LikeDislikeService(db);
-
-            var profilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId);
-
-            string profilePicturePath = profilePicture.PhotoPath;
-
-            if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
+            if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid) == null)
             {
                 lPic = "~/Content/images/smileySMALL.png";
                 dPic = "~/Content/images/sadfaceSMALL.png";
             }
-            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Like)
+            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid).Like)
             {
                 lPic = "~/Content/images/smileyGREEN.png";
                 dPic = "~/Content/images/sadfaceSMALL.png";
             }
-            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId).Dislike)
+            else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid).Dislike)
             {
                 lPic = "~/Content/images/smileySMALL.png";
                 dPic = "~/Content/images/sadfaceRED.png";
@@ -178,44 +182,45 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            var comments = new CommentHelperViewModel
+
+            // Fill in the viewmodel
+            var model = new CommentHelperViewModel
             {
                 User = new UserViewModel()
                 {
-                    UserId = postService.GetPostById(postId).UserId,
-                    Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
+                    UserId = postService.GetPostById(pid).UserId,
+                    Name = userService.GetUserById(postService.GetPostById(pid).UserId).Name,
                     ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
 
                 },
                 Comments = new List<CommentViewModel>(),
                 Post = new PostsViewModel()
                 {
-                    PostId = postId,
-                    Body = postService.GetPostById(postId).Text,
-                    DateInserted = postService.GetPostById(postId).Date,
+                    PostId = pid,
+                    Body = postService.GetPostById(pid).Text,
+                    DateInserted = postService.GetPostById(pid).Date,
                     LikeDislikeComment = new LikeDislikeCommentViewModel()
                     {
-                        Likes = postService.GetPostsLikes(postId),
-                        Dislikes = postService.GetPostsDislikes(postId),
-                        Comments = postService.GetPostsCommentsCount(postId)
+                        Likes = postService.GetPostsLikes(pid),
+                        Dislikes = postService.GetPostsDislikes(pid),
+                        Comments = postService.GetPostsCommentsCount(pid)
                     },
                     User = new UserViewModel()
                     {
-                        UserId = postService.GetPostById(postId).UserId,
-                        Name = userService.GetUserById(postService.GetPostById(postId).UserId).Name,
-                        ProfilePicture = userService.GetProfilePicture(postService.GetPostById(postId).UserId).PhotoPath
+                        UserId = postService.GetPostById(pid).UserId,
+                        Name = userService.GetUserById(postService.GetPostById(pid).UserId).Name,
+                        ProfilePicture = userService.GetProfilePicture(postService.GetPostById(pid).UserId).PhotoPath
                     },
                     LikePic = lPic,
                     DislikePic = dPic
                 }
             };
-            var commentIdList = postService.GetPostsComments(postId);
+
+            var commentIdList = postService.GetPostsComments(pid);
             foreach (var id in commentIdList)
             {
                 var commentList = commentService.GetCommentById(id);
-                profilePicture = userService.GetProfilePicture(commentList.UserId);
-                profilePicturePath = profilePicture.PhotoPath;
-                comments.Comments.Add(
+                model.Comments.Add(
                     new CommentViewModel()
                     {
                         CommentId = commentList.CommentId,
@@ -227,12 +232,12 @@ namespace ConnectIn.Controllers
                             UserId = commentList.UserId,
                             Name = userService.GetUserById(commentList.UserId).Name,
                             UserName = userService.GetUserById(commentList.UserId).UserName,
-                            ProfilePicture = profilePicturePath
+                            ProfilePicture = userService.GetProfilePicture(commentList.UserId).PhotoPath
                         }
                     });
             }
 
-            return View(comments);
+            return View(model);
         }
 
         [HttpPost]

@@ -35,7 +35,7 @@
                         <button type="button" id="likeBtn-@item.PostId" class="btnNew btn-default-clicked likeBtn"><img id="likedislikeimg" src="@Url.Content(item.LikePic)" alt="Like Picture" />@item.LikeDislikeComment.Likes Smiles</button>
                         <button type="button" id="dislikeBtn-@item.PostId" class="btnNew btn-default-clicked dislikeBtn"><img id="likedislikeimg" src="@Url.Content(item.DislikePic)" alt="Dislike Picture" />@item.LikeDislikeComment.Dislikes Sadfaces</button>
                         
-                        @using (Html.BeginForm("Comment", "Status", new {PostId = item.PostId}))
+                        @using (Html.BeginForm("Comment", "Status", FormMethod.Get))
                         {
                             <input type="hidden" name="postId" value="@item.PostId"/>
                             <button type="submit" class="btnNew btn-default-comment commentss">&nbsp; &nbsp; @item.LikeDislikeComment.Comments Comments</button>
