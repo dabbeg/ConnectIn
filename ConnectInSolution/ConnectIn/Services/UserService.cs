@@ -216,18 +216,6 @@ namespace ConnectIn.Services
 
             var friends = fri.Where(item => UserConsidersFriendClose(userId, item)).ToList();
 
-            /*var posts = new List<Post>();
-
-            foreach (var item in db.Posts)
-            {
-                if (item.User.Privacy == 2)
-                {
-                    if ((friends.Contains(item.UserId) || item.UserId == userId) && item.GroupId == null)
-                    {
-                        posts.Add(item);
-                    }
-                }
-            }*/
             // Get all the posts from friends
             var statuses = (from s in db.Posts
                             where s.User.Privacy == 2
