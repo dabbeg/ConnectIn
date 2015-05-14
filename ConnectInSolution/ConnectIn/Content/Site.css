@@ -58,10 +58,12 @@
     width:200px;
     height:auto; 
 }
-
+div.thumbnail.right-caption.span4 {
+    width: 100%;
+}
 .caption
 {
-    width:600px;
+    
 }
 #aboutinfo
 {
@@ -69,7 +71,8 @@
 }
 #headliner
 {
-        background-image: url("/Content/Images/background.jpg");
+        /*background-image: url("/Content/Images/background.jpg");*/
+    background-color: rgb(34, 34, 34);
 }
 #headliner > p
 {
@@ -121,6 +124,13 @@ overflow:hidden;
     background-size:cover;
     -moz-background-size:cover;
 }
+
+.carousel .twoo{
+    /*background-image: url("/Content/Images/metal-wallpapers-1.jpg");
+    background-size:cover;
+    -moz-background-size:cover;*/
+}
+
 .carousel .active.left{
     left:0;
     opacity:0;
@@ -1118,4 +1128,13 @@ span.thumbnail:focus {
 
 .cropBtnContainer {
     padding-top: 50px;
+}
+
+#registerColumns {
+    position: relative;
+    right: 111px;
+}
+
+.aboutRow {
+    min-width: 600px;
 }
