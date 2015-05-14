@@ -3,8 +3,7 @@ $(document).ready(function () {
     // Changes the value of the hidden input box in the profile picker
     // So that the id of the photo selected will be in the value attribute.
     $(".row span").click(function() {
-        document.getElementById("photoId").value = $(this).attr("id");
-        document.getElementById("photoId2").value = $(this).attr("id");
+        $("input[name=photoId]").val($(this).attr("id"));
     });
     
     // Everyone, Best friends, and Family filters
@@ -505,21 +504,53 @@ $(document).ready(function () {
 
     $("#pickCoverPhoto").attr("disabled", true);
     $("#pickProfilePhoto").attr("disabled", true);
+    $("#deleteCoverPhoto").attr("disabled", true);
+    $("#deleteProfilePhoto").attr("disabled", true);
+
 
     $("span.thumbnail").click(function () {
-        $("span.thumbnail").css("border-color", "#ddd");
-        $(this).css("border-color", "#428bca");
+        $("span.thumbnail").removeClass("selected");
+        $(this).addClass("selected");
 
         var photoId = $(this).attr("id");
         $.post("/Photo/IsProfilePhoto", { "photoId": photoId }, function (data) {
             if (data) {
                 $("#pickCoverPhoto").attr("disabled", true);
                 $("#pickProfilePhoto").attr("disabled", false);
+                $("#deleteCoverPhoto").attr("disabled", true);
+                $("#deleteProfilePhoto").attr("disabled", false);
             } else {
                 $("#pickCoverPhoto").attr("disabled", false);
                 $("#pickProfilePhoto").attr("disabled", true);
+                $("#deleteCoverPhoto").attr("disabled", false);
+                $("#deleteProfilePhoto").attr("disabled", true);
             }
         });
+    });
+
+    function deletePhoto(photoId) {
+        $.post("/Photo/DeletePhoto", { "photoId": photoId }, function () {
+            $(".row div span").each(function () {
+                if ($(this).attr("id") == photoId) {
+                    $(this).parent().remove();
+                }
+            });
+           
+        });
+    }
+
+    $("#deleteProfilePhoto").click(function () {
+        $("#deleteProfilePhoto").attr("disabled", true);
+        $("#pickProfilePhoto").attr("disabled", true);
+        var photoId = $(this).siblings("input[name=photoId]").val();
+        deletePhoto(photoId);
+    });
+
+    $("#deleteCoverPhoto").click(function () {
+        $("#deleteCoverPhoto").attr("disabled", true);
+        $("#pickCoverPhoto").attr("disabled", true);
+        var photoId = $(this).siblings("input[name=photoId]").val();
+        deletePhoto(photoId);
     });
 
     // Go back by one in history
