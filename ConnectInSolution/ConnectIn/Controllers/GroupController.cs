@@ -59,162 +59,124 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            else
+            int grpId = id.Value;
+            var memberList = groupService.GetMembersOfGroup(grpId);
+            var group = groupService.GetGroupById(grpId);
+
+            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
+            string profilePicturePath = profilePicture.PhotoPath;
+
+            var myGroup = new GroupDetailViewModel()
             {
-                int grpId = id.Value;
-                var memberList = groupService.GetMembersOfGroup(grpId);
-                var group = groupService.GetGroupById(grpId);
-                
-                var profilePicture = userService.GetProfilePicture(User.Identity.ToString());
-                    string profilePicturePath;
-
-                    if (profilePicture == null)
-                    {
-                        profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                    }
-                    else
-                    {
-                        profilePicturePath = profilePicture.PhotoPath;
-                    }
-
-                var myGroup = new GroupDetailViewModel()
+                Name = group.Name,
+                AdminId = group.AdminID,
+                GroupId = grpId,
+                Members = new List<UserViewModel>(),
+                Posts = new NewsFeedViewModel()
                 {
-
-                    Name = group.Name,
-                    AdminId = group.AdminID,
-                    GroupId = grpId,
-                    Members = new List<UserViewModel>(),
-                    Posts = new NewsFeedViewModel()
-                    {
-                        Posts = new List<PostsViewModel>(),
-                        Id = grpId.ToString()
-                    },
-                    User = new UserViewModel()
-                    {
-                        ProfilePicture = profilePicturePath
-                    },
-                    FriendsOfUser = new List<UserViewModel>()
-                };
-                foreach (var userId in memberList)
+                    Posts = new List<PostsViewModel>(),
+                    Id = grpId.ToString()
+                },
+                User = new UserViewModel()
                 {
-                    var currMember = userService.GetUserById(userId);
-                    myGroup.Members.Add(new UserViewModel()
-                    {
-                        Name = currMember.Name,
-                        UserId = currMember.Id,
-                        UserName = currMember.UserName,
-                        Birthday = currMember.Birthday,
-                        ProfilePicture = "~/Content/Images/profilepic.png/"
-                        /*Gender = currMember.Gender,
-                        Work = currMember.Work,
-                        School = currMember.School,
-                        Address = currMember.Address*/
-                    });
-                }
-                var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
-                int myId = id.Value;
+                    ProfilePicture = profilePicturePath
+                },
+                FriendsOfUser = new List<UserViewModel>()
+            };
+            foreach (var userId in memberList)
+            {
+                profilePicture = userService.GetProfilePicture(userId);
+                profilePicturePath = profilePicture.PhotoPath;
+                var currMember = userService.GetUserById(userId);
+                myGroup.Members.Add(new UserViewModel()
+                {
+                    Name = currMember.Name,
+                    UserId = currMember.Id,
+                    UserName = currMember.UserName,
+                    Birthday = currMember.Birthday,
+                    ProfilePicture = profilePicturePath
+                });
+            }
+            var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
+            int myId = id.Value;
                
                 
-                foreach (var userId in postsOfGroup)
+            foreach (var userId in postsOfGroup)
+            {
+                string lPic, dPic;
+                var post = postService.GetPostById(userId);
+                if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId) == null)
                 {
-                    string lPic, dPic;
-                    var post = postService.GetPostById(userId);
-                    if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId) == null)
-                    {
-                        lPic = "~/Content/images/smileySMALL.png";
-                        dPic = "~/Content/images/sadfaceSMALL.png";
-                    }
-                    else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Like)
-                    {
-                        lPic = "~/Content/images/smileyGREEN.png";
-                        dPic = "~/Content/images/sadfaceSMALL.png";
-                    }
-                    else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Dislike)
-                    {
-                        lPic = "~/Content/images/smileySMALL.png";
-                        dPic = "~/Content/images/sadfaceRED.png";
-                    }
-                    else
-                    {
-                        return View("Error");
-                    }
-                    //If the user hasn't picked a profile pic, set a default one.
-                    profilePicture = userService.GetProfilePicture(userId.ToString());
-                    
-
-                    if (profilePicture == null)
-                    {
-                        profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                    }
-                    else
-                    {
-                        profilePicturePath = profilePicture.PhotoPath;
-                    }
-
-                    myGroup.Posts.Posts.Add(new PostsViewModel()
-                    {
-                        PostId = post.PostId,
-                        Body = post.Text,
-                        User = new UserViewModel()
-                        {
-                            Name = post.User.Name,
-                            UserId = post.User.Id,
-                            UserName = post.User.UserName,
-                            Birthday = post.User.Birthday,
-                            ProfilePicture = profilePicturePath
-                        },
-                        DateInserted = post.Date,
-                        LikeDislikeComment = new LikeDislikeCommentViewModel()
-                        {
-                            Likes = postService.GetPostsLikes(post.PostId),
-                            Dislikes = postService.GetPostsDislikes(post.PostId),
-                            Comments = postService.GetPostsCommentsCount(post.PostId)
-                        },
-                        GroupId = post.GroupId,
-                        LikePic = lPic,
-                        DislikePic = dPic
-                    });
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
                 }
-
-                var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                
-                foreach (var userId in userFriendList)
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Like)
                 {
-                    if (!groupService.IsMemberOfGroup(grpId, userId))
-                    {
-                        var friend = userService.GetUserById(userId);
-
-                        //If the user hasn't picked a profile pic, set a default one.
-                        profilePicture = userService.GetProfilePicture(userId);
-                        
-
-                        if (profilePicture == null)
-                        {
-                            profilePicturePath = "~/Content/images/largeProfilePic.jpg";
-                        }
-                        else
-                        {
-                            profilePicturePath = profilePicture.PhotoPath;
-                        }
-
-                        myGroup.FriendsOfUser.Add(new UserViewModel()
-                        {
-                            Name = friend.Name,
-                            UserId = friend.Id,
-                            UserName = friend.UserName,
-                            Birthday = friend.Birthday,
-                            ProfilePicture = profilePicturePath
-                        });
-                        
-                    }
+                    lPic = "~/Content/images/smileyGREEN.png";
+                    dPic = "~/Content/images/sadfaceSMALL.png";
                 }
-                return View("GroupDetails", myGroup);
+                else if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId).Dislike)
+                {
+                    lPic = "~/Content/images/smileySMALL.png";
+                    dPic = "~/Content/images/sadfaceRED.png";
+                }
+                else
+                {
+                    return View("Error");
+                }
+                //If the user hasn't picked a profile pic, set a default one.
+                profilePicture = userService.GetProfilePicture(post.UserId);
+                profilePicturePath = profilePicture.PhotoPath;
+
+                myGroup.Posts.Posts.Add(new PostsViewModel()
+                {
+                    PostId = post.PostId,
+                    Body = post.Text,
+                    User = new UserViewModel()
+                    {
+                        Name = post.User.Name,
+                        UserId = post.User.Id,
+                        UserName = post.User.UserName,
+                        Birthday = post.User.Birthday,
+                        ProfilePicture = profilePicturePath
+                    },
+                    DateInserted = post.Date,
+                    LikeDislikeComment = new LikeDislikeCommentViewModel()
+                    {
+                        Likes = postService.GetPostsLikes(post.PostId),
+                        Dislikes = postService.GetPostsDislikes(post.PostId),
+                        Comments = postService.GetPostsCommentsCount(post.PostId)
+                    },
+                    GroupId = post.GroupId,
+                    LikePic = lPic,
+                    DislikePic = dPic
+                });
             }
-        }
 
-        public ActionResult Delete()
-        {
-            return View();
+            var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
+                
+            foreach (var userId in userFriendList)
+            {
+                if (!groupService.IsMemberOfGroup(grpId, userId))
+                {
+                    var friend = userService.GetUserById(userId);
+
+                    //If the user hasn't picked a profile pic, set a default one.
+                    profilePicture = userService.GetProfilePicture(userId);
+                    profilePicturePath = profilePicture.PhotoPath;
+
+                    myGroup.FriendsOfUser.Add(new UserViewModel()
+                    {
+                        Name = friend.Name,
+                        UserId = friend.Id,
+                        UserName = friend.UserName,
+                        Birthday = friend.Birthday,
+                        ProfilePicture = profilePicturePath
+                    });
+                        
+                }
+            }
+            return View("GroupDetails", myGroup);
         }
 
         public ActionResult Edit(FormCollection collection)
@@ -282,11 +244,6 @@ namespace ConnectIn.Controllers
             return RedirectToAction("Details", "Group", new {id = grpId});
         }
 
-        public ActionResult Post()
-        {
-            return View();
-        }
-
         public ActionResult AddFriend(FormCollection collection)
         {
             string listOfNewMembers = collection["newFriendsInGroup"];
@@ -339,11 +296,6 @@ namespace ConnectIn.Controllers
             }
             
             // return new EmptyResult();
-        }
-
-        public ActionResult RemoveFriend()
-        {
-            return View();
         }
 
         public ActionResult GetUser(string Id)

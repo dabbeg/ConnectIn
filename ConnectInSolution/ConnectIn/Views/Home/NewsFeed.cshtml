@@ -1,4 +1,5 @@
-﻿@model ConnectIn.Models.ViewModels.NewsFeedViewModel
+﻿@using Microsoft.AspNet.Identity
+@model ConnectIn.Models.ViewModels.NewsFeedViewModel
 
 
 @if (Request.IsAuthenticated)
@@ -26,7 +27,7 @@
         <div class="form-horizontal">
 
             <div class="PostPartialViewPhoto">
-                <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture"/>
+                <a href="/Home/Profile/@User.Identity.GetUserId()"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
             </div>
             <textarea placeholder="Share your thoughts" class="commentform-control" rows="5" id="newsfeedstatus" name="status"></textarea>
             <button type="button" id="submitNewsFeedStatus" class="btn btn-primary">Submit</button>

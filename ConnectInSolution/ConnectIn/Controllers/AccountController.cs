@@ -74,7 +74,7 @@ namespace ConnectIn.Controllers
            
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-           // if (ModelState.IsValid)
+           if (ModelState.IsValid)
            { 
                user.Name = t.Name;
                user.Gender = t.Gender;
@@ -161,12 +161,12 @@ namespace ConnectIn.Controllers
             {
                 
                 var user = new User() { Name = model.Name, UserName = model.Email, Email = model.Email, Birthday = model.Birthday };
-                if(user.Birthday.Year >= DateTime.Today.Year || user.Birthday.Year < 1850)
+                var testDate = new DateTime(1900,1,1);
+                if (user.Birthday.Date > DateTime.Today.Date || user.Birthday.Date < testDate )
                 {
                     ModelState.AddModelError("", "Date not acceptable");
-                   return View(model);
+                    return View(model);
                 }
-                
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                  
                 if (result.Succeeded)

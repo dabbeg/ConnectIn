@@ -15,38 +15,38 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>  
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    
+<body style="margin-left: 75px; ">
+    <div class=" navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-            <li>@Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
-            @if (Request.IsAuthenticated)
-            {
-                var db = new ApplicationDbContext();
-                var userService = new UserService(db);
-                var user = userService.GetUserById(User.Identity.GetUserId());
-                var nameA = user.Name.Split(' ');
-                var name = "";
-                for (int i = 0; i < nameA.Length; i++)
-                {
-                    name += nameA[i];
-                    if (i == nameA.Length - 2) {break;}
-                    name += " ";
-                }
-                <li>@Html.ActionLink("Hello, " + name, "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
-            }
-        </ul>
-    </div>
-    
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        var db = new ApplicationDbContext();
+                        var userService = new UserService(db);
+                        var user = userService.GetUserById(User.Identity.GetUserId());
+                        var nameA = user.Name.Split(' ');
+                        var name = "";
+                        for (int i = 0; i < nameA.Length; i++)
+                        {
+                            name += nameA[i];
+                            if (i == nameA.Length - 2) { break; }
+                            name += " ";
+                        }
+                        <li>@Html.ActionLink("Hello, " + name, "Profile", "Home", new { id = @User.Identity.GetUserId() }, null)</li>
+                    }
+                </ul>
+            </div>
+
         </div>
         <div class="navbar-collapse collapse">
 
@@ -54,12 +54,11 @@
                 @if (Request.IsAuthenticated)
                 {
                     <li>@Html.ActionLink("Home", "NewsFeed", "Home")</li>
-                    <li>@Html.ActionLink("Profile", "Profile", "Home", new {id = @User.Identity.GetUserId()}, null)</li>
+                    <li>@Html.ActionLink("Profile", "Profile", "Home", new { id = @User.Identity.GetUserId() }, null)</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
                         <ul class="dropdown-menu nav sidebar-nav" role="menu">
                             <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Settings", "Settings", "Account")</li>
                             <li>@Html.Partial("_LoginPartial")</li>
@@ -69,17 +68,16 @@
                 else
                 {
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.Partial("_LoginPartial")</li>
                 }
             </ul>
 
         </div>
-        </div>
+    </div>
     </div>
 
-@if (Request.IsAuthenticated)
-{ 
+    @if (Request.IsAuthenticated)
+    {
         <nav class="main-menu">
             <ul>
                 <li class="has-subnav searchHover">
@@ -129,7 +127,8 @@
                 <li class="has-subnav">
                     <a href="/Home/Notifications">
                         <i class="fa fa-bell fa-2x">
-                            <div id="notificationBubble"></div></i>
+                            <div id="notificationBubble"></div>
+                        </i>
 
                         <span class="nav-text">Notifications</span>
                     </a>
@@ -143,7 +142,7 @@
 
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
-                        @Html.AntiForgeryToken()    
+                        @Html.AntiForgeryToken()
                     }
                 </li>
 
@@ -151,24 +150,20 @@
 
             </ul>
         </nav>
-}
+    }
+
 
     <div class="col-lg-12">
         <div class="container body-content">
             @RenderBody()
             <div style="clear: both;">
-                <hr />
-
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - ConnectIn</p>
-                </footer>
             </div>
-
         </div>
+
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    
+
     <script src="~/Scripts/myScript.js"></script>
     <script src="~/Scripts/jquery.cookie.js"></script>
     <script src="~/Scripts/jQuery.tmpl.min.js"></script>
@@ -178,13 +173,13 @@
     @RenderSection("scripts", required: false)
 
 
-    <script id="postTemplate" type="text/html">
-        <div id="post-${postId}" class="post item span3">
-            <div class="well" id="FriendsListWell">
-                <div id="postContent">
-                    <!--Should display user's profile picture, a cat was used temporarily-->
-                    <div class="PostPartialViewPhoto">
-                        <img class="PartialViewResponsive  img-rounded" src="${profilePicture}" alt="Profile Picture"/>
+<script id="postTemplate" type="text/html">
+    <div id="post-${postId}" class="post item span3">
+        <div class="well" id="FriendsListWell">
+            <div id="postContent">
+                <!--Should display user's profile picture, a cat was used temporarily-->
+                <div class="PostPartialViewPhoto">
+                    <a href="/Home/Profile/${userId}"><img class="PartialViewResponsive  img-rounded" src="${profilePicture}" alt="Profile Picture"/></a>
                     </div>
                     <!--Should display username instead of item.userID-->
                     <div class="friendsListName">
@@ -216,30 +211,31 @@
             </div>
         </div>
     </script>
-<script id="commentTemplate" type="text/html">
-    <div id="comment-${commentId}" class="post item span3">
-        <div class="well commentwell" id="FriendsListWell">
-            <div id="postContent">
-                <div class="PostPartialViewPhoto" >
-                    <img class="PartialViewResponsive img-rounded pull-left" src="${profilePicture}" alt="Profile Picture" />
-                </div>
-                <div id="comm" style="margin-left: 100px">
-                    <div class="friendsListName">
-                        <h4>
-                            <a href="/Home/Profile/${userId}">${name}</a>
-                            <small class="pull-right">${date}</small>
-                        </h4>
+
+    <script id="commentTemplate" type="text/html">
+        <div id="comment-${commentId}" class="post item span3">
+            <div class="well commentwell" id="FriendsListWell">
+                <div id="CommentPostWell">
+                    <div class="PostPartialViewPhoto">
+                        <img class="PartialViewResponsive img-rounded pull-left" src="${profilePicture}" alt="Profile Picture" />
                     </div>
+                    <div id="comm" style="margin-left: 100px">
+                        <div class="friendsListName">
+                            <h4 class="friendsListName">
+                                <a href="/Home/Profile/${userId}">${name}</a>
+                                <small class="pull-right">${date}</small>
+                            </h4>
+                        </div>
 
 
-                    <div class="preReset">
-                        <pre class="preReset">${text}</pre>
+                        <div class="preReset">
+                            <pre class="preReset">${text}</pre>
+                        </div>
+
+                        <span id="reactionCommentButtons"></span>
                     </div>
-
-                    <span id="reactionCommentButtons"></span>
                 </div>
             </div>
-        </div>
         </div>
     </script>
 </body>

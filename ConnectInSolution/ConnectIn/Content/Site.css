@@ -1,4 +1,8 @@
-﻿body {
+﻿html, body
+{
+    height: 100%;
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 
@@ -58,10 +62,12 @@
     width:200px;
     height:auto; 
 }
-
+div.thumbnail.right-caption.span4 {
+    width: 100%;
+}
 .caption
 {
-    width:600px;
+    
 }
 #aboutinfo
 {
@@ -69,7 +75,8 @@
 }
 #headliner
 {
-        background-image: url("/Content/Images/background.jpg");
+        /*background-image: url("/Content/Images/background.jpg");*/
+    background-color: rgb(34, 34, 34);
 }
 #headliner > p
 {
@@ -121,6 +128,13 @@ overflow:hidden;
     background-size:cover;
     -moz-background-size:cover;
 }
+
+.carousel .twoo{
+    /*background-image: url("/Content/Images/metal-wallpapers-1.jpg");
+    background-size:cover;
+    -moz-background-size:cover;*/
+}
+
 .carousel .active.left{
     left:0;
     opacity:0;
@@ -496,7 +510,7 @@ button.btnNew.privacy {
 #userNameH1 {
     color: white; 
     float: left;
-    margin-left: 10px;
+    margin-left: 30px;
 }
 
 #coverphoto
@@ -508,7 +522,7 @@ button.btnNew.privacy {
     width: 200px; 
     height: 200px; 
     padding-top: 10px; 
-    padding-left: 10px;
+    padding-left: 30px;
     display: block;
     margin-right: 0;
 }
@@ -581,7 +595,7 @@ button.btnNew.privacy {
 
 #bfOrFamilyFriendsListAbsolute {
     position: absolute;
-    bottom: 15px;
+    bottom: 0px;
     right: 20px;
 }
 
@@ -621,15 +635,25 @@ button.btnNew.privacy {
 }
 #ProfilePostWell {
     overflow: hidden;
+    min-height:60px;
     height: auto;
-    width: 775px;
-    float: right;
-    margin-left: 25px;
+    width: auto;
+    min-width: 575px;
+}
+#CommentPostWell {
+    overflow: auto;
+    min-height:100px;
+    height: auto;
+    width: auto;
+    min-width: 575px;
 }
 #aboutUser {
-    width: 325px;
+    display: inline-block;
+    width: auto;
+    max-width: 500px;
     float: left;
     margin-top: 0;
+    margin-right: 15px;
 }
 p.clear {
     clear: both;
@@ -702,6 +726,9 @@ p.clear {
 }
 .form-horizontal {
     margin-left: 12.5%;
+}
+.postPartialContainer {
+    
 }
 .PartialViewResponsive {
     display: inline-block;
@@ -1011,7 +1038,7 @@ nav ul,nav li {
 	font-family: sans-serif;
     text-align:left;
     height: auto;
-    width: 500px;
+    width: 75%;
     margin: 0;
 }
 
@@ -1122,4 +1149,13 @@ span.thumbnail-photo {
 
 .cropBtnContainer {
     padding-top: 50px;
+}
+
+#registerColumns {
+    position: relative;
+    right: 111px;
+}
+
+.aboutRow {
+    min-width: 600px;
 }

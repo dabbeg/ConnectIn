@@ -19,7 +19,7 @@
             <div id="friendsacre-@item.NotificationId" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
-                        <img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.Friend.ProfilePicture)">
+                        <a href="/Home/Profile/@item.Friend.UserId"><img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.Friend.ProfilePicture)"></a>
                     </div>
 
                     <div class="friendsListAbout">
@@ -68,13 +68,16 @@
             <div id="groupNotification-@item.NotificationId" class="post item span3" style="position: relative">
                 <div class="well" id="FriendsListWell">
                     <div class="friendsListPhoto">
-                        <img class="img-responsive img-rounded pull-left" src="@Url.Content(item.Friend.ProfilePicture)">
+                        <a href="/Home/Profile/@item.Friend.UserId"><img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.Friend.ProfilePicture)"></a>
                     </div>
 
                     <div class="friendsListAbout">
                         <div class="friendsListName">
-                            <h4>
-                                @item.Friend.Name has added you to the group @Html.ActionLink(@item.Group.Name, "Details", "Group", new {id = item.GroupId}, null)
+                            <h2 class="friendsListName">
+                                @item.Friend.Name 
+                            </h2>
+                            <h4 class="friendsListName">
+                                has added you to the group @Html.ActionLink(@item.Group.Name, "Details", "Group", new { id = item.GroupId }, null)
                             </h4>
                         </div>
                     </div>

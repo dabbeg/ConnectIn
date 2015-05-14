@@ -22,7 +22,7 @@
                 <div class="post item span3" style="position:relative">
                     <div class="well" id="FriendsListWell">
                         <div class="friendsListPhoto">
-                            <img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                            <a href="/Home/Profile/@item.User.UserId"><img class="img-responsive img-rounded smallPhoto" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" /></a>
                         </div>
                         <div class="friendsListAbout">
                             <div class="friendsListName">

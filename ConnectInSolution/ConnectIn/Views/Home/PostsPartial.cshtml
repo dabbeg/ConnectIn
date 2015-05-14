@@ -3,15 +3,15 @@
 
 
 <div class="container postPartialContainer">
-    <div id="posts" class="row">
+    <div id="posts" class="row" >
         @foreach (var item in Model.Posts)
 {
-    <div id="post-@item.PostId" class="post item span3">
+    <div id="post-@item.PostId" class="post item span3" >
         <div class="well" id="FriendsListWell">
             <div id="postContent">
                 <!--Should display user's profile picture, a cat was used temporarily-->
                 <div class="PostPartialViewPhoto">
-                    <img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" />
+                    <a href="/Home/Profile/@item.User.UserId"><img class="PartialViewResponsive  img-rounded" src="@Url.Content(item.User.ProfilePicture)" alt="Profile Picture" /></a>
                 </div>
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">

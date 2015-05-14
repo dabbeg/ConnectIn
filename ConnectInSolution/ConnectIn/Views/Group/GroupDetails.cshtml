@@ -59,7 +59,7 @@
     <div class="form-horizontal">
         <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
         <div class="PostPartialViewPhoto">
-            <img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" />
+            <a href="/Home/Profile/@User.Identity.GetUserId()"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
         </div>
         <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
         <button type="submit" id="submitNewsFeedStatus" class="btn btn-primary">Share</button>
