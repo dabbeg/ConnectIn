@@ -77,6 +77,11 @@ div.thumbnail.right-caption.span4 {
 {
         /*background-image: url("/Content/Images/background.jpg");*/
     background-color: rgb(34, 34, 34);
+    text-align: center;
+    max-width: 112.85%;
+    margin-right: -14%;
+    margin-left: -10%;
+    border-radius: 0;
 }
 #headliner > p
 {
@@ -1155,3 +1160,4 @@ span.thumbnail:focus {
 .aboutRow {
     min-width: 600px;
 }
+
