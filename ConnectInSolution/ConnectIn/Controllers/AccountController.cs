@@ -74,7 +74,7 @@ namespace ConnectIn.Controllers
            
            var userService = new UserService(context);
            var user = userService.GetUserById(User.Identity.GetUserId());
-           // if (ModelState.IsValid)
+           if (ModelState.IsValid)
            { 
                user.Name = t.Name;
                user.Gender = t.Gender;
