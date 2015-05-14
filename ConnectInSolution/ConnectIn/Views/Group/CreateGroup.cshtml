@@ -15,10 +15,10 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2", maxLength = 30 })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
 
-                <input type="text" required class="form-control" id="groupnameinput" name="groupName" style="display: inline; max-width: 222px;"/>
+                <input type="text" required class="form-control" id="groupnameinput" name="groupName" style="display: inline; max-width: 222px;" maxlength=30 />
             </div>
             
         </div>
