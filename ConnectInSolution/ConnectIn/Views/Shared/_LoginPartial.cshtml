@@ -5,7 +5,7 @@
         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
-            <a id="logoffs" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            <a class="logoffs" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
         }
     }
     else
