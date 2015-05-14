@@ -68,15 +68,19 @@
                 <h1 id="userNameH1">
                     @string.Format("{0}", Model.User.Name)
                 </h1>
-
-
+                @{
+                var user = userService.GetUserById(Model.User.UserId);
+                friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
+                if (user.Id == User.Identity.GetUserId() || user.Privacy == 0 || (user.Privacy == 1 && friendShip != null) || (user.Privacy == 2 && userService.FriendConsidersUserClose(user.Id, User.Identity.GetUserId())))
+                {
                 <div id="PhotoButton">
-                    @using (Html.BeginForm("Images", "Photo", new { userId = Model.User.UserId }))
+                    @using (Html.BeginForm("Images", "Photo", new {userId = Model.User.UserId}))
                     {
                         <button type="submit" class="btn fa fa-camera btn-primary"></button>
                     }
                 </div>
-
+                }
+}
 
 
             </div>
@@ -145,8 +149,6 @@
     
     
     {
-        var user = userService.GetUserById(Model.User.UserId);
-        friendShip = userService.GetFriendShip(user.Id, User.Identity.GetUserId());
         if (user.Id == User.Identity.GetUserId() || user.Privacy == 0 || (user.Privacy == 1 && friendShip != null) || (user.Privacy == 2 && userService.FriendConsidersUserClose(user.Id, User.Identity.GetUserId())))
         {
             <div id="ProfilePostWell">
