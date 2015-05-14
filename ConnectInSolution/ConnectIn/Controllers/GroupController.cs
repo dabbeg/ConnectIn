@@ -218,22 +218,28 @@ namespace ConnectIn.Controllers
             var context = new ApplicationDbContext();
             var groupService = new GroupService(context);
             var userService = new UserService(context);
-
+            var grpId = collection["grpId"];
             var newName = collection["nameofgroup"];
             var membersToBeDeleted = collection["toBeDeleted"];
 
-            string[] deleteMembersIds = membersToBeDeleted.Split(',');
-            var grpId = collection["grpId"];
-
+            var group = groupService.GetGroupById(Int32.Parse(grpId));
+            group.Name = newName;
+            
             bool isAdmin = false;
-            foreach (var Id in deleteMembersIds)
+
+            if (membersToBeDeleted != null)
             {
-                var memberToDelete = groupService.GetMemberByUserIdAndGroupId(Int32.Parse(grpId), Id);
-                if (memberToDelete.UserId == User.Identity.GetUserId())
+                string[] deleteMembersIds = membersToBeDeleted.Split(',');
+                
+                foreach (var Id in deleteMembersIds)
                 {
-                    isAdmin = true;
+                    var memberToDelete = groupService.GetMemberByUserIdAndGroupId(Int32.Parse(grpId), Id);
+                    if (memberToDelete.UserId == User.Identity.GetUserId())
+                    {
+                        isAdmin = true;
+                    }
+                    context.Members.Remove(memberToDelete);
                 }
-                context.Members.Remove(memberToDelete);
             }
             context.SaveChanges();
 
