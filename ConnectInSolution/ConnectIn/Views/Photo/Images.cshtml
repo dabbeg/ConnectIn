@@ -32,9 +32,13 @@
             <div class="btnProfile">
                 @using (Html.BeginForm("PickProfilePicture", "Photo", FormMethod.Post))
                 {
-                    <input type="hidden" id="photoId" name="photoId" value="PUT PHOTOID"/>
+                    <input type="hidden" name="photoId" value="PUT PHOTOID"/>
                     <button type="submit" id="pickProfilePhoto" class="btn btn-primary">Pick as Profile Photo</button>
                 }
+            </div>
+            <div class="btnDelete">
+                <input type="hidden" name="photoId" value="PUT PHOTOID" />
+                <button type="button" id="deleteProfilePhoto" class="btn btn-danger">Delete Profile Photo</button>
             </div>
         }
     </div>
@@ -64,11 +68,14 @@
             <div class="btnCover">
                 @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
                 {
-                    <input type="hidden" id="photoId2" name="photoId2" value="PUT PHOTO" />
+                    <input type="hidden" name="photoId" value="PUT PHOTO" />
                     <button type="submit" id="pickCoverPhoto" class="btn btn-primary">Pick as Cover Photo</button>
                 }
             </div>
-
+            <div class="btnDelete">
+                <input type="hidden" name="photoId" value="PUT PHOTOID" />
+                <button type="button" id="deleteCoverPhoto" class="btn btn-danger">Delete Cover Photo</button>
+            </div>
         }
     </div>
 

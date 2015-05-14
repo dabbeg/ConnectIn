@@ -85,7 +85,7 @@
             <ul>
                 <li class="has-subnav searchHover">
                     <span>
-                        <a href="#Search" class="searchHover">
+                        <a href="#Search" class="searchHover notLink">
                             <i class="fa fa-search fa-2x"></i>
 
                             <span class="nav-text searchpos">
@@ -136,13 +136,19 @@
                     </a>
                 </li>
 
-                <li class="sub-nav">
-                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
-                        {
-                            @Html.AntiForgeryToken()
-                            <a class="LogoutSideBar" href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off fa-2 faLogOut"></i><span>Log out</span></a>
-                        }
+                <li class="has-subnav nav-logout">
+                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <i class=" fa fa-power-off fa-2"></i>
+                        <span class="nav-text">Log out</span>
+                    </a>
+
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()    
+                    }
                 </li>
+
+
 
             </ul>
         </nav>
