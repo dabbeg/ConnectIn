@@ -59,7 +59,6 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
                         <ul class="dropdown-menu nav sidebar-nav" role="menu">
                             <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Settings", "Settings", "Account")</li>
                             <li>@Html.Partial("_LoginPartial")</li>
@@ -69,7 +68,6 @@
                 else
                 {
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.Partial("_LoginPartial")</li>
                 }
             </ul>
@@ -154,14 +152,12 @@
         </nav>
     }
 
-    <div class="container body-content">
-        @RenderBody()
-        <div style="clear: both;">
-            <hr />
 
-            <footer>
-                <p>&copy; @DateTime.Now.Year - ConnectIn</p>
-            </footer>
+    <div class="col-lg-12">
+        <div class="container body-content">
+            @RenderBody()
+            <div style="clear: both;">
+            </div>
         </div>
 
     </div>
