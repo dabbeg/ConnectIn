@@ -138,7 +138,7 @@ overflow:hidden;
   margin-right: -41px;
 }
 
-#logoffs {
+.logoffs {
   padding-left: 16px;
 }
 
@@ -226,6 +226,7 @@ width:40%;
     margin-left: 12.5%;
 
 }
+
 
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
@@ -326,11 +327,42 @@ width:40%;
     background: none;
 }
 
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    border: 0;
+    box-shadow: none;
+  }
+  .navbar-nav .open .dropdown-menu > li > a,
+  .navbar-nav .open .dropdown-menu .dropdown-header {
+    padding: 5px 15px 5px 25px;
+  }
+  .navbar-nav .open .dropdown-menu > li > a {
+    line-height: 20px;
+  }
+  .notLogOut {
+}
+    .dropdown-menu.nav.sidebar-nav > li.notLogOut {
+            line-height: 20px;
+                  padding-left: -10px;
+
+    }
+  .dropdown-menu.nav.sidebar-nav > li.notLogOut:hover {
+    background-color: rgba(255,255,255,0.2);;
+}
+}
+
+
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;
     }
 
+    }
     #wrapper.toggled {
         padding-left: 0;
     }
@@ -353,6 +385,7 @@ width:40%;
         position: relative;
         margin-right: 0;
     }
+
 }
 /* ENDOF Simple Sidebar Template*/
 
