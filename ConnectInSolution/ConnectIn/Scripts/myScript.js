@@ -423,6 +423,7 @@ $(document).ready(function () {
         });
     });
 
+    /*Cookie source : http://stackoverflow.com/questions/1458724/how-to-set-unset-cookie-with-jquery */
     $.get("/Home/BirthdayCounter", function(bdayCounter) {
         $("#birthdayBubble").hide();
 
