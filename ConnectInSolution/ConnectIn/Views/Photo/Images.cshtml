@@ -1,10 +1,19 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using ConnectIn.DAL
+@using ConnectIn.Services
+@using Microsoft.AspNet.Identity
 @model ConnectIn.Models.ViewModels.PhotoAlbumViewModel
 
 @{
     ViewBag.Title = "Images";
 }
-
+@{
+    var db = new ApplicationDbContext();
+    var userService = new UserService(db);
+    var user = userService.GetUserById(Model.UserId);
+    var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), user.Id);
+}
+@if (user.Id == User.Identity.GetUserId() || user.Privacy == 0 || (user.Privacy == 1 && friendShip != null) || (user.Privacy == 2 && userService.FriendConsidersUserClose(user.Id, User.Identity.GetUserId())))
+{
 <h2>Images</h2>
 
 <div class="photoContainer">
@@ -37,7 +46,7 @@
                 }
             </div>
             <div class="btnDelete">
-                <input type="hidden" name="photoId" value="PUT PHOTOID" />
+                <input type="hidden" name="photoId" value="PUT PHOTOID"/>
                 <button type="button" id="deleteProfilePhoto" class="btn btn-danger">Delete Profile Photo</button>
             </div>
         }
@@ -68,15 +77,20 @@
             <div class="btnCover">
                 @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
                 {
-                    <input type="hidden" name="photoId" value="PUT PHOTO" />
+                    <input type="hidden" name="photoId" value="PUT PHOTO"/>
                     <button type="submit" id="pickCoverPhoto" class="btn btn-primary">Pick as Cover Photo</button>
                 }
             </div>
             <div class="btnDelete">
-                <input type="hidden" name="photoId" value="PUT PHOTOID" />
+                <input type="hidden" name="photoId" value="PUT PHOTOID"/>
                 <button type="button" id="deleteCoverPhoto" class="btn btn-danger">Delete Cover Photo</button>
             </div>
         }
     </div>
 
 </div>
+}
+else
+{
+<p class="danger">Error</p>
+}
