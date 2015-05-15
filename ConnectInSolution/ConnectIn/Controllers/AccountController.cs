@@ -56,12 +56,14 @@ namespace ConnectIn.Controllers
            var user = userService.GetUserById(User.Identity.GetUserId());
            if(user != null)
            {
-               UserViewModel t = new UserViewModel();
-               t.Name = user.Name;
-               t.Gender = user.Gender ?? "male";
-               t.Work = user.Work;
-               t.School = user.School;
-               t.Address = user.Address;
+               UserViewModel t = new UserViewModel
+               {
+                   Name = user.Name,
+                   Gender = user.Gender,
+                   Work = user.Work,
+                   School = user.School,
+                   Address = user.Address
+               };
                return View(t);
            }
             return View("Error");
