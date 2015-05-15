@@ -44,7 +44,7 @@ namespace ConnectIn.Controllers
             DbContext.Posts.Add(newPost);
             DbContext.SaveChanges();
 
-            // Fill the viewmodel and return it as a json string to the jquery call
+            // Find out if this post belongs to the newsfeed or a group
             var groupService = new GroupService(DbContext);
             var userService = new UserService(DbContext);
             var list = new List<int>();
@@ -67,6 +67,7 @@ namespace ConnectIn.Controllers
             {
                 var post = postService.GetPostById(list[i]);
 
+                // Assign a smiley according to if this user has liked or dislike or not done either
                 var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
                 string lPic = null, dPic = null;
                 if (likeDislike == null)
@@ -85,6 +86,7 @@ namespace ConnectIn.Controllers
                     dPic = "/Content/images/sadfaceRED.png";
                 }
 
+                // Fill in the viewmodel
                 postList.Add(
                     new PostsViewModel()
                     {
