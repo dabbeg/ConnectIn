@@ -1,12 +1,12 @@
 ﻿@model ConnectIn.Models.ViewModels.GroupDetailViewModel
 
 @{
-    ViewBag.Title = "EditGroup";
+    ViewBag.Title = "Edit";
 }
 
 <h2>@Model.Name</h2>
 
-@using (Html.BeginForm("EditGroup", "Group"))
+@using (Html.BeginForm("Edit", "Group"))
 {
     @Html.AntiForgeryToken()
     
@@ -27,7 +27,7 @@
         <p class="text-danger" style="position: relative; left: 126px;">Select members you want to remove from the group:</p>
 
         <div class="form-group" style="position: relative; left: 191px;">
-            @using (Html.BeginForm("EditGroup", "Group"))
+            @using (Html.BeginForm("Edit", "Group"))
             {
                 foreach (var member in Model.Members)
                 {

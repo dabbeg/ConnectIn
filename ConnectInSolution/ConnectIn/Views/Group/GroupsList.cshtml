@@ -7,7 +7,7 @@
 <h2>Your groups</h2>
 
 <span style="float: right">
-    @using (Html.BeginForm("Create", "Group"))
+    @using (Html.BeginForm("Create", "Group", FormMethod.Get))
     {
         <button type="submit" class="btn btn-success" style="position: relative; bottom: 37px;"><span class="glyphicon glyphicon-plus-sign" style="position: relative; top: 2px;">&nbsp;</span>Create a group</button>
     }
