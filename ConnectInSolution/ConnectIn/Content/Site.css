@@ -1,4 +1,6 @@
-﻿body {
+﻿/**************************************Containers**************************************/
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 
@@ -9,6 +11,7 @@
 .body-content {
     padding-right: 15px;
 }
+
 .containers {
     width: 200px;
     height: 120px;
@@ -26,11 +29,9 @@ max-height:455px;
 width:40%;
 }
 
+/**************************************Containers END**************************************/
 
-#huge {
-    font-size: 52px;
-    margin-right: 25px;
-}
+
 
 /**************************************Profile**************************************/
 
@@ -56,6 +57,7 @@ width:40%;
     width:auto;
     height:100%;
 }
+
 #userProfilePicture {
     width: 200px; 
     height: 200px; 
@@ -64,6 +66,7 @@ width:40%;
     display: block;
     margin-right: 0;
 }
+
 .coverPhotoProfile {
     height: 305px; 
     width: 1140px; 
@@ -74,10 +77,12 @@ width:40%;
     background: no-repeat; 
     background-size: 100%; 
 }
+
 .coverPhotoGradient {
     background: url(/Content/Images/blackGradient.png) bottom left repeat-x; 
     /*border-bottom-color: rgba(0,0,0,.4);*/
 }
+
 .img-responsiveProfilePic {
     max-width: 200px;
     max-height: 200px;
@@ -92,10 +97,6 @@ width:40%;
     
 }
 
-.form-horizontal
-{
-    margin-left:0px;
-}
 .profileStars {
     margin-top: 200px;
     margin-right: 15px;
@@ -113,6 +114,7 @@ width:40%;
 .btn.fa.fa-camera.btn-primary {
         padding: 3px 4px;
 }
+
 #bffamimg {
     width: 28px;
 }
@@ -132,43 +134,85 @@ width:40%;
 .dangerFix {
     margin-left: 85px;
 }
+
 #addFriendButton {
     margin-left: 25px;
     margin-top: 25px;
     margin-right: 25px;
 }
 
+#ProfilePostWell {
+    overflow: hidden;
+    min-height:60px;
+    height: auto;
+    width: auto;
+    min-width: 575px;
+}
+
+#aboutUser {
+    display: inline-block;
+    width: auto;
+    max-width: 500px;
+    float: left;
+    margin-top: 0;
+    margin-right: 15px;
+}
+
+p.clear {
+    clear: both;
+}
+
+.img-responsive, img-rounded {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.btnNew {
+  display: inline-block;
+  background-color: transparent;
+  padding: 6px 0;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
 /**************************************Profile END**************************************/
 
+
+
 /**************************************About**************************************/
+
 .aboutRow {
     min-width: 600px;
 }
+
 .photosabout {
     max-height: 200px;
     max-width: 200px;
 }
-#darri
-{
+
+#darri {
     width:200px;
     height:auto;
 }
-#dabbi
-{
+
+#dabbi {
     width:200px;
     height:auto; 
 }
+
 div.thumbnail.right-caption.span4 {
     width: 100%;
 }
 
-#aboutinfo
-{
+#aboutinfo{
     resize:none;
 }
-#headliner
-{
-        /*background-image: url("/Content/Images/background.jpg");*/
+
+#headliner {
+    /*background-image: url("/Content/Images/background.jpg");*/
     background-color: rgb(34, 34, 34);
     text-align: center;
     max-width: 112.85%;
@@ -176,14 +220,15 @@ div.thumbnail.right-caption.span4 {
     margin-left: -10%;
     border-radius: 0;
 }
-#headliner > p
-{
+
+#headliner > p {
     color:white;
 }
-#headliner > h1
-{
+
+#headliner > h1 {
     color:white;
 }
+
 .thumbnail.right-caption > img {
     float: left;
     margin-right: 9px;
@@ -200,42 +245,44 @@ div.thumbnail.right-caption.span4 {
 /**************************************About END**************************************/
 
 
+
 /**************************************Homepage**************************************/
-#Indextext
-{
+
+#Indextext {
     text-align:center;
-    
 }
-.carousel
-{
+
+.carousel {
   z-index:-99;
   overflow:hidden;
 }
-.carousel .item{
 
-position:fixed;
-width:100%;
-height:100%;
--webkit-transition:opacity 1s;
--moz-transition: opacity 1s;
--ms-transition:opacity 1s;
--o-transition: opacity 1s;
-transition: opacity 1s;
-overflow:hidden;
+.carousel .item {
+    position:fixed;
+    width:100%;
+    height:100%;
+    -webkit-transition:opacity 1s;
+    -moz-transition: opacity 1s;
+    -ms-transition:opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+    overflow:hidden;
 }
-.carousel .one{
+.carousel .one {
     background-image: url("/Content/Images/party.jpg");
     background-size:cover;
     -moz-background-size:cover;
 }
 
-.carousel .active.left{
+.carousel .active.left {
     left:0;
     opacity:0;
     z-index:2;
 }
 
 /**************************************Homepage END**************************************/
+
+
 
 /**************************************Birthday**************************************/
 
@@ -258,7 +305,13 @@ overflow:hidden;
     display: none;
 }
 
+#huge {
+    font-size: 52px;
+    margin-right: 25px;
+}
+
 /**************************************Birthday END**************************************/
+
 
 
 /**************************************Notifications**************************************/
@@ -276,8 +329,21 @@ overflow:hidden;
     display: none;
 }
 
+.bottomRightButtonRight {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.bottomRightButtonLeft {
+    position: absolute;
+    bottom: 20px;
+    right: 120px;
+}
 
 /**************************************Notifications END**************************************/
+
+
 
 /**************************************Comments**************************************/
 
@@ -288,6 +354,7 @@ overflow:hidden;
     width: auto;
     min-width: 575px;
 }
+
 #commentstatus {
     height:100px;
     max-width: 65%;
@@ -295,6 +362,7 @@ overflow:hidden;
     resize:none;
     overflow:auto;
 }
+
 .commentform-control {
     display: inline;
     width: 75%;
@@ -312,6 +380,7 @@ overflow:hidden;
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
             transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
+
 .commentwell {
     width: 75%;
     margin-left: 12.5%;
@@ -325,13 +394,259 @@ overflow:hidden;
 #submitcomment {
     margin: 16px;
 }
+
 /**************************************Comments END**************************************/
+
+
+
+/**************************************Statuses**************************************/
+
+.form-horizontal {
+    margin-left: 12.5%;
+}
+
+.smileyFace {
+  background: url(../Content/Images/iconHappy.ico) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 10px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.newsFeedFilters {
+    margin-bottom: 20px;
+}
+
+.newsFeedFilters li {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#commentsLikesDeleteDiv {
+    border-top: solid rgb(228, 228, 228) 1px;
+    margin-top: 20px;
+}
+
+#reactionButtons {
+    padding-top: 20px
+}
+
+.deletePostButton {
+    float: right;
+}
+
+.settingsform {
+    margin-left: -7.5%;
+}
+
+#likedislikeimg {
+  width: 28px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+#newsfeedstatus {
+    height:100px;
+    max-width: 65%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+
+.btn-default-like {
+    background-image: url("/Content/Images/smileySMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
+
+.btn-default-dislike {
+    background-image: url("/Content/Images/sadfaceSMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
+
+.btn-default-comment {
+    background-image: url("/Content/Images/commentSMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 35px;
+}
+
+#reactionButtons {
+    padding-bottom: 40px;
+    font-size: 100%;
+    
+}
+
+/**************************************Statuses END**************************************/
+
+
+
+/**************************************Settings**************************************/
+
+#privacyimg {
+  padding-left: -13px;
+  height: 40px;
+  padding-bottom: 7px;
+  padding-right: 18px;
+}
+
+button.btnNew.privacy {
+  outline: none;
+}
+
+/**************************************Settings END**************************************/
+
+
+
+/**************************************FriendsList**************************************/
+
+#removeFriendButtonFriendsListAbsolute {
+    position: absolute;
+    bottom: 85px;
+    right: 20px;
+}
+
+#bfOrFamilyFriendsListAbsolute {
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+}
+
+#removeFriendButtonFriendsList {
+    margin-left: 200px;
+}
+
+#bfOrFamilyFriendsList {
+    height: 35px;
+    width: 250px;
+    margin-left: 85px;
+    margin-top: 30px;
+}
+
+
+.friendsListName {
+    margin-top: 0px;
+}
+
+#FriendsListWell {
+    overflow: hidden;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.friendsListPhoto {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 15px;
+}
+
+.tableFriends {
+    font-size: 16px;
+}
+
+.glyphicon {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Glyphicons Halflings';
+}
+
+.tableItem {
+    font-weight: bold;
+    width: 100px;
+}
+
+/**************************************FriendsList END**************************************/
+
+
+
+/**************************************PartialView**************************************/
+
+.PartialViewResponsive {
+    display: inline-block;
+    height: auto;
+    max-height: 100px;
+    max-width: 100px;
+}
+
+.PostPartialViewPhoto {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    max-height: 100px;
+    float:left;
+    margin-right: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#PartialPostsText {
+    display: block;
+}
+
+/**************************************PartialView END**************************************/
+
+
+
+/**************************************NewsFeed**************************************/
+
+#newsfeedProfilePhoto {
+    width: 100px;
+    height: auto;
+    max-height: 100px;
+    margin-right: 15px;
+}
+
+.newsfeedViewResponsive {
+    display: block;
+    height: auto;
+    max-height: 100px;
+    max-width: 100px;
+}
+
+#newsfeedstatus {
+    max-width: 65%;
+    display: inline-block;
+}
+
+.NewsFeedContainer {
+    margin-bottom: 20px;
+}
+
+#submitNewsFeedStatus {
+    margin: 16px;
+}
+
+#submitstatus {
+    margin: 10px;
+}
+
+/**************************************NewsFeed END**************************************/
+
 
 
 /**************************************NavBarTop**************************************/
 
-a.navbar-brand
-{
+a.navbar-brand {
   background: url(../Content/Images/Cinlogolol.png) no-repeat;
   background-size: contain;
   display: block;
@@ -402,8 +717,12 @@ a.navbar-brand
 .logoffs {
   padding-left: 16px;
 }
-/**************************************Dropdown fix on half screen**************************************/
 
+.nav-logout {
+    margin-top: 50px;
+}
+
+/**************************************Dropdown fix on half screen**************************************/
 @media (max-width: 767px) {
 
     .dropdown-menu.nav.sidebar-nav > li.notLogOut {
@@ -411,357 +730,14 @@ a.navbar-brand
                   padding-left: -10px;
 
     }
+
     .dropdown-menu.nav.sidebar-nav > li.notLogOut:hover {
         background-color: rgba(255,255,255,0.2);;
     }
 }
-
 /**************************************Dropdown fix on half screen END**************************************/
-
 /**************************************NavBarTop END**************************************/
 
-
-/**************************************Statuses**************************************/
-
-
-
-.smileyFace {
-  background: url(../Content/Images/iconHappy.ico) no-repeat;
-  background-size: contain;
-  display: block;
-  margin: 10px;
-  float:left;
-  outline: none;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.newsFeedFilters {
-    margin-bottom: 20px;
-}
-
-.newsFeedFilters li {
-    font-weight: bold;
-    font-size: 17px;
-}
-
-#commentsLikesDeleteDiv {
-    border-top: solid rgb(228, 228, 228) 1px;
-    margin-top: 20px;
-}
-
-#reactionButtons {
-    padding-top: 20px
-}
-
-.deletePostButton {
-    float: right;
-}
-
-.settingsform {
-    margin-left: -7.5%;
-}
-
-#likedislikeimg {
-  width: 28px;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-#newsfeedstatus
-{
-    height:100px;
-    max-width: 65%;
-    outline:none;
-    resize:none;
-    overflow:auto;
-}
-
-.btn-default-like {
-    background-image: url("/Content/Images/smileySMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 20px;
-}
-
-.btn-default-dislike {
-    background-image: url("/Content/Images/sadfaceSMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 20px;
-}
-
-.btn-default-comment {
-    background-image: url("/Content/Images/commentSMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 35px;
-}
-#reactionButtons {
-    padding-bottom: 40px;
-    font-size: 100%;
-    
-}
-
-/**************************************Statuses END**************************************/
-
-/**************************************Groups**************************************/
-
-#groupstatus {
-    height:100px;
-    max-width: 65%;
-    outline:none;
-    resize:none;
-    overflow:auto;
-}
-
-/**************************************Groups END**************************************/
-
-/**************************************Settings**************************************/
-
-#privacyimg {
-  padding-left: -13px;
-  height: 40px;
-  padding-bottom: 7px;
-  padding-right: 18px;
-}
-
-
-button.btnNew.privacy {
-  outline: none;
-}
-
-
-/**************************************Settings END**************************************/
-
-
-
-
-#removeFriendButtonFriendsListAbsolute {
-    position: absolute;
-    bottom: 85px;
-    right: 20px;
-
-}
-
-#bfOrFamilyFriendsListAbsolute {
-    position: absolute;
-    bottom: 0px;
-    right: 20px;
-}
-
-#removeFriendButtonFriendsList {
-    margin-left: 200px;
-}
-
-#bfOrFamilyFriendsList {
-    height: 35px;
-    width: 250px;
-    margin-left: 85px;
-    margin-top: 30px;
-}
-
-
-.friendsListName {
-    margin-top: 0px;
-}
-#ProfileWell {
-    overflow: visible;
-    height: 100%;
-    width:100%;
-    margin: 50px;
-    background:no-repeat;
-    background-size:100%;
-    background-position: center;
-          border: 0;
-  border-radius: 0;
-  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
-          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
-}
-#FriendsListWell{
-    overflow: hidden;
-    height: auto;
-    margin-bottom: 20px;
-
-}
-#ProfilePostWell {
-    overflow: hidden;
-    min-height:60px;
-    height: auto;
-    width: auto;
-    min-width: 575px;
-}
-
-#aboutUser {
-    display: inline-block;
-    width: auto;
-    max-width: 500px;
-    float: left;
-    margin-top: 0;
-    margin-right: 15px;
-}
-p.clear {
-    clear: both;
-}
-
-
-.friendsListPhoto {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    float: left;
-    margin-right: 15px;
-}
-
-.tableFriends{
-    font-size: 16px;
-
-}
-.glyphicon {
-        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif,'Glyphicons Halflings';
-
-}
-.tableItem {
-    font-weight: bold;
-    width: 100px;
-
-}
-
-
-.profileNameLink {
-    font-size: 25px
-}
-
-
-.img-responsive, img-rounded {
-    max-height: 200px;
-    max-width: 200px;
-}
-
-#groupWell {
-    float: right;
-    position: relative;
-    bottom: 36px;
-}
-
-#createNewGroup {
-    float: right;
-    position: relative;
-    bottom: 34px;
-    right: 22px;
-}
-
-.bottomRightButtonRight {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-
-.bottomRightButtonLeft {
-    position: absolute;
-    bottom: 20px;
-    right: 120px;
-}
-
-#logOutDropdownOption {
-    position: relative;
-    left: 7px;
-    bottom: 12px;
-
-}
-.form-horizontal {
-    margin-left: 12.5%;
-}
-
-.PartialViewResponsive {
-    display: inline-block;
-    height: auto;
-    max-height: 100px;
-    max-width: 100px;
-}
-.PostPartialViewPhoto {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    max-height: 100px;
-    float:left;
-    margin-right: 15px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-#PartialPostsText {
-    display: block;
-}
-
-.btnNew {
-  display: inline-block;
-  background-color: transparent;
-  padding: 6px 0;
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 1.428571429;
-  text-align: center;
-  border: 1px solid transparent;
-}
-
-#newsfeedProfilePhoto {
-    width: 100px;
-    height: auto;
-    max-height: 100px;
-    margin-right: 15px;
-}
-.newsfeedViewResponsive {
-    display: block;
-    height: auto;
-    max-height: 100px;
-    max-width: 100px;
-}
-
-#newsfeedstatus {
-    max-width: 65%;
-    display: inline-block;
-}
-
-.NewsFeedContainer {
-    margin-bottom: 20px;
-}
-#submitgroupstatus {
-    margin: 16px;
-}
-#submitNewsFeedStatus {
-    margin: 16px;
-}
-
-
-#submitstatus {
-    margin: 10px;
-}
-
-.fa.fa-power-off.fa-2.faLogOut {
-    display: inline;
-    padding-right: 22px;
-    padding-left: 14px;
-    width:100%;
-    overflow:visible;
-}
-
-.nav-logout {
-    margin-top: 50px;
-}
 
 
 /**************************************Sidebar**************************************/
@@ -770,22 +746,22 @@ p.clear {
 
 @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
 .fa-2x {
-font-size: 2em;
+    font-size: 2em;
 }
 .fa {
-position: relative;
-display: table-cell;
-width: 60px;
-height: 36px;
-text-align: center;
-vertical-align: middle;
-font-size:20px;
+    position: relative;
+    display: table-cell;
+    width: 60px;
+    height: 36px;
+    text-align: center;
+    vertical-align: middle;
+    font-size:20px;
 }
 
 
 .main-menu:hover,nav.main-menu.expanded {
-width:250px;
-overflow:visible;
+    width:250px;
+    overflow:visible;
 }
 
 .main-menu {
@@ -804,66 +780,62 @@ overflow:visible;
 }
 
 .main-menu>ul {
-margin:7px 0;
+    margin:7px 0;
 }
 
 .main-menu li {
-position:relative;
-display:block;
-width:250px;
+    position:relative;
+    display:block;
+    width:250px;
 }
 
 .main-menu li>a {
-
-position:relative;
-display:table;
-border-collapse:collapse;
-border-spacing:0;
-color:#999;
- font-family: arial;
-font-size: 14px;
-text-decoration:none;
--webkit-transform:translateZ(0) scale(1,1);
--webkit-transition:all .1s linear;
-transition:all .1s linear;
-  
+    position:relative;
+    display:table;
+    border-collapse:collapse;
+    border-spacing:0;
+    color:#999;
+     font-family: arial;
+    font-size: 14px;
+    text-decoration:none;
+    -webkit-transform:translateZ(0) scale(1,1);
+    -webkit-transition:all .1s linear;
+    transition:all .1s linear;
 }
 
 .main-menu .nav-icon {
-position:relative;
-display:table-cell;
-width:60px;
-height:36px;
-text-align:center;
-vertical-align:middle;
-font-size:18px;
+    position:relative;
+    display:table-cell;
+    width:60px;
+    height:36px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:18px;
 }
 
 .main-menu .nav-text {
-
-position:relative;
-display:table-cell;
-vertical-align:middle;
-width:190px;
-  font-family: 'Titillium Web', sans-serif;
+    position:relative;
+    display:table-cell;
+    vertical-align:middle;
+    width:190px;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .main-menu>ul.logout {
-position:absolute;
-
+    position:absolute;
 }
 
 .no-touch .scrollable.hover {
-overflow-y:hidden;
+    overflow-y:hidden;
 }
 
 .no-touch .scrollable.hover:hover {
-overflow-y:auto;
-overflow:visible;
+    overflow-y:auto;
+    overflow:visible;
 }
 
 a:hover,a:focus {
-text-decoration:none;
+    text-decoration:none;
 }
 
 nav {
@@ -879,6 +851,7 @@ nav ul,nav li {
     margin:0;
     padding:0;
 }
+
 .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
     color:#fff;
     background-color: rgba(255,255,255,0.2);
@@ -913,9 +886,11 @@ nav ul,nav li {
     margin-top: 25px;
     margin-bottom:5px;
 }
+
 .main-menu ul a:visited {
     color: #999;
 }
+
 .bffam {
     top: 2px;
     -webkit-font-smoothing: antialiased;
@@ -924,14 +899,17 @@ nav ul,nav li {
     line-height: 1;
     margin-left: -13px;
 }
+
 .main-menu ul a:hover {
     color: #fff;
 }
+
 .area {
     float: left;
     width: 100%;
     height: 100%;
 }
+
 @font-face {
     font-family: 'Titillium Web';
     font-style: normal;
@@ -943,10 +921,20 @@ nav ul,nav li {
     cursor: default;
 }
 
+.fa.fa-power-off.fa-2.faLogOut {
+    display: inline;
+    padding-right: 22px;
+    padding-left: 14px;
+    width:100%;
+    overflow:visible;
+}
+
 /**************************************Sidebar END**************************************/
 
 
+
 /**************************************Images**************************************/
+
 .btnUpload {
     float: right;
 }
@@ -955,8 +943,7 @@ nav ul,nav li {
     float: left;
 }
 
-.btnCover
-{
+.btnCover {
     float: left;   
 }
 
@@ -983,8 +970,7 @@ nav ul,nav li {
             transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-.preReset
-{
+.preReset {
     border: 0;
     display: inline-block;
 	font-weight: normal;
@@ -1008,7 +994,6 @@ span.less {
 div.ellipsis-text {
     max-height: 100px;
 }
-
 
 .fakeLink {
     color: blue;
@@ -1035,6 +1020,7 @@ div.ellipsis-text {
     width: 100px;
     height: 100px;
 }
+
 .coverPhotos {
     width: 684px;
     height: 183px;
@@ -1058,7 +1044,7 @@ div.ellipsis-text {
 
 span.thumbnail:hover,
 span.thumbnail:focus {
-  border-color: #428bca;
+    border-color: #428bca;
 }
 
 span.thumbnail-photo {
@@ -1069,11 +1055,11 @@ span.thumbnail-photo {
     border: 4px solid #428bca;
 }
 
-
 .btn-file {
     position: relative;
     overflow: hidden;
 }
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -1089,7 +1075,6 @@ span.thumbnail-photo {
     cursor: inherit;
     display: block;
 }
-
 
 .btn-crop {
     float: right;
@@ -1111,7 +1096,9 @@ span.thumbnail-photo {
 /**************************************Images END**************************************/
 
 
+
 /**************************************Errors**************************************/
+
 .field-validation-error
 {
     color:red;
@@ -1122,4 +1109,5 @@ span.thumbnail-photo {
 {
     padding-left:40px;
 }
+
 /**************************************Errors END**************************************/
