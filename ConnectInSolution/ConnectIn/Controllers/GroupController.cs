@@ -233,6 +233,14 @@ namespace ConnectIn.Controllers
                 string[] deleteMembersIds = membersToBeDeleted.Split(',');
                 foreach (var id in deleteMembersIds)
                 {
+                    var groupNotifications = groupService.GetNotificatonsForGroup(groupId);
+                    foreach (var notification in groupNotifications)
+                    {
+                        if (notification.UserId == id)
+                        {
+                            DbContext.Notifications.Remove(notification);
+                        }
+                    }
                     var memberToDelete = groupService.GetMemberByUserIdAndGroupId(groupId, id);
                     DbContext.Members.Remove(memberToDelete);
                 }
