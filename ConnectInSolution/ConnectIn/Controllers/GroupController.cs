@@ -13,59 +13,59 @@ namespace ConnectIn.Controllers
 {
     public class GroupController : Controller
     {
+        public ApplicationDbContext DbContext = new ApplicationDbContext();
+
+        [HttpGet, Authorize]
         public ActionResult Create()
         {
-            return View("CreateGroup");
+            return View();
         }
 
-        public ActionResult CreateGroup(FormCollection collection)
+        [HttpPost, Authorize]
+        public ActionResult Create(FormCollection collection)
         {
-            var context = new ApplicationDbContext();
-            var userId = User.Identity.GetUserId();
-            UserService userService = new UserService(context);
-            GroupService groupService = new GroupService(context);
+            string groupName = collection["groupName"];
+            if (groupName.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
 
+            // Add the new group to the database
             var newGroup = new Group()
             {
-                Name = collection["groupName"],
+                Name = groupName,
                 AdminID = User.Identity.GetUserId(),
                 Members = new List<Member>()
             };
+            DbContext.Groups.Add(newGroup);
 
-            context.Groups.Add(newGroup);
-            //Make the creator a member of the group
-            context.Members.Add(new Member()
+            // Make the creator a member of the group
+            var userService = new UserService(DbContext);
+            DbContext.Members.Add(new Member()
             {
                 Group = newGroup,
-                User = userService.GetUserById(userId),
+                User = userService.GetUserById(User.Identity.GetUserId()),
                 GroupId = newGroup.GroupId,
-                UserId = userId
+                UserId = User.Identity.GetUserId()
             });
-
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("GroupsList", "Group");
         }
 
+        [HttpGet, Authorize]
         public ActionResult Details(int? id)
         {
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var groupService = new GroupService(context);
-            var postService = new PostService(context);
-            var likedislikeService = new LikeDislikeService(context);
-
             if (!id.HasValue)
             {
                 return View("Error");
             }
             int grpId = id.Value;
-            var memberList = groupService.GetMembersOfGroup(grpId);
+
+            // Getting group information
+            var userService = new UserService(DbContext);
+            var groupService = new GroupService(DbContext);
             var group = groupService.GetGroupById(grpId);
-
-            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            string profilePicturePath = profilePicture.PhotoPath;
-
             var myGroup = new GroupDetailViewModel()
             {
                 Name = group.Name,
@@ -79,14 +79,15 @@ namespace ConnectIn.Controllers
                 },
                 User = new UserViewModel()
                 {
-                    ProfilePicture = profilePicturePath
+                    ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
                 },
                 FriendsOfUser = new List<UserViewModel>()
             };
+
+            // Getting all members of this group
+            var memberList = groupService.GetMembersOfGroup(grpId);
             foreach (var userId in memberList)
             {
-                profilePicture = userService.GetProfilePicture(userId);
-                profilePicturePath = profilePicture.PhotoPath;
                 var currMember = userService.GetUserById(userId);
                 myGroup.Members.Add(new UserViewModel()
                 {
@@ -94,17 +95,19 @@ namespace ConnectIn.Controllers
                     UserId = currMember.Id,
                     UserName = currMember.UserName,
                     Birthday = currMember.Birthday,
-                    ProfilePicture = profilePicturePath
+                    ProfilePicture = userService.GetProfilePicture(userId).PhotoPath
                 });
             }
-            var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);
-            int myId = id.Value;
-               
-                
+
+            // Getting posts for the group
+            var postService = new PostService(DbContext);
+            var likedislikeService = new LikeDislikeService(DbContext);
+            var postsOfGroup = groupService.GetAllPostsOfGroup(grpId);             
             foreach (var userId in postsOfGroup)
             {
-                string lPic, dPic;
+                // Assign a smiley according to if this user has liked or dislike or not done either
                 var post = postService.GetPostById(userId);
+                string lPic = null, dPic = null;
                 if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), userId) == null)
                 {
                     lPic = "~/Content/images/smileySMALL.png";
@@ -120,13 +123,6 @@ namespace ConnectIn.Controllers
                     lPic = "~/Content/images/smileySMALL.png";
                     dPic = "~/Content/images/sadfaceRED.png";
                 }
-                else
-                {
-                    return View("Error");
-                }
-                //If the user hasn't picked a profile pic, set a default one.
-                profilePicture = userService.GetProfilePicture(post.UserId);
-                profilePicturePath = profilePicture.PhotoPath;
 
                 myGroup.Posts.Posts.Add(new PostsViewModel()
                 {
@@ -138,7 +134,7 @@ namespace ConnectIn.Controllers
                         UserId = post.User.Id,
                         UserName = post.User.UserName,
                         Birthday = post.User.Birthday,
-                        ProfilePicture = profilePicturePath
+                        ProfilePicture = userService.GetProfilePicture(post.UserId).PhotoPath
                     },
                     DateInserted = post.Date,
                     LikeDislikeComment = new LikeDislikeCommentViewModel()
@@ -153,41 +149,41 @@ namespace ConnectIn.Controllers
                 });
             }
 
+            // Getting all friends of the user so he can possibly add them to the group
             var userFriendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
-                
             foreach (var userId in userFriendList)
             {
                 if (!groupService.IsMemberOfGroup(grpId, userId))
                 {
                     var friend = userService.GetUserById(userId);
-
-                    //If the user hasn't picked a profile pic, set a default one.
-                    profilePicture = userService.GetProfilePicture(userId);
-                    profilePicturePath = profilePicture.PhotoPath;
-
                     myGroup.FriendsOfUser.Add(new UserViewModel()
                     {
                         Name = friend.Name,
                         UserId = friend.Id,
                         UserName = friend.UserName,
                         Birthday = friend.Birthday,
-                        ProfilePicture = profilePicturePath
+                        ProfilePicture = userService.GetProfilePicture(userId).PhotoPath
                     });
                         
                 }
             }
+
             return View("GroupDetails", myGroup);
         }
 
-        public ActionResult Edit(FormCollection collection)
+        [HttpGet, Authorize]
+        public ActionResult Edit(string groupId)
         {
-            var context = new ApplicationDbContext();
-            var groupService = new GroupService(context);
-            var userService = new UserService(context);
+            if (groupId.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int grpId = Int32.Parse(groupId);
 
-            var grpId = collection["groupID"];
-            var grp = groupService.GetGroupById(Int32.Parse(grpId));
-            var groupToEdit = new GroupDetailViewModel()
+            // Get the group
+            var groupService = new GroupService(DbContext);
+            var grp = groupService.GetGroupById(grpId);
+            var model = new GroupDetailViewModel()
             {
                 AdminId = grp.AdminID,
                 GroupId = grp.GroupId,
@@ -195,14 +191,15 @@ namespace ConnectIn.Controllers
                 Members = new List<UserViewModel>()
             };
 
-            var membersOfGroup = groupService.GetMembersOfGroup(Int32.Parse(grpId));
-
-            foreach (var Id in membersOfGroup)
+            // Get the members of the group
+            var userService = new UserService(DbContext);
+            var membersOfGroup = groupService.GetMembersOfGroup(grpId);
+            foreach (var id in membersOfGroup)
             {
-                var currUser = userService.GetUserById(Id);
+                var currUser = userService.GetUserById(id);
                 if (currUser.Id != User.Identity.GetUserId())
                 {
-                    groupToEdit.Members.Add(new UserViewModel()
+                    model.Members.Add(new UserViewModel()
                     {
                         UserId = currUser.Id,
                         Name = currUser.Name
@@ -210,78 +207,83 @@ namespace ConnectIn.Controllers
                 }
             }
             
-            return View("EditGroup", groupToEdit);
+            return View(model);
         }
 
-        public ActionResult EditGroup(FormCollection collection)
+        [HttpPost, Authorize]
+        public ActionResult Edit(FormCollection collection)
         {
-            var context = new ApplicationDbContext();
-            var groupService = new GroupService(context);
-            var userService = new UserService(context);
             var grpId = collection["grpId"];
             var newName = collection["nameofgroup"];
             var membersToBeDeleted = collection["toBeDeleted"];
+            if (grpId.IsNullOrWhiteSpace() || newName.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int groupId = Int32.Parse(grpId);
 
-            var group = groupService.GetGroupById(Int32.Parse(grpId));
+            // Changing the name of the group to newName
+            var groupService = new GroupService(DbContext);
+            var group = groupService.GetGroupById(groupId);
             group.Name = newName;
-            
-            bool isAdmin = false;
 
+            // Delete all members selected from the group
             if (membersToBeDeleted != null)
             {
                 string[] deleteMembersIds = membersToBeDeleted.Split(',');
-                
-                foreach (var Id in deleteMembersIds)
+                foreach (var id in deleteMembersIds)
                 {
-                    var memberToDelete = groupService.GetMemberByUserIdAndGroupId(Int32.Parse(grpId), Id);
-                    if (memberToDelete.UserId == User.Identity.GetUserId())
-                    {
-                        isAdmin = true;
-                    }
-                    context.Members.Remove(memberToDelete);
+                    var memberToDelete = groupService.GetMemberByUserIdAndGroupId(groupId, id);
+                    DbContext.Members.Remove(memberToDelete);
                 }
             }
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
-            if (isAdmin == true)
-            {
-                return RedirectToAction("GroupsList", "Group");
-            }
             return RedirectToAction("Details", "Group", new {id = grpId});
         }
 
+        [HttpPost, Authorize]
         public ActionResult AddFriend(FormCollection collection)
         {
             string listOfNewMembers = collection["newFriendsInGroup"];
-            int groupId = Int32.Parse(collection["idOfGroup"]);
+            string idOfGroup = collection["idOfGroup"];
+            if (idOfGroup.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int groupId = Int32.Parse(idOfGroup);
+
             var usersinfo = new List<UserViewModel>();
             if (!listOfNewMembers.IsNullOrWhiteSpace())
             {
                 string[] userIdArray = listOfNewMembers.Split(',');
 
-                var context = new ApplicationDbContext();
-                GroupService groupService = new GroupService(context);
-                UserService userService = new UserService(context);
-                var currentGroup = groupService.GetGroupById(groupId);
-                /*var json = "[";
-                var i = 0;*/
+                GroupService groupService = new GroupService(DbContext);
+                UserService userService = new UserService(DbContext);
+
                 foreach (var id in userIdArray)
                 {
                     var user = userService.GetUserById(id);
-                    context.Members.Add(new Member()
+                    // Add the member into the group
+                    var member = new Member()
                     {
-                        Group = currentGroup,
+                        Group = groupService.GetGroupById(groupId),
                         GroupId = groupId,
                         User = user,
                         UserId = user.Id
-                    });
-                    context.Notifications.Add(new Notification()
+                    };
+                    DbContext.Members.Add(member);
+                    
+                    // Send the member a notification about being added to this group
+                    var notification = new Notification()
                     {
                         FriendUserId = user.Id,
                         Date = DateTime.Now,
                         GroupId = groupId,
                         UserId = User.Identity.GetUserId(),
-                    });
+                    };
+                    DbContext.Notifications.Add(notification);
+
                     var birth = user.Birthday.Date;
                     var date = birth.Day + "." + birth.Month + "." + birth.Year;
                     usersinfo.Add(
@@ -292,94 +294,92 @@ namespace ConnectIn.Controllers
                             Work = date
                         });
                 }
-                context.SaveChanges();
+                DbContext.SaveChanges();
 
                 return Json(usersinfo, JsonRequestBehavior.AllowGet);
             }
-            else
-            {
-                return View("Error");
-            }
-            
-            // return new EmptyResult();
+            return View("Error");
         }
 
-        public ActionResult GetUser(string Id)
-        {
-            return RedirectToAction("Profile", "Home", new { id = Id });
-        }
-
+        [HttpGet, Authorize]
         public ActionResult GroupsList()
         {
-            var userId = User.Identity.GetUserId();
+            var userService = new UserService(DbContext);
+            var groupService = new GroupService(DbContext);
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var groupService = new GroupService(context);
-
-            var groupIdList = userService.GetAllGroupsOfUser(userId);
-            var groupList = new List<GroupListViewModel>();
-
+            // Get all groups for the current user
+            var groupIdList = userService.GetAllGroupsOfUser(User.Identity.GetUserId());
+            var model = new List<GroupListViewModel>();
             foreach (var id in groupIdList)
             {
                 var groupById = groupService.GetGroupById(id);
-                var newGroup = new GroupListViewModel();
-                newGroup.Name = groupById.Name;
-                newGroup.GroupId = groupById.GroupId;
-                groupList.Add(newGroup);
+                model.Add(
+                    new GroupListViewModel
+                    {
+                        Name = groupById.Name,
+                        GroupId = groupById.GroupId
+                    });
             }
-            return View(groupList);
+
+            return View(model);
         }
 
+        [HttpPost, Authorize]
         public ActionResult LeaveGroup(FormCollection collection)
         {
-            var context = new ApplicationDbContext();
-            var groupService = new GroupService(context);
-            var userService = new UserService(context);
-            var notificationService = new NotificationService(context);
-
-            var grpId = Int32.Parse(collection["groupID"]);
+            var grpId = collection["groupID"];
             var userId = collection["userID"];
+            if (grpId.IsNullOrWhiteSpace() || userId.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int groupId = Int32.Parse(grpId);
 
-            var memberToDelete = groupService.GetMemberByUserIdAndGroupId(grpId, userId);
-            context.Members.Remove(memberToDelete);
+            // Remove the user from this group
+            var groupService = new GroupService(DbContext);
+            var memberToDelete = groupService.GetMemberByUserIdAndGroupId(groupId, userId);
+            DbContext.Members.Remove(memberToDelete);
 
             // If the user has a notification about the group he is about to leave, the notification is removed.
             // Otherwise, he could still visit the group after he has left it.
-
+            var userService = new UserService(DbContext);
+            var notificationService = new NotificationService(DbContext);
             var notifications = userService.GetAllNotificationsForUser(userId);
             foreach (var ntf in notifications)
             {
                 var notification = notificationService.GetNotificationById(ntf.NotificationId);
-                if (notification.GroupId == grpId)
+                if (notification.GroupId == groupId)
                 {
-                    context.Notifications.Remove(notification);
+                    DbContext.Notifications.Remove(notification);
                 }
             }
-            context.SaveChanges();
+            DbContext.SaveChanges();
+
             return RedirectToAction("GroupsList");
         }
 
+        [HttpPost, Authorize]
         public ActionResult DeleteGroup(FormCollection collection)
         {
-            var context = new ApplicationDbContext();
-            var groupService = new GroupService(context);
-            var userService = new UserService(context);
+            var grpId = collection["groupID"];
+            if (grpId.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
+            int groupId = Int32.Parse(grpId);
 
-            var grpId = Int32.Parse(collection["groupID"]);
-            var userId = collection["userId"];
+            // Delete the group
+            var groupService = new GroupService(DbContext);
+            var groupToDelete = groupService.GetGroupById(groupId);
+            DbContext.Groups.Remove(groupToDelete);
 
-            var groupToDelete = groupService.GetGroupById(grpId);
-            context.Groups.Remove(groupToDelete);
-
-            var notifications = groupService.GetNotificatonsForGroup(grpId);
-
+            // Remove all notifications about the group
+            var notifications = groupService.GetNotificatonsForGroup(groupId);
             foreach (var n in notifications)
             {
-                context.Notifications.Remove(n);
+                DbContext.Notifications.Remove(n);
             }
-
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             return RedirectToAction("GroupsList");
         }

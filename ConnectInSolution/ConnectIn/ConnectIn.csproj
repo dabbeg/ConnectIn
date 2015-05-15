@@ -315,7 +315,7 @@
     <Content Include="Views\Home\Birthdays.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Group\GroupsList.cshtml" />
-    <Content Include="Views\Group\CreateGroup.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Home\PostsPartial.cshtml" />
     <Content Include="Views\Status\Comment.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
@@ -324,7 +324,7 @@
     <Content Include="Views\Photo\UploadProfilePhoto.cshtml" />
     <Content Include="Views\Photo\Images.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Group\EditGroup.cshtml" />
+    <Content Include="Views\Group\Edit.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Photo\CropProfilePhoto.cshtml" />
     <Content Include="Views\Photo\CropCoverPhoto.cshtml" />
