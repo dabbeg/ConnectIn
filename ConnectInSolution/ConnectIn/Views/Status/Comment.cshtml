@@ -83,7 +83,7 @@
                             <!--Should display username instead of item.userID-->
                             <div id="comm" style="margin-left:100px">
                                 <div class="friendsListName">
-                                    <h4 class="friendsListName">
+                                    <h4>
                                         @Html.ActionLink(item.User.Name, "Profile", "Home", new { id = item.User.UserId }, null)
                                         <small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                                     </h4>
