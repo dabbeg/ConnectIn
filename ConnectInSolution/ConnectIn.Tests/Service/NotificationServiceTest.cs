@@ -59,22 +59,25 @@ namespace ConnectIn.Tests.Service
             var result1 = service.GetNotificationById(not1);
 
             // Assert
-            Assert.AreEqual(2, result1.FriendUserId);
-            Assert.AreEqual(1, result1.UserId);
+            Assert.AreEqual("2", result1.FriendUserId);
+            Assert.AreEqual("1", result1.UserId);
         }
 
         [TestMethod]
         public void TestGetIfFriendRequestIsPending()
         {
             // Arrange
-            const int not1 = 1;
+            const string user1 = "1";
+            const string user2 = "2";
+            const string user3 = "4";
 
             // Act
-            var result1 = service.GetNotificationById(not1);
+            var result1 = service.GetIfFriendRequestIsPending(user1, user2);
+            var result2 = service.GetIfFriendRequestIsPending(user1, user3);
 
             // Assert
-            Assert.AreEqual(2, result1.FriendUserId);
-            Assert.AreEqual(1, result1.UserId);
+            Assert.IsNotNull(result1);
+            Assert.IsNull(result2);
         }
         #endregion
     }

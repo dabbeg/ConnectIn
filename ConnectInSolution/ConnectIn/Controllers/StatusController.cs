@@ -14,7 +14,9 @@ namespace ConnectIn.Controllers
 {
     public class StatusController : Controller
     {
-        [HttpPost]
+        public ApplicationDbContext DbContext = new ApplicationDbContext();
+
+        [HttpPost, Authorize]
         public ActionResult AddPost(FormCollection collection)
         {
             string amount = collection["amount"];
@@ -24,12 +26,6 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-
-            var context = new ApplicationDbContext();
-            var postService = new PostService(context);
-            var userService = new UserService(context);
-            var likeDislikeService = new LikeDislikeService(context);
-            var groupService = new GroupService(context);
 
             // Create the new post and add it into the database
             DateTime now = DateTime.Now;
@@ -45,10 +41,12 @@ namespace ConnectIn.Controllers
                 newPost.GroupId = Int32.Parse(groupId);
             }
 
-            context.Posts.Add(newPost);
-            context.SaveChanges();
+            DbContext.Posts.Add(newPost);
+            DbContext.SaveChanges();
 
             // Fill the viewmodel and return it as a json string to the jquery call
+            var groupService = new GroupService(DbContext);
+            var userService = new UserService(DbContext);
             var list = new List<int>();
             if (groupId.IsNullOrWhiteSpace())
             {
@@ -58,15 +56,16 @@ namespace ConnectIn.Controllers
             {
                 list = groupService.GetAllPostsOfGroup(Int32.Parse(groupId));
             }
-            
+
+            var postService = new PostService(DbContext);
+            var likeDislikeService = new LikeDislikeService(DbContext);
             var postList = new List<PostsViewModel>();
             int nOfCurrentStatuses = Int32.Parse(amount);
+
+            // Get all statuses that are not currently displayed and display them
             for (int i = (list.Count - nOfCurrentStatuses) - 1; i >= 0 ; i--)
             {
                 var post = postService.GetPostById(list[i]);
-
-                var profilePicture = userService.GetProfilePicture(post.UserId);
-                string profilePicturePath = profilePicture.PhotoPath;
 
                 var likeDislike = likeDislikeService.GetLikeDislike(post.UserId, post.PostId);
                 string lPic = null, dPic = null;
@@ -85,7 +84,7 @@ namespace ConnectIn.Controllers
                     lPic = "/Content/images/smileySMALL.png";
                     dPic = "/Content/images/sadfaceRED.png";
                 }
-                   
+
                 postList.Add(
                     new PostsViewModel()
                     {
@@ -95,7 +94,7 @@ namespace ConnectIn.Controllers
                         {
                             UserId = post.UserId,
                             Name = userService.GetUserById(post.UserId).Name,
-                            ProfilePicture = profilePicturePath
+                            ProfilePicture = userService.GetProfilePicture(post.UserId).PhotoPath
                         },
                         DateInserted = post.Date,
                         LikeDislikeComment = new LikeDislikeCommentViewModel()
@@ -114,7 +113,7 @@ namespace ConnectIn.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult RemovePost(FormCollection collection)
         {
             string id = collection["postId"];
@@ -124,15 +123,14 @@ namespace ConnectIn.Controllers
             }
             int postId = Int32.Parse(id);
 
-            var context = new ApplicationDbContext();
-            var postService = new PostService(context);
 
             // Remove the post
+            var postService = new PostService(DbContext);
             var post = postService.GetPostById(postId);
             if (post != null)
             {
-                context.Posts.Remove(post);
-                context.SaveChanges();
+                DbContext.Posts.Remove(post);
+                DbContext.SaveChanges();
             }
             
             // If we are deleting from the comment view the action is redirected to newsfeed
@@ -146,7 +144,7 @@ namespace ConnectIn.Controllers
             return new EmptyResult();
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult Comment(int? postId)
         {
             if (!postId.HasValue)
@@ -154,15 +152,10 @@ namespace ConnectIn.Controllers
                 return RedirectToAction("NewsFeed", "Home");
             }
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var commentService = new CommentService(context);
-            var postService = new PostService(context);
-            var likedislikeService = new LikeDislikeService(context);
-
             // Assign a smiley according to if this user has liked or dislike or not done either
+            var likedislikeService = new LikeDislikeService(DbContext);
             int pid = postId.Value;
-            string lPic, dPic;
+            string lPic = null, dPic = null;
             if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid) == null)
             {
                 lPic = "~/Content/images/smileySMALL.png";
@@ -178,12 +171,10 @@ namespace ConnectIn.Controllers
                 lPic = "~/Content/images/smileySMALL.png";
                 dPic = "~/Content/images/sadfaceRED.png";
             }
-            else
-            {
-                return View("Error");
-            }
 
             // Fill in the viewmodel
+            var userService = new UserService(DbContext);
+            var postService = new PostService(DbContext);
             var model = new CommentHelperViewModel
             {
                 User = new UserViewModel()
@@ -216,6 +207,7 @@ namespace ConnectIn.Controllers
                 }
             };
 
+            var commentService = new CommentService(DbContext);
             var commentIdList = postService.GetPostsComments(pid);
             foreach (var id in commentIdList)
             {
@@ -240,7 +232,7 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult AddComment(FormCollection collection)
         {
             string status = collection["status"];
@@ -252,11 +244,6 @@ namespace ConnectIn.Controllers
             }
             int nOfCurrentComments = Int32.Parse(amount);
 
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-            var postService = new PostService(db);
-            var commentService = new CommentService(db);
-
             // Add the new comment into the database
             var newComment = new Comment
             {
@@ -266,17 +253,20 @@ namespace ConnectIn.Controllers
                 PostId = Int32.Parse(postId),
 
             };
-            db.Comments.Add(newComment);
-            db.SaveChanges();
+            DbContext.Comments.Add(newComment);
+            DbContext.SaveChanges();
 
             // Fill in the viewmodel
+            var userService = new UserService(DbContext);
+            var postService = new PostService(DbContext);
+            var commentService = new CommentService(DbContext);
+
             var commentList = postService.GetPostsComments(newComment.PostId);
             var json = new List<CommentViewModel>();
-
+            // Get all comments that are not currently displayed and display them
             for (var i = (commentList.Count - nOfCurrentComments)-1; i >= 0; i--)
             {
                 var comment = commentService.GetCommentById(commentList[i]);
-
                 json.Add(
                     new CommentViewModel()
                     {
@@ -296,7 +286,7 @@ namespace ConnectIn.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult RemoveComment(int? commentId)
         {
             if (!commentId.HasValue)
@@ -305,21 +295,19 @@ namespace ConnectIn.Controllers
             }
             int id = commentId.Value;
 
-            var context = new ApplicationDbContext();
-            var commentService = new CommentService(context);
-
             // Remove the comment out of the database
+            var commentService = new CommentService(DbContext);
             var comment = commentService.GetCommentById(id);
             if (comment != null)
             {
-                context.Comments.Remove(comment);
-                context.SaveChanges();
+                DbContext.Comments.Remove(comment);
+                DbContext.SaveChanges();
             }
             
             return new EmptyResult();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Like(FormCollection collection)
         {
             string postId = collection["postId"];
@@ -328,18 +316,16 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var likedislikeService = new LikeDislikeService(context);
-
             // Find out if user has disliked, liked or done nothing and like the status according to that
             var pid = Int32.Parse(postId);
+            var likedislikeService = new LikeDislikeService(DbContext);
             var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
                 if (ld.Dislike) // Switch from dislike to like
                 {
-                    context.LikesDislikes.Remove(ld);
-                    context.LikesDislikes.Add(new LikeDislike()
+                    DbContext.LikesDislikes.Remove(ld);
+                    DbContext.LikesDislikes.Add(new LikeDislike()
                     {
                         PostId = pid,
                         UserId = User.Identity.GetUserId(),
@@ -349,12 +335,12 @@ namespace ConnectIn.Controllers
                 }
                 else if (ld.Like) // UnLike
                 {
-                    context.LikesDislikes.Remove(ld);
+                    DbContext.LikesDislikes.Remove(ld);
                 }
             }
             else // Like
             {
-                context.LikesDislikes.Add(new LikeDislike()
+                DbContext.LikesDislikes.Add(new LikeDislike()
                 {
                     PostId = pid,
                     UserId = User.Identity.GetUserId(),
@@ -362,10 +348,10 @@ namespace ConnectIn.Controllers
                     Dislike = false
                 });
             }
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             // Fill in the json
-            var postService = new PostService(context);
+            var postService = new PostService(DbContext);
             var json = new
             {
                 likes = postService.GetPostsLikes(pid),
@@ -376,7 +362,7 @@ namespace ConnectIn.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult Dislike(FormCollection collection)
         {
             string postId = collection["postId"];
@@ -385,18 +371,16 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var likedislikeService = new LikeDislikeService(context);
-
             // Find out if user has disliked, liked or done nothing and like the status according to that
             var pid = Int32.Parse(postId);
+            var likedislikeService = new LikeDislikeService(DbContext);
             var ld = likedislikeService.GetLikeDislike(User.Identity.GetUserId(), pid);
             if (ld != null)
             {
                 if (ld.Like) // Switch from like to dislike
                 {
-                    context.LikesDislikes.Remove(ld);
-                    context.LikesDislikes.Add(new LikeDislike()
+                    DbContext.LikesDislikes.Remove(ld);
+                    DbContext.LikesDislikes.Add(new LikeDislike()
                     {
                         PostId = pid,
                         UserId = User.Identity.GetUserId(),
@@ -406,12 +390,12 @@ namespace ConnectIn.Controllers
                 }
                 else if (ld.Dislike) // UnDislike
                 {
-                    context.LikesDislikes.Remove(ld);
+                    DbContext.LikesDislikes.Remove(ld);
                 }
             }
             else // Dislike
             {
-                context.LikesDislikes.Add(new LikeDislike()
+                DbContext.LikesDislikes.Add(new LikeDislike()
                 {
                     PostId = pid,
                     UserId = User.Identity.GetUserId(),
@@ -419,10 +403,10 @@ namespace ConnectIn.Controllers
                     Dislike = true
                 });
             }
-            context.SaveChanges();
+            DbContext.SaveChanges();
 
             // Fill in the json
-            var postService = new PostService(context);
+            var postService = new PostService(DbContext);
             var json = new
             {
                 likes = postService.GetPostsLikes(pid),

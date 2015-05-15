@@ -106,6 +106,7 @@
     <Compile Include="Service\CommentServiceTest.cs" />
     <Compile Include="Service\PhotoServiceTest.cs" />
     <Compile Include="Service\NotificationServiceTest.cs" />
+    <Compile Include="Service\LikeDislikeServiceTest.cs" />
     <Compile Include="Service\UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>

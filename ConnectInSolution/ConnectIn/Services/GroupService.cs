@@ -71,6 +71,7 @@ namespace ConnectIn.Services
             return member;
         }
 
+        // return true if member is in group
         public bool IsMemberOfGroup(int groupId, string userId)
         {
             var member = (from m in db.Members
@@ -84,7 +85,7 @@ namespace ConnectIn.Services
         #endregion
 
         #region Regarding group notifications
-
+        // return all notifications of that group
         public ICollection<Notification> GetNotificatonsForGroup(int groupId)
         {
             var not = (from n in db.Notifications

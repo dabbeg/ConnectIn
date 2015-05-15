@@ -20,6 +20,7 @@ namespace ConnectIn.Tests.Service
             var u1 = new User()
             {
                 Id = "1",
+                Name = "Darri",
                 Email = "user1@m.com",
                 UserName = "user1",
                 Birthday = new DateTime(2000, 1, 1),
@@ -187,7 +188,8 @@ namespace ConnectIn.Tests.Service
                 NotificationId = 2,
                 FriendUserId = "2",
                 UserId = "4",
-                Date = new DateTime(2001, 1, 1)
+                Date = new DateTime(2001, 1, 1),
+                GroupId = 1
             };
             mockDb.Notifications.Add(n2);
 
@@ -482,6 +484,7 @@ namespace ConnectIn.Tests.Service
             service = new GroupService(mockDb);
         }
 
+        #region Get group by Id
         [TestMethod]
         public void TestGetGroupById()
         {
@@ -509,7 +512,9 @@ namespace ConnectIn.Tests.Service
             Assert.AreEqual(c1.Name, result1.Name);
             Assert.AreEqual(c2.Name, result2.Name);
         }
+        #endregion
 
+        #region Members and posts of groups
         [TestMethod]
         public void TestGetMembersOfGroup()
         {
@@ -529,7 +534,7 @@ namespace ConnectIn.Tests.Service
         }
 
         [TestMethod]
-        public void TestGetEveryPostsOfGroup()
+        public void TestGetAllPostsOfGroup()
         {
             // Arrange
             const int group1 = 1;
@@ -547,5 +552,52 @@ namespace ConnectIn.Tests.Service
             Assert.AreEqual(3, result1.Count);
             Assert.AreEqual(1, result2.Count);
         }
+
+        [TestMethod]
+        public void TestGetMemberByUserIdAndGroupId()
+        {
+            // Arrange
+            const string user1 = "1";
+            const int gr1 = 1;
+
+            // Act
+            var result1 = service.GetMemberByUserIdAndGroupId(gr1, user1);
+
+            // Assert
+            Assert.IsNotNull(result1);
+        }
+
+        [TestMethod]
+        public void TestIsMemberOfGroup()
+        {
+            // Arrange
+            const string user1 = "1";
+            const int gr1 = 1;
+
+            // Act
+            var result1 = service.IsMemberOfGroup(gr1, user1);
+
+            // Assert
+            Assert.IsTrue(result1);
+        }
+        #endregion
+
+        #region Regarding group notifications
+        [TestMethod]
+        public void TestGetNotificatonsForGroup()
+        {
+            // Arrange
+            const int gr1 = 1;
+
+            // Act
+            var result1 = service.GetNotificatonsForGroup(gr1);
+
+            // Assert
+            foreach (var item in result1)
+            {
+                Assert.AreEqual(2, item.NotificationId);
+            }
+        }
+        #endregion
     }
 }

@@ -1,9 +1,6 @@
 ﻿using ConnectIn.DAL;
 using ConnectIn.Models.Entity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ConnectIn.Services
 {
