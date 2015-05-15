@@ -90,10 +90,10 @@
                             <i class="fa fa-search fa-2x"></i>
 
                             <span class="nav-text searchpos">
-                                @using (Html.BeginForm("Search", "Home"))
+                                @using (Html.BeginForm("Search", "Home", FormMethod.Get))
                                 {
                                     <span class="form-horizontal">
-                                        <input type="text" placeholder="Search..." class="search-form-control" name="status" />
+                                        <input type="text" placeholder="Search..." class="search-form-control" name="searchWord" />
                                         <input type="submit" id="submitstatus" class="btn btn-primary" style="display: none;" />
                                     </span>
                                 }

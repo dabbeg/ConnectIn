@@ -10,6 +10,8 @@ namespace ConnectIn.Controllers
 {
     public class HomeController : Controller
     {
+        public ApplicationDbContext DbContext = new ApplicationDbContext();
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -20,38 +22,27 @@ namespace ConnectIn.Controllers
         [HttpGet, Authorize]
         public ActionResult NewsFeed()
         {
-            var userId = User.Identity.GetUserId();
-            
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var postService = new PostService(context);
-            var likedislikeService = new LikeDislikeService(context);
-
-            var profilePicture = userService.GetProfilePicture(User.Identity.GetUserId());
-            string profilePicturePath = profilePicture.PhotoPath;
-
+            // Fill in the newsfeed viewmodel to display on the newsfeed
+            var userService = new UserService(DbContext);
             var newsFeed = new NewsFeedViewModel
             {
-                Id = "-1",
+                //Id = "-1",
                 Posts = new List<PostsViewModel>(),
                 User = new UserViewModel()
                 {
-                    ProfilePicture = profilePicturePath
+                    ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
                 }
             };
 
-            var postList = userService.GetEveryNewsFeedPostsForUser(userId);
-
+            var postService = new PostService(DbContext);
+            var likedislikeService = new LikeDislikeService(DbContext);
+            var postList = userService.GetEveryNewsFeedPostsForUser(User.Identity.GetUserId());
             foreach (var id in postList)
             {
-
                 var post = postService.GetPostById(id);
-                profilePicture = userService.GetProfilePicture(post.UserId);
 
-                profilePicturePath = profilePicture.PhotoPath;
-                
-                // checka ef það er til færsla... fyrir unlike og undislike
-                string lPic, dPic;
+                // Assign a smiley according to if this user has liked or dislike or not done either
+                string lPic = null, dPic = null;
                 if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), id) == null)
                 {
                     lPic = "~/Content/images/smileySMALL.png";
@@ -67,10 +58,7 @@ namespace ConnectIn.Controllers
                     lPic = "~/Content/images/smileySMALL.png";
                     dPic = "~/Content/images/sadfaceRED.png";
                 }
-                else
-                {
-                    return View("Error");
-                }
+
                 newsFeed.Posts.Add(
                     new PostsViewModel()
                     {
@@ -87,7 +75,7 @@ namespace ConnectIn.Controllers
                         {
                             UserId = post.UserId,
                             Name = userService.GetUserById(post.UserId).Name,
-                            ProfilePicture = profilePicturePath
+                            ProfilePicture = userService.GetProfilePicture(post.UserId).PhotoPath
                         },
                         LikePic = lPic,
                         DislikePic = dPic
@@ -97,30 +85,25 @@ namespace ConnectIn.Controllers
             return View(newsFeed);
         }
 
+        [HttpGet]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
             return View();
         }
 
-
-
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult BestFriend(FormCollection collection)
         {
-            var count = 0;
             string friendId = collection["friendId"];
-
             if (friendId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
+            var userService = new UserService(DbContext);
             var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), friendId);
-
+            var count = 0;
             if (friendShip.UserId == User.Identity.GetUserId())
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
@@ -137,30 +120,23 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            db.SaveChanges();
+            DbContext.SaveChanges();
 
-            var json = new
-            {
-                FullStar = count
-            };
-
-            return Json(json, JsonRequestBehavior.AllowGet);
+            return Json( new { FullStar = count }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost, Authorize]
         public ActionResult Family(FormCollection collection)
         {
-            var count = 0;
             string friendId = collection["friendId"];
-
             if (friendId.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
+            var userService = new UserService(DbContext);
             var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), friendId);
-
+            var count = 0;
             if (friendShip.UserId == User.Identity.GetUserId())
             {
                 // if considered as best friend, then disbestfriend, else consider as best friend
@@ -177,53 +153,30 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            db.SaveChanges();
+            DbContext.SaveChanges();
 
-            var json = new
-            {
-                FullStar = count
-            };
-
-            return Json(json, JsonRequestBehavior.AllowGet);
+            return Json(new { FullStar = count }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet, Authorize]
         public ActionResult Profile(string id)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
             if (id.IsNullOrWhiteSpace())
             {
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var postService = new PostService(context);
-            var likedislikeService = new LikeDislikeService(context);
-            var photoService = new PhotoService(context);
+            var userService = new UserService(DbContext);
+            var photoService = new PhotoService(DbContext);
 
-            var user = userService.GetUserById(id);
-            var posts = userService.GetAllPostsFromUser(id);
-
-            var profilePicture = userService.GetProfilePicture(id);
-            string profilePicturePath, lPic, dPic, 
-                bfStarPick = "~/Content/images/emptystar.png", fStarPick = "~/Content/images/emptystar.png";
-            profilePicturePath = profilePicture == null 
-                ? "~/Content/images/largeProfilePic.jpg" 
-                : profilePicture.PhotoPath;
+            // Get the user cover photo, if he has none then display whitebackground.jpg
             var coverPhotoId = userService.GetCoverPhoto(id);
             var coverPhoto = photoService.GetPhotoById(coverPhotoId);
-            string coverPhotoPath;
-            if (coverPhoto == null)
-            {
-                coverPhotoPath = "~/Content/images/whitebackground.jpg";
+            string coverPhotoPath = coverPhoto == null ? "~/Content/images/whitebackground.jpg" : coverPhoto.PhotoPath;
 
-                    
-            }
-            else
-            {
-                coverPhotoPath = coverPhoto.PhotoPath;
-            }
+            // Get if the current user and the profile user are best friends or family
             var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
-
+            string bfStarPick = "~/Content/images/emptystar.png", fStarPick = "~/Content/images/emptystar.png";
             if (friendShip != null)
             {
                 if (friendShip.UserId == User.Identity.GetUserId())
@@ -252,10 +205,17 @@ namespace ConnectIn.Controllers
                 }
             }
 
-            var postsViewModels = new List<PostsViewModel>();
+            var postService = new PostService(DbContext);
+            var likedislikeService = new LikeDislikeService(DbContext);
 
+            // Fill in the postviewmodel with all the profile user posts
+            var postsViewModels = new List<PostsViewModel>();
+            var user = userService.GetUserById(id);
+            var posts = userService.GetAllPostsFromUser(id);
             foreach (var postId in posts)
             {
+                // Assign a smiley according to if this user has liked or dislike or not done either
+                string lPic = null, dPic = null;
                 if (likedislikeService.GetLikeDislike(User.Identity.GetUserId(), postId) == null)
                 {
                     lPic = "~/Content/images/smileySMALL.png";
@@ -271,10 +231,7 @@ namespace ConnectIn.Controllers
                     lPic = "~/Content/images/smileySMALL.png";
                     dPic = "~/Content/images/sadfaceRED.png";
                 }
-                else
-                {
-                    return View("Error");
-                }
+
                 var post = postService.GetPostById(postId);
                 postsViewModels.Add(
                  new PostsViewModel()
@@ -293,7 +250,7 @@ namespace ConnectIn.Controllers
                          UserId = user.Id,
                          UserName = user.UserName,
                          Name = user.Name,
-                         ProfilePicture = profilePicturePath,
+                         ProfilePicture = userService.GetProfilePicture(post.UserId).PhotoPath,
                          CoverPhoto = coverPhotoPath,
                          Gender = user.Gender,
                          Birthday = user.Birthday,
@@ -308,9 +265,9 @@ namespace ConnectIn.Controllers
                  });
             }
 
+            // Fill in the profileviewmodel with the statuses and information of the profile user
             var model = new ProfileViewModel()
             {
-                
                 NewsFeed = new NewsFeedViewModel()
                 {
                     Posts = postsViewModels,
@@ -321,7 +278,7 @@ namespace ConnectIn.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Name = user.Name,
-                    ProfilePicture = profilePicturePath,
+                    ProfilePicture = userService.GetProfilePicture(id).PhotoPath,
                     CoverPhoto = coverPhotoPath,
                     Gender = user.Gender,
                     Birthday = user.Birthday,
@@ -336,24 +293,18 @@ namespace ConnectIn.Controllers
             return View(model);
         }
 
+        [HttpGet, Authorize]
         public ActionResult Notifications()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
-            var groupService = new GroupService(context);
-            var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
+            var userService = new UserService(DbContext);
+            var groupService = new GroupService(DbContext);
 
             var model = new List<NotificationViewModel>();
-
+            var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId());
             foreach (var item in notifications)
             {
                 var user = userService.GetUserById(item.FriendUserId);
                 var friend = userService.GetUserById(item.UserId);
-
-                var profilePicture = userService.GetProfilePicture(item.UserId);
-
-                string profilePicturePath = profilePicture.PhotoPath;
 
                 var usersNotifications = new NotificationViewModel()
                 {
@@ -370,13 +321,14 @@ namespace ConnectIn.Controllers
                         Name = friend.Name,
                         Work = friend.Work,
                         School = friend.School,
-                        ProfilePicture = profilePicturePath
+                        ProfilePicture = userService.GetProfilePicture(item.UserId).PhotoPath
                     },
                     NotificationId = item.NotificationId,
                     Date = item.Date,
                     GroupId = item.GroupId
                 };
 
+                // If groupId is equal to -1 it is a friend request else it is a group notification
                 if (item.GroupId != -1)
                 {
                     var myGroup = groupService.GetGroupById(item.GroupId);
@@ -387,46 +339,37 @@ namespace ConnectIn.Controllers
                 }
                 
                 model.Add(usersNotifications);
-               
-
             }
 
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult NotificationCounter()
         {
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
+            var userService = new UserService(DbContext);
             var notifications = userService.GetAllNotificationsForUser(User.Identity.GetUserId()).Count;
 
             return Json(notifications, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Search(FormCollection collection)
+        [HttpGet, Authorize]
+        public ActionResult Search(string searchWord)
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            var searchWord = collection["status"];
+            if (searchWord.IsNullOrWhiteSpace())
+            {
+                return View("Error");
+            }
 
-            var userId = User.Identity.GetUserId();
-
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
-            var searchList = userService.GetPossibleUsersByName(searchWord);
+            var userService = new UserService(DbContext);
 
             var searchResult = new List<SearchViewModel>();
-
+            var searchList = userService.GetPossibleUsersByName(searchWord);
             foreach (var id in searchList)
             {
-                string bfStarPick = "", fStarPick = "";
-                var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath = profilePicture.PhotoPath;
-
+                // Get if the current user and the searched user are best friends or family
                 var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
-
+                string bfStarPick = "", fStarPick = "";
                 if (friendShip != null)
                 {
                     if (friendShip.UserId == User.Identity.GetUserId())
@@ -464,7 +407,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = profilePicturePath,
+                            ProfilePicture = userService.GetProfilePicture(id).PhotoPath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -475,28 +418,22 @@ namespace ConnectIn.Controllers
                         }
                     });
             }
+
             return View(searchResult);
         }
        
+        [HttpGet, Authorize]
         public ActionResult FriendsList()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            var userId = User.Identity.GetUserId();
+            var userService = new UserService(DbContext);
 
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
-            var friendList = userService.GetFriendsFromUser(userId);
             var friends = new List<FriendViewModel>();
-
+            var friendList = userService.GetFriendsFromUser(User.Identity.GetUserId());
             foreach (var id in friendList)
             {
-                string bfStarPick, fStarPick;
-                var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath = profilePicture.PhotoPath;
-
+                // Get if the current user and the friend user are best friends or family
                 var friendShip = userService.GetFriendShip(User.Identity.GetUserId(), id);
-
+                string bfStarPick, fStarPick;
                 if (friendShip.UserId == User.Identity.GetUserId())
                 {
                     // if considered as best friend, then disbestfriend, else consider as best friend
@@ -520,6 +457,7 @@ namespace ConnectIn.Controllers
                 {
                     return View("Error");
                 }
+
                 var user = userService.GetUserById(id);
                 friends.Add(
                     new FriendViewModel()
@@ -529,7 +467,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = profilePicturePath,
+                            ProfilePicture = userService.GetProfilePicture(id).PhotoPath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -543,23 +481,15 @@ namespace ConnectIn.Controllers
             return View(friends);
         }
         
+        [HttpGet, Authorize]
         public ActionResult Birthdays()
         {
-            if (User.Identity.IsAuthenticated == false) return RedirectToAction("Login", "Account");
-            var userId = User.Identity.GetUserId();
-
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
-
-            var birthdayList = userService.GetAllFriendsBirthdays(userId);
+            var userService = new UserService(DbContext);
 
             var birthdays = new List<BirthdayViewModel>();
-            
+            var birthdayList = userService.GetAllFriendsBirthdays(User.Identity.GetUserId());
             foreach (var id in birthdayList)
             {
-                var profilePicture = userService.GetProfilePicture(id);
-                string profilePicturePath = profilePicture.PhotoPath;
-
                 var user = userService.GetUserById(id);
                 birthdays.Add(
                     new BirthdayViewModel()
@@ -569,7 +499,7 @@ namespace ConnectIn.Controllers
                             UserId = user.Id,
                             UserName = user.UserName,
                             Name = user.Name,
-                            ProfilePicture = profilePicturePath,
+                            ProfilePicture = userService.GetProfilePicture(id).PhotoPath,
                             Gender = user.Gender,
                             Birthday = user.Birthday,
                             Work = user.Work,
@@ -582,14 +512,13 @@ namespace ConnectIn.Controllers
             return View(birthdays);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult BirthdayCounter()
         {
-            var db = new ApplicationDbContext();
-            var userService = new UserService(db);
+            var userService = new UserService(DbContext);
             var birthdays = userService.GetAllFriendsBirthdays(User.Identity.GetUserId()).Count;
+
             return Json(birthdays, JsonRequestBehavior.AllowGet);
         }
     }
-
 }
