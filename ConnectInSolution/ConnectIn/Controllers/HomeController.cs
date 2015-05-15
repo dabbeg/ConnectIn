@@ -26,7 +26,7 @@ namespace ConnectIn.Controllers
             var userService = new UserService(DbContext);
             var newsFeed = new NewsFeedViewModel
             {
-                //Id = "-1",
+                Id = "-1",
                 Posts = new List<PostsViewModel>(),
                 User = new UserViewModel()
                 {

@@ -11,7 +11,6 @@ namespace ConnectIn.Models.ViewModels
         [Required]
         public List<PostsViewModel> Posts { get; set; }
         public string Id { get; set; }
-
         public UserViewModel User { get; set; }
     }
 }
