@@ -1,8 +1,4 @@
-﻿html, body
-{
-    height: 100%;
-}
-body {
+﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
 
@@ -13,150 +9,6 @@ body {
 .body-content {
     padding-right: 15px;
 }
-.field-validation-error
-{
-    color:red;
-    margin-left:10px;
-}
-
-
-#error2
-{
-    padding-left:40px;
-}
-/* Profile*/
-#ProfileWell
-{
-    border:none;
-    border-top:none;
-}
-.editinfos
-{
-   max-width:200px;
-}
-
-.navbar-nav>li>.dropdown-menu {
-  margin-top: 51px;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-  border-color: #101010;
-  background-color: #222;
-  width: 27px;
-}
-#buttonedit
-{
-    float:right;
-}
-/*About*/
-.photosabout {
-    max-height: 200px;
-    max-width: 200px;
-}
-#darri
-{
-    width:200px;
-    height:auto;
-}
-#dabbi
-{
-    width:200px;
-    height:auto; 
-}
-div.thumbnail.right-caption.span4 {
-    width: 100%;
-}
-.caption
-{
-    
-}
-#aboutinfo
-{
-    resize:none;
-}
-#headliner
-{
-        /*background-image: url("/Content/Images/background.jpg");*/
-    background-color: rgb(34, 34, 34);
-    text-align: center;
-    max-width: 112.85%;
-    margin-right: -14%;
-    margin-left: -10%;
-    border-radius: 0;
-}
-#headliner > p
-{
-    color:white;
-}
-#headliner > h1
-{
-    color:white;
-}
-.thumbnail.right-caption > img {
-    float: left;
-    margin-right: 9px;
-}
-
-.thumbnail.right-caption {
-    float: left;
-}
-
-.thumbnail.right-caption > .caption {
-    padding: 4px;
-}
-
-
-/*Homepage*/
-#Indextext
-{
-    text-align:center;
-    
-}
-.carousel
-{
-  z-index:-99;
-  overflow:hidden;
-}
-.carousel .item{
-
-position:fixed;
-width:100%;
-height:100%;
--webkit-transition:opacity 1s;
--moz-transition: opacity 1s;
--ms-transition:opacity 1s;
--o-transition: opacity 1s;
-transition: opacity 1s;
-overflow:hidden;
-}
-.carousel .one{
-    background-image: url("/Content/Images/party.jpg");
-    background-size:cover;
-    -moz-background-size:cover;
-}
-
-.carousel .twoo{
-    /*background-image: url("/Content/Images/metal-wallpapers-1.jpg");
-    background-size:cover;
-    -moz-background-size:cover;*/
-}
-
-.carousel .active.left{
-    left:0;
-    opacity:0;
-    z-index:2;
-}
-
-#agesmall {
-  float: right!important;
-  font-size: 15px;
-  margin-top: 16px;
-  margin-right: -41px;
-}
-
-.logoffs {
-  padding-left: 16px;
-}
-
 .containers {
     width: 200px;
     height: 120px;
@@ -168,21 +20,10 @@ overflow:hidden;
     height: auto;
 }
 
-.search-form-control {
-    display: inline-block;
-    padding: 4px 16px;
-    margin-left: -23px;
-    font-size: 14px;
-    line-height: 1.428571429;
-    color: #555;
-    vertical-align: middle;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+.container .carouselphotos
+{
+max-height:455px;
+width:40%;
 }
 
 
@@ -190,342 +31,8 @@ overflow:hidden;
     font-size: 52px;
     margin-right: 25px;
 }
-#birthdayMarginAge {
-    margin-top: 35px;
-}
-#birthdayMarginAgeAbsolute {
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
-}
-.container .carouselphotos
-{
-max-height:455px;
-width:40%;
-}
-/* Set width on the form input elements since they're 100% wide by default */
-#newsfeedstatus
-{
-    height:100px;
-    max-width: 65%;
-    outline:none;
-    resize:none;
-    overflow:auto;
-}
-#groupstatus {
-    height:100px;
-    max-width: 65%;
-    outline:none;
-    resize:none;
-    overflow:auto;
-}
-#commentstatus {
-    height:100px;
-    max-width: 65%;
-    outline:none;
-    resize:none;
-    overflow:auto;
-}
-.commentform-control {
-    display: inline;
-    width: 75%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.428571429;
-    color: #555555;
-    vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-}
-.commentwell {
-    width: 75%;
-    margin-left: 12.5%;
-}
 
-
-/*!
- * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
-/* Toggle Styles */
-
-#wrapper {
-    padding-left: 0;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-#wrapper.toggled {
-    padding-left: 250px;
-}
-
-#sidebar-wrapper {
-    z-index: 1000;
-    position: fixed;
-    left: 250px;
-    width: 0;
-    height: 100%;
-    margin-left: -250px;
-    overflow-y: auto;
-    background: #222;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    width: 250px;
-}
-
-#page-content-wrapper {
-    width: 100%;
-    position: absolute;
-    
-}
-
-#wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -250px;
-}
-
-/* Sidebar Styles */
-
-.sidebar-nav {
-    position: absolute;
-    top: 0;
-    width: 250px;
-    margin: 0;
-    margin-top: 30px;
-    padding: 0;
-    list-style: none;
-}
-
-.sidebar-nav li {
-    text-indent: 20px;
-    line-height: 40px;
-}
-
-.sidebar-nav li a {
-    display: block;
-    text-decoration: none;
-    color: #999999;
-}
-
-.sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-    text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 18px;
-    line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-    color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-    color: #fff;
-    background: none;
-}
-
-@media (max-width: 767px) {
-
-  .notLogOut {
-}
-    .dropdown-menu.nav.sidebar-nav > li.notLogOut {
-            line-height: 20px;
-                  padding-left: -10px;
-
-    }
-  .dropdown-menu.nav.sidebar-nav > li.notLogOut:hover {
-    background-color: rgba(255,255,255,0.2);;
-}
-}
-
-
-
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 250px;
-    }
-
-    }
-    #wrapper.toggled {
-        padding-left: 0;
-    }
-
-    #sidebar-wrapper {
-        width: 250px;
-        /* padding-left: 50px; */
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        width: 0;
-    }
-
-    #page-content-wrapper {
-        overflow:hidden;
-        position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
-
-}
-/* ENDOF Simple Sidebar Template*/
-
-.searchHover {
-    cursor: default;
-}
-
-.sidebarGlyphs {
-    color: white;
-    float: left;
-    margin-top: 10px;
-}
-
-a.navbar-brand
-{
-  background: url(../Content/Images/Cinlogolol.png) no-repeat;
-  background-size: contain;
-  display: block;
-  margin: 10px;
-  float:left;
-  outline: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-indent: -9999px; /* hides the link text */
-}
-
-.smileyFace {
-  background: url(../Content/Images/iconHappy.ico) no-repeat;
-  background-size: contain;
-  display: block;
-  margin: 10px;
-  float:left;
-  outline: none;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.newsFeedFilters {
-    margin-bottom: 20px;
-}
-
-.newsFeedFilters li {
-    font-weight: bold;
-    font-size: 17px;
-}
-
-#commentsLikesDeleteDiv {
-    border-top: solid rgb(228, 228, 228) 1px;
-    margin-top: 20px;
-}
-
-#reactionButtons {
-    padding-top: 20px
-}
-
-.deletePostButton {
-    float: right;
-}
-
-.settingsform {
-    margin-left: -7.5%;
-}
-
-.btn-default-like {
-    background-image: url("/Content/Images/smileySMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 20px;
-}
-#likedislikeimg {
-  width: 28px;
-}
-#privacyimg {
-  padding-left: -13px;
-  height: 40px;
-  padding-bottom: 7px;
-  padding-right: 18px;
-}
-
-#bffamimg {
-    width: 28px;
-}
-button.btnNew.privacy {
-  outline: none;
-}
-.commentss {
-  margin-left: 20px;
-  margin-top: 2px;
-}
-.btn-default-clicked {
-    background-image: none;
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 20px;
-}
-.btn-default-dislike {
-    background-image: url("/Content/Images/sadfaceSMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 20px;
-}
-
-.btn-default-comment {
-    background-image: url("/Content/Images/commentSMALL.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    float:left;
-    outline: none;
-    overflow: hidden;
-    white-space: nowrap;
-    text-indent: 35px;
-}
-#reactionButtons {
-    padding-bottom: 40px;
-    font-size: 100%;
-    
-}
+/**************************************Profile**************************************/
 
 #profileborder {
     border-top: solid rgb(228, 228, 228) 1px;
@@ -537,6 +44,7 @@ button.btnNew.privacy {
     display: inline-block;
     margin-top: 30px;
 }
+
 #userNameH1 {
     color: white; 
     float: left;
@@ -604,7 +112,21 @@ button.btnNew.privacy {
 
 .btn.fa.fa-camera.btn-primary {
         padding: 3px 4px;
+}
+#bffamimg {
+    width: 28px;
+}
 
+.btn-default-clicked {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
 }
 
 .dangerFix {
@@ -615,6 +137,419 @@ button.btnNew.privacy {
     margin-top: 25px;
     margin-right: 25px;
 }
+
+/**************************************Profile END**************************************/
+
+/**************************************About**************************************/
+.aboutRow {
+    min-width: 600px;
+}
+.photosabout {
+    max-height: 200px;
+    max-width: 200px;
+}
+#darri
+{
+    width:200px;
+    height:auto;
+}
+#dabbi
+{
+    width:200px;
+    height:auto; 
+}
+div.thumbnail.right-caption.span4 {
+    width: 100%;
+}
+
+#aboutinfo
+{
+    resize:none;
+}
+#headliner
+{
+        /*background-image: url("/Content/Images/background.jpg");*/
+    background-color: rgb(34, 34, 34);
+    text-align: center;
+    max-width: 112.85%;
+    margin-right: -14%;
+    margin-left: -10%;
+    border-radius: 0;
+}
+#headliner > p
+{
+    color:white;
+}
+#headliner > h1
+{
+    color:white;
+}
+.thumbnail.right-caption > img {
+    float: left;
+    margin-right: 9px;
+}
+
+.thumbnail.right-caption {
+    float: left;
+}
+
+.thumbnail.right-caption > .caption {
+    padding: 4px;
+}
+
+/**************************************About END**************************************/
+
+
+/**************************************Homepage**************************************/
+#Indextext
+{
+    text-align:center;
+    
+}
+.carousel
+{
+  z-index:-99;
+  overflow:hidden;
+}
+.carousel .item{
+
+position:fixed;
+width:100%;
+height:100%;
+-webkit-transition:opacity 1s;
+-moz-transition: opacity 1s;
+-ms-transition:opacity 1s;
+-o-transition: opacity 1s;
+transition: opacity 1s;
+overflow:hidden;
+}
+.carousel .one{
+    background-image: url("/Content/Images/party.jpg");
+    background-size:cover;
+    -moz-background-size:cover;
+}
+
+.carousel .active.left{
+    left:0;
+    opacity:0;
+    z-index:2;
+}
+
+/**************************************Homepage END**************************************/
+
+/**************************************Birthday**************************************/
+
+#birthdayMarginAgeAbsolute {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
+
+#birthdayBubble {
+    position:absolute;
+    top: 2px;
+    right:14px;
+    padding:1px 2px 1px 2px;
+    background-color:red; 
+    color:white;
+    font-weight:bold;
+    font-size:0.55em;
+    border-radius:30px;
+    display: none;
+}
+
+/**************************************Birthday END**************************************/
+
+
+/**************************************Notifications**************************************/
+
+#notificationBubble {
+    position:absolute;
+    top: 2px;
+    right:14px;
+    padding:1px 2px 1px 2px;
+    background-color:red; 
+    color:white;
+    font-weight:bold;
+    font-size:0.55em;
+    border-radius:30px;
+    display: none;
+}
+
+
+/**************************************Notifications END**************************************/
+
+/**************************************Comments**************************************/
+
+#CommentPostWell {
+    overflow: auto;
+    min-height:100px;
+    height: auto;
+    width: auto;
+    min-width: 575px;
+}
+#commentstatus {
+    height:100px;
+    max-width: 65%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+.commentform-control {
+    display: inline;
+    width: 75%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.commentwell {
+    width: 75%;
+    margin-left: 12.5%;
+}
+
+.commentss {
+  margin-left: 20px;
+  margin-top: 2px;
+}
+
+#submitcomment {
+    margin: 16px;
+}
+/**************************************Comments END**************************************/
+
+
+/**************************************NavBarTop**************************************/
+
+a.navbar-brand
+{
+  background: url(../Content/Images/Cinlogolol.png) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 10px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: -9999px; /* hides the link text */
+}
+
+.navbar-nav>li>.dropdown-menu {
+  margin-top: 51px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-color: #101010;
+  background-color: #222;
+  width: 27px;
+}
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    margin-top: 30px;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+.logoffs {
+  padding-left: 16px;
+}
+/**************************************Dropdown fix on half screen**************************************/
+
+@media (max-width: 767px) {
+
+    .dropdown-menu.nav.sidebar-nav > li.notLogOut {
+            line-height: 20px;
+                  padding-left: -10px;
+
+    }
+    .dropdown-menu.nav.sidebar-nav > li.notLogOut:hover {
+        background-color: rgba(255,255,255,0.2);;
+    }
+}
+
+/**************************************Dropdown fix on half screen END**************************************/
+
+/**************************************NavBarTop END**************************************/
+
+
+/**************************************Statuses**************************************/
+
+
+
+.smileyFace {
+  background: url(../Content/Images/iconHappy.ico) no-repeat;
+  background-size: contain;
+  display: block;
+  margin: 10px;
+  float:left;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.newsFeedFilters {
+    margin-bottom: 20px;
+}
+
+.newsFeedFilters li {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#commentsLikesDeleteDiv {
+    border-top: solid rgb(228, 228, 228) 1px;
+    margin-top: 20px;
+}
+
+#reactionButtons {
+    padding-top: 20px
+}
+
+.deletePostButton {
+    float: right;
+}
+
+.settingsform {
+    margin-left: -7.5%;
+}
+
+#likedislikeimg {
+  width: 28px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+#newsfeedstatus
+{
+    height:100px;
+    max-width: 65%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+
+.btn-default-like {
+    background-image: url("/Content/Images/smileySMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
+
+.btn-default-dislike {
+    background-image: url("/Content/Images/sadfaceSMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 20px;
+}
+
+.btn-default-comment {
+    background-image: url("/Content/Images/commentSMALL.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    float:left;
+    outline: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 35px;
+}
+#reactionButtons {
+    padding-bottom: 40px;
+    font-size: 100%;
+    
+}
+
+/**************************************Statuses END**************************************/
+
+/**************************************Groups**************************************/
+
+#groupstatus {
+    height:100px;
+    max-width: 65%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+
+/**************************************Groups END**************************************/
+
+/**************************************Settings**************************************/
+
+#privacyimg {
+  padding-left: -13px;
+  height: 40px;
+  padding-bottom: 7px;
+  padding-right: 18px;
+}
+
+
+button.btnNew.privacy {
+  outline: none;
+}
+
+
+/**************************************Settings END**************************************/
+
+
+
 
 #removeFriendButtonFriendsListAbsolute {
     position: absolute;
@@ -670,13 +605,7 @@ button.btnNew.privacy {
     width: auto;
     min-width: 575px;
 }
-#CommentPostWell {
-    overflow: auto;
-    min-height:100px;
-    height: auto;
-    width: auto;
-    min-width: 575px;
-}
+
 #aboutUser {
     display: inline-block;
     width: auto;
@@ -757,9 +686,7 @@ p.clear {
 .form-horizontal {
     margin-left: 12.5%;
 }
-.postPartialContainer {
-    
-}
+
 .PartialViewResponsive {
     display: inline-block;
     height: auto;
@@ -818,9 +745,7 @@ p.clear {
 #submitNewsFeedStatus {
     margin: 16px;
 }
-#submitcomment {
-    margin: 16px;
-}
+
 
 #submitstatus {
     margin: 10px;
@@ -839,7 +764,7 @@ p.clear {
 }
 
 
-/*-------------------------------TEST MENU------------------------------*/
+/**************************************Sidebar**************************************/
 
 @import url(netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 
@@ -960,6 +885,23 @@ nav ul,nav li {
 
 }
 
+.search-form-control {
+    display: inline-block;
+    padding: 4px 16px;
+    margin-left: -23px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
 .searchHover {
     color: #999;
     margin-top: 25px;
@@ -997,33 +939,14 @@ nav ul,nav li {
     src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
 
-/*-------------------------------TEST MENU------------------------------*/
-#notificationBubble {
-    position:absolute;
-    top: 2px;
-    right:14px;
-    padding:1px 2px 1px 2px;
-    background-color:red; 
-    color:white;
-    font-weight:bold;
-    font-size:0.55em;
-    border-radius:30px;
-    display: none;
+.searchHover {
+    cursor: default;
 }
 
-#birthdayBubble {
-    position:absolute;
-    top: 2px;
-    right:14px;
-    padding:1px 2px 1px 2px;
-    background-color:red; 
-    color:white;
-    font-weight:bold;
-    font-size:0.55em;
-    border-radius:30px;
-    display: none;
-}
-/*Images*/
+/**************************************Sidebar END**************************************/
+
+
+/**************************************Images**************************************/
 .btnUpload {
     float: right;
 }
@@ -1091,9 +1014,6 @@ div.ellipsis-text {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
-}
-
-div#posts.row {
 }
 
 .profilePhotoThumbnails {
@@ -1188,7 +1108,18 @@ span.thumbnail-photo {
     right: 111px;
 }
 
-.aboutRow {
-    min-width: 600px;
+/**************************************Images END**************************************/
+
+
+/**************************************Errors**************************************/
+.field-validation-error
+{
+    color:red;
+    margin-left:10px;
 }
 
+#error2
+{
+    padding-left:40px;
+}
+/**************************************Errors END**************************************/
