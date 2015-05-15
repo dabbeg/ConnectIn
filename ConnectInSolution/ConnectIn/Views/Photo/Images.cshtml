@@ -7,6 +7,9 @@
 
 <h2>Images</h2>
 
+<input type="hidden" id="currentVisitingProfileId" value="@Model.UserId.ToString()"/>
+<input type="hidden" id="userLoggedInId" value="@User.Identity.GetUserId().ToString()"/>
+
 <div class="photoContainer">
     <h3>Profile Photos</h3>
     <div class="container profileCoverDivider">

@@ -494,12 +494,23 @@ $(document).ready(function () {
     // Inject a div to divide the photos
     $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
 
+    var userLoggedIn = $("#userLoggedInId").val();
+    var profileVisiting = $("#currentVisitingProfileId").val();
+
     if ($("#profilePhotoContainer > div").length == 0) {
-        $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+        if (userLoggedIn == profileVisiting) {
+            $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+        } else {
+            $("#profilePhotoContainer").append("<h5>Your friend has no profile pictures to show.</h5>").css("color", "red");
+        }
     }
 
     if ($("#coverPhotoContainer > div").length == 0) {
-        $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+        if (userLoggedIn == profileVisiting) {
+            $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+        } else {
+            $("#coverPhotoContainer").append("<h5>Your friend has no cover photos to show.</h5>").css("color", "red");
+        }
     }
 
     $("#pickCoverPhoto").attr("disabled", true);
