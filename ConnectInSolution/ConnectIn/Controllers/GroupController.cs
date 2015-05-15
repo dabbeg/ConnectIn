@@ -13,7 +13,7 @@ namespace ConnectIn.Controllers
 {
     public class GroupController : Controller
     {
-        public ApplicationDbContext DbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
 
         [HttpGet, Authorize]
         public ActionResult Create()

@@ -7,7 +7,7 @@ namespace ConnectIn.Controllers
 {
     public class NewsFeedController : Controller
     {
-        public ApplicationDbContext DbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
 
         [Authorize]
         [HttpGet]

@@ -10,7 +10,7 @@ namespace ConnectIn.Controllers
 {
     public class HomeController : Controller
     {
-        public ApplicationDbContext DbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
 
         [HttpGet]
         public ActionResult Index()

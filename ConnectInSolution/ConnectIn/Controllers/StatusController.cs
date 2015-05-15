@@ -14,7 +14,7 @@ namespace ConnectIn.Controllers
 {
     public class StatusController : Controller
     {
-        public ApplicationDbContext DbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
 
         [HttpPost, Authorize]
         public ActionResult AddPost(FormCollection collection)

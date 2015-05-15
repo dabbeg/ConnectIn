@@ -15,7 +15,7 @@ namespace ConnectIn.Controllers
 {
     public class PhotoController : Controller
     {
-        public ApplicationDbContext DbContext = new ApplicationDbContext();
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
 
         [HttpGet, Authorize]
         public ActionResult Images(string userId)
