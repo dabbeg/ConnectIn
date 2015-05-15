@@ -324,6 +324,7 @@ namespace ConnectIn.Services
         {
             var gr = (from g in db.Members
                 where g.UserId == userId
+                orderby g.Group.Name ascending
                 select g.GroupId).ToList();
             return gr;
         }

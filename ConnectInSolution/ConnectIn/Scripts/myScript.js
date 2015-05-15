@@ -397,7 +397,7 @@ $(document).ready(function () {
                         "userId": data[i].User.UserId,
                         "profilePicture": data[i].User.ProfilePicture,
                         "postId": data[i].PostId,
-                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a"),
+                        "date": $.format.date(newDate, "d.M.yyyy h:mm:ss"),
                         "text": data[i].Body,
                         "likes": data[i].LikeDislikeComment.Likes,
                         "dislikes": data[i].LikeDislikeComment.Dislikes,
@@ -449,7 +449,7 @@ $(document).ready(function () {
                         "profilePicture": data[i].User.ProfilePicture,
                         "commentId": data[i].CommentId,
                         "text": data[i].Body,
-                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a")
+                        "date": $.format.date(newDate, "d.M.yyyy h:mm:ss")
                     };
 
                     var template = $("#commentTemplate").tmpl(model);
