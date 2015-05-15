@@ -49,7 +49,7 @@ namespace ConnectIn.Services
             int count = 0;
             foreach(var item in pl)
             {
-                if (item.Like == true)
+                if (item.Like)
                 {
                     count++;
                 }
@@ -66,12 +66,12 @@ namespace ConnectIn.Services
             int count = 0;
             foreach (var item in pl)
             {
-                if (item.Dislike == true)
+                if (item.Dislike)
                 {
                     count++;
                 }
             }
-            return (int) count;
+            return count;
         }
 
         // Get count of all comments of the given Id of a post

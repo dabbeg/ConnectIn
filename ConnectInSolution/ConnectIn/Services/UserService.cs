@@ -102,13 +102,13 @@ namespace ConnectIn.Services
             // Get the added friends of the user, and put to a list
             var list1 = (from fc in db.Friends
                          where fc.UserId == userId
-                         && fc.UserConsidersFriendAsFamily == true
+                         && fc.UserConsidersFriendAsFamily
                          select fc).ToList();
 
             // Get the friends that added the user, and put to a list
             var list2 = (from fc in db.Friends
                          where fc.FriendUserId == userId
-                         && fc.UserConsidersFriendAsFamily == true
+                         && fc.UserConsidersFriendAsFamily
                          select fc).ToList();
 
             // Append list1 and list2 together
@@ -130,6 +130,7 @@ namespace ConnectIn.Services
             var birthdays = (from b in db.Users
                              where (friends.Contains(b.Id) || b.Id == userId)
                              && b.Birthday.Day == DateTime.Today.Day
+                             && b.Birthday.Month == DateTime.Today.Month
                              select b.Id).ToList();
             return birthdays;
         }
@@ -309,7 +310,7 @@ namespace ConnectIn.Services
             // Create a list of all photos from the user
             var list = (from up in db.Photos
                         where up.UserId == userId
-                        && up.IsCoverPhoto == true
+                        && up.IsCoverPhoto
                         orderby up.Date descending
                         select up).ToList();
 
