@@ -280,7 +280,7 @@ namespace ConnectIn.Controllers
                         {
                             UserId = comment.UserId,
                             Name = userService.GetUserById(comment.UserId).Name,
-                            ProfilePicture = userService.GetProfilePicture(User.Identity.GetUserId()).PhotoPath
+                            ProfilePicture = userService.GetProfilePicture(comment.UserId).PhotoPath
                         }
                     });
             }
