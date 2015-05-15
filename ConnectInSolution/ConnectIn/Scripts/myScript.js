@@ -248,7 +248,7 @@ $(document).ready(function () {
 
     // Show more or show less
     $("div .ellipsis-text pre").each(function () {
-        if ($(this).height() > 52) {
+        if ($(this).height() > 60) {
             $(this).siblings(".more").show();
         }
     });
