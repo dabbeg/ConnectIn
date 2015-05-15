@@ -593,7 +593,7 @@ $(document).ready(function () {
             $.post("/Group/AddFriend/", json, function (data) {
                 var list = members.split(",");
                 for (var i = 0; i < list.length; i++) {
-                    var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
+                    var a = "<a href=\"/Home/Profile?id=" + list[i] + "\">" + data[i].Name + "</a>";
                     $("#groupCheck-" + list[i]).hide();
                     var table = "<tr><td>" + a + "</td><td>" + data[i].Work + "</td><td>" + data[i].UserName + "</td></tr>";
                     $("#membersinGroup").append(table);
