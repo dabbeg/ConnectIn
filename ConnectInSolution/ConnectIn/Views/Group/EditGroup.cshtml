@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="text" name="nameofgroup" value="@Model.Name" style="position: absolute; top: 5px;"/>
+                <input required type="text" name="nameofgroup" value="@Model.Name" style="position: absolute; top: 5px;"/>
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>

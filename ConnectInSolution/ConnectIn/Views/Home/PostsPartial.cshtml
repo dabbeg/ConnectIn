@@ -16,7 +16,7 @@
                 <!--Should display username instead of item.userID-->
                 <div class="friendsListName">
                     <h3>
-                        <a href="/Home/Profile/@item.User.UserId">@item.User.Name</a>
+                        <a href="/Home/Profile/@item.User.UserId">@item.User.Name</a><small class="pull-right">@Html.DisplayFor(modelItem => item.DateInserted)</small>
                     </h3>
                 </div>
                 <!--<button type="button" class="david"> dabs</button>-->

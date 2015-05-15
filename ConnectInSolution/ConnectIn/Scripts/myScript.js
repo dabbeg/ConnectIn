@@ -321,19 +321,21 @@ $(document).ready(function () {
         $(".addMembersToGroup").click(function () {
             var members = $("input[name=newFriendsInGroup]:checked").map(
                 function () { return this.value; }).get().join(",");
-            var json = {
-                "newFriendsInGroup": members,
-                "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
-            };
-            $.post("/Group/AddFriend/", json, function (data) {
-                var list = members.split(",");
-                for (var i = 0; i < list.length; i++) {
-                    var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
-                    $("#groupCheck-" + list[i]).hide();
-                    var table = "<tr><td>" + a + "</td><td>" + data[i].Work +"</td><td>" + data[i].UserName + "</td></tr>";
-                    $("#membersinGroup").append(table);
-                }
-            });
+            if (members !== "") {
+                var json = {
+                    "newFriendsInGroup": members,
+                    "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
+                };
+                $.post("/Group/AddFriend/", json, function(data) {
+                    var list = members.split(",");
+                    for (var i = 0; i < list.length; i++) {
+                        var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
+                        $("#groupCheck-" + list[i]).hide();
+                        var table = "<tr><td>" + a + "</td><td>" + data[i].Work + "</td><td>" + data[i].UserName + "</td></tr>";
+                        $("#membersinGroup").append(table);
+                    }
+                });
+            }
         });
 
         function createCookie(name, value, days) {
@@ -475,7 +477,7 @@ $(document).ready(function () {
         }
     });
 
-    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden");
+    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden").css("display", "block");
 
     $("div .ellipsis-text").on("click", "span", function () {
         var height = $(this).siblings("pre")[0].scrollHeight;
@@ -494,12 +496,23 @@ $(document).ready(function () {
     // Inject a div to divide the photos
     $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
 
+    var userLoggedIn = $("#userLoggedInId").val();
+    var profileVisiting = $("#currentVisitingProfileId").val();
+
     if ($("#profilePhotoContainer > div").length == 0) {
-        $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+        if (userLoggedIn == profileVisiting) {
+            $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
+        } else {
+            $("#profilePhotoContainer").append("<h5>Your friend has no profile pictures to show.</h5>").css("color", "red");
+        }
     }
 
     if ($("#coverPhotoContainer > div").length == 0) {
-        $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+        if (userLoggedIn == profileVisiting) {
+            $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
+        } else {
+            $("#coverPhotoContainer").append("<h5>Your friend has no cover photos to show.</h5>").css("color", "red");
+        }
     }
 
     $("#pickCoverPhoto").attr("disabled", true);
