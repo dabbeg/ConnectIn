@@ -475,7 +475,7 @@ $(document).ready(function () {
         }
     });
 
-    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden");
+    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden").css("display", "block");
 
     $("div .ellipsis-text").on("click", "span", function () {
         var height = $(this).siblings("pre")[0].scrollHeight;
