@@ -16,6 +16,9 @@
 {
     <h2>Images</h2>
 
+    <input type="hidden" id="currentVisitingProfileId" value="@Model.UserId.ToString()" />
+    <input type="hidden" id="userLoggedInId" value="@User.Identity.GetUserId().ToString()" />
+
     <div class="photoContainer">
         <h3>Profile Photos</h3>
         <div class="container profileCoverDivider">
@@ -50,47 +53,47 @@
                     <button type="button" id="deleteProfilePhoto" class="btn btn-danger">Delete Profile Photo</button>
                 </div>
             }
-        </div>
-
-        <h3>Cover Photos</h3>
-        <div class="container">
-            <div class="row" id="coverPhotoContainer">
-                @foreach (var item in Model.CoverPhotos)
-                {
-                    <div class="col-xs-6 col-sm-4 col-md-3 coverPhotoThumbnails">
-                        <span id="@item.PhotoId" class="thumbnail fakeLink thumbnail-photo">
-                            <img src="@item.PhotoPath" class="coverPhotos" alt="userPhoto" />
-                        </span>
                     </div>
+
+                    <h3>Cover Photos</h3>
+                    <div class="container">
+                        <div class="row" id="coverPhotoContainer">
+                            @foreach (var item in Model.CoverPhotos)
+                {
+                                <div class="col-xs-6 col-sm-4 col-md-3 coverPhotoThumbnails">
+                                    <span id="@item.PhotoId" class="thumbnail fakeLink thumbnail-photo">
+                                        <img src="@item.PhotoPath" class="coverPhotos" alt="userPhoto" />
+                                    </span>
+                                </div>
                 }
-            </div>
+                        </div>
 
 
-            @if (Model.UserId == User.Identity.GetUserId())
+                        @if (Model.UserId == User.Identity.GetUserId())
             {
-                <div class="btnUpload">
-                    @using (Html.BeginForm("UploadCoverPhoto", "Photo", FormMethod.Get))
+                            <div class="btnUpload">
+                                @using (Html.BeginForm("UploadCoverPhoto", "Photo", FormMethod.Get))
                     {
-                        <button type="submit" class="btn btn-primary">Upload Cover Photo</button>
+                                    <button type="submit" class="btn btn-primary">Upload Cover Photo</button>
                     }
-                </div>
-                <div class="btnCover">
-                    @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
+                            </div>
+                            <div class="btnCover">
+                                @using (Html.BeginForm("PickCoverPhoto", "Photo", FormMethod.Post))
                     {
-                        <input type="hidden" name="photoId" value="PUT PHOTO"/>
-                        <button type="submit" id="pickCoverPhoto" class="btn btn-primary">Pick as Cover Photo</button>
+                                    <input type="hidden" name="photoId" value="PUT PHOTO" />
+                                    <button type="submit" id="pickCoverPhoto" class="btn btn-primary">Pick as Cover Photo</button>
                     }
-                </div>
-                <div class="btnDelete">
-                    <input type="hidden" name="photoId" value="PUT PHOTOID"/>
-                    <button type="button" id="deleteCoverPhoto" class="btn btn-danger">Delete Cover Photo</button>
-                </div>
+                            </div>
+                            <div class="btnDelete">
+                                <input type="hidden" name="photoId" value="PUT PHOTOID" />
+                                <button type="button" id="deleteCoverPhoto" class="btn btn-danger">Delete Cover Photo</button>
+                            </div>
             }
-        </div>
+                    </div>
 
-    </div>
-}
-else
-{
-    <h2 class="danger">You don't have the authority to view this user's images</h2>
-}
+                </div>
+                }
+                else
+                {
+                <h2 class="danger">You don't have the authority to view this user's images</h2>
+                }
