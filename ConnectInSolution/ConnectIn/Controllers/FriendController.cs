@@ -9,6 +9,9 @@ namespace ConnectIn.Controllers
 {
     public class FriendController : Controller
     {
+        private readonly ApplicationDbContext DbContext = new ApplicationDbContext();
+        
+        [HttpPost, Authorize]
         public ActionResult Add(FormCollection collection)
         {
             string userId = collection["userId"];
@@ -18,30 +21,28 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
 
-            //?
+            var userService = new UserService(DbContext);
+
             var friendship = userService.GetFriendShip(userId, friendId);
-            if (friendship == null)
+            // If they are already friends, then it should not be possible to add him again
+            if (friendship != null) return View("Error");
+            var notification = new Notification()
             {
-                var notification = new Notification()
-                {
-                    UserId = userId,
-                    FriendUserId = friendId,
-                    GroupId = -1,
-                    Date = DateTime.Now
-                };
+                UserId = userId,
+                FriendUserId = friendId,
+                GroupId = -1,
+                Date = DateTime.Now
+            };
 
-                context.Notifications.Add(notification);
-                context.SaveChanges();
-            }
+            // Else add the friend
+            DbContext.Notifications.Add(notification);
+            DbContext.SaveChanges();
 
             return new EmptyResult();
-            // return RedirectToAction("Profile", "Home", new { id = friendId });
         }
 
+        [HttpPost, Authorize]
         public ActionResult Remove(FormCollection collection)
         {
             string userId = collection["userId"];
@@ -52,22 +53,26 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
-            var context = new ApplicationDbContext();
-            var userService = new UserService(context);
+            var userService = new UserService(DbContext);
 
             var friendShip = userService.GetFriendShip(userId, friendId);
-            context.Friends.Remove(friendShip);
-            context.SaveChanges();
+            // If there is not friendship to remove, return a error
+            if (friendShip == null) return View("Error");
+            DbContext.Friends.Remove(friendShip);
+            DbContext.SaveChanges();
 
+            // If friend is removed from the profile, refresh the page
             var url = ControllerContext.HttpContext.Request.UrlReferrer;
             if (url != null && url.AbsolutePath.Contains("Profile"))
             {
                 return RedirectToAction("Profile", "Home", new { id = friendId });
             }
 
+            // Else asynchronously remove the friend
             return new EmptyResult();
         }
 
+        [HttpPost, Authorize]
         public ActionResult AcceptFriendRequest(FormCollection collection)
         {
             string id = collection["notificationId"];
@@ -75,13 +80,13 @@ namespace ConnectIn.Controllers
             {
                 return View("Error");
             }
-            
+
+            var notificationService = new NotificationService(DbContext);
+
             int notificationId = Int32.Parse(id);
-
-            var context = new ApplicationDbContext();
-            var notificationService = new NotificationService(context);
-
             var notification = notificationService.GetNotificationById(notificationId);
+            // if the notification doesn't exist, return a error
+            if (notification == null) return View("Error");
 
             var friends = new Friend
             {
@@ -89,13 +94,15 @@ namespace ConnectIn.Controllers
                 FriendUserId = notification.FriendUserId
             };
 
-            context.Notifications.Remove(notification);
-            context.Friends.Add(friends);
-            context.SaveChanges();
+            // Accept the friend and remove the notification
+            DbContext.Notifications.Remove(notification);
+            DbContext.Friends.Add(friends);
+            DbContext.SaveChanges();
             
             return new EmptyResult();
         }
 
+        [HttpPost, Authorize]
         public ActionResult DeclineFriendRequest(FormCollection collection)
         {
             string id = collection["notificationId"];
@@ -104,19 +111,21 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
+            var notificationService = new NotificationService(DbContext);
+
             int notificationId = Int32.Parse(id);
-
-            var context = new ApplicationDbContext();
-            var notificationService = new NotificationService(context);
-
             var notification = notificationService.GetNotificationById(notificationId);
-            context.Notifications.Remove(notification);
-            context.SaveChanges();
+            // if the notification doesn't exist, return a error
+            if (notification == null) return View("Error");
+            
+            // Reject the friend and remove the notification
+            DbContext.Notifications.Remove(notification);
+            DbContext.SaveChanges();
 
             return new EmptyResult();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult HideGroupNotification(FormCollection collection)
         {
             string id = collection["groupNotificationId"];
@@ -126,14 +135,16 @@ namespace ConnectIn.Controllers
                 return View("Error");
             }
 
+            var notificationService = new NotificationService(DbContext);
+
             int notificationId = Int32.Parse(id);
-
-            var context = new ApplicationDbContext();
-            var notificationService = new NotificationService(context);
-
             var notification = notificationService.GetNotificationById(notificationId);
-            context.Notifications.Remove(notification);
-            context.SaveChanges();
+            // if the notification doesn't exist, return a error
+            if (notification == null) return View("Error");
+            
+            // Remove the group notification
+            DbContext.Notifications.Remove(notification);
+            DbContext.SaveChanges();
 
             return new EmptyResult();
         }

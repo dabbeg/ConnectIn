@@ -6,6 +6,9 @@ $(document).ready(function () {
         $("input[name=photoId]").val($(this).attr("id"));
     });
     
+    /**
+     ******************************* Newsfeed *******************************
+     */
     // Everyone, Best friends, and Family filters
     $(".newsFeedFilters input[name=filters]:radio").change(function() {
 
@@ -13,36 +16,39 @@ $(document).ready(function () {
         var currFilter = this.value;
 
         // Show and hide statuses according to the selected filter 
-        if (currFilter == "Everyone") {
-            $.get("/NewsFeed/Everyone", function(data) {
-                for (var i = 0; i < data.length; i++) {
+        if (currFilter === "Everyone") {
+            $.get("/NewsFeed/Everyone", function (data) {
+                var i;
+                for (i = 0; i < data.length; i++) {
                     $("#post-" + data[i]).hide();
                 }
-                for (var i = 0; i < data.length; i++) {
+                for (i = 0; i < data.length; i++) {
                     $("#post-" + data[i]).fadeIn(700);
                 }
             });
         }
-        if (currFilter == "BestFriends") {
+        if (currFilter === "BestFriends") {
             $.get("/NewsFeed/Everyone", function(everyone) {
-                $.get("/NewsFeed/BestFriends", function(bestFriends) {
-                    for (var i = 0; i < everyone.length; i++) {
+                $.get("/NewsFeed/BestFriends", function (bestFriends) {
+                    var i;
+                    for (i = 0; i < everyone.length; i++) {
                         $("#post-" + everyone[i]).hide();
                     }
-                    for (var i = 0; i < bestFriends.length; i++) {
+                    for (i = 0; i < bestFriends.length; i++) {
                         $("#post-" + bestFriends[i]).fadeIn(700);
                     }
                 });
             });
 
         }
-        if (currFilter == "Family") {
+        if (currFilter === "Family") {
             $.get("/NewsFeed/Everyone", function(everyone) {
-                $.get("/NewsFeed/Family", function(family) {
-                    for (var i = 0; i < everyone.length; i++) {
+                $.get("/NewsFeed/Family", function (family) {
+                    var i;
+                    for (i = 0; i < everyone.length; i++) {
                         $("#post-" + everyone[i]).hide();
                     }
-                    for (var i = 0; i < family.length; i++) {
+                    for (i = 0; i < family.length; i++) {
                         $("#post-" + family[i]).fadeIn(700);
                     }
                 });
@@ -50,6 +56,9 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     ******************************* Status *******************************
+     */
     function smiley(isLiked, smiles, btnId) {
         $(btnId).empty();
 
@@ -116,6 +125,153 @@ $(document).ready(function () {
         dislike(this);
     });
 
+    // Asynchronous comment deletion
+    function deleteComment(object) {
+        var val = $(object).siblings("input[name=commentId]").val();
+        $.post("/Status/RemoveComment", { "commentId": val }, function () {
+            $("#comment-" + val).fadeOut(500, function () {
+                $("#comment-" + val).remove();
+            });
+        });
+    }
+
+    // Asynchronus comment deletion
+    $(".deleteComment").click(function () {
+        deleteComment(this);
+    });
+
+    // Asynchronous post deletion
+    function deletePost(object) {
+        var val = $(object).siblings("input[name=postId]").val();
+        $.post("/Status/RemovePost", { "postId": val }, function () {
+            $("#post-" + val).fadeOut(500, function () {
+                $("#post-" + val).remove();
+            });
+        });
+    }
+
+    // Asynchronus post deletion
+    $(".deletePostBtn").click(function () {
+        deletePost(this);
+    });
+
+    // Asynchronus Posts
+    $("#submitNewsFeedStatus").click(function () {
+        var json = {
+            "status": $("#newsfeedstatus").val(),
+            "amount": $("#posts > div").length,
+            "idOfGroup": $("input[name=idOfGroup]").val()
+        };
+
+        if (json.status !== "") {
+            $("#newsfeedstatus").val("");
+            $.post("/Status/AddPost", json, function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var newDate = new Date();
+                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
+                    newDate.setTime(parsed);
+                    var model = {
+                        "name": data[i].User.Name,
+                        "userId": data[i].User.UserId,
+                        "profilePicture": data[i].User.ProfilePicture,
+                        "postId": data[i].PostId,
+                        "date": $.format.date(newDate, "d.M.yyyy h:mm:ss"),
+                        "text": data[i].Body,
+                        "likes": data[i].LikeDislikeComment.Likes,
+                        "dislikes": data[i].LikeDislikeComment.Dislikes,
+                        "comments": data[i].LikeDislikeComment.Comments,
+                        "likePic": data[i].LikePic,
+                        "dislikePic": data[i].DislikePic
+                    };
+
+                    var template = $("#postTemplate").tmpl(model);
+                    template.on("click", ".likeBtn", function () {
+                        like(this);
+                    });
+
+                    template.on("click", ".dislikeBtn", function () {
+                        dislike(this);
+                    });
+
+                    template.on("click", ".deletePostBtn", function () {
+                        deletePost(this);
+                    });
+
+                    $(template).hide().prependTo("#posts").fadeIn(500);
+                    if (data[i].isUserPostOwner) {
+                        $("#reactionButtons").append("<button type='button' class='btn btn-danger deletePostButton deletePostBtn'>Delete Post</button>");
+                    }
+                }
+            });
+        }
+    });
+
+    // Asynchronus Comments
+    $("#submitcomment").click(function () {
+        var json = {
+            "status": $("#commentstatus").val(),
+            "amount": $("#allcomments > div").length,
+            "postId": $("#reactionButtons input[name=postId]").val()
+        };
+
+        if (json.status !== "") {
+            $("#commentstatus").val("");
+            $.post("/Status/AddComment", json, function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var newDate = new Date();
+                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
+                    newDate.setTime(parsed);
+                    var model = {
+                        "userId": data[i].User.UserId,
+                        "name": data[i].User.Name,
+                        "profilePicture": data[i].User.ProfilePicture,
+                        "commentId": data[i].CommentId,
+                        "text": data[i].Body,
+                        "date": $.format.date(newDate, "d.M.yyyy h:mm:ss")
+                    };
+
+                    var template = $("#commentTemplate").tmpl(model);
+
+                    template.on("click", ".deleteComment", function () {
+                        deleteComment(this);
+                    });
+
+                    $(template).hide().prependTo("#allcomments").fadeIn(500);
+                    if (data[i].IsUserCommentOwner) {
+                        $("#reactionCommentButtons").append("<button type='button' class='btn btn-danger deletePostButton deleteComment'>Delete Comment</button>");
+                        $("#reactionCommentButtons").append("<input type='hidden' name='commentId' value='" + data[i].CommentId.toString() + "'/>");
+                    }
+                }
+            });
+        }
+    });
+
+    // Show more or show less
+    $("div .ellipsis-text pre").each(function () {
+        if ($(this).height() > 52) {
+            $(this).siblings(".more").show();
+        }
+    });
+
+    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden").css("display", "block");
+
+    $("div .ellipsis-text").on("click", "span", function () {
+        var height = $(this).siblings("pre")[0].scrollHeight;
+        if ($(this).hasClass("more")) {
+            $(this).siblings("pre").animate({ height: height }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".less").show();
+        } else {
+            $(this).siblings("pre").animate({ height: "70px" }, { duration: 1000 });
+            $(this).hide();
+            $(this).siblings(".more").show();
+        }
+    });
+
+
+    /**
+     ******************************* Friends *******************************
+     */
     // Asynchronus Best Friend selection
     $(".bestFriend").click(function () {
         var img = $("<img id='bffamimg'>");
@@ -154,34 +310,88 @@ $(document).ready(function () {
         });
     });
 
-    function deleteComment(object) {
-        var val = $(object).siblings("input[name=commentId]").val();
-        $.post("/Status/RemoveComment", { "commentId": val }, function () {
-            $("#comment-" + val).fadeOut(500, function() {
-                $("#comment-" + val).remove();
-            });
+    // Notification counter when friend is accepted or declined
+    function notCounter() {
+        $.get("/Home/NotificationCounter", function (counter) {
+            if (counter > 0) {
+                $("#notificationBubble").show();
+                $("#notificationBubble").text(counter);
+            } else {
+                $("#notificationBubble").hide();
+            }
         });
-    }
+    };
 
-    // Asynchronus comment deletion
-    $(".deleteComment").click(function () {
-        deleteComment(this);
+    // Asynchronous remove friend
+    $(".removeFriend").click(function () {
+        var json = {
+            "userId": $(this).siblings("input[name=userId]").val(),
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Friend/Remove", json, function () {
+            $("#removeFriend-" + json.friendId).fadeOut(700);
+        });
     });
 
-    function deletePost(object) {
-        var val = $(object).siblings("input[name=postId]").val();
-        $.post("/Status/RemovePost", { "postId": val }, function () {
-            $("#post-" + val).fadeOut(500, function () {
-                $("#post-" + val).remove();
+    // Asynchonous remove searched friend
+    $(".removeFriendSearch").click(function () {
+        var json = {
+            "userId": $(this).siblings("input[name=userId]").val(),
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+
+        $.post("/Friend/Remove", json, function () {
+            $("#removeFriend-" + json.friendId).empty();
+            $("#removeFriend-" + json.friendId).append("<div id=\"addFriend-@item.User.UserId\"><input type=\"hidden\" name=\"userId\" value=\"@User.Identity.GetUserId()\"/><input type=\"hidden\" name=\"friendId\" value=\"@item.User.UserId\"/><button type=\"submit\" class=\"btn btn-success addFriend\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add friend</button></div>");
+            $(".bforfamily").hide();
+            $("#removeFriend-" + json.friendId).on("click", ".addFriend", function () {
+                var button = $("<button></button>").addClass("btn").text("Pending");
+                $.post("/Friend/Add", json, function () {
+                    $("#removeFriend-" + json.friendId).empty();
+                    $("#removeFriend-" + json.friendId).append(button);
+                });
             });
         });
-    }
-    
-    // Asynchronus post deletion
-    $(".deletePostBtn").click(function () {
-        deletePost(this);
     });
 
+    // Asynchronous add friend
+    $(".addFriend").click(function () {
+        var button = $("<button></button>").addClass("btn").text("Pending");
+        var json = {
+            "userId": $(this).siblings("input[name=userId]").val(),
+            "friendId": $(this).siblings("input[name=friendId]").val()
+        };
+        $.post("/Friend/Add", json, function () {
+            $("#addFriend-" + json.friendId).empty();
+            $("#addFriend-" + json.friendId).append(button);
+        });
+    });
+
+    // Asynchronous accept friend
+    $(".acceptFriend").click(function () {
+        var json = {
+            "notificationId": $(this).siblings("input[name=notificationId]").val()
+        };
+        $.post("/Friend/AcceptFriendRequest", json, function () {
+            $("#friendsacre-" + json.notificationId).fadeOut(700);
+            notCounter();
+        });
+    });
+
+    // Asynchronous reject user
+    $(".rejectFriend").click(function () {
+        var json = {
+            "notificationId": $(this).siblings("input[name=notificationId]").val()
+        };
+        $.post("/Friend/DeclineFriendRequest", json, function () {
+            $("#friendsacre-" + json.notificationId).fadeOut(700);
+            notCounter();
+        });
+    });
+
+    /**
+     ******************************* User *******************************
+     */
     // Asynchronous private settings
     $(".privacy").click(function () {
         var img = $("<img id='privacyimg'>");
@@ -216,6 +426,21 @@ $(document).ready(function () {
     $.get("/Home/BirthdayCounter", function(bdayCounter) {
         $("#birthdayBubble").hide();
 
+        function readCookie(name) {
+            var nameEq = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEq) === 0) {
+                    return c.substring(nameEq.length, c.length);
+                }
+            }
+            return null;
+        }
+
         if (bdayCounter > 0) {
             if (!readCookie('birthdayCookie')) {
                 $('#birthdayBubble').show();
@@ -223,275 +448,26 @@ $(document).ready(function () {
             }
         }
 
-        $("a#birthdayClick").click(function() {
-            $('#birthdayBubble').hide();
-            createCookie('birthdayCookie', true, 1);
-
-        });
-
-        function notCounter() {
-            $.get("/Home/NotificationCounter", function(counter) {
-                if (counter > 0) {
-                    $("#notificationBubble").show();
-                    $("#notificationBubble").text(counter);
-                } else {
-                    $("#notificationBubble").hide();
-                }
-            });
-        };
-
-        // Asynchronous remove friend
-        $(".removeFriend").click(function() {
-            var json = {
-                "userId": $(this).siblings("input[name=userId]").val(),
-                "friendId": $(this).siblings("input[name=friendId]").val()
-            };
-            $.post("/Friend/Remove", json, function() {
-                $("#removeFriend-" + json.friendId).fadeOut(700);
-            });
-        });
-
-        // Asynchonous remove searched friend
-        $(".removeFriendSearch").click(function() {
-            var json = {
-                "userId": $(this).siblings("input[name=userId]").val(),
-                "friendId": $(this).siblings("input[name=friendId]").val()
-            };
-
-            $.post("/Friend/Remove", json, function() {
-                $("#removeFriend-" + json.friendId).empty();
-                $("#removeFriend-" + json.friendId).append("<div id=\"addFriend-@item.User.UserId\"><input type=\"hidden\" name=\"userId\" value=\"@User.Identity.GetUserId()\"/><input type=\"hidden\" name=\"friendId\" value=\"@item.User.UserId\"/><button type=\"submit\" class=\"btn btn-success addFriend\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add friend</button></div>");
-                $(".bforfamily").hide();
-                $("#removeFriend-" + json.friendId).on("click", ".addFriend", function () {
-                    var button = $("<button></button>").addClass("btn").text("Pending");
-                    $.post("/Friend/Add", json, function () {
-                        $("#removeFriend-" + json.friendId).empty();
-                        $("#removeFriend-" + json.friendId).append(button);
-                    });
-                });
-            });
-        });
-
-        // Asynchronous add friend
-        $(".addFriend").click(function () {
-            var button = $("<button></button>").addClass("btn").text("Pending");
-            var json = {
-                "userId": $(this).siblings("input[name=userId]").val(),
-                "friendId": $(this).siblings("input[name=friendId]").val()
-            };
-            $.post("/Friend/Add", json, function () {
-                $("#addFriend-" + json.friendId).empty();
-                $("#addFriend-" + json.friendId).append(button);
-            });
-        });
-
-        // Asynchronous accept friend
-        $(".acceptFriend").click(function() {
-            var json = {
-                "notificationId" : $(this).siblings("input[name=notificationId]").val()
-            };
-            $.post("/Friend/AcceptFriendRequest", json, function() {
-                $("#friendsacre-" + json.notificationId).fadeOut(700);
-                notCounter();
-            });
-        });
-
-        // Asynchronous reject user
-        $(".rejectFriend").click(function () {
-            var json = {
-                "notificationId": $(this).siblings("input[name=notificationId]").val()
-            };
-            $.post("/Friend/DeclineFriendRequest", json, function () {
-                $("#friendsacre-" + json.notificationId).fadeOut(700);
-                notCounter();
-            });
-        });
-
-        // Asynchronous remove group notification
-        $(".groupNotification").click(function () {
-            var json = {
-                "groupNotificationId": $(this).siblings("input[name=groupNotificationId]").val()
-            };
-            $.post("/Friend/HideGroupNotification", json, function () {
-                $("#groupNotification-" + json.groupNotificationId).fadeOut(700);
-                notCounter();
-            });
-        });
-
-        $(".addMembersToGroup").click(function () {
-            var members = $("input[name=newFriendsInGroup]:checked").map(
-                function () { return this.value; }).get().join(",");
-            if (members !== "") {
-                var json = {
-                    "newFriendsInGroup": members,
-                    "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
-                };
-                $.post("/Group/AddFriend/", json, function(data) {
-                    var list = members.split(",");
-                    for (var i = 0; i < list.length; i++) {
-                        var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
-                        $("#groupCheck-" + list[i]).hide();
-                        var table = "<tr><td>" + a + "</td><td>" + data[i].Work + "</td><td>" + data[i].UserName + "</td></tr>";
-                        $("#membersinGroup").append(table);
-                    }
-                });
-            }
-        });
-
         function createCookie(name, value, days) {
             var expires;
             if (days) {
                 var date = new Date();
                 var currentDate = new Date();
                 // 1 ms before midnight
-                date.setTime(date.getTime() + (days * (23-currentDate.getHours()) * (59-currentDate.getMinutes()) * (59-currentDate.getSeconds()) * (999-currentDate.getMilliseconds())));
-                 expires = "; expires=" + date.toGMTString();
+                date.setTime(date.getTime() + (days * (23 - currentDate.getHours()) * (59 - currentDate.getMinutes()) * (59 - currentDate.getSeconds()) * (999 - currentDate.getMilliseconds())));
+                expires = "; expires=" + date.toGMTString();
             } else {
                 expires = "";
             }
             document.cookie = name + "=" + value + expires + "; path=/";
         }
 
-        function readCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                     c = c.substring(1, c.length);
-                }
-                if (c.indexOf(nameEQ) == 0) {
-                     return c.substring(nameEQ.length, c.length);
-                }
-            }
-            return null;
-        }
+        $("a#birthdayClick").click(function() {
+            $('#birthdayBubble').hide();
+            createCookie('birthdayCookie', true, 1);
+
+        });
     });
-
-    $.get("/Home/NotificationCounter", function(counter) {
-        if (counter > 0) {
-            $("#notificationBubble").show();
-            $("#notificationBubble").text(counter);
-        } else {
-            $("#notificationBubble").hide();
-        }
-    });
-
-    // Asynchronus Posts
-    $("#submitNewsFeedStatus").click(function () {
-        var json = {
-            "status": $("#newsfeedstatus").val(),
-            "amount": $("#posts > div").length,
-            "idOfGroup": $("input[name=idOfGroup]").val()
-        };
-
-        if (json.status != "") {
-            $("#newsfeedstatus").val("");
-            $.post("/Status/AddPost", json, function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var newDate = new Date();
-                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
-                    newDate.setTime(parsed);
-                    var model = {
-                        "name": data[i].User.Name,
-                        "userId": data[i].User.UserId,
-                        "profilePicture": data[i].User.ProfilePicture,
-                        "postId": data[i].PostId,
-                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a"),
-                        "text": data[i].Body,
-                        "likes": data[i].LikeDislikeComment.Likes,
-                        "dislikes": data[i].LikeDislikeComment.Dislikes,
-                        "comments": data[i].LikeDislikeComment.Comments,
-                        "likePic": data[i].LikePic,
-                        "dislikePic": data[i].DislikePic
-                    };
-
-                    var template = $("#postTemplate").tmpl(model);
-                    template.on("click", ".likeBtn", function () {
-                        like(this);
-                    });
-
-                    template.on("click", ".dislikeBtn", function () {
-                        dislike(this);
-                    });
-
-                    template.on("click", ".deletePostBtn", function () {
-                        deletePost(this);
-                    });
-
-                    $(template).hide().prependTo("#posts").fadeIn(500);
-                    if (data[i].isUserPostOwner) {
-                        $("#reactionButtons").append("<button type='button' class='btn btn-danger deletePostButton deletePostBtn'>Delete Post</button>");
-                    }
-                }
-            });
-        }
-    });
-
-    // Asynchronus Comments
-    $("#submitcomment").click(function() {
-        var json = {        
-            "status": $("#commentstatus").val(),
-            "amount": $("#allcomments > div").length,
-            "postId": $("#reactionButtons input[name=postId]").val()
-        };
-
-        if (json.status != "") {
-            $("#commentstatus").val("");
-            $.post("/Status/AddComment", json, function(data) {
-                for (var i = 0; i < data.length; i++) {
-                    var newDate = new Date();
-                    var parsed = parseInt(data[i].DateInserted.match(/\d+/), 10);
-                    newDate.setTime(parsed);
-                    var model = {
-                        "userId": data[i].User.UserId,
-                        "name": data[i].User.Name,
-                        "profilePicture": data[i].User.ProfilePicture,
-                        "commentId": data[i].CommentId,
-                        "text": data[i].Body,
-                        "date": $.format.date(newDate, "M/d/yyyy h:mm:ss a")
-                    };
-
-                    var template = $("#commentTemplate").tmpl(model);
-
-                    template.on("click", ".deleteComment", function () {
-                        deleteComment(this);
-                    });
-                
-                    $(template).hide().prependTo("#allcomments").fadeIn(500);
-                    if (data[i].IsUserCommentOwner) {
-                        $("#reactionCommentButtons").append("<button type='button' class='btn btn-danger deletePostButton deleteComment'>Delete Comment</button>");
-                        $("#reactionCommentButtons").append("<input type='hidden' name='commentId' value='" + data[i].CommentId.toString() + "'/>");
-                    }
-                }
-            });
-        }
-    });
-
-
-    // Show more or show less
-    $("div .ellipsis-text pre").each(function () {
-        var bla = $(this).height();
-        if ($(this).height() > 52) {
-            $(this).siblings(".more").show();
-        }
-    });
-
-    $("div .ellipsis-text pre").css("height", "70px").css("overflow", "hidden").css("display", "block");
-
-    $("div .ellipsis-text").on("click", "span", function () {
-        var height = $(this).siblings("pre")[0].scrollHeight;
-        if ($(this).hasClass("more")) {
-            $(this).siblings("pre").animate({ height: height }, { duration: 1000 });
-            $(this).hide();
-            $(this).siblings(".less").show();
-        } else {
-            $(this).siblings("pre").animate({ height: "70px" }, { duration: 1000 });
-            $(this).hide();
-            $(this).siblings(".more").show();
-        }
-    });
-
 
     // Inject a div to divide the photos
     $("#photoContainer > :nth-child(5n)").after("<div class='clearfix visible-xs-block'></div>");
@@ -499,16 +475,16 @@ $(document).ready(function () {
     var userLoggedIn = $("#userLoggedInId").val();
     var profileVisiting = $("#currentVisitingProfileId").val();
 
-    if ($("#profilePhotoContainer > div").length == 0) {
-        if (userLoggedIn == profileVisiting) {
+    if ($("#profilePhotoContainer > div").length === 0) {
+        if (userLoggedIn === profileVisiting) {
             $("#profilePhotoContainer").append("<h5>Please upload a photo to select as your profile photo</h5>").css("color", "red");
         } else {
             $("#profilePhotoContainer").append("<h5>Your friend has no profile pictures to show.</h5>").css("color", "red");
         }
     }
 
-    if ($("#coverPhotoContainer > div").length == 0) {
-        if (userLoggedIn == profileVisiting) {
+    if ($("#coverPhotoContainer > div").length === 0) {
+        if (userLoggedIn === profileVisiting) {
             $("#coverPhotoContainer").append("<h5>Please upload a photo to select as your cover photo</h5>").css("color", "red");
         } else {
             $("#coverPhotoContainer").append("<h5>Your friend has no cover photos to show.</h5>").css("color", "red");
@@ -545,11 +521,11 @@ $(document).ready(function () {
     function deletePhoto(photoId) {
         $.post("/Photo/DeletePhoto", { "photoId": photoId }, function () {
             $(".row div span").each(function () {
-                if ($(this).attr("id") == photoId) {
+                if ($(this).attr("id") === photoId) {
                     $(this).parent().remove();
                 }
             });
-           
+
         });
     }
 
@@ -571,12 +547,6 @@ $(document).ready(function () {
         $(this).find(".btn-crop").attr("disabled", true);
     });
 
-    // Go back by one in history
-    function goBack() {
-        history.go(-1);
-    }
-
-
     $(document).on('change', '.btn-file :file', function () {
         var input = $(this),
             numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -592,9 +562,55 @@ $(document).ready(function () {
 
     $(".btn-upload").attr("disabled", true);
     $("input[name=Image]").change(function () {
-        if ($(this).val() != "") {
+        if ($(this).val() !== "") {
             $(".btn-upload").attr("disabled", false);
         }
     });
+
+
+    /**
+     ******************************* Groups *******************************
+     */
+    // Asynchronous remove group notification
+    $(".groupNotification").click(function () {
+        var json = {
+            "groupNotificationId": $(this).siblings("input[name=groupNotificationId]").val()
+        };
+        $.post("/Friend/HideGroupNotification", json, function () {
+            $("#groupNotification-" + json.groupNotificationId).fadeOut(700);
+            notCounter();
+        });
+    });
+
+    $(".addMembersToGroup").click(function () {
+        var members = $("input[name=newFriendsInGroup]:checked").map(
+            function () { return this.value; }).get().join(",");
+        if (members !== "") {
+            var json = {
+                "newFriendsInGroup": members,
+                "idOfGroup": $(this).siblings("input[name=idOfGroup]").val()
+            };
+            $.post("/Group/AddFriend/", json, function (data) {
+                var list = members.split(",");
+                for (var i = 0; i < list.length; i++) {
+                    var a = "<a href=\"/Group/GetUser/" + list[i] + "\">" + data[i].Name + "</a>";
+                    $("#groupCheck-" + list[i]).hide();
+                    var table = "<tr><td>" + a + "</td><td>" + data[i].Work + "</td><td>" + data[i].UserName + "</td></tr>";
+                    $("#membersinGroup").append(table);
+                }
+            });
+        }
+    });
+
+    $.get("/Home/NotificationCounter", function(counter) {
+        if (counter > 0) {
+            $("#notificationBubble").show();
+            $("#notificationBubble").text(counter);
+        } else {
+            $("#notificationBubble").hide();
+        }
+    });
+    /****************************************************************************************/
 });
+    
 

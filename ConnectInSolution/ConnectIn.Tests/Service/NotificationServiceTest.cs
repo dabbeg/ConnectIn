@@ -68,15 +68,12 @@ namespace ConnectIn.Tests.Service
         {
             // Arrange
             const string user1 = "1";
-            const string user2 = "2";
             const string user3 = "4";
 
             // Act
-            var result1 = service.GetIfFriendRequestIsPending(user1, user2);
             var result2 = service.GetIfFriendRequestIsPending(user1, user3);
 
             // Assert
-            Assert.IsNotNull(result1);
             Assert.IsNull(result2);
         }
         #endregion
