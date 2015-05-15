@@ -54,15 +54,16 @@
         <button type="submit" id="addfriendstogroup" class="btn btn-success addMembersToGroup"><span class="glyphicon glyphicon-plus-sign" style="position: relative; top: 2px"></span>&nbsp;Add to group</button>
     
 </div>
-
 <div>
-    <div class="form-horizontal">
-        <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
-        <div class="PostPartialViewPhoto">
-            <a href="/Home/Profile/@User.Identity.GetUserId()"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
+    <div class="NewsFeedContainer">
+        <div class="form-horizontal" style="margin-top: 35px; margin-bottom: 20px;">
+            <input type="hidden" name="idOfGroup" value="@Model.GroupId" />
+            <div class="PostPartialViewPhoto">
+                <a href="/Home/Profile/@User.Identity.GetUserId()"><img class="PartialViewResponsive img-rounded" src="@Url.Content(Model.User.ProfilePicture)" alt="Profile Picture" /></a>
+            </div>
+            <textarea placeholder="Share something with your group" class="commentform-control" rows="5" id="groupstatus" name="status"></textarea>
+            <button type="button" id="submitgroupstatus" class="btn btn-primary">Share</button>
         </div>
-        <textarea placeholder="Share something with your group" class="form-control" rows="5" id="newsfeedstatus" name="status" ></textarea>
-        <button type="submit" id="submitNewsFeedStatus" class="btn btn-primary">Share</button>
     </div>
 </div>
 <br/>

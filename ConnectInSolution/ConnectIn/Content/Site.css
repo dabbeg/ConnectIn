@@ -207,7 +207,14 @@ width:40%;
 #newsfeedstatus
 {
     height:100px;
-    width:75%;
+    max-width: 65%;
+    outline:none;
+    resize:none;
+    overflow:auto;
+}
+#groupstatus {
+    height:100px;
+    max-width: 65%;
     outline:none;
     resize:none;
     overflow:auto;
@@ -239,7 +246,6 @@ width:40%;
 .commentwell {
     width: 75%;
     margin-left: 12.5%;
-
 }
 
 
@@ -343,21 +349,7 @@ width:40%;
 }
 
 @media (max-width: 767px) {
-  .navbar-nav .open .dropdown-menu {
-    position: static;
-    float: none;
-    width: auto;
-    margin-top: 0;
-    border: 0;
-    box-shadow: none;
-  }
-  .navbar-nav .open .dropdown-menu > li > a,
-  .navbar-nav .open .dropdown-menu .dropdown-header {
-    padding: 5px 15px 5px 25px;
-  }
-  .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 20px;
-  }
+
   .notLogOut {
 }
     .dropdown-menu.nav.sidebar-nav > li.notLogOut {
@@ -820,7 +812,9 @@ p.clear {
 .NewsFeedContainer {
     margin-bottom: 20px;
 }
-
+#submitgroupstatus {
+    margin: 16px;
+}
 #submitNewsFeedStatus {
     margin: 16px;
 }
