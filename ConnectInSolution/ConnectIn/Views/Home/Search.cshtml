@@ -80,7 +80,7 @@
             }
         </div>
 
-        <div id="bfOrFamilyFriendsListAbsolute">
+        <div class="bforfamily-@item.User.UserId" id="bfOrFamilyFriendsListAbsolute">
             @if (item.User.UserId != User.Identity.GetUserId() && friendList != null && friendList.Contains(item.User.UserId))
             {
                 <button id="bestFriend-@item.User.UserId" type="submit" class="btnNew btn-default-clicked bestFriend"><img id="bffamimg" src="@Url.Content(@item.User.BfStar)" alt="Star" /><span class="glyphicon bffam">Best Friend</span></button>

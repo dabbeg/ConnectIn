@@ -343,7 +343,7 @@ $(document).ready(function () {
         $.post("/Friend/Remove", json, function () {
             $("#removeFriend-" + json.friendId).empty();
             $("#removeFriend-" + json.friendId).append("<div id=\"addFriend-@item.User.UserId\"><input type=\"hidden\" name=\"userId\" value=\"@User.Identity.GetUserId()\"/><input type=\"hidden\" name=\"friendId\" value=\"@item.User.UserId\"/><button type=\"submit\" class=\"btn btn-success addFriend\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Add friend</button></div>");
-            $(".bforfamily").hide();
+            $(".bforfamily-" + json.friendId).hide();
             $("#removeFriend-" + json.friendId).on("click", ".addFriend", function () {
                 var button = $("<button></button>").addClass("btn").text("Pending");
                 $.post("/Friend/Add", json, function () {
